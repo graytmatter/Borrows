@@ -1,0 +1,44 @@
+<div class="container">
+  <% if @request.errors.any? %>
+      <div id="error_explanation">
+      <div class="alert alert-error">
+        The form contains <%= pluralize(@request.errors.count, "error") %>.
+      </div>
+      <ul>
+      <% @request.errors.full_messages.each do |msg| %>
+          <li>* <%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <div class="col-md-offset-3 col-md-6">
+      <h4>Update Your Request</h4>
+      <%= form_for @request, url: request_path(@request.edit_id) do |f| %>
+       
+        <div class="form-group">
+          <%= f.label :item %>
+          <%= f.text_area :item, class: "form-control", placeholder: "What do you need to borrow (one item per request)?", col: 3 %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :detail, "Details (optional)" %>
+          <%= f.text_area :detail, class: "form-control", placeholder: "Give us more information, e.g., what you need the item for, product specifications, timing of need, etc." %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :name %>
+          <%= f.text_field :name, class: "form-control", placeholder: "To whom are we speaking?" %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :email %>
+          <%= f.text_field :email, class: "form-control", placeholder: "How do we reach you?" %>
+        </div>
+
+        <%= f.submit "Go!", class: "btn btn-primary btn-large btn-block" %>
+      <% end %>
+    </div>
+  </div>
+</div>

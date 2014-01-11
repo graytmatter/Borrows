@@ -1,17 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>GoogleTest</title>
+  <title>Borrows</title>
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
+<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="<%= root_path %>">New Request</a>
+    </div>
+  </div>
+</nav>
+<div class="container">
+  <div class="row">
+    <div class="col-md-offset-3 col-md-6">
+      <% flash.each do |key, value| %>
+        <% if flash[:jumbo] %>
+          <h1>Thanks! We'll get in touch within around one business day.</h1>
+          <p>Here is all the details in case you need to change anything; we'll also email you this link</p>
+        <% end %>
+        <% if !flash[:jumbo] %>
+          <div class="alert alert-<%= key %>"><%= value %></div> 
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
 
 <%= yield %>
-
-</body>
-</html>
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -23,3 +42,9 @@
   ga('send', 'pageview');
 
 </script>
+
+<%= debug(params) if Rails.env.development? %>
+</body>
+</html>
+
+

@@ -1,0 +1,18 @@
+Hi <%= @request.name %>,
+
+Thanks for using our service to borrow from friends!
+
+These are details you entered. If you need to change them, go to
+http://<%= @url %>/edit/<%= @request.edit_id %>
+
+Name:
+<%= @request.name %>
+
+Email:
+<%= @request.email %>
+
+Item:
+<%= @request.item %>
+
+Additional details:
+<%= @request.detail %>

@@ -1,0 +1,65 @@
+<div class="container">
+  <% if @request.errors.any? %>
+      <div id="error_explanation">
+      <div class="alert alert-error">
+        The form contains <%= pluralize(@request.errors.count, "error") %>.
+      </div>
+      <ul>
+      <% @request.errors.full_messages.each do |msg| %>
+          <li>* <%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <% flash.each do |key, value| %>
+    <div class="alert alert-<%= key %>"><%= value %></div>
+  <% end %>
+  <div class="row">
+    <div class="col-md-6">
+      <h4>Items available:</h4></br>
+      <p><b>For camping:</b> </br>
+        Tent</br>
+        Sleeping bag</br>
+        Sleeping pad</br>
+        Backpack</br>
+        Water filter</br>
+        Hydration bladder</br>
+        Headlamp</br>
+        Cookware</br></br>
+
+        <b>For snow sports:</b></br>
+        Waterproof shell (upper & lower)</br>
+        Fleece mid-layer (upper & lower)</br>
+        Helmet</br>
+        Goggles</br>
+      </p>  
+    </div>
+    <div class="col-md-6">
+    </br>
+      <%= form_for @request do |f| %>
+
+        <div class="form-group">
+          <%= f.label :item %>
+          <%= f.text_area :item, class: "form-control", placeholder: "What do you need to borrow (one item per request)?", col: 3 %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :detail, "Details (optional)" %>
+          <%= f.text_area :detail, class: "form-control", placeholder: "Give us more information, e.g., what you need the item for, product specifications, timing of need, etc." %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :name %>
+          <%= f.text_field :name, class: "form-control", placeholder: "To whom are we speaking?" %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :email %>
+          <%= f.text_field :email, class: "form-control", placeholder: "How do we reach you?" %>
+        </div>
+
+        <%= f.submit "Go!", class: "btn btn-primary btn-large btn-block" %>
+      <% end %>
+    </div>
+  </div>
+</div>
