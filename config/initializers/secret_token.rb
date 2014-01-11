@@ -9,4 +9,19 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-GoogleTest::Application.config.secret_key_base = 'cfcae45741e61602685bad14000952deb56d570a74da7298cf8c24b43c37da3ed2d20258b245895ab0e9bea88e4b4b36d525bd370d439c73ecbe02fa467f25e9'
+require 'securerandom'
+
+def secure_token
+  token_file = Rails.root.join('.secret')
+  if File.exist?(token_file)
+    # Use the existing token.
+    File.read(token_file).chomp
+  else
+    # Generate a new token and store it in token_file.
+    token = SecureRandom.hex(64)
+    File.write(token_file, token)
+    token
+  end
+end
+
+GoogleTest::Application.config.secret_key_base = secure_token
