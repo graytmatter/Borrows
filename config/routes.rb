@@ -1,7 +1,6 @@
 GoogleTest::Application.routes.draw do
   root 'static_pages#new'
 
-  get 'new' to: 'requests#new'
   get 'edit/:edit_id', to: 'requests#edit', as: 'edit_request'
   post 'requests', to: 'requests#create' 
   patch 'requests/:edit_id', to: 'requests#update', as: 'request'
