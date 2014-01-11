@@ -1,5 +1,5 @@
 GoogleTest::Application.routes.draw do
-  root 'static_pages#new'
+  root 'requests#new'
 
   get 'edit/:edit_id', to: 'requests#edit', as: 'edit_request'
   post 'requests', to: 'requests#create' 
