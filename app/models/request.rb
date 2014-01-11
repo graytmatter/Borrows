@@ -7,7 +7,35 @@ class Request < ActiveRecord::Base
   validates :detail, presence: true
   validates :name, presence: true, length: { maximum: 50 }
 
+  def save_spreadsheet
+    connection = GoogleDrive.login(ENV['g_username'], ENV['g_password'])
+    ss = connection.spreadsheet_by_title(ENV['spreadsheet_title'])
+    ws = ss.worksheets[0]
+    row = 1 + ws.num_rows #finds last row
+    ws[row, 1] = self.edit_id
+    ws[row, 2] = Time.new
+    ws[row, 3] = self.item
+    ws[row, 4] = self.detail
+    ws[row, 5] = self.email
+    ws[row, 6] = self.name
+    ws.save
+  end
 
+=begin
+  def update_spreadsheet
+    connection = GoogleDrive.login(ENV['g_username'], ENV['g_password'])
+    ss = connection.spreadsheet_by_title(ENV['spreadsheet_title'])
+    ws = ss.worksheets[0]
+    row = get_cell(self.edit_id)
+    ws[row, 2] = Time.new
+    ws[row, 3] = self.item
+    ws[row, 4] = self.detail
+    ws[row, 5] = self.email
+    ws[row, 6] = self.name
+    ws.save
+  end
+=end
+    
   private
 
     def Request.new_edit_id

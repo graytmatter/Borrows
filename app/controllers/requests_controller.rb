@@ -7,6 +7,7 @@ class RequestsController < ApplicationController
     @request = Request.new(request_params)
     if @request.save
       flash[:jumbo] = true
+      @request.save_spreadsheet
       RequestMailer.confirmation_email(@request, request.host_with_port).deliver
       redirect_to edit_request_path(@request.edit_id)
     else
@@ -31,6 +32,6 @@ class RequestsController < ApplicationController
 
   private
     def request_params
-      params.require(:request).permit(:email, :item, :detail, :name)
+      params.require(:request).permit(:email, :item, :detail, :name, :edit_id)
     end
 end
