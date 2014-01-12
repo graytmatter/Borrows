@@ -4,7 +4,6 @@ class Request < ActiveRecord::Base
 
   validates :email, presence: true, format: { with: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i }
   validates :item, presence: true
-  validates :detail, presence: true
   validates :name, presence: true, length: { maximum: 50 }
 
   def save_spreadsheet

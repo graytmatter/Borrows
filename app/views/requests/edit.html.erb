@@ -13,59 +13,64 @@
   <% end %>
 
   <div class="row">
-    <h1>Update Your Request</h1>
+    
+      
+      
+      
+    <h4>Update your request</h4></br>
+  
 
-    <div class="col-md-offset-3 col-md-6">
+    <div class="col-md-6">
       
       <%= form_for @request, url: request_path(@request.edit_id) do |f| %>
-      
+
         <div class="form-group">
-          <%= f.radio_button(:item, "upshell") %>
-          <%= f.label(:item_upshell, "Snow/waterproof shell (upper)") %>
+          <%= f.radio_button(:item, "Snow/waterproof shell (upper)") %>
+          <%= f.label(:item, "Snow/waterproof shell (upper)") %>
           </br>
-          <%= f.radio_button(:item, "loshell") %>
-          <%= f.label(:item_loshell, "Snow/waterproof shell (lower)") %>
+          <%= f.radio_button(:item, "Snow/waterproof shell (lower)") %>
+          <%= f.label(:item, "Snow/waterproof shell (lower)") %>
           </br>
-          <%= f.radio_button(:item, "upmid") %>
-          <%= f.label(:item_upmid, "Insular mid-layer (upper)") %>
+          <%= f.radio_button(:item, "Insular mid-layer (upper)") %>
+          <%= f.label(:item, "Insular mid-layer (upper)") %>
           </br>
-          <%= f.radio_button(:item, "lomid") %>
-          <%= f.label(:item_lomid, "Insular mid-layer (lower)") %>
+          <%= f.radio_button(:item, "Insular mid-layer (lower)") %>
+          <%= f.label(:item, "Insular mid-layer (lower)") %>
           </br>
-          <%= f.radio_button(:item, "helmet") %>
-          <%= f.label(:item_helmet, "Snow sports helmet") %>
+          <%= f.radio_button(:item, "Snow sports helmet") %>
+          <%= f.label(:item, "Snow sports helmet") %>
           </br>
-          <%= f.radio_button(:item, "goggles") %>
-          <%= f.label(:item_goggles, "Snow sports goggles") %>
+          <%= f.radio_button(:item, "Snow sports goggles") %>
+          <%= f.label(:item, "Snow sports goggles") %>
           </br>
-          <%= f.radio_button(:item, "tent") %>
-          <%= f.label(:item_tent, "Camping tent") %>
+          <%= f.radio_button(:item, "Camping tent") %>
+          <%= f.label(:item, "Camping tent") %>
           </br>
-          <%= f.radio_button(:item, "slpbag") %>
-          <%= f.label(:item_slpbag, "Sleeping bag") %>
+          <%= f.radio_button(:item, "Sleeping bag") %>
+          <%= f.label(:item, "Sleeping bag") %>
           </br>
-          <%= f.radio_button(:item, "slppad") %>
-          <%= f.label(:item_slppad, "Sleeping pad") %>
+          <%= f.radio_button(:item, "Sleeping pad") %>
+          <%= f.label(:item, "Sleeping pad") %>
           </br>
-          <%= f.radio_button(:item, "backpack") %>
-          <%= f.label(:item_backpack, "Hiking backpack") %>
+          <%= f.radio_button(:item, "Hiking backpack") %>
+          <%= f.label(:item, "Hiking backpack") %>
           </br>
-          <%= f.radio_button(:item, "filter") %>
-          <%= f.label(:item_filter, "Hiking portable water filter") %>
+          <%= f.radio_button(:item, "Hiking portable water filter") %>
+          <%= f.label(:item, "Hiking portable water filter") %>
           </br>
-          <%= f.radio_button(:item, "bladder") %>
-          <%= f.label(:item_bladder, "Hiking hydration bladder") %>
+          <%= f.radio_button(:item, "Hiking hydration bladder") %>
+          <%= f.label(:item, "Hiking hydration bladder") %>
           </br>
-          <%= f.radio_button(:item, "headlamp") %>
-          <%= f.label(:item_headlamp, "Headlamp") %>
+          <%= f.radio_button(:item, "Headlamp") %>
+          <%= f.label(:item, "Headlamp") %>
         </div>
-     
+      </div>
 
         <!--<div class="form-group">-->
         <!--  <%#= f.label :item %>-->
         <!--  <%#= f.text_area :item, class: "form-control", placeholder: "What do you need to borrow (one item per request)?", col: 3 %>-->
         <!--</div>-->
-     
+      <div class="col-md-6">
 
         <div class="form-group">
           <%= f.label :detail, "Details (optional)" %>
@@ -84,6 +89,7 @@
 
         <%= f.submit "Go!", class: "btn btn-primary btn-large btn-block" %>
       <% end %>
+    </div>
     </div>
   </div>
 </div>

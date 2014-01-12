@@ -16,11 +16,12 @@
 </nav>
 <div class="container">
   <div class="row">
-    <div class="col-md-offset-3 col-md-6">
+    <!--<div class="col-md-offset-3 col-md-6">-->
+    <div class="span12"
       <% flash.each do |key, value| %>
         <% if flash[:jumbo] %>
-          <h1>Thanks! We'll get in touch within around one business day.</h1>
-          <p>Here is all the details in case you need to change anything; we'll also email you this link</p>
+          <p><b>Thanks! We'll respond in about one business day.</b></p>
+          <p>Here is the information you submitted in case you need to change anything; we'll also email you this link.</p>
         <% end %>
         <% if !flash[:jumbo] %>
           <div class="alert alert-<%= key %>"><%= value %></div> 
