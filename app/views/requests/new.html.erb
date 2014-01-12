@@ -15,33 +15,62 @@
     <div class="alert alert-<%= key %>"><%= value %></div>
   <% end %>
   <div class="row">
-    <div class="col-md-6">
-      <h4>Items available:</h4></br>
-      <p><b>For camping:</b> </br>
-        Tent</br>
-        Sleeping bag</br>
-        Sleeping pad</br>
-        Backpack</br>
-        Water filter</br>
-        Hydration bladder</br>
-        Headlamp</br>
-        Cookware</br></br>
 
-        <b>For snow sports:</b></br>
-        Waterproof shell (upper & lower)</br>
-        Fleece mid-layer (upper & lower)</br>
-        Helmet</br>
-        Goggles</br>
-      </p>  
-    </div>
+
+    <h1>What would you like to borrow?</h1></br>
+  
+
     <div class="col-md-6">
-    </br>
+      
       <%= form_for @request do |f| %>
 
         <div class="form-group">
-          <%= f.label :item %>
-          <%= f.text_area :item, class: "form-control", placeholder: "What do you need to borrow (one item per request)?", col: 3 %>
+          <%= f.radio_button(:item, "upshell") %>
+          <%= f.label(:item_upshell, "Snow/waterproof shell (upper)") %>
+          </br>
+          <%= f.radio_button(:item, "loshell") %>
+          <%= f.label(:item_loshell, "Snow/waterproof shell (lower)") %>
+          </br>
+          <%= f.radio_button(:item, "upmid") %>
+          <%= f.label(:item_upmid, "Insular mid-layer (upper)") %>
+          </br>
+          <%= f.radio_button(:item, "lomid") %>
+          <%= f.label(:item_lomid, "Insular mid-layer (lower)") %>
+          </br>
+          <%= f.radio_button(:item, "helmet") %>
+          <%= f.label(:item_helmet, "Snow sports helmet") %>
+          </br>
+          <%= f.radio_button(:item, "goggles") %>
+          <%= f.label(:item_goggles, "Snow sports goggles") %>
+          </br>
+          <%= f.radio_button(:item, "tent") %>
+          <%= f.label(:item_tent, "Camping tent") %>
+          </br>
+          <%= f.radio_button(:item, "slpbag") %>
+          <%= f.label(:item_slpbag, "Sleeping bag") %>
+          </br>
+          <%= f.radio_button(:item, "slppad") %>
+          <%= f.label(:item_slppad, "Sleeping pad") %>
+          </br>
+          <%= f.radio_button(:item, "backpack") %>
+          <%= f.label(:item_backpack, "Hiking backpack") %>
+          </br>
+          <%= f.radio_button(:item, "filter") %>
+          <%= f.label(:item_filter, "Hiking portable water filter") %>
+          </br>
+          <%= f.radio_button(:item, "Hiking hydration bladder") %>
+          <%= f.label(:item, "Hiking hydration bladder") %>
+          </br>
+          <%= f.radio_button(:item, "Headlamp") %>
+          <%= f.label(:item, "Headlamp") %>
         </div>
+      </div>
+
+        <!--<div class="form-group">-->
+        <!--  <%#= f.label :item %>-->
+        <!--  <%#= f.text_area :item, class: "form-control", placeholder: "What do you need to borrow (one item per request)?", col: 3 %>-->
+        <!--</div>-->
+      <div class="col-md-6">
 
         <div class="form-group">
           <%= f.label :detail, "Details (optional)" %>
@@ -60,6 +89,7 @@
 
         <%= f.submit "Go!", class: "btn btn-primary btn-large btn-block" %>
       <% end %>
+    </div>
     </div>
   </div>
 </div>
