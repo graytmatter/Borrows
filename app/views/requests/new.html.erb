@@ -1,19 +1,21 @@
 <div class="container">
   <% if @request.errors.any? %>
       <div id="error_explanation">
-      <div class="alert alert-error">
-        The form contains <%= pluralize(@request.errors.count, "error") %>.
-      </div>
-      <ul>
-      <% @request.errors.full_messages.each do |msg| %>
-          <li>* <%= msg %></li>
-      <% end %>
-      </ul>
+        <div class="alert alert-error">
+          The form contains <%= pluralize(@request.errors.count, "error") %>.
+        </div>
+        <ul>
+        <% @request.errors.full_messages.each do |msg| %>
+            <li>* <%= msg %></li>
+        <% end %>
+        </ul>
       </div>
   <% end %>
+
   <% flash.each do |key, value| %>
     <div class="alert alert-<%= key %>"><%= value %></div>
   <% end %>
+  
   <div class="row">
 
 
@@ -65,7 +67,9 @@
           <%= f.label(:item, "Headlamp") %>
         </div>
 
-      <div class="col-md-6">
+    </div>
+
+    <div class="col-md-6">
 
         <div class="form-group">
           <%= f.label :detail, "Details (optional)" %>
@@ -83,8 +87,9 @@
         </div>
 
         <%= f.submit "Go!", class: "btn btn-primary btn-large btn-block" %>
+      
       <% end %>
-      </div>
     </div>
+
   </div>
 </div>
