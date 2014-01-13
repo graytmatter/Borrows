@@ -14,6 +14,12 @@ group :development do
 	gem 'rspec-rails', '2.13.1'
 end
 
+group :test do
+	gem 'rspec-rails', '2.13.1' #test framework
+	gem 'selenium-webdriver', '2.35.1' #capybara dependency
+	gem 'capybara', '2.1.0' #enables natural language tests
+end
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 

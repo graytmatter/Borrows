@@ -9,7 +9,7 @@
           <li>* <%= msg %></li>
       <% end %>
       </ul>
-    </div>
+      </div>
   <% end %>
   <% flash.each do |key, value| %>
     <div class="alert alert-<%= key %>"><%= value %></div>
@@ -64,12 +64,7 @@
           <%= f.radio_button(:item, "Headlamp") %>
           <%= f.label(:item, "Headlamp") %>
         </div>
-      </div>
 
-        <!--<div class="form-group">-->
-        <!--  <%#= f.label :item %>-->
-        <!--  <%#= f.text_area :item, class: "form-control", placeholder: "What do you need to borrow (one item per request)?", col: 3 %>-->
-        <!--</div>-->
       <div class="col-md-6">
 
         <div class="form-group">
@@ -89,7 +84,7 @@
 
         <%= f.submit "Go!", class: "btn btn-primary btn-large btn-block" %>
       <% end %>
-    </div>
+      </div>
     </div>
   </div>
 </div>
