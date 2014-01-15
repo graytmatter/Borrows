@@ -3,17 +3,16 @@ require 'spec_helper'
 describe "Requests" do
  
 	subject { page }
+  let(:submit) { "Go!" }
 
 	describe "new request" do
 		before { visit root_path }
 		it { should have_content("What would you like to borrow?")}
 
-		let(:submit) { "Go!" }
-
 		describe "with invalid information" do
 			it "should not create request" do
 				expect { click_button submit }.not_to change(Request, :count) 
-	   			expect { click_button submit }.not_to change(ActionMailer::Base.deliveries, :size)
+	   		expect { click_button submit }.not_to change(ActionMailer::Base.deliveries, :size)
 			end
 		end
 
@@ -21,35 +20,32 @@ describe "Requests" do
 			before do
 				fill_in "Email",        with: "example@example.com"
         		fill_in "Name",         with: "James"
-        		choose("Snow/waterproof shell (upper)")
-      		end
+        		choose "request_item_headlamp" 
+      end
 
-      		it "should create a request" do
+      		it "should create a request, redirect to edit page, and send mail" do
       			expect { click_button submit }.to change(Request, :count).by(1)
       			expect { click_button submit }.to change(ActionMailer::Base.deliveries, :size).by(1)
       			
       			before { click_button submit }
-      			subject { ActionMailer::Base.deliveries.last }
+            it { should have_content("Update your request") }
 
+      			subject { ActionMailer::Base.deliveries.last }
         		its(:subject) { should have_content == "Update link inside." }
       		end
 
-      		it "should redirect to edit page" do
-      			before { click_button submit }
-      			it { should have_content("Update your request") }
-      		end
       	end
-    end
+  end
 
     describe "edit request" do
 		before do
-			visit root_path
-			fill_in "Email",        with: "example@example.com"
+			  visit root_path
+			  fill_in "Email",        with: "example@example.com"
     		fill_in "Name",         with: "James"
-    		choose("Snow/waterproof shell (upper)")
+    		choose "request_item_headlamp" 
     		click_button submit
     		visit edit_request_path(request.edit_id)
-  		end
+    end
 
   		it { should have_content("James") }
   		it { should have_content("example@example.com") }
