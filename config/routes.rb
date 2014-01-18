@@ -1,11 +1,12 @@
 GoogleTest::Application.routes.draw do
-  root 'static_pages#new'
-  #root 'requests#new'
+  root 'static_pages#home'
 
   get 'new', to: 'requests#new', as: 'new_request'
   get 'edit/:edit_id', to: 'requests#edit', as: 'edit_request'
   post 'requests', to: 'requests#create' 
   patch 'requests/:edit_id', to: 'requests#update', as: 'request'
+
+  #get 'signup', to: 'static_pages#signup', as: 'signup'
 
     # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
