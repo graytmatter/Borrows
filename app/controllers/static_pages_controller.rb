@@ -1,6 +1,6 @@
 class StaticPagesController < ApplicationController
-	
-	def new
+	layout false
+	def home
 	end
 
 end
