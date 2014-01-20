@@ -6,9 +6,8 @@ GoogleTest::Application.routes.draw do
   post 'requests', to: 'requests#create' 
   patch 'requests/:edit_id', to: 'requests#update', as: 'request'
 
-  resources :signup, only: [:new, :create]
-
-  #get 'signup', to: 'static_pages#signup', as: 'signup'
+  resources :signups, only: [:new, :create]
+  #get 'signup', to: 'signups#new', as: 'new_signup'
 
     # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

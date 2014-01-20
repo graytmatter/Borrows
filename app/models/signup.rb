@@ -3,7 +3,7 @@ class Signup < ActiveRecord::Base
 	validates :email, presence: true, format: { with: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i }
     validates :name, presence: true, length: { maximum: 50 }
 
-def subscribe
+def add_subscrip
     connection = GoogleDrive.login(ENV['g_username'], ENV['g_password'])
     ss = connection.spreadsheet_by_title(ENV['spreadsheet_title'])
     ws = ss.worksheets[0]
