@@ -11,7 +11,7 @@ class RequestsController < ApplicationController
       RequestMailer.confirmation_email(@request, request.host_with_port).deliver
       redirect_to edit_request_path(@request.edit_id)
     else
-      render 'new'
+      render new_request_path
     end
   end
 
@@ -26,7 +26,7 @@ class RequestsController < ApplicationController
       RequestMailer.update_email(@request, request.host_with_port).deliver
       redirect_to edit_request_path(@request.edit_id)
     else
-      render 'edit'
+      render edit_request_path(@request.edit_id)
     end
   end
 

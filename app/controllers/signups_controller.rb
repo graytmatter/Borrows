@@ -8,10 +8,10 @@ class SignupsController < ApplicationController
 		@signup = Signup.new(signup_params)
 		if @signup.save
 			@signup.add_subscrip
-			flash.now[:notice] = "Many thanks for your support. You'll hear from us soon!"
+			#flash.now[:notice] = "Many thanks for your support. You'll hear from us soon!"
 			redirect_to root_path
 		else
-			redirect_to new_signup_path
+			render new_signup_path
 		end
 
 	end
