@@ -15,7 +15,7 @@ def save_subscrip
     ws.save
 end
 
-def add_subscrip
+=begindef add_subscrip
     mailchimp = Gibbon::API.new 
     result = mailchimp.lists.subscribe({ 
         :id => ENV['MAILCHIMP_LIST_ID'], 
@@ -24,7 +24,7 @@ def add_subscrip
         :update_existing => true, 
         :send_welcome => true 
     })
-end
+=end
 
 
 end
