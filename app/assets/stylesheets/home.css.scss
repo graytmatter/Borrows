@@ -1,0 +1,21 @@
+@import "bootstrap";
+
+h1, h2, h3, h4, h5 {
+    text-align: center;
+}
+
+body {
+     margin: 0;
+     background: url('http://www.hdwpapers.com/download/camping_wallpaper_hd-1920x1080.jpg') no-repeat center center fixed;
+     background-size:100% auto;
+     display: compact;
+}
+
+.home-container {
+    border-top-left-radius: 50px 50px;
+    border-bottom-left-radius: 50px 50px;
+	border-bottom-right-radius: 50px 50px;
+	border-top-right-radius: 50px 50px;
+    background-color: rgba(245, 245, 245, 0.7);
+    font: 13px/18px "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
