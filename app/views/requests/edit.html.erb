@@ -20,68 +20,70 @@
       
     <h4>Update your request</h4></br>
   
-
-    <div class="col-md-6">
-      
+       
       <%= form_for @request, url: request_path(@request.edit_id) do |f| %>
 
-        <div class="form-group">
-          <%= f.radio_button(:item, "Snow/waterproof shell (upper)") %>
-          <%= f.label(:item, "Snow/waterproof shell (upper)") %>
-          </br>
-          <%= f.radio_button(:item, "Snow/waterproof shell (lower)") %>
-          <%= f.label(:item, "Snow/waterproof shell (lower)") %>
-          </br>
-          <%= f.radio_button(:item, "Insular mid-layer (upper)") %>
-          <%= f.label(:item, "Insular mid-layer (upper)") %>
-          </br>
-          <%= f.radio_button(:item, "Insular mid-layer (lower)") %>
-          <%= f.label(:item, "Insular mid-layer (lower)") %>
-          </br>
-          <%= f.radio_button(:item, "Snow sports helmet") %>
-          <%= f.label(:item, "Snow sports helmet") %>
-          </br>
-          <%= f.radio_button(:item, "Snow sports goggles") %>
-          <%= f.label(:item, "Snow sports goggles") %>
-          </br>
-          <%= f.radio_button(:item, "Camping tent") %>
-          <%= f.label(:item, "Camping tent") %>
-          </br>
-          <%= f.radio_button(:item, "Sleeping bag") %>
-          <%= f.label(:item, "Sleeping bag") %>
-          </br>
-          <%= f.radio_button(:item, "Sleeping pad") %>
-          <%= f.label(:item, "Sleeping pad") %>
-          </br>
-          <%= f.radio_button(:item, "Hiking backpack") %>
-          <%= f.label(:item, "Hiking backpack") %>
-          </br>
-          <%= f.radio_button(:item, "Hiking portable water filter") %>
-          <%= f.label(:item, "Hiking portable water filter") %>
-          </br>
-          <%= f.radio_button(:item, "Hiking hydration bladder") %>
-          <%= f.label(:item, "Hiking hydration bladder") %>
-          </br>
-          <%= f.radio_button(:item, "Headlamp") %>
-          <%= f.label(:item, "Headlamp") %>
+        <div class="col-md-6">
+          <div class="form-group">
+            <%= f.radio_button(:item, "Snow/waterproof shell (upper)") %>
+            <%= f.label(:item, "Snow/waterproof shell (upper)") %>
+            </br>
+            <%= f.radio_button(:item, "Snow/waterproof shell (lower)") %>
+            <%= f.label(:item, "Snow/waterproof shell (lower)") %>
+            </br>
+            <%= f.radio_button(:item, "Insular mid-layer (upper)") %>
+            <%= f.label(:item, "Insular mid-layer (upper)") %>
+            </br>
+            <%= f.radio_button(:item, "Insular mid-layer (lower)") %>
+            <%= f.label(:item, "Insular mid-layer (lower)") %>
+            </br>
+            <%= f.radio_button(:item, "Snow sports helmet") %>
+            <%= f.label(:item, "Snow sports helmet") %>
+            </br>
+            <%= f.radio_button(:item, "Snow sports goggles") %>
+            <%= f.label(:item, "Snow sports goggles") %>
+            </br>
+            <%= f.radio_button(:item, "Camping tent") %>
+            <%= f.label(:item, "Camping tent") %>
+            </br>
+            <%= f.radio_button(:item, "Sleeping bag") %>
+            <%= f.label(:item, "Sleeping bag") %>
+            </br>
+            <%= f.radio_button(:item, "Sleeping pad") %>
+            <%= f.label(:item, "Sleeping pad") %>
+            </br>
+            <%= f.radio_button(:item, "Hiking backpack") %>
+            <%= f.label(:item, "Hiking backpack") %>
+            </br>
+            <%= f.radio_button(:item, "Hiking portable water filter") %>
+            <%= f.label(:item, "Hiking portable water filter") %>
+            </br>
+            <%= f.radio_button(:item, "Hiking hydration bladder") %>
+            <%= f.label(:item, "Hiking hydration bladder") %>
+            </br>
+            <%= f.radio_button(:item, "Headlamp") %>
+            <%= f.label(:item, "Headlamp") %>
+          </div>
         </div>
+          
+        <div class="col-md-6">
+          <div class="form-group">
+            <%= f.label :detail, "Details (optional)" %>
+            <%= f.text_area :detail, class: "form-control", placeholder: "Give us more information, e.g., what you need the item for, product specifications, timing of need, etc." %>
+          </div>
 
-        <div class="form-group">
-          <%= f.label :detail, "Details (optional)" %>
-          <%= f.text_area :detail, class: "form-control", placeholder: "Give us more information, e.g., what you need the item for, product specifications, timing of need, etc." %>
+          <div class="form-group">
+            <%= f.label :name %>
+            <%= f.text_field :name, class: "form-control", placeholder: "To whom are we speaking?" %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :email %>
+            <%= f.text_field :email, class: "form-control", placeholder: "How do we reach you?" %>
+          </div>
+
+          <%= f.submit "Go!", class: "btn btn-primary btn-large btn-block" %>
         </div>
-
-        <div class="form-group">
-          <%= f.label :name %>
-          <%= f.text_field :name, class: "form-control", placeholder: "To whom are we speaking?" %>
-        </div>
-
-        <div class="form-group">
-          <%= f.label :email %>
-          <%= f.text_field :email, class: "form-control", placeholder: "How do we reach you?" %>
-        </div>
-
-        <%= f.submit "Go!", class: "btn btn-primary btn-large btn-block" %>
       <% end %>
     </div>
     
