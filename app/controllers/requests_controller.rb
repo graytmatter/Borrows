@@ -11,7 +11,7 @@ class RequestsController < ApplicationController
       RequestMailer.confirmation_email(@request, request.host_with_port).deliver
       redirect_to edit_request_path(@request.edit_id)
     else
-      render new_request_path
+      render 'new'
     end
   end
 
@@ -22,11 +22,11 @@ class RequestsController < ApplicationController
   def update
     @request = Request.find_by_edit_id(params[:edit_id])
     if @request.update_attributes(request_params)
-      flash[:success] = "Your request was updated!"
+      flash[:update] = true
       RequestMailer.update_email(@request, request.host_with_port).deliver
       redirect_to edit_request_path(@request.edit_id)
     else
-      render edit_request_path(@request.edit_id)
+      render 'edit'
     end
   end
 

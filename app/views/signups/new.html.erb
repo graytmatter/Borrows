@@ -1,19 +1,16 @@
 <div class="container">
   <% if @signup.errors.any? %>
       <div id="error_explanation">
-        <div class="alert alert-error">
-          The form contains <%= pluralize(@signup.errors.count, "error") %>.
-        </div>
+        <div class="alert alert-danger">
+          <p>The form contains <%= pluralize(@signup.errors.count, "error") %>:</p>
+        </br>
         <ul>
         <% @signup.errors.full_messages.each do |msg| %>
-            <li>* <%= msg %></li>
+            <li><%= msg %></li>
         <% end %>
         </ul>
+        </div>
       </div>
-  <% end %>
-
-  <% flash.each do |key, value| %>
-    <div class="alert alert-<%= key %>"><%= value %></div>
   <% end %>
   
   <div class="row">

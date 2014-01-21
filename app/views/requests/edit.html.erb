@@ -1,14 +1,15 @@
 <div class="container">
   <% if @request.errors.any? %>
       <div id="error_explanation">
-        <div class="alert alert-error">
-          The form contains <%= pluralize(@request.errors.count, "error") %>.
-        </div>
+        <div class="alert alert-danger">
+          <p>The form contains <%= pluralize(@request.errors.count, "error") %>:</p>
+        </br>
         <ul>
         <% @request.errors.full_messages.each do |msg| %>
-            <li>* <%= msg %></li>
+            <li><%= msg %></li>
         <% end %>
         </ul>
+        </div>
       </div>
   <% end %>
 

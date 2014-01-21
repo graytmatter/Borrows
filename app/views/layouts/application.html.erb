@@ -18,17 +18,23 @@
 </nav>
 <div class="container">
   <div class="row">
-    <!--<div class="col-md-offset-3 col-md-6">-->
-    <div class="span12"
-      <% flash.each do |key, value| %>
-        <% if flash[:jumbo] %>
+    <div class="col-md-12">
+        <%# flash.each do |key, value| %>
+    <!--<div class="alert alert-<%#= key %>"><%#= value %></div>-->
+  <%# end %>
+
+  <% if flash[:jumbo] %>
+          <div class="alert alert-success">
           <p><b>Thanks! We'll respond in about one business day.</b></p>
           <p>Here is the information you submitted in case you need to change anything; we'll also email you this link.</p>
+          </div>
         <% end %>
-        <% if !flash[:jumbo] %>
-          <div class="alert alert-<%= key %>"><%= value %></div> 
-        <% end %>
-      <% end %>
+        <% if flash[:update] %>
+          <div class="alert alert-success">
+            <p><b>Your request has been updated!</b> We'll respond in about one business day.</p>
+        </div>
+          <%end%>
+
     </div>
   </div>
 </div>
