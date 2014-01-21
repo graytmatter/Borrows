@@ -8,7 +8,7 @@ class Request < ActiveRecord::Base
 
   def save_spreadsheet
     connection = GoogleDrive.login(ENV['g_username'], ENV['g_password'])
-    ss = connection.spreadsheet_by_title(ENV['spreadsheet_title'])
+    ss = connection.spreadsheet_by_title('Borrow test v1')
     ws = ss.worksheets[0]
     row = 1 + ws.num_rows #finds last row
     ws[row, 1] = self.edit_id

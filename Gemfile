@@ -7,6 +7,7 @@ gem 'rails', '4.0.2'
 gem 'bootstrap-sass', '3.0.3.0'
 gem 'google_drive'
 gem 'figaro'
+gem 'gibbon'
 
 # Use sqlite3 as the database for Active Record
 group :development do
