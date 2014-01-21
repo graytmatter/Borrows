@@ -48,11 +48,11 @@ group :doc do
 end
 
 group :production do
-	gem 'pg', '0.15.1'
 	gem 'unicorn'
 	gem 'rails_12factor'
 end
 
+	gem 'pg', '0.15.1'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 
