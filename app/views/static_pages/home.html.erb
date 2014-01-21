@@ -6,36 +6,30 @@
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
 </head>
-<body style="background-color:#F3E2A9;">
+</br>
+</br>
+</br>
+</br>
 
 <div class="container">
-    <div class="row">
-	    <div class="span12">
-	    	</br></br></br>
-			<h1><b>Welcome!</b></h1></br>
-			<h4>We are building a friend-to-friend sharing platform for everyday stuff. 
-				</br><i>(not apartments, not cars)</i>  
-				</br></br><hr style="border: 1px outset #595955;"></br>
-				When you use our service, only friends who have what you need will be asked; no more feeling guilty for spamming everyone you know! 
-				</br></br> 
-			</h4>
-			<h5>
-				<i>We currently are offering camping and snow sports equipment</i>
-				</br></br>
-			</h5>
-		</div>
-	</div>
-		
 	<div class="row">
-		<div class="col-md-6">
-			<a href="<%= new_request_path %>" class="btn btn-primary btn-large btn-block" role="button">Let me try - I need something now!</a>
-		</br>
-		</div>
-		<div class="col-md-6">
-			<a href="<%= new_signup_path %>" class="btn btn-primary btn-large btn-block" role="button">Cool idea - keep me posted!</a>
-		</br>
-		</div>
+	    <div class="col-md-5 col-md-offset-7 home-container">
+				
+				<div class="col-md-12">
+					<h3>Step One: Get Tent</h3>
+					</br>
+					<p class="text-center">Welcome! We are building a friend-to-friend sharing platform for everyday stuff&#8212like the tent for a mountain getaway. When you request something, only your friends who have the item get the message; no more spamming everyone you know!</p>
+				    </br>
+					<p class="text-center"><i><u>Currently offering:</u> Camping & snow sports equipment</i></p>
+				    </p>
 
+				    <div class="col-md-12">
+						<p><a href="<%= new_request_path %>" class="btn btn-primary btn-large btn-block" role="button">Let me try - I need something now!</a></p>
+						<p><a href="<%= new_signup_path %>" class="btn btn-primary btn-large btn-block" role="button">Cool idea - keep me posted!</a></p>
+					</div>
+				    	
+			</div>
+		</div>
 	</div>
 </div>
 
