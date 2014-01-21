@@ -12,3 +12,6 @@
  *= require_tree .
  */
 
+ *= require custom.css.SCSS
+ *= require home.css.scss
+
