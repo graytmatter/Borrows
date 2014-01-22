@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'faker'
+
 
 describe Signup do
 
@@ -63,6 +63,10 @@ describe Signup do
        			expect(@signup).to be_valid
       		end
     	end
+
+    	before { @signup.email = Faker::Internet.email }
+		  it { should be_valid }
+
   	end
 
   	describe "when heard is not present" do

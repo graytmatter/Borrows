@@ -4,7 +4,7 @@ class Request < ActiveRecord::Base
 
   validates :email, presence: true, format: { with: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i }
   validates :item, presence: true
-  validates :name, presence: true, length: { maximum: 50 }
+  validates :name, presence: true, length: { maximum: 50 }, format: { with: /\s/ }
 
   def save_spreadsheet
     connection = GoogleDrive.login(ENV['g_username'], ENV['g_password'])

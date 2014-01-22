@@ -1,9 +1,10 @@
 require 'spec_helper'
 
+
 describe Request do
 
   	before do
-   		@request = Request.new(name: "James", email: "example@example.com", item: "Headlamp", detail: "camping")
+   		@request = FactoryGirl.create(:request)
   	end
 
     subject { @request }
@@ -12,7 +13,7 @@ describe Request do
   	it { should respond_to(:item) }
   	it { should respond_to(:detail) }
   	it { should respond_to(:name) }
-  	it { should respond_to(:edit_id) }
+  	it { should respond_to(:edit_id) } #model logic auto-creates this
 
   	it { should be_valid }
 
@@ -26,10 +27,25 @@ describe Request do
 	    it { should_not be_valid }
 	end
 
+  describe "when there is only a first name" do
+    before { @request.name = Faker::Name.first_name }
+    it { should_not be_valid }
+  end
+
+  describe "when there is only a last name" do
+    before { @request.name = Faker::Name.last_name }
+    it { should_not be_valid }
+  end
+
+  describe "when there is an appropriate first and last name" do
+    before { @request.name = Faker::Name.name }
+    it { should be_valid }
+  end
+
   	describe "when email is not present" do
     	before { @request.email = " " }
     	it { should_not be_valid }
- 	 end
+ 	  end
 
     describe "when email format is invalid" do
    		it "should be invalid" do
@@ -49,6 +65,9 @@ describe Request do
        			expect(@request).to be_valid
       		end
     	end
+
+      before { @request.email = Faker::Internet.email }
+      it { should be_valid }
   	end
 
   	describe "when item is not present" do
@@ -56,10 +75,19 @@ describe Request do
   		it { should_not be_valid }
   	end
 
+    describe "when item is present" do
+      before { @request.item = "random" }
+      it { should be_valid }
+    end
+
   	describe "when detail is not present" do
   		before { @request.detail = "" }
   		it { should be_valid }
   	end
 
+    describe "when detail is present" do
+      before { @request.detail = "random text" }
+      it { should be_valid }
+    end
 end
 

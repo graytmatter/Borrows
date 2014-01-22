@@ -8,3 +8,9 @@ FactoryGirl.define do
 	end
 end
 	
+FactoryGirl.define do
+	factory :invalid_signup, parent: :signup do |f|
+		f.name { nil }
+	end
+end
+	
