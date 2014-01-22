@@ -12,7 +12,9 @@
     <div class="navbar-header">
       <a class="navbar-brand" href="<%= root_path %>">Home</a>
       <a class="navbar-brand" href="<%= new_request_path %>">Make a new request</a>
-      <a class="navbar-brand" href="<%= new_signup_path %>">Keep me posted</a>
+      <% if current_page?(new_signup_path) == false %>
+        <a class="navbar-brand" href="<%= new_signup_path %>">Add me to the mailing list</a>
+      <% end %>
     </div>
   </div>
 </nav>
