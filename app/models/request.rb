@@ -6,6 +6,7 @@ class Request < ActiveRecord::Base
   validates :item, presence: true
   validates :name, presence: true, length: { maximum: 50 }, format: { with: /\s/ }
 
+
   def save_spreadsheet
     connection = GoogleDrive.login(ENV['g_username'], ENV['g_password'])
     ss = connection.spreadsheet_by_title('Borrow test v1')
@@ -19,6 +20,7 @@ class Request < ActiveRecord::Base
     ws[row, 6] = self.name
     ws.save
   end
+
 
 =begin
   def update_spreadsheet

@@ -70,13 +70,13 @@
           </div>
 
           <div class="form-group">
-            <%= f.label :name %>
-            <%= f.text_field :name, class: "form-control", placeholder: "To whom are we speaking? First and last please!" %>
+            <%= f.label :name, "First and last name" %>
+            <%= f.text_field :name, class: "form-control", placeholder: "A name is better than a number" %>
           </div>
 
           <div class="form-group">
             <%= f.label :email %>
-            <%= f.text_field :email, class: "form-control", placeholder: "How do we reach you?" %>
+            <%= f.text_field :email, class: "form-control", placeholder: "Where we can reach you when we find what you need" %>
           </div>
 
           <%= f.submit "Go!", class: "btn btn-primary btn-large btn-block" %>

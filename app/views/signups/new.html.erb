@@ -24,18 +24,18 @@
       <%= form_for @signup do |f| %>
 
         <div class="form-group">
-          <%= f.label :name %>
-          <%= f.text_field :name, class: "form-control", placeholder: "First and last please!" %>
+          <%= f.label :name, "First and last name" %>
+          <%= f.text_field :name, class: "form-control", placeholder: "A name is better than a number" %>
         </div>
 
         <div class="form-group">
           <%= f.label :email %>
-          <%= f.text_field :email, class: "form-control", placeholder: "Your real email; don't worry we'll keep it under lock and key!" %>
+          <%= f.text_field :email, class: "form-control", placeholder: "Your real email; don't worry we'll keep it under lock and key" %>
         </div>
 
         <div class="form-group">
           <%= f.label :heard, "How did you hear about us? (Optional)" %>
-          <%= f.text_field :heard, class: "form-control", placeholder: "Tell us who the little birdie was, they might just get a treat!" %>
+          <%= f.text_field :heard, class: "form-control", placeholder: "Tell us who the little birdie was, they might just get a treat" %>
         </div>
 
         <%= f.submit "Talk to you soon!", class: "btn btn-primary btn-large btn-block" %>

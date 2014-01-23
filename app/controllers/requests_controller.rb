@@ -21,14 +21,11 @@ class RequestsController < ApplicationController
 
   def update
     @request = Request.find_by_edit_id(params[:edit_id])
-    if @request.changed?
-      if @request.update_attributes(request_params) 
+    @request.attributes = request_params
+    if @request.changed? && @request.save
       flash[:success] = "Your request has been updated! We'll respond within one business day."
       RequestMailer.update_email(@request, request.host_with_port).deliver
       redirect_to edit_request_path(@request.edit_id)
-      else
-      render 'edit'
-      end
     else
       render 'edit'
     end
