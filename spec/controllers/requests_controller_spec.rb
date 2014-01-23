@@ -100,5 +100,6 @@ describe RequestsController do
 				}.to_not change(ActionMailer::Base.deliveries, :size)
 			end
 		end
+
 	end
 end

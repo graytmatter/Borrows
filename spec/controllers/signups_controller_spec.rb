@@ -21,10 +21,6 @@ describe SignupsController, :type => :controller do
 			response.should render_template :new
 		end
 
-
-		#it "adds to MailChimp" do
-		#end
-
 	end
 
 	describe "create - with invalid data" do
@@ -39,8 +35,6 @@ describe SignupsController, :type => :controller do
 			response.should render_template :new
 		end
 
-		#it "does not add to MailChimp" do
-		#end
 	end
 
 
