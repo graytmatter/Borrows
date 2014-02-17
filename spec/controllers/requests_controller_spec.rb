@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe RequestsController do
+	render_views
 
 	describe "GET new" do
 		it "creates a new request" do
@@ -19,6 +20,7 @@ describe RequestsController do
 		it "redirects to edit action" do
 			post :create, request: FactoryGirl.attributes_for(:request)
 			response.should redirect_to edit_request_url(assigns[:request].edit_id)  
+			response.should have_content("Update")
 		end
 
 
