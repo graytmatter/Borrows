@@ -13,6 +13,8 @@ describe Request do
   	it { should respond_to(:item) }
   	it { should respond_to(:detail) }
   	it { should respond_to(:name) }
+    it { should respond_to(:rentdate) }
+    it { should respond_to(:paydeliver) }
   	it { should respond_to(:edit_id) } #model logic auto-creates this
 
   	it { should be_valid }
@@ -82,11 +84,31 @@ describe Request do
 
   	describe "when detail is not present" do
   		before { @request.detail = "" }
-  		it { should be_valid }
+  		it { should_not be_valid }
   	end
 
     describe "when detail is present" do
       before { @request.detail = "random text" }
+      it { should be_valid }
+    end
+
+    describe "when rentdate is not present" do
+      before { @request.rentdate = "" }
+      it { should_not be_valid }
+    end
+
+    describe "when rentdate is present" do
+      before { @request.rentdate = "random text" }
+      it { should be_valid }
+    end
+
+    describe "when paydeliver is not present" do
+      before { @request.paydeliver = "" }
+      it { should_not be_valid }
+    end
+
+    describe "when paydeliver is present" do
+      before { @request.paydeliver = true }
       it { should be_valid }
     end
 end

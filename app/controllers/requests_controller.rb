@@ -39,6 +39,6 @@ class RequestsController < ApplicationController
 
   private
     def request_params
-      params.require(:request).permit(:email, :item, :detail, :name, :edit_id)
+      params.require(:request).permit(:email, :item, :detail, :name, :rentdate, :paydeliver, :edit_id)
     end
 end

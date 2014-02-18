@@ -4,7 +4,8 @@ describe 'signups/new.html.erb' do
 
   before :each do
     assign(:signup, FactoryGirl.build(:signup))
-    render layout: "layouts/application", template: "signups/new"
+    visit '/signups/new'
+    #render layout: "layouts/application", template: "signups/new"
   end
 
   it 'does not have background image' do
@@ -12,6 +13,7 @@ describe 'signups/new.html.erb' do
   end
 
   it 'displays link to request pages not signup page' do
+    #puts page.body 
     rendered.should have_link("Make a new request", href: new_request_path)
     rendered.should_not have_link("Add me to the mailing list", href: new_signup_path)
   end

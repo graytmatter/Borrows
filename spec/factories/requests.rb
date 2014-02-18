@@ -6,6 +6,8 @@ FactoryGirl.define do
 		f.email { Faker::Internet.email }
 		f.item { "random item" }
 		f.detail { "random text" }
+		f.rentdate { "random text" }
+		f.paydeliver { true }
 	end
 end
 	

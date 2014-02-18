@@ -36,13 +36,13 @@
         <div class="col-xs-12">
 
           <div class="form-group">
-            <%= f.label :rentdate, "Dates of request" %>
-            <%= f.text_area :rentdate, class: "form-control", placeholder: "From when to when do you need the item?" %>
+            <%= f.label :detail, "Desired specifications" %>
+            <%= f.text_area :detail, class: "form-control", placeholder: "What specifications do you need (e.g., size, capacity)?" %>
           </div>
 
           <div class="form-group">
-            <%= f.label :detail, "Desired specifications" %>
-            <%= f.text_area :detail, class: "form-control", placeholder: "What specifications do you need (e.g., size, capacity)?" %>
+            <%= f.label :rentdate, "Dates of request" %>
+            <%= f.text_field :rentdate, class: "form-control", placeholder: "From when to when do you need the item?" %>
           </div>
 
           <div class="form-group">
@@ -55,9 +55,9 @@
             <%= f.text_field :email, class: "form-control", placeholder: "How do we get in touch with you?" %>
           </div>
 
-          <div class="form-group">
-            <%= f.label :paydeliver "Pay $35 to have item delivered" %>
+          <div class="checkbox">
             <%= f.check_box :paydeliver %>
+            <%= f.label :paydeliver, "Pay $35 for item pick up, delivery, and return" %>
           </div>
 
           <%= f.submit "Go!", class: "btn btn-primary btn-large btn-block" %>
