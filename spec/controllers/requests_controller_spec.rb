@@ -2,6 +2,16 @@ require 'spec_helper'
 
 describe RequestsController do
 
+	before :each do
+		@inventory = {
+	      "Camping" => ["Tent", "Sleeping bag", "Sleeping pad", "Backpack", "Water filter", "Hydration bladder"],
+	      "Housewares" => ["Air mattress", "Electric drill", "Suitcase", "Iron", "Blender", "Portable grill"],
+	      "Snow sports" => ["Outer shell (upper)", "Outer shell (lower)", "Insular mid-layer (upper)", "Insular mid-layer(lower)", "Helmet", "Goggles"],
+	      "City sports" => ["Tennis racket & balls", "Volleyball net & ball", "Football", "Bicycle", "Bicycle pump", "Bicycle helmet"]
+	      }
+	      #refactor so that this is unnecessary
+	end
+
 	describe "GET new" do
 		it "creates a new request" do
 			get :new

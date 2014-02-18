@@ -4,8 +4,15 @@ describe 'requests/new.html.erb' do
 
   before :each do
       @requestrecord = FactoryGirl.create(:request)
+      @inventory = {
+      "Camping" => ["Tent", "Sleeping bag", "Sleeping pad", "Backpack", "Water filter", "Hydration bladder"],
+      "Housewares" => ["Air mattress", "Electric drill", "Suitcase", "Iron", "Blender", "Portable grill"],
+      "Snow sports" => ["Outer shell (upper)", "Outer shell (lower)", "Insular mid-layer (upper)", "Insular mid-layer(lower)", "Helmet", "Goggles"],
+      "City sports" => ["Tennis racket & balls", "Volleyball net & ball", "Football", "Bicycle", "Bicycle pump", "Bicycle helmet"]
+      }
       render
   end
+# refactor, so that inventory is available in this test
 
   it 'does not have background image' do
     rendered.should_not have_selector('.homepage')
