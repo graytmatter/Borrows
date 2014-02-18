@@ -1,11 +1,11 @@
 <div class="container">
-  <% if @request.errors.any? %>
+  <% if @requestrecord.errors.any? %>
       <div id="error_explanation">
         <div class="alert alert-danger">
-          <p>The form contains <%= pluralize(@request.errors.count, "error") %>:</p>
+          <p>The form contains <%= pluralize(@requestrecord.errors.count, "error") %>:</p>
         </br>
         <ul>
-        <% @request.errors.full_messages.each do |msg| %>
+        <% @requestrecord.errors.full_messages.each do |msg| %>
             <li><%= msg %></li>
         <% end %>
         </ul>
@@ -18,7 +18,7 @@
 
     <h4>Update your request</h4></br>  
        
-      <%= form_for @request, url: request_path(@request.edit_id) do |f| %>
+      <%= form_for @requestrecord, url: request_path(@requestrecord.edit_id) do |f| %>
 
         <div class="col-md-6">
           <div class="form-group">

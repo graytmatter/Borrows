@@ -3,13 +3,13 @@ class RequestMailer < ActionMailer::Base
 
   def confirmation_email(request, url)
     @url = url
-    @request = request
-    mail to: @request.email, bcc: ENV['owner'], subject: "Request for #{@request.item.downcase} received! Update link inside."
+    @requestrecord = request
+    mail to: @requestrecord.email, bcc: ENV['owner'], subject: "Request for #{@requestrecord.item.downcase} received! Update link inside."
   end
 
   def update_email(request, url)
     @url = url 
-    @request = request
-    mail to: ENV['owner'], subject: "Update on #{@request.name}", template_name: "confirmation_email"
+    @requestrecord = request
+    mail to: ENV['owner'], subject: "Update on #{@requestrecord.name}", template_name: "confirmation_email"
   end
 end

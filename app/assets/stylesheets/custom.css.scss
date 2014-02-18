@@ -11,7 +11,7 @@ h1, h2, h3, h4, h5 {
      display: compact;
  }
 
- .regular {
+.regular {
      margin: 0;
      background-color:#FFFFF;
  }
@@ -23,4 +23,9 @@ h1, h2, h3, h4, h5 {
 	border-top-right-radius: 50px 50px;
     background-color: rgba(245, 245, 245, 0.7);
     font: 13px/18px "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.box {
+    border: 1px solid black;
+    padding: 10px 10px 10px 10px;
 }

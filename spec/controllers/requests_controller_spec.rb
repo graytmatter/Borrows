@@ -1,16 +1,16 @@
 require 'spec_helper'
 
 describe RequestsController do
-	render_views
 
 	describe "GET new" do
 		it "creates a new request" do
 			get :new
-			assigns(:request).should be_a_new(Request)
+			assigns(:requestrecord).should be_a_new(Request)
 		end
 	end
 
 	describe "POST create - with valid data" do
+
 		it "creates a new request" do
 			expect{
 				post :create, request: FactoryGirl.attributes_for(:request)
@@ -19,8 +19,7 @@ describe RequestsController do
 
 		it "redirects to edit action" do
 			post :create, request: FactoryGirl.attributes_for(:request)
-			response.should redirect_to edit_request_url(assigns[:request].edit_id)  
-			response.should have_content("Update")
+			response.should redirect_to edit_request_url(assigns[:requestrecord].edit_id)  
 		end
 
 
@@ -60,7 +59,7 @@ describe RequestsController do
 		
 		it "located the requested @testrequest" do
 			patch :update, edit_id: @testrequest.edit_id, request: FactoryGirl.attributes_for(:request)
-			assigns(:request).should eq(@testrequest)
+			assigns(:requestrecord).should eq(@testrequest)
 		end
 
 		describe "using valid data" do
@@ -73,7 +72,7 @@ describe RequestsController do
 
 			it "redirects to edit action" do
 				patch :update, edit_id: @testrequest.edit_id, request: FactoryGirl.attributes_for(:request, name: "Larry Johnson")
-				response.should redirect_to edit_request_url(assigns[:request].edit_id) #or to try @testrequest.edit_id
+				response.should redirect_to edit_request_url(assigns[:requestrecord].edit_id) #or to try @testrequest.edit_id
 			end
 
 			it "sends mail" do
