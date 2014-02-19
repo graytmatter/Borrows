@@ -11,7 +11,7 @@ class Request < ActiveRecord::Base
 
 
   def save_spreadsheet
-    connection = GoogleDrive.login(ENV['g_username'], ENV['g_password'])
+    connection = GoogleDrive.login(ENV['GMAIL_USERNAME'], ENV['GMAIL_PASSWORD'])
     ss = connection.spreadsheet_by_title('Borrow test v1')
     ws = ss.worksheets[0]
     row = 1 + ws.num_rows #finds last row
@@ -19,8 +19,10 @@ class Request < ActiveRecord::Base
     ws[row, 2] = Time.new
     ws[row, 3] = self.item
     ws[row, 4] = self.detail
-    ws[row, 5] = self.email
+    ws[row, 5] = self.rentdate
     ws[row, 6] = self.name
+    ws[row, 7] = self.email
+    ws[row, 8] = self.paydeliver
     ws.save
   end
 

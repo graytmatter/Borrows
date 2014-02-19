@@ -1,15 +1,14 @@
 class RequestMailer < ActionMailer::Base
-  default from: ENV['owner']
 
-  def confirmation_email(request, url)
-    @url = url
+  def confirmation_email(request)
     @requestrecord = request
-    mail to: @requestrecord.email, bcc: ENV['owner'], subject: "Request for #{@requestrecord.item.downcase} received! Update link inside."
+    mail(to: ENV['owner'], from: @requestrecord.email, :subject => "New item request #{@requestrecord.edit_id}") 
   end
 
-  def update_email(request, url)
-    @url = url 
+  def update_email(request)
     @requestrecord = request
-    mail to: ENV['owner'], subject: "Update on #{@requestrecord.name}", template_name: "confirmation_email"
+    mail(to: ENV['owner'], from: @requestrecord.email, :subject => "Update on item request #{@requestrecord.edit_id}")
   end
+
+
 end
