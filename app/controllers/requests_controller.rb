@@ -4,7 +4,7 @@ class RequestsController < ApplicationController
     @inventory = {
       "Camping" => ["Tent", "Sleeping bag", "Sleeping pad", "Backpack", "Water filter", "Hydration bladder"],
       "Housewares" => ["Air mattress", "Electric drill", "Suitcase", "Vacuum", "Blender", "Portable grill"],
-      "Outdoor activities" => ["Tennis rackets & balls", "Volleyball net & ball", "Bicycle pump", "Cooler", "Golf club & balls"],
+      "Outdoor activities" => ["Tennis rackets & balls", "Volleyball net & ball", "Bicycle pump", "Baseball bat, ball & glove", "Golf club & balls", "Cooler"],
       "Snow sports" => ["Outer shell (upper)", "Outer shell (lower)", "Insular mid-layer (upper)", "Insular mid-layer(lower)", "Helmet", "Goggles"]
       
     }
@@ -15,7 +15,7 @@ class RequestsController < ApplicationController
     @inventory = {
       "Camping" => ["Tent", "Sleeping bag", "Sleeping pad", "Backpack", "Water filter", "Hydration bladder"],
       "Housewares" => ["Air mattress", "Electric drill", "Suitcase", "Vacuum", "Blender", "Portable grill"],
-      "Outdoor activities" => ["Tennis rackets & balls", "Volleyball net & ball", "Bicycle pump", "Cooler", "Golf club & balls"],
+      "Outdoor activities" => ["Tennis rackets & balls", "Volleyball net & ball", "Bicycle pump", "Baseball bat, ball & glove", "Golf club & balls", "Cooler"],
       "Snow sports" => ["Outer shell (upper)", "Outer shell (lower)", "Insular mid-layer (upper)", "Insular mid-layer(lower)", "Helmet", "Goggles"]
       
     }
@@ -34,7 +34,7 @@ class RequestsController < ApplicationController
     @inventory = {
       "Camping" => ["Tent", "Sleeping bag", "Sleeping pad", "Backpack", "Water filter", "Hydration bladder"],
       "Housewares" => ["Air mattress", "Electric drill", "Suitcase", "Vacuum", "Blender", "Portable grill"],
-      "Outdoor activities" => ["Tennis rackets & balls", "Volleyball net & ball", "Bicycle pump", "Cooler", "Golf club & balls"],
+      "Outdoor activities" => ["Tennis rackets & balls", "Volleyball net & ball", "Bicycle pump", "Baseball bat, ball & glove", "Golf club & balls", "Cooler"],
       "Snow sports" => ["Outer shell (upper)", "Outer shell (lower)", "Insular mid-layer (upper)", "Insular mid-layer(lower)", "Helmet", "Goggles"]
       
     }
@@ -45,7 +45,7 @@ class RequestsController < ApplicationController
     @inventory = {
       "Camping" => ["Tent", "Sleeping bag", "Sleeping pad", "Backpack", "Water filter", "Hydration bladder"],
       "Housewares" => ["Air mattress", "Electric drill", "Suitcase", "Vacuum", "Blender", "Portable grill"],
-      "Outdoor activities" => ["Tennis rackets & balls", "Volleyball net & ball", "Bicycle pump", "Cooler", "Golf club & balls"],
+      "Outdoor activities" => ["Tennis rackets & balls", "Volleyball net & ball", "Bicycle pump", "Baseball bat, ball & glove", "Golf club & balls", "Cooler"],
       "Snow sports" => ["Outer shell (upper)", "Outer shell (lower)", "Insular mid-layer (upper)", "Insular mid-layer(lower)", "Helmet", "Goggles"]
       
     }

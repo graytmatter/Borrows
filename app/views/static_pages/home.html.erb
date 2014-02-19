@@ -6,43 +6,68 @@
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
 </head>
-<body class="homepage">
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
+<body>
 
+<div class="container fill">
+<div id="HomeCarousel" class="carousel slide">
 
-<div class="container">
-	<div class="row">
-	    <div class="col-md-5 col-md-offset-7 home-container">
-				
-				<div class="col-md-12">
-					<h3>Step One: Get Tent</h3>
-					</br>
-					<p class="text-center">Welcome! We are building a friend-to-friend sharing platform for everyday stuff&#8212like the tent for a mountain getaway. When you request something, only your friends who have the item get the message; no more spamming everyone you know!</p>
-				    </br>
-					<p class="text-center"><i><u>Currently offering:</u> Camping & snow sports equipment</i></p>
-				    </p>
+	<ol class="carousel-indicators">
+		<li data-target="#HomeCarousel" data-slide-to="0" class="active"></li>
+		<li data-target="#HomeCarousel" data-slide-to="1"></li>
+		<li data-target="#HomeCarousel" data-slide-to="2"></li>
+		<li data-target="#HomeCarousel" data-slide-to="3"></li>
+	</ol>
 
-				    <div class="col-md-12">
-						<p><a href="<%= new_request_path %>" class="btn btn-primary btn-large btn-block" role="button">Let me try - I need something now!</a></p>
-						<p><a href="<%= new_signup_path %>" class="btn btn-primary btn-large btn-block" role="button">Cool idea - keep me posted!</a></p>
-					</div>
-				    	
-			</div>
+	<div class="carousel-inner">
+		
+		<div class="item active">
+			<img src="http://hdwallpapersci.com/wp-content/uploads/2013/11/dsfsdf1.jpg" alt="Camping" class="img-responsive">
+			<div class="carousel-caption">
+				<h2>Because you deserve a weekend adventure completely off-the-grid</h2>
+				<h4>Step 1 - Borrow a tent, bag, pad, pack</h4>
+				<h4>Step 2 - Begin your epic journey!</h4>
+		    </div>
 		</div>
+
+		<div class="item">
+			<img src="http://www.wallsave.com/wallpapers/1920x1080/beachvolleyball/414822/beachvolleyball-beach-volleyball-serving-jump-hd-and-414822.jpg" alt="Volleyball" class="img-responsive">
+			<div class="carousel-caption">
+				<h2>Because a group of your friends are all free on a sunny Sunday</h2>
+				<h4>Step 1 - Borrow a ball & net</h4>
+				<h4>Step 2 - Head to the nearest beach!</h4>
+		    </div>
+		</div>
+
+		<div class="item">
+			<img src="http://img.wallpaperstock.net:81/beautiful-furniture-wallpapers_17618_1920x1080.jpg" alt="Home" class="img-responsive">
+			<div class="carousel-caption">
+				<h2>Because having something to show for the afternoon feels great</h2>
+				<h4>Step 1 - Borrow some tools</h4>
+				<h4>Step 2 - Recreate your world!</h4>
+		    </div>
+		</div>
+
+		<div class="item">
+			<img src="http://images5.alphacoders.com/313/313829.jpg" alt="Skiing" class="img-responsive">
+			<div class="carousel-caption">
+				<h2>Because it might be the closest you'll ever get to flying</h2>
+				<h4>Step 1 - Borrow warm layers & protective gear</h4>
+				<h4>Step 2 - Hit the slopes!</h4>
+		    </div>
+		</div>
+
 	</div>
+		
+	<a class="left carousel-control" href="#HomeCarousel" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left"></span>
+    </a>
+    <a class="right carousel-control" href="#HomeCarousel" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right"></span>
+    </a>
+
 </div>
+</div>
+
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
