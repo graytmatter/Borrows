@@ -8,6 +8,8 @@ class Request < ActiveRecord::Base
   validates :detail, presence: true
   validates :rentdate, presence: true
   validates :paydeliver, :inclusion => {:in => [true, false]}
+  validates :addysdeliver, presence: true, :if => :paydeliver?
+  validates :timedeliver, presence: true, :if => :paydeliver?
 
 
   def save_spreadsheet
@@ -23,6 +25,9 @@ class Request < ActiveRecord::Base
     ws[row, 6] = self.name
     ws[row, 7] = self.email
     ws[row, 8] = self.paydeliver
+    ws[row, 9] = self.addysdeliver
+    ws[row, 10] = self.timedeliver
+    ws[row, 11] = self.instrucdeliver
     ws.save
   end
 

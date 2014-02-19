@@ -41,4 +41,5 @@ describe 'requests/new.html.erb' do
 
 end
 
+#test that timedeliver, addysdeliver, instrucdeliver do NOT appear unless the paydeliver box is checked
 #more tests for the flash messages that should pop up if the @requestrecordrecord is sBAD

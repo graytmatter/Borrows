@@ -110,6 +110,36 @@ describe Request do
     describe "when paydeliver is present" do
       before { @request.paydeliver = true }
       it { should be_valid }
+
+      describe "when addysdeliver is present" do
+        before { @request.addysdeliver = "random text" }
+        it { should be_valid }
+      end
+
+      describe "when addysdeliver is not present" do
+        before { @request.addysdeliver = "" }
+        it { should_not be_valid }
+      end
+
+      describe "when timedeliver is present" do
+        before { @request.timedeliver = "random text" }
+        it { should be_valid }
+      end
+
+      describe "when timedeliver is not present" do
+        before { @request.timedeliver = "" }
+        it { should_not be_valid }
+      end
+
+      describe "when insrucdeliver is present" do
+        before { @request.insrucdeliver = "random text" }
+        it { should be_valid }
+      end
+
+      describe "when insrucdeliver is not present" do
+        before { @request.insrucdeliver = "" }
+        it { should be_valid }
+      end
     end
 end
 

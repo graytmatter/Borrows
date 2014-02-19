@@ -8,6 +8,9 @@ FactoryGirl.define do
 		f.detail { "random text" }
 		f.rentdate { "random text" }
 		f.paydeliver { true }
+		f.addysdeliver { "random text" }
+		f.timedeliver { "random text" }
+		f.instrucdeliver { "random text" }
 	end
 end
 	

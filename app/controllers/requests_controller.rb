@@ -3,9 +3,10 @@ class RequestsController < ApplicationController
     @requestrecord = Request.new
     @inventory = {
       "Camping" => ["Tent", "Sleeping bag", "Sleeping pad", "Backpack", "Water filter", "Hydration bladder"],
-      "Housewares" => ["Air mattress", "Electric drill", "Suitcase", "Iron", "Blender", "Portable grill"],
-      "Snow sports" => ["Outer shell (upper)", "Outer shell (lower)", "Insular mid-layer (upper)", "Insular mid-layer(lower)", "Helmet", "Goggles"],
-      "City sports" => ["Tennis racket & balls", "Volleyball net & ball", "Football", "Bicycle", "Bicycle pump", "Bicycle helmet"]
+      "Housewares" => ["Air mattress", "Electric drill", "Suitcase", "Vacuum", "Blender", "Portable grill"],
+      "Outdoor activities" => ["Tennis rackets & balls", "Volleyball net & ball", "Bicycle pump", "Cooler", "Golf club & balls"],
+      "Snow sports" => ["Outer shell (upper)", "Outer shell (lower)", "Insular mid-layer (upper)", "Insular mid-layer(lower)", "Helmet", "Goggles"]
+      
     }
   end
 
@@ -13,9 +14,10 @@ class RequestsController < ApplicationController
     @requestrecord = Request.new(request_params)
     @inventory = {
       "Camping" => ["Tent", "Sleeping bag", "Sleeping pad", "Backpack", "Water filter", "Hydration bladder"],
-      "Housewares" => ["Air mattress", "Electric drill", "Suitcase", "Iron", "Blender", "Portable grill"],
-      "Snow sports" => ["Outer shell (upper)", "Outer shell (lower)", "Insular mid-layer (upper)", "Insular mid-layer(lower)", "Helmet", "Goggles"],
-      "City sports" => ["Tennis racket & balls", "Volleyball net & ball", "Football", "Bicycle", "Bicycle pump", "Bicycle helmet"]
+      "Housewares" => ["Air mattress", "Electric drill", "Suitcase", "Vacuum", "Blender", "Portable grill"],
+      "Outdoor activities" => ["Tennis rackets & balls", "Volleyball net & ball", "Bicycle pump", "Cooler", "Golf club & balls"],
+      "Snow sports" => ["Outer shell (upper)", "Outer shell (lower)", "Insular mid-layer (upper)", "Insular mid-layer(lower)", "Helmet", "Goggles"]
+      
     }
     if @requestrecord.save
       flash[:success] = "Thanks, we'll respond in a few hours. Below is the information you submitted in case you need to change anything."
@@ -31,9 +33,10 @@ class RequestsController < ApplicationController
     @requestrecord = Request.find_by_edit_id(params[:edit_id])
     @inventory = {
       "Camping" => ["Tent", "Sleeping bag", "Sleeping pad", "Backpack", "Water filter", "Hydration bladder"],
-      "Housewares" => ["Air mattress", "Electric drill", "Suitcase", "Iron", "Blender", "Portable grill"],
-      "Snow sports" => ["Outer shell (upper)", "Outer shell (lower)", "Insular mid-layer (upper)", "Insular mid-layer(lower)", "Helmet", "Goggles"],
-      "City sports" => ["Tennis racket & balls", "Volleyball net & ball", "Football", "Bicycle", "Bicycle pump", "Bicycle helmet"]
+      "Housewares" => ["Air mattress", "Electric drill", "Suitcase", "Vacuum", "Blender", "Portable grill"],
+      "Outdoor activities" => ["Tennis rackets & balls", "Volleyball net & ball", "Bicycle pump", "Cooler", "Golf club & balls"],
+      "Snow sports" => ["Outer shell (upper)", "Outer shell (lower)", "Insular mid-layer (upper)", "Insular mid-layer(lower)", "Helmet", "Goggles"]
+      
     }
   end
 
@@ -41,9 +44,10 @@ class RequestsController < ApplicationController
     @requestrecord = Request.find_by_edit_id(params[:edit_id])
     @inventory = {
       "Camping" => ["Tent", "Sleeping bag", "Sleeping pad", "Backpack", "Water filter", "Hydration bladder"],
-      "Housewares" => ["Air mattress", "Electric drill", "Suitcase", "Iron", "Blender", "Portable grill"],
-      "Snow sports" => ["Outer shell (upper)", "Outer shell (lower)", "Insular mid-layer (upper)", "Insular mid-layer(lower)", "Helmet", "Goggles"],
-      "City sports" => ["Tennis racket & balls", "Volleyball net & ball", "Football", "Bicycle", "Bicycle pump", "Bicycle helmet"]
+      "Housewares" => ["Air mattress", "Electric drill", "Suitcase", "Vacuum", "Blender", "Portable grill"],
+      "Outdoor activities" => ["Tennis rackets & balls", "Volleyball net & ball", "Bicycle pump", "Cooler", "Golf club & balls"],
+      "Snow sports" => ["Outer shell (upper)", "Outer shell (lower)", "Insular mid-layer (upper)", "Insular mid-layer(lower)", "Helmet", "Goggles"]
+      
     }
     @requestrecord.attributes = request_params
     if @requestrecord.changed? && @requestrecord.save
@@ -57,6 +61,6 @@ class RequestsController < ApplicationController
 
   private
     def request_params
-      params.require(:request).permit(:email, :item, :detail, :name, :rentdate, :paydeliver, :edit_id)
+      params.require(:request).permit(:email, :item, :detail, :name, :rentdate, :paydeliver, :addysdeliver, :timedeliver, :instrucdeliver, :edit_id)
     end
 end
