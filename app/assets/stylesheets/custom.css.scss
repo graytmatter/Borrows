@@ -36,16 +36,26 @@ body {
      background-color:#FFFFF;
  }
 
+.box {
+    border: 1px solid black;
+    padding: 5px 5px 5px 5px;
+}
+
+
+/* This chunk is used to create a rounded border opaque white container
 .home-container {
     border-top-left-radius: 50px 50px;
     border-bottom-left-radius: 50px 50px;
-	border-bottom-right-radius: 50px 50px;
-	border-top-right-radius: 50px 50px;
+  border-bottom-right-radius: 50px 50px;
+  border-top-right-radius: 50px 50px;
     background-color: rgba(245, 245, 245, 0.7);
     font: 13px/18px "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+*/
 
-.box {
-    border: 1px solid black;
-    padding: 10px 10px 10px 10px;
+
+
+.home-nav-btn {
+  color: black;
+  background-color: white;
 }

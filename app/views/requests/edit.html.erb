@@ -88,28 +88,18 @@
 
 <script>
 
-/*
-  $(document).ready(function(){
-    $('request_paydeliver').click(function(){ 
-     if ($('request_paydeliver').is('checked')) {
-        document.getElementById("delivery").style.display = "block";
-     } else {
-        document.getElementById("delivery").style.display = "none";
-     }
-    });
-  });
-*/
-
-  window.onload = function() { 
+  /*window.onload = function() { */
     var checkbox = document.getElementById('request_paydeliver');
     var delivery_div = document.getElementById('delivery');
-    checkbox.onclick = function() {
-       if(this.checked) {
+    var showHiddenDiv = function(){
+       if(checkbox.checked) {
          delivery_div.style['display'] = 'block';
        } else {
          delivery_div.style['display'] = 'none';
-       }
-    };
-  }; 
+       } 
+    }
+    checkbox.onclick = showHiddenDiv;
+    showHiddenDiv();
+  /*}; */
 
 </script>

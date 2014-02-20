@@ -1,24 +1,19 @@
 class RequestsController < ApplicationController
+  http_basic_authenticate_with :name => ENV['request_name'], :password => ENV['request_pass']
   def new
     @requestrecord = Request.new
-    @inventory = {
-      "Camping" => ["Tent", "Sleeping bag", "Sleeping pad", "Backpack", "Water filter", "Hydration bladder"],
-      "Housewares" => ["Air mattress", "Electric drill", "Suitcase", "Vacuum", "Blender", "Portable grill"],
-      "Outdoor activities" => ["Tennis rackets & balls", "Volleyball net & ball", "Bicycle pump", "Baseball bat, ball & glove", "Golf club & balls", "Cooler"],
-      "Snow sports" => ["Outer shell (upper)", "Outer shell (lower)", "Insular mid-layer (upper)", "Insular mid-layer(lower)", "Helmet", "Goggles"]
-      
-    }
+    inventory
   end
 
   def create
     @requestrecord = Request.new(request_params)
-    @inventory = {
-      "Camping" => ["Tent", "Sleeping bag", "Sleeping pad", "Backpack", "Water filter", "Hydration bladder"],
-      "Housewares" => ["Air mattress", "Electric drill", "Suitcase", "Vacuum", "Blender", "Portable grill"],
-      "Outdoor activities" => ["Tennis rackets & balls", "Volleyball net & ball", "Bicycle pump", "Baseball bat, ball & glove", "Golf club & balls", "Cooler"],
-      "Snow sports" => ["Outer shell (upper)", "Outer shell (lower)", "Insular mid-layer (upper)", "Insular mid-layer(lower)", "Helmet", "Goggles"]
-      
-    }
+    inventory
+    if @requestrecord.paydeliver == false
+      @requestrecord.addysdeliver = nil
+      @requestrecord.timedeliver = nil
+      @requestrecord.instrucdeliver = nil
+    end
+    
     if @requestrecord.save
       flash[:success] = "Thanks, we'll respond in a few hours. Below is the information you submitted in case you need to change anything."
       @requestrecord.save_spreadsheet
@@ -31,25 +26,20 @@ class RequestsController < ApplicationController
 
   def edit 
     @requestrecord = Request.find_by_edit_id(params[:edit_id])
-    @inventory = {
-      "Camping" => ["Tent", "Sleeping bag", "Sleeping pad", "Backpack", "Water filter", "Hydration bladder"],
-      "Housewares" => ["Air mattress", "Electric drill", "Suitcase", "Vacuum", "Blender", "Portable grill"],
-      "Outdoor activities" => ["Tennis rackets & balls", "Volleyball net & ball", "Bicycle pump", "Baseball bat, ball & glove", "Golf club & balls", "Cooler"],
-      "Snow sports" => ["Outer shell (upper)", "Outer shell (lower)", "Insular mid-layer (upper)", "Insular mid-layer(lower)", "Helmet", "Goggles"]
-      
-    }
+    inventory
   end
 
   def update
     @requestrecord = Request.find_by_edit_id(params[:edit_id])
-    @inventory = {
-      "Camping" => ["Tent", "Sleeping bag", "Sleeping pad", "Backpack", "Water filter", "Hydration bladder"],
-      "Housewares" => ["Air mattress", "Electric drill", "Suitcase", "Vacuum", "Blender", "Portable grill"],
-      "Outdoor activities" => ["Tennis rackets & balls", "Volleyball net & ball", "Bicycle pump", "Baseball bat, ball & glove", "Golf club & balls", "Cooler"],
-      "Snow sports" => ["Outer shell (upper)", "Outer shell (lower)", "Insular mid-layer (upper)", "Insular mid-layer(lower)", "Helmet", "Goggles"]
-      
-    }
+    inventory
     @requestrecord.attributes = request_params
+    
+    if @requestrecord.paydeliver == false
+      @requestrecord.addysdeliver = nil
+      @requestrecord.timedeliver = nil
+      @requestrecord.instrucdeliver = nil
+    end
+
     if @requestrecord.changed? && @requestrecord.save
       flash[:success] = "Your request has been updated! We'll respond in a few hours."
       RequestMailer.update_email(@requestrecord).deliver
@@ -62,5 +52,14 @@ class RequestsController < ApplicationController
   private
     def request_params
       params.require(:request).permit(:email, :item, :detail, :name, :rentdate, :paydeliver, :addysdeliver, :timedeliver, :instrucdeliver, :edit_id)
+    end
+
+    def inventory
+      @inventory = {
+      "Camping" => ["Tent", "Sleeping bag", "Sleeping pad", "Backpack", "Water filter", "Hydration bladder"],
+      "Housewares" => ["Electric drill", "Toolset", "Vacuum", "Air mattress", "Blender", "Portable grill"],
+      "Outdoor activities" => ["Tennis rackets & balls", "Volleyball net & ball", "Bicycle pump", "Baseball bat, ball, glove", "Golf club & balls", "Cooler"],
+      "Snow sports" => ["Outer shell (upper)", "Outer shell (lower)", "Insular mid-layer (upper)", "Insular mid-layer (lower)", "Helmet", "Goggles"]
+    }
     end
 end
