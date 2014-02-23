@@ -1,4 +1,11 @@
 GoogleTest::Application.routes.draw do
+  resources :entry_codes do
+    collection do
+      get 'guard'
+      post 'access'
+    end
+  end
+
   root 'static_pages#home'
 
   get 'new', to: 'requests#new', as: 'new_request'

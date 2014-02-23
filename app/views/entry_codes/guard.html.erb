@@ -1,0 +1,5 @@
+<h1>Guard</h1>
+<%= form_tag access_entry_codes_path do %>
+  <div>Entry Code: <%= text_field_tag :entry_code %></div>
+  <div><%=submit_tag "Use Code" %></div>
+<% end %>

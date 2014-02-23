@@ -1,5 +1,8 @@
 class RequestsController < ApplicationController
-  http_basic_authenticate_with :name => ENV['request_name'], :password => ENV['request_pass']
+  # http_basic_authenticate_with :name => ENV['request_name'], :password => ENV['request_pass']
+
+  before_action :verify_entry_code, :only=>[:new, :create]
+
   def new
     @requestrecord = Request.new
     inventory

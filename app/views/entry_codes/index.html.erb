@@ -1,0 +1,29 @@
+<h1>Listing entry_codes</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Code</th>
+      <th>Active</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @entry_codes.each do |entry_code| %>
+      <tr>
+        <td><%= entry_code.code %></td>
+        <td><%= entry_code.active %></td>
+        <td><%= link_to 'Show', entry_code %></td>
+        <td><%= link_to 'Edit', edit_entry_code_path(entry_code) %></td>
+        <td><%= link_to 'Destroy', entry_code, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Entry code', new_entry_code_path %>
