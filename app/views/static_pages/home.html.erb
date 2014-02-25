@@ -8,19 +8,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
-
-  <nav class="navbar-left">
-  	<button type="button" class="btn btn-default navbar-btn home-nav-btn"><a href="<%= new_signup_path %>">Sign up now!</a></button>
-  	<button type="button" class="btn btn-default navbar-btn home-nav-btn"><a href="<%= new_request_path %>">Get borrowing!</a></button>
-  </nav>
-  
-</nav>
-
-
-<div class="container">
 <div id="HomeCarousel" class="carousel slide">
-
 	<ol class="carousel-indicators">
 		<li data-target="#HomeCarousel" data-slide-to="0" class="active"></li>
 		<li data-target="#HomeCarousel" data-slide-to="1"></li>
@@ -31,52 +19,58 @@
 	<div class="carousel-inner">
 		
 		<div class="item active">
-			<img src="http://hdwallpapersci.com/wp-content/uploads/2013/11/dsfsdf1.jpg" alt="Camping" class="img-responsive">
-			<div class="carousel-caption">
-				<h2>Because you deserve a weekend adventure completely off-the-grid</h2>
-				<h4>Step 1 - Borrow a tent, bag, pad, pack</h4>
-				<h4>Step 2 - Begin your epic journey!</h4>
-		    </div>
+			<div class ="fill" style="background-image: url('http://hdwallpapersci.com/wp-content/uploads/2013/11/dsfsdf1.jpg');">
+				<div class="carousel-caption">
+					<h2>Because you deserve a weekend adventure off-the-grid</h2>
+					<h4>Step 1 - Borrow a tent, bag, pad, pack</h4>
+					<h4>Step 2 - Begin your epic journey!</h4>
+			    </div>
+			</div>
 		</div>
 
 		<div class="item">
-			<img src="http://www.wallsave.com/wallpapers/1920x1080/beachvolleyball/414822/beachvolleyball-beach-volleyball-serving-jump-hd-and-414822.jpg" alt="Volleyball" class="img-responsive">
-			<div class="carousel-caption">
-				<h2>Because a group of your friends are all free on a sunny Sunday</h2>
-				<h4>Step 1 - Borrow a ball & net</h4>
-				<h4>Step 2 - Head to the nearest beach!</h4>
-		    </div>
+			<div class ="fill" style="background-image: url('http://www.wallsave.com/wallpapers/1920x1080/beachvolleyball/414822/beachvolleyball-beach-volleyball-serving-jump-hd-and-414822.jpg');">
+				<div class="carousel-caption">
+					<h2>Because a group of your friends are all free on a Sunday</h2>
+					<h4>Step 1 - Borrow a ball & net</h4>
+					<h4>Step 2 - Head to the nearest beach!</h4>
+			    </div>
+			</div>
 		</div>
 
 		<div class="item">
-			<img src="http://img.wallpaperstock.net:81/beautiful-furniture-wallpapers_17618_1920x1080.jpg" alt="Home" class="img-responsive">
-			<div class="carousel-caption">
-				<h2>Because having something to show for the afternoon feels great</h2>
-				<h4>Step 1 - Borrow some tools</h4>
-				<h4>Step 2 - Recreate your world!</h4>
-		    </div>
+			<div class ="fill" style="background-image: url('http://img.wallpaperstock.net:81/beautiful-furniture-wallpapers_17618_1920x1080.jpg');">
+				<div class="carousel-caption">
+					<h2>Because having something to show for the afternoon is great</h2>
+					<h4>Step 1 - Borrow some tools</h4>
+					<h4>Step 2 - Recreate your world!</h4>
+			    </div>
+			</div>
 		</div>
 
 		<div class="item">
-			<img src="http://images5.alphacoders.com/313/313829.jpg" alt="Skiing" class="img-responsive">
-			<div class="carousel-caption">
-				<h2>Because it might be the closest you'll ever get to flying</h2>
-				<h4>Step 1 - Borrow warm layers & protective gear</h4>
-				<h4>Step 2 - Hit the slopes!</h4>
-		    </div>
+			<div class ="fill" style="background-image: url('http://images5.alphacoders.com/313/313829.jpg');">
+				<div class="carousel-caption">
+					<h2>Because it might be the closest you'll ever get to flying</h2>
+					<h4>Step 1 - Borrow warm layers & protective gear</h4>
+					<h4>Step 2 - Hit the slopes!</h4>
+			    </div>
+			</div>
 		</div>
 
 	</div>
 		
 	<a class="left carousel-control" href="#HomeCarousel" data-slide="prev">
-      <span class="glyphicon glyphicon-chevron-left"></span>
-    </a>
-    <a class="right carousel-control" href="#HomeCarousel" data-slide="next">
-      <span class="glyphicon glyphicon-chevron-right"></span>
-    </a>
+    	<span class="glyphicon glyphicon-chevron-left"></span>
+  	</a>
+  	<a class="right carousel-control" href="#HomeCarousel" data-slide="next">
+   		<span class="glyphicon glyphicon-chevron-right"></span>
+  	</a>
 
 </div>
+
 </div>
+
 
 
 <script>
@@ -88,8 +82,14 @@
   ga('create', 'UA-47062117-1', 'borrows.herokuapp.com');
   ga('send', 'pageview');
 
+	
+//autocycles carousel
+$('.carousel').carousel({
+  interval: 4000
+})
+
 </script>
 
-<%= debug(params) if Rails.env.development? %>
+<%#= debug(params) if Rails.env.development? %>
 </body>
 </html>

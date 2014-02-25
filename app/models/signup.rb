@@ -1,10 +1,10 @@
 class Signup < ActiveRecord::Base
 
 	validates :email, presence: true, format: { with: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i }
-    validates :name, presence: true, length: { maximum: 50 }, format: { with: /\s/ }
+    #validates :name, presence: true, length: { maximum: 50 }, format: { with: /\s/ }
 
 def save_subscrip
-    connection = GoogleDrive.login(ENV['g_username'], ENV['g_password'])
+    connection = GoogleDrive.login(ENV['GMAIL_USERNAME'], ENV['GMAIL_PASSWORD'])
     ss = connection.spreadsheet_by_title('Subscribers v1')
     ws = ss.worksheets[0]
     row = 1 + ws.num_rows 
@@ -25,6 +25,8 @@ def add_subscrip
         :update_existing => true, 
         :send_welcome => true 
     })
+    Rails.logger.info("Subscribed #{self.email} to MailChimp") if result
+end
 =end
 
 

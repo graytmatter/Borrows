@@ -5,14 +5,27 @@
           <p>The form contains <%= pluralize(@requestrecord.errors.count, "error") %>:</p>
         </br>
         <ul>
-        <% @requestrecord.errors.full_messages.each do |msg| %>
-            <li><%= msg %></li>
+        <% @requestrecord.errors.each do |attribute, message| %>
+            <% if attribute == :item %>
+              <li><%= "Item #{message}" %></li>
+            <% elsif attribute == :detail %>
+              <li><%= "Product specifications #{message}" %></li>
+            <% elsif attribute == :rentdate %>
+              <li><%= "Dates of request #{message}" %></li>
+            <% elsif attribute == :name %>
+              <li><%= "Name #{message}" %></li>
+            <% elsif attribute == :email %>
+              <li><%= "Email #{message}" %></li>
+            <% elsif attribute == :addysdeliver %>
+              <li><%= "Delivery address #{message}" %></li>
+            <% elsif attribute == :timedeliver %>
+              <li><%= "Delivery dates and times #{message}" %></li>
+              <% end %>
         <% end %>
         </ul>
         </div>
       </div>
   <% end %>
-
 
   <div class="row">
 
@@ -36,7 +49,7 @@
         <div class="col-xs-12">
 
           <div class="form-group">
-            <%= f.label :detail, "Desired specifications" %>
+            <%= f.label :detail, "Product specifications" %>
             <%= f.text_field :detail, class: "form-control", placeholder: "What specifications do you need (e.g., size, capacity)?" %>
           </div>
 

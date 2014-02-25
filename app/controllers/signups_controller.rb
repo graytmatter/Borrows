@@ -9,10 +9,11 @@ class SignupsController < ApplicationController
 		if @signup.save
 			@signup.save_subscrip
 			#@signup.add_subscrip
+			Subscribe.notification_email(@signup).deliver
 			flash[:success] = "Many thanks for your support. You'll hear from us soon!"
-			render 'new'
+			redirect_to new_signup_path 
 		else
-			render 'new'
+			render new_signup_path
 		end
 
 	end
