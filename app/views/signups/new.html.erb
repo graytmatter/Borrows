@@ -1,64 +1,57 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Borrows</title>
-  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body class="regular">
+<div class="container-fluid vert-table">
+    <div class="vert-tablecell fill" style="background-color: #2E9AFE;">
 
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-        <% flash.each do |key, value| %>
-        <div class="alert alert-<%= key %>"><%= value %></div>
-        <% end %>
+        <div class="col-xs-6 col-xs-offset-3 opaque-container">
+          <div class="row">
+            <div class="col-xs-12">
+                <% flash.each do |key, value| %>
+                <div class="alert alert-<%= key %>"><%= value %></div>
+                <% end %>
+            </div>
+          </div>
+
+          <% if @signup.errors.any? %>
+              <div id="error_explanation">
+                <div class="alert alert-danger">
+                  <p>The form contains <%= pluralize(@signup.errors.count, "error") %>:</p>
+                </br>
+                <ul>
+                <% @signup.errors.full_messages.each do |msg| %>
+                    <li><%= msg %></li>
+                <% end %>
+                </ul>
+                </div>
+              </div>
+          <% end %>
+          
+          <div class="row">
+
+
+            <h4>Thanks for your support, we'll send you an invitation soon!</h4></br>
+          
+
+            <div class="col-xs-12">
+              
+              <%= form_for @signup, url: signups_path do |f| %>
+
+                <div class="form-group">
+                  <%= f.label :email %>
+                  <%= f.text_field :email, class: "form-control", placeholder: "Your real email; don't worry we'll keep it under lock and key" %>
+                </div>
+
+                <div class="form-group">
+                  <%= f.label :heard, "How did you hear about us? (Optional)" %>
+                  <%= f.text_field :heard, class: "form-control", placeholder: "Tell us who the little birdie was, they might just get a treat" %>
+                </div>
+
+                <%= f.submit "Talk to you soon!", class: "btn btn-primary btn-large btn-block" %>
+              
+              <% end %>
+            </div>
+
+          </div>
+        </div>
     </div>
-  </div>
-</div>
-
-<div class="container">
-  <% if @signup.errors.any? %>
-      <div id="error_explanation">
-        <div class="alert alert-danger">
-          <p>The form contains <%= pluralize(@signup.errors.count, "error") %>:</p>
-        </br>
-        <ul>
-        <% @signup.errors.full_messages.each do |msg| %>
-            <li><%= msg %></li>
-        <% end %>
-        </ul>
-        </div>
-      </div>
-  <% end %>
-  
-  <div class="row">
-
-
-    <h4>Thanks for your support, look out for an invitation code in your email!</h4></br>
-  
-
-    <div class="col-md-6 col-md-offset-3">
-      
-      <%= form_for @signup, url: signups_path do |f| %>
-
-        <div class="form-group">
-          <%= f.label :email %>
-          <%= f.text_field :email, class: "form-control", placeholder: "Your real email; don't worry we'll keep it under lock and key" %>
-        </div>
-
-        <div class="form-group">
-          <%= f.label :heard, "How did you hear about us? (Optional)" %>
-          <%= f.text_field :heard, class: "form-control", placeholder: "Tell us who the little birdie was, they might just get a treat" %>
-        </div>
-
-        <%= f.submit "Talk to you soon!", class: "btn btn-primary btn-large btn-block" %>
-      
-      <% end %>
-    </div>
-
-  </div>
 </div>
 
 <script>

@@ -7,26 +7,6 @@
   <%= csrf_meta_tags %>
 </head>
 <body class="regular">
-<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="<%= root_path %>">Home</a>
-      <a class="navbar-brand" href="<%= new_request_path %>">Make a new request</a>
-      <% if current_page?(new_signup_path) == false %>
-        <a class="navbar-brand" href="<%= new_signup_path %>">Add me to the mailing list</a>
-      <% end %>
-    </div>
-  </div>
-</nav>
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-        <% flash.each do |key, value| %>
-        <div class="alert alert-<%= key %>"><%= value %></div>
-        <% end %>
-    </div>
-  </div>
-</div>
 
 <%= yield %>
 
