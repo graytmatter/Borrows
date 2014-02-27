@@ -74,7 +74,30 @@ body {
 }
 */
 
-.home-nav-btn {
-  color: black;
+.home-float {
+  width: 70%;
+  top: 10%;
+  left: 15%;
+  background-color: black;
+  position:absolute;
+  opacity: 0.8;
+  z-index: 1000;
+  padding: 5px 20px 5px 20px;
+
+  color:white;
+  font-size: 150%;
+  text-align: center;
+}
+
+.home-btn {
+  color:black;
   background-color: white;
+  opacity: 1;
+}
+
+.home-share {
+  position:absolute;
+  top:10%;
+  left:80%;
+  width:20%;
 }
