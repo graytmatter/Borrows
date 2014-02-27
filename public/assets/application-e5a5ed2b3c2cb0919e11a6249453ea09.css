@@ -5041,6 +5041,27 @@ body {
   height: 100%;
   width: 100%; }
 
+.HomeCarousel {
+  position: relative; }
+
+.regular {
+  margin: 0;
+  background-color: #FFFFF; }
+
+/**************************************/
+/* Verticalizes whatever on the screen */
+.vert-table {
+  height: 100%;
+  display: table;
+  width: 100%;
+  padding: 0; }
+
+.vert-tablecell {
+  height: 100%;
+  display: table-cell;
+  vertical-align: middle; }
+
+/**************************************/
 /* Ensures that the carousel slide on home page is full screen on any screen */
 .carousel, .item, .active {
   width: 100%;
@@ -5056,37 +5077,33 @@ body {
   background-position: center;
   background-size: cover; }
 
-/*--------------------------------------------------------------*/
+/****************************************/
 /* Since full screen image is a background image, background-color for carousel controls must be transparent, not black */
 .carousel-control:hover {
   background-color: transparent; }
 
-/*--------------------------------------------------------------*/
-.HomeCarousel {
-  position: relative; }
-
-.regular {
-  margin: 0;
-  background-color: #FFFFF; }
-
+/****************************************/
+/* Border for each category in the request form*/
 .box {
   border: 1px solid black;
   padding: 5px 5px 5px 5px; }
 
-/* This chunk is used to create a rounded border opaque white container
-.home-container {
-    border-top-left-radius: 50px 50px;
-    border-bottom-left-radius: 50px 50px;
-    border-bottom-right-radius: 50px 50px;
-    border-top-right-radius: 50px 50px;
-    background-color: rgba(245, 245, 245, 0.7);
-    font: 13px/18px "Helvetica Neue", Helvetica, Arial, sans-serif;
-    position: fixed;
-    z-index: 1000;
-    top: 100pxl
-   
-}
-*/
+/****************************************/
+/* Creates opaque container */
+.opaque-container {
+  /* Optional rounded border
+  border-top-left-radius: 50px 50px;
+  border-bottom-left-radius: 50px 50px;
+  border-bottom-right-radius: 50px 50px;
+  border-top-right-radius: 50px 50px; 
+  */
+  background-color: white;
+  z-index: 1000;
+  opacity: 1;
+  padding: 20px 20px 20px 20px; }
+
+/****************************************/
+/* Creates the floating home container about the carousel */
 .home-float {
   width: 70%;
   top: 10%;
@@ -5110,6 +5127,8 @@ body {
   top: 10%;
   left: 80%;
   width: 20%; }
+
+/*************************************************************/
 body {
   background-color: #fff;
   color: #333;
