@@ -5,6 +5,9 @@
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
+  <meta name="google-site-verification" content="_1Ee2eOzUi1a3Hu8FTxuFsubmrMuIa9nwGaIskm-TYE" />
+  <link rel="chrome-webstore-item"
+    href="https://chrome.google.com/webstore/detail/khfagnmmcigijajehdbeomfcimgfheak">
 </head>
 <body>
 
@@ -25,13 +28,17 @@
 		</br>
 		<p>Need something just the once or twice? Don't want to spend money buying or renting or time browsing around? We help you find what you need from your friends. We make sure to only ping the folks who have what you need, because we hate spam too!</p>
 		</br>
-		<div class="col-xs-6">
-			<a href="<%= new_signup_path %>" class="btn btn-primary btn-large btn-block home-btn" role="button">Sign me up to try it!</a>
-			<p style="font-size:55%;"><i>If you refer the <b>86th</b> person to sign up, both you & your friend who signs up will get a gift! San Francisco area only please.</i></p>
+		<div class="col-xs-4">
+			<a href="<%= new_signup_path %>" class="btn btn-primary btn-large btn-block home-btn" role="button">Add me to the waitlist! (SF area only)</a>
+			<p style="font-size:55%;"><i>If you refer the <b>86th</b> person to sign up, both you & your friend who signs up will get a gift!</i></p>
 		</div>
-		<div class="col-xs-6">
-			<a href="<%= new_request_path %>" class="btn btn-primary btn-large btn-block home-btn" role="button">I need to borrow now (sign in)!</a>
-			<p style="font-size:55%;"><i>We're inviting small groups of users at a time, though if you have any ideas now <a href="http://www.jamesdong.com/contacts/new" style="color: grey" target="_blank"><u>please share them with us!</u></i></p>
+		<div class="col-xs-4">
+			<button type="button" class="btn btn-primary btn-large btn-block home-btn" onclick="chrome.webstore.install()">Remind me to borrow! (Chrome only)</button>
+			<p style="font-size:55%;"><i>Helpful add-on reminds you to borrow when you're searching for items that are available.</i></p>
+		</div>
+		<div class="col-xs-4">
+			<a href="<%= new_request_path %>" class="btn btn-primary btn-large btn-block home-btn" role="button">Log me in to borrow!</a>
+			<p style="font-size:55%;"><i>If we've reached out with log in information, please borrow something today! <a href="http://www.jamesdong.com/contacts/new" style="color: grey" target="_blank"><u>Contact us.</u></i></p>
 		</div>
 </div>
 
