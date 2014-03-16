@@ -36,7 +36,7 @@
               </p>
 
               <p><i>
-                Also, we created a browser plug-in (currently for Google Chrome users) that reminds you to borrow when you're searching on eCommerce sites for something we have available! <a href="javascript:chrome.webstore.install()" style="color: #2E9AFE">Click here to download.</a>
+                Also, we created a browser plug-in (currently for Google Chrome users) that reminds you to borrow when you're searching on eCommerce sites for something we have available! <a href="javascript:ExtInstall()" style="color: #2E9AFE">Click here to download.</a>
               </i></p> 
               <hr> 
             </div>
@@ -119,7 +119,7 @@
 
 <script>
 
-  /*window.onload = function() { */
+  /*Loads delivery instructions part of form only if request_paydevlier is checked*/
     var checkbox = document.getElementById('request_paydeliver');
     var delivery_div = document.getElementById('delivery');
     var showHiddenDiv = function(){
@@ -131,6 +131,13 @@
     }
     checkbox.onclick = showHiddenDiv;
     showHiddenDiv();
-  /*}; */
+
+  /*Checks if plug in is already installed, if yes, pop up alert, if not, install it*/
+    function ExtInstall() {
+        if (chrome.app.isInstalled) 
+            alert("You have already installed the plug-in. Thanks!");
+        else 
+            chrome.webstore.install();
+    }
 
 </script>
