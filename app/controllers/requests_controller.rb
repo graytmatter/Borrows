@@ -11,6 +11,7 @@ http_basic_authenticate_with :name => "borrower", :password => "bigmooch"
   def create
     @requestrecord = Request.new(request_params)
     inventory
+    @pagetitle = "What would you like to borrow?"
     if @requestrecord.paydeliver == false
       @requestrecord.addysdeliver = nil
       @requestrecord.timedeliver = nil
@@ -36,6 +37,7 @@ http_basic_authenticate_with :name => "borrower", :password => "bigmooch"
   def update
     @requestrecord = Request.find_by_edit_id(params[:edit_id])
     inventory
+    @pagetitle = "Update your request"
     @requestrecord.attributes = request_params
     
     if @requestrecord.paydeliver == false
