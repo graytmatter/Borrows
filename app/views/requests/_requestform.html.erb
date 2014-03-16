@@ -1,0 +1,136 @@
+            <% if @requestrecord.errors.any? %>
+              <div id="error_explanation">
+                <div class="alert alert-danger">
+                  <p>The form contains <%= pluralize(@requestrecord.errors.count, "error") %>:</p>
+                </br>
+                <ul>
+                <% @requestrecord.errors.each do |attribute, message| %>
+                    <% if attribute == :item %>
+                      <li><%= "Item #{message}" %></li>
+                    <% elsif attribute == :detail %>
+                      <li><%= "Product features #{message}" %></li>
+                    <% elsif attribute == :rentdate %>
+                      <li><%= "Dates of request #{message}" %></li>
+                    <% elsif attribute == :name %>
+                      <li><%= "Name #{message}" %></li>
+                    <% elsif attribute == :email %>
+                      <li><%= "Email #{message}" %></li>
+                    <% elsif attribute == :addysdeliver %>
+                      <li><%= "Delivery address #{message}" %></li>
+                    <% elsif attribute == :timedeliver %>
+                      <li><%= "Delivery dates and times #{message}" %></li>
+                      <% end %>
+                <% end %>
+                </ul>
+                </div>
+              </div>
+          <% end %>
+
+          <div class="row">
+
+            <h3><%= @pagetitle %></h3></br>
+
+            <div class="col-xs-12">
+              <p>
+                Please complete the form to borrow any of the items listed below. Right now, many items are sourced from our central inventory; as we grow, we will connect you with friends who have what you need. We will email (usually in 3 hours) to verify that what we have will fit your needs, and to confirm delivery or to coordinate pick-up. 
+              </p>
+
+              <p><i>
+                Also, we created a browser plug-in (currently for Google Chrome users) that reminds you to borrow when you're searching on eCommerce sites for something we have available! <a href="javascript:chrome.webstore.install()" style="color: #2E9AFE">Click here to download.</a>
+              </i></p> 
+              <hr> 
+            </div>
+
+                   
+              <%= form_for @requestrecord do |f| %>
+                
+                <% @inventory.each do |category, list| %>
+                  <div class="col-xs-3">
+                    <div class="form-group box">
+                      <h5> <%="#{category.upcase}"%> </h5>
+                        <% list.each do |thing| %>
+                          <%= f.radio_button(:item, "#{thing}") %>
+                          <%= f.label(:item, "#{thing}") %>
+                          </br>
+                        <% end %>
+                    </div>
+                  </div>  
+                <% end %>
+
+                <div class="col-xs-12">
+
+                  <div class="form-group">
+                    <%= f.label :detail, "Product features" %>
+                    <%= f.text_field :detail, class: "form-control", placeholder: "What features do you need (e.g., size, capacity)?" %>
+                  </div>
+
+                  <div class="form-group">
+                    <%= f.label :rentdate, "Dates of request" %>
+                    <%= f.text_field :rentdate, class: "form-control", placeholder: "From when to when do you need the item?" %>
+                  </div>
+
+                  <!--
+                  <div class="form-group">
+                    <%#= f.label :name, "First and last name" %>
+                    <%#= f.text_field :name, class: "form-control", placeholder: "How do we address you?" %>
+                  </div>
+                  -->
+
+                  <div class="form-group">
+                    <%= f.label :email %>
+                    <%= f.text_field :email, class: "form-control", placeholder: "How do we get in touch with you?" %>
+                  </div>
+
+                  <div class="form-group">
+                    <%= f.check_box :paydeliver %>
+                    <%= f.label :paydeliver, "Pay $15 for item pick up, delivery, and return" %>
+                  </div>
+
+                  <div class="col-xs-10" id="delivery" style="display:none;">
+                    <div class="form-group">
+                      <%= f.label :addysdeliver, "Delivery address"%>
+                      <%= f.text_field :addysdeliver, class: "form-control", placeholder: "Where would you like the item to be delivered?" %>
+                    </div>
+
+                    <div class="form-group">
+                      <%= f.label :timedeliver, "Delivery dates and times"%>
+                      <%= f.text_field :timedeliver, class: "form-control", placeholder: "What are some dates & times that work for you?" %>
+                    </div>
+
+                    <div class="form-group">
+                      <%= f.label :instrucdeliver, "Special delivery instructions (optional)"%>
+                      <%= f.text_field :instrucdeliver, class: "form-control", placeholder: "What are some specific instructions? E.g., leave with building attendant" %>
+                    </div>
+                  </div>
+
+                  <%= f.submit "Go!", class: "btn btn-primary btn-large btn-block" %>
+                </div>
+              
+              <% end %>
+
+              <div class="col-xs-12">
+                  </br>
+                  <a href="<%= new_request_path %>" class="btn btn-success btn-large btn-block" role="button">Make a new request</a>
+              </div>
+
+            </div>
+
+          </div>
+
+<script>
+
+  /*window.onload = function() { */
+    var checkbox = document.getElementById('request_paydeliver');
+    var delivery_div = document.getElementById('delivery');
+    var showHiddenDiv = function(){
+       if(checkbox.checked) {
+         delivery_div.style['display'] = 'block';
+       } else {
+         delivery_div.style['display'] = 'none';
+       } 
+    }
+    checkbox.onclick = showHiddenDiv;
+    showHiddenDiv();
+  /*}; */
+
+</script>

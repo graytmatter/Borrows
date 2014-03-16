@@ -5,6 +5,7 @@ http_basic_authenticate_with :name => "borrower", :password => "bigmooch"
   def new
     @requestrecord = Request.new
     inventory
+    @pagetitle = "What would you like to borrow?"
   end
 
   def create
@@ -29,6 +30,7 @@ http_basic_authenticate_with :name => "borrower", :password => "bigmooch"
   def edit 
     @requestrecord = Request.find_by_edit_id(params[:edit_id])
     inventory
+    @pagetitle = "Update your request"
   end
 
   def update
