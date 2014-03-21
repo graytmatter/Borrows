@@ -65,7 +65,7 @@ http_basic_authenticate_with :name => "borrower", :password => "bigmooch"
       "Camping" => ["Tent", "Sleeping bag", "Sleeping pad", "Backpack", "Water filter", "Hydration bladder"],
       "Housewares" => ["Electric drill", "Toolset", "Vacuum", "Air mattress", "Blender", "Portable grill"],
       "Outdoor activities" => ["Tennis rackets & balls", "Volleyball net & ball", "Bicycle pump", "Baseball bat, ball, glove", "Golf club & balls", "Cooler"],
-      "Snow sports" => ["Outer shell (upper)", "Outer shell (lower)", "Insular mid-layer (upper)", "Insular mid-layer (lower)", "Helmet", "Goggles"]
+      "Snow sports" => ["Snow jacket", "Snow pants", "Thermal upper", "Thermal lower", "Helmet", "Goggles"]
     }
     end
 end
