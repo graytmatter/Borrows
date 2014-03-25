@@ -33,12 +33,17 @@
             <h3><%= @pagetitle %></h3></br>
 
             <div class="col-xs-12">
-              <p>
-                Please complete the form to borrow any of the items listed below. Right now, many items are sourced from our central inventory; as we grow, we will connect you with more friends who have what you need. We will email (usually in 3 hours) to verify that we have found your item with an address where it is located. If you pick up & return the item yourself, it is absolutely free! We can, however, arrange item delivery to you & item pick up from you for return at $9 each. 
-              </p>
-
+              <p><b>
+                INSTRUCTIONS & PROCESS
+              </b></p>
+              <ol>
+                <li>Select any number of items you wish to borrow from the categories below</li>
+                <li>Complete the remaining fields & submit the form</li>
+                <li>We will email you (in ~3 hours) to verify that we have found your item(s) with their location(s)</li>
+                <li>If you pick up & return the item(s) yourself, this service is free! We can, however, arrange delivery & return for ~$9 each way (depends on how many locations we need to visit to collect the items in your request).</li>
+              </ol>
               <p><i>
-                Also, we created a browser plug-in (currently for Google Chrome users) that reminds you to borrow when you're searching on eCommerce sites for something we have available! <a href="javascript:ExtInstall()" style="color: #2E9AFE">Click here to download.</a>
+                If you have any questions, <a href="http://www.jamesdong.com/contacts/new" style="color: #2E9AFE" target="_blank">please ask!</a> Also, we created a browser plug-in (currently for Google Chrome users) that reminds you to borrow when you're searching on eCommerce sites for something we have available! <a href="javascript:ExtInstall()" style="color: #2E9AFE">Click here to download.</a>
               </i></p> 
               <hr> 
             </div>
@@ -51,7 +56,7 @@
                     <div class="form-group box">
                       <h5> <%="#{category.upcase}"%> </h5>
                         <% list.each do |thing| %>
-                          <%= f.radio_button(:item, "#{thing}") %>
+                          <%= f.check_box(:item, {:multiple => true}, "#{thing}") %>
                           <%= f.label(:item, "#{thing}") %>
                           </br>
                         <% end %>
@@ -63,12 +68,12 @@
 
                   <div class="form-group">
                     <%= f.label :detail, "Product features" %>
-                    <%= f.text_field :detail, class: "form-control", placeholder: "What features do you need (e.g., size, capacity)?" %>
+                    <%= f.text_field :detail, class: "form-control", placeholder: "What features do you need (e.g., size, capacity) for the item(s) that you selected above?" %>
                   </div>
 
                   <div class="form-group">
                     <%= f.label :rentdate, "Dates of request" %>
-                    <%= f.text_field :rentdate, class: "form-control", placeholder: "From when to when do you need the item?" %>
+                    <%= f.text_field :rentdate, class: "form-control", placeholder: "From when to when do you need the item(s) selected above? Please specify if you need different items on different dates." %>
                   </div>
 
                   <div class="form-group">

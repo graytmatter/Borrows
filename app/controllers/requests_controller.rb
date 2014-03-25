@@ -12,11 +12,13 @@ http_basic_authenticate_with :name => "borrower", :password => "bigmooch"
     @requestrecord = Request.new(request_params)
     inventory
     @pagetitle = "What would you like to borrow?"
+=begin    
     if @requestrecord.paydeliver == false
       @requestrecord.addysdeliver = nil
       @requestrecord.timedeliver = nil
       @requestrecord.instrucdeliver = nil
     end
+=end
     
     if @requestrecord.save
       flash[:success] = "Thanks, we'll respond in a few hours. Below is the information you submitted in case you need to change anything."
@@ -57,7 +59,7 @@ http_basic_authenticate_with :name => "borrower", :password => "bigmooch"
 
   private
     def request_params
-      params.require(:request).permit(:email, :item, :detail, :name, :rentdate, :paydeliver, :addysdeliver, :timedeliver, :instrucdeliver, :edit_id)
+      params.require(:request).permit(:email, {:item => []}, :detail, :name, :rentdate, :paydeliver, :addysdeliver, :timedeliver, :instrucdeliver, :edit_id)
     end
 
     def inventory

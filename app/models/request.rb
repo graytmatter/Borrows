@@ -1,6 +1,6 @@
 class Request < ActiveRecord::Base
   before_create :create_edit_id
-
+  serialize :item
 
   validates :email, presence: true, format: { with: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i }
   validates :item, presence: true
@@ -13,7 +13,6 @@ class Request < ActiveRecord::Base
   validates :addysdeliver, presence: true, :if => :paydeliver?
   validates :timedeliver, presence: true, :if => :paydeliver?
 =end
-
 
   def save_spreadsheet
     connection = GoogleDrive.login(ENV['GMAIL_USERNAME'], ENV['GMAIL_PASSWORD'])
