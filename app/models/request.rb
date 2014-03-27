@@ -16,10 +16,7 @@ class Request < ActiveRecord::Base
 =end
 
   def must_have_one_item
-    puts self.items.count
-    puts self.items
-    puts "blah"
-    errors.add(:base, 'You must select at least one item') unless self.items.detect { |i| i != "0" }
+    errors.add(:items, 'You must select at least one item') unless self.items.detect { |i| i != "0" } 
   end
 
 
@@ -57,7 +54,11 @@ class Request < ActiveRecord::Base
     ws.save
   end
 =end
-    
+
+  def to_param
+    self.edit_id
+  end
+
   private
 
     def Request.new_edit_id

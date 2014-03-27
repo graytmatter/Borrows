@@ -5,9 +5,9 @@
                 </br>
                 <ul>
                 <% @requestrecord.errors.each do |attribute, message| %>
-                    <!--<%# if attribute == :items %>
-                      <li><%#= "Item #{message}" %></li> -->
-                    <% if attribute == :detail %>
+                    <% if attribute == :items %>
+                      <li><%= "#{message}" %></li>
+                    <% elsif attribute == :detail %>
                       <li><%= "Product features #{message}" %></li>
                     <% elsif attribute == :rentdate %>
                       <li><%= "Dates of request #{message}" %></li>
@@ -51,7 +51,8 @@
 
                    
               <%= form_for @requestrecord do |f| %>
-                
+                <%= @requestrecord.edit_id %>
+
                 <div class="col-xs-12">
                   <div class="form-group">
                     <%= f.label :rentdate, "Time period of request" %>
