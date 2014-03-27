@@ -5,9 +5,9 @@
                 </br>
                 <ul>
                 <% @requestrecord.errors.each do |attribute, message| %>
-                    <% if attribute == :item %>
-                      <li><%= "Item #{message}" %></li>
-                    <% elsif attribute == :detail %>
+                    <!--<%# if attribute == :items %>
+                      <li><%#= "Item #{message}" %></li> -->
+                    <% if attribute == :detail %>
                       <li><%= "Product features #{message}" %></li>
                     <% elsif attribute == :rentdate %>
                       <li><%= "Dates of request #{message}" %></li>
@@ -37,7 +37,8 @@
                 INSTRUCTIONS & PROCESS
               </b></p>
               <ol>
-                <li>Select any number of items you wish to borrow from the categories below</li>
+                <li>Enter the time period over which you are looking to borrow something</li>
+                <li>Select any number of items you need in that time period</li>
                 <li>Complete the remaining fields & submit the form</li>
                 <li>We will email you (in ~3 hours) to verify that we have found your item(s) with their location(s)</li>
                 <li>If you pick up & return the item(s) yourself, this service is free! We can, however, arrange delivery & return for ~$9 each way (depends on how many locations we need to visit to collect the items in your request).</li>
@@ -51,13 +52,22 @@
                    
               <%= form_for @requestrecord do |f| %>
                 
+                <div class="col-xs-12">
+                  <div class="form-group">
+                    <%= f.label :rentdate, "Time period of request" %>
+                    <%= f.text_field :rentdate, class: "form-control", placeholder: "From when to when are you looking to borrow?" %>
+                  </div>
+
+                  <p><b>Items requested</b></p>
+                </div>
+
                 <% @inventory.each do |category, list| %>
                   <div class="col-xs-3">
                     <div class="form-group box">
                       <h5> <%="#{category.upcase}"%> </h5>
                         <% list.each do |thing| %>
-                          <%= f.check_box(:item, {:multiple => true}, "#{thing}") %>
-                          <%= f.label(:item, "#{thing}") %>
+                          <%= f.check_box(:items, {:multiple => true}, "#{thing}") %>
+                          <%= f.label(:items, "#{thing}") %>
                           </br>
                         <% end %>
                     </div>
@@ -67,17 +77,12 @@
                 <div class="col-xs-12">
 
                   <div class="form-group">
-                    <%= f.label :detail, "Product features" %>
+                    <%= f.label :detail, "Features requested" %>
                     <%= f.text_field :detail, class: "form-control", placeholder: "What features do you need (e.g., size, capacity) for the item(s) that you selected above?" %>
                   </div>
 
                   <div class="form-group">
-                    <%= f.label :rentdate, "Dates of request" %>
-                    <%= f.text_field :rentdate, class: "form-control", placeholder: "From when to when do you need the item(s) selected above? Please specify if you need different items on different dates." %>
-                  </div>
-
-                  <div class="form-group">
-                    <%= f.label :email %>
+                    <%= f.label :email, "Your email" %>
                     <%= f.text_field :email, class: "form-control", placeholder: "How do we get in touch with you?" %>
                   </div>
 

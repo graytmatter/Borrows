@@ -1,9 +1,10 @@
 class Request < ActiveRecord::Base
   before_create :create_edit_id
-  serialize :item
+  
+  serialize :items
+  validate :must_have_one_item
 
   validates :email, presence: true, format: { with: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i }
-  validates :item, presence: true
   validates :detail, presence: true
   validates :rentdate, presence: true
   
@@ -14,6 +15,14 @@ class Request < ActiveRecord::Base
   validates :timedeliver, presence: true, :if => :paydeliver?
 =end
 
+  def must_have_one_item
+    puts self.items.count
+    puts self.items
+    puts "blah"
+    errors.add(:base, 'You must select at least one item') unless self.items.detect { |i| i != "0" }
+  end
+
+
   def save_spreadsheet
     connection = GoogleDrive.login(ENV['GMAIL_USERNAME'], ENV['GMAIL_PASSWORD'])
     ss = connection.spreadsheet_by_title('Borrow test v1')
@@ -21,7 +30,7 @@ class Request < ActiveRecord::Base
     row = 1 + ws.num_rows #finds last row
     ws[row, 1] = self.edit_id
     ws[row, 2] = Time.new
-    ws[row, 3] = self.item
+    ws[row, 3] = self.items
     ws[row, 4] = self.detail
     ws[row, 5] = self.rentdate
     ws[row, 6] = self.name
@@ -41,7 +50,7 @@ class Request < ActiveRecord::Base
     ws = ss.worksheets[0]
     row = get_cell(self.edit_id)
     ws[row, 2] = Time.new
-    ws[row, 3] = self.item
+    ws[row, 3] = self.items
     ws[row, 4] = self.detail
     ws[row, 5] = self.email
     ws[row, 6] = self.name

@@ -41,12 +41,14 @@ http_basic_authenticate_with :name => "borrower", :password => "bigmooch"
     inventory
     @pagetitle = "Update your request"
     @requestrecord.attributes = request_params
-    
+
+=begin
     if @requestrecord.paydeliver == false
       @requestrecord.addysdeliver = nil
       @requestrecord.timedeliver = nil
       @requestrecord.instrucdeliver = nil
     end
+=end
 
     if @requestrecord.changed? && @requestrecord.save
       flash[:success] = "Your request has been updated! We'll respond in a few hours."
@@ -59,7 +61,7 @@ http_basic_authenticate_with :name => "borrower", :password => "bigmooch"
 
   private
     def request_params
-      params.require(:request).permit(:email, {:item => []}, :detail, :name, :rentdate, :paydeliver, :addysdeliver, :timedeliver, :instrucdeliver, :edit_id)
+      params.require(:request).permit(:email, {:items => []}, :detail, :name, :rentdate, :paydeliver, :addysdeliver, :timedeliver, :instrucdeliver, :edit_id)
     end
 
     def inventory
