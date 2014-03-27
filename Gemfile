@@ -8,6 +8,7 @@ gem 'bootstrap-sass', '3.0.3.0'
 gem 'google_drive'
 gem 'figaro'
 gem 'gibbon' #mailchipm API
+gem 'newrelic_rpm'
 
 # Use sqlite3 as the database for Active Record
 group :development do
