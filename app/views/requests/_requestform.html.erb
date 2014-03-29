@@ -41,7 +41,7 @@
                 <li>Select any number of items you need in that time period</li>
                 <li>Complete the remaining fields & submit the form</li>
                 <li>We will email you (in ~3 hours) to verify that we have found your item(s) with their location(s)</li>
-                <li>If you pick up & return the item(s) yourself, this service is free! We can, however, arrange delivery & return for ~$9 each way (depends on how many locations we need to visit to collect the items in your request).</li>
+                <li>Tell us if you'd like to pick up & return the item(s) yourself (free!), or if you'd like us to arrange delivery & return (~$10 each way depending on location)</li>
               </ol>
               <p><i>
                 If you have any questions, <a href="http://www.jamesdong.com/contacts/new" style="color: #2E9AFE" target="_blank">please ask!</a> Also, we created a browser plug-in (currently for Google Chrome users) that reminds you to borrow when you're searching on eCommerce sites for something we have available! <a href="javascript:ExtInstall()" style="color: #2E9AFE">Click here to download.</a>
@@ -63,9 +63,9 @@
                 </div>
 
                 <% @inventory.each do |category, list| %>
-                  <div class="col-xs-3">
+                  <div class="col-xs-2">
                     <div class="form-group box">
-                      <h5> <%="#{category.upcase}"%> </h5>
+                      <h5> <%="#{category}"%> </h5>
                         <% list.each do |thing| %>
                           <%= f.check_box(:items, {:multiple => true}, "#{thing}") %>
                           <%= f.label(:items, "#{thing}") %>

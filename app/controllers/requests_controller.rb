@@ -66,10 +66,12 @@ http_basic_authenticate_with :name => "borrower", :password => "bigmooch"
 
     def inventory
       @inventory = {
-      "Camping" => ["Tent", "Sleeping bag", "Sleeping pad", "Backpack", "Water filter", "Hydration bladder"],
-      "Housewares" => ["Electric drill", "Toolset", "Vacuum", "Air mattress", "Blender", "Portable grill"],
-      "Outdoor activities" => ["Tennis rackets & balls", "Volleyball net & ball", "Bicycle pump", "Baseball bat, ball, glove", "Golf club & balls", "Cooler"],
-      "Snow sports" => ["Snow jacket", "Snow pants", "Thermal upper", "Thermal lower", "Helmet", "Goggles"]
+      "Camping" => ["Tent", "Sleeping bag", "Sleeping pad", "Backpack", "Water filter"],
+      "Sports & outdoors" => ["Tennis set", "Volleyball set", "Bicycle pump", "Portable grill", "Cooler"],
+      "Tools" => ["Electric drill", "Screwdriver set", "Hammer", "Wrench set", "Vacuum"],
+      "Home & kitchen" => ["Vacuum", "Air mattress", "Blender", "Electric grill", "Food processor"],
+      "Baby gear" => ["Stroller", "Car seat", "Backpack carrier", "Pack n' Play", "Jumper"],
+      "Snow sports" => ["Outerwear", "Innerwear", "Gloves" , "Helmet", "Goggles"]
     }
     end
 end
