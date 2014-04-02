@@ -70,7 +70,7 @@ http_basic_authenticate_with :name => "borrower", :password => "bigmooch"
       "Sports & outdoors" => ["Tennis set", "Volleyball set", "Bicycle pump", "Portable grill", "Cooler"],
       "Tools" => ["Electric drill", "Screwdriver set", "Hammer", "Wrench set", "Vacuum"],
       "Home & kitchen" => ["Vacuum", "Air mattress", "Blender", "Electric grill", "Food processor"],
-      "Baby gear" => ["Stroller", "Car seat", "Backpack carrier", "Pack n' Play", "Jumper"],
+      "Baby gear" => ["Umbrella Stroller", "Booster seat", "Backpack carrier", "Pack n' Play", "Jumper"],
       "Snow sports" => ["Outerwear", "Innerwear", "Gloves" , "Helmet", "Goggles"]
     }
     end
