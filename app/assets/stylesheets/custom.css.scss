@@ -27,9 +27,172 @@ body {
      background-color:#FFFFF;
  }
 
+/****************************************/
+
+/* Creates the floating home container above the carousel */
+
+.home-float {
+  width: 70%;
+  top: 10%;
+  left: 15%;
+  position:absolute;
+  z-index: 1000;
+  color:white;
+  text-align: center;
+}
+
+/****************************************/
+
+/* Adjusts space that the carousel takes up on the page */
+
+.carousel {
+width: 100%;
+height:45%
+}
+
+.carousel-inner {
+  width: 100%; 
+  height:100%;
+}
+
+.item,.active {
+  width: 100%; 
+  height: 100%;
+}
+
+.fill { 
+  width:100%;
+  height:100%;
+  background-position:center;
+  background-size:cover;
+}
+/****************************************/
+
+/* Since full screen image is a background image, background-color for carousel controls must be transparent, not black */
+
+.carousel-control:hover {
+  background-color:transparent;
+}
+
+/*************************************************************/
+
+/* Places carousel indicators & captions */
+
+.carousel-indicators {
+  bottom: 5%
+}
+
+.carousel-caption {
+  bottom:5%
+}
+
+/*************************************************************/
+
+/* Fade transition for carousel items */
+.carousel .item {
+    left: 0 !important;
+      -webkit-transition: opacity 1s; /*adjust timing here */
+         -moz-transition: opacity 1s;
+           -o-transition: opacity 1s;
+              transition: opacity 1s;
+}
+.carousel-control {
+    background-image: none !important; /* remove background gradients on controls */
+}
+/* Fade controls with items */
+.next.left,
+.prev.right {
+    opacity: 1;
+    z-index: 1;
+}
+.active.left,
+.active.right {
+    opacity: 0;
+    z-index: 2;
+}
+
+/*************************************************************/
+
+/*Scrolling customer testimonial photo banner */
+
+.photobanner-container {
+    width: 100%;
+    height: 10%;
+    overflow: hidden;
+    background: white;
+}
+
+.photobanner {
+    height: 250px;
+    width: 3550px;
+}
+
+.testyphotos {
+  height: 100%;
+}
+
+.first-photo-in-banner {
+    -webkit-animation: bannermove 30s linear infinite;
+       -moz-animation: bannermove 30s linear infinite;
+        -ms-animation: bannermove 30s linear infinite;
+         -o-animation: bannermove 30s linear infinite;
+            animation: bannermove 30s linear infinite;
+}
+ 
+@keyframes "bannermove" {
+ 0% {
+    margin-left: 0px;
+ }
+ 100% {
+    margin-left: -2125px;
+ }
+ 
+}
+ 
+@-moz-keyframes bannermove {
+ 0% {
+   margin-left: 0px;
+ }
+ 100% {
+   margin-left: -2125px;
+ }
+ 
+}
+ 
+@-webkit-keyframes "bannermove" {
+ 0% {
+   margin-left: 0px;
+ }
+ 100% {
+   margin-left: -2125px;
+ }
+ 
+}
+ 
+@-ms-keyframes "bannermove" {
+ 0% {
+   margin-left: 0px;
+ }
+ 100% {
+   margin-left: -2125px;
+ }
+ 
+}
+ 
+@-o-keyframes "bannermove" {
+ 0% {
+   margin-left: 0px;
+ }
+ 100% {
+   margin-left: -2125px;
+ }
+ 
+}
+
 /**************************************/
 
 /* Verticalizes whatever on the screen */
+
 .vert-table {
   height:100%;
   display:table;
@@ -45,47 +208,7 @@ body {
 
 /**************************************/
 
-/* Ensures that the carousel slide on home page is full screen on any screen */
-
-.carousel,.item,.active {
-  width: 100%; 
-  height:100%;
-}
-.carousel-inner {
-  width: 100%; 
-  height:100%;
-}
-.fill { 
-  width:100%;
-  height:100%;
-  background-position:center;
-  background-size:cover;
-}
-/****************************************/
-
-/* Since full screen image is a background image, background-color for carousel controls must be transparent, not black */
-
-.carousel-control:hover {
-  background-color:transparent;
-}
-
-/****************************************/
-
-/* Border for each category in the request form*/
-.box {
-    padding: 5px 5px 5px 5px;
-    border: 1px solid #cccccc;
-    border-radius: 4px;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-    -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
-    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
-    color: #555555;
-    }
-
-/****************************************/
-
-/* Creates opaque container */
+/* Creates opaque container for Request and Signup forms*/
 .opaque-container {
 
     /* Optional rounded border
@@ -101,36 +224,24 @@ body {
     padding: 20px 20px 20px 20px;
 }
 
+/***************************************/
+
+/* Border for each category in the request form*/
+.box {
+    padding: 5px 5px 5px 5px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    color: #555555;
+    }
+
 /****************************************/
 
-/* Creates the floating home container about the carousel */
+/* Centers image (used in How To section) */
 
-.home-float {
-  width: 70%;
-  top: 10%;
-  left: 15%;
-  background-color: black;
-  position:absolute;
-  opacity: 0.8;
-  z-index: 1000;
-  padding: 5px 20px 5px 20px;
-
-  color:white;
-  font-size: 150%;
-  text-align: center;
+.centered {
+    display: inline-block;
 }
-
-.home-btn {
-  color:black;
-  background-color: white;
-  opacity: 1;
-}
-
-.home-share {
-  position:absolute;
-  top:10%;
-  left:80%;
-  width:20%;
-}
-
-/*************************************************************/

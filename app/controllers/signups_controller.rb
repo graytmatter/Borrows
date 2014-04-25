@@ -2,7 +2,7 @@ class SignupsController < ApplicationController
 
 	def new
 		@signup = Signup.new
-		
+
 	end
 
 	def create
@@ -11,7 +11,7 @@ class SignupsController < ApplicationController
 			@signup.save_subscrip
 			#@signup.add_subscrip
 			Subscribe.notification_email(@signup).deliver
-			flash[:success] = "Great, we'll send you an invitation to try our service soon!"
+			flash[:sub_success] = "Great, we'll send you an invitation to try our service soon!"
 			redirect_to new_signup_path
 		else
 			render new_signup_path

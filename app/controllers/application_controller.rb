@@ -13,4 +13,16 @@ class ApplicationController < ActionController::Base
     session[:blocked_path] = request.path  # where they were headed
     redirect_to guard_entry_codes_path
   end
+
+  def howto 
+    @howtoimages = {
+      "One" => "Tell us what item you need using our form",
+      "Two" => "We email you the location of the item",
+      "Three" => "We coordinate item exchange or delivery"
+    }
+
+    # One (Form) http://img.allvoices.com/thumbs/event/609/480/59012320-pen-paper.jpg
+    # Two (Mail) http://img.allw.mn/www/thumbs/104/930.jpgs
+    # Three (Gift) http://cdn.smugmug.com/img/help/personal-delivery/personal-delivery-box-1.jpg
+  end
 end

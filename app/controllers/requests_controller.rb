@@ -5,12 +5,14 @@ http_basic_authenticate_with :name => "borrower", :password => "bigmooch"
   def new
     @requestrecord = Request.new
     inventory
+    howto
     @pagetitle = "What would you like to borrow?"
   end
 
   def create
     @requestrecord = Request.new(request_params)
     inventory
+    howto
     @pagetitle = "What would you like to borrow?"
 =begin    
     if @requestrecord.paydeliver == false
@@ -21,7 +23,7 @@ http_basic_authenticate_with :name => "borrower", :password => "bigmooch"
 =end
     
     if @requestrecord.save
-      flash[:success] = "Thanks, we'll respond in a few hours. Below is the information you submitted in case you need to change anything."
+      flash[:req_success] = "Thanks! We'll respond in about 3 hours with the item's location so you can decide if you want to pick up or pay for delivery (~$10 depending on distance). If you'd like to change your request, just modify the form below and submit again."
       @requestrecord.save_spreadsheet
       RequestMailer.confirmation_email(@requestrecord).deliver
       redirect_to edit_request_path(@requestrecord.edit_id)
@@ -33,12 +35,14 @@ http_basic_authenticate_with :name => "borrower", :password => "bigmooch"
   def edit 
     @requestrecord = Request.find_by_edit_id(params[:edit_id])
     inventory
+    howto
     @pagetitle = "Update your request"
   end
 
   def update
     @requestrecord = Request.find_by_edit_id(params[:edit_id])
     inventory
+    howto
     @pagetitle = "Update your request"
     @requestrecord.attributes = request_params
 

@@ -11,119 +11,11 @@
 </head>
 <body>
 
-<div class="home-float">
-		<!-- AddThis Button BEGIN -->
-			<div class="addthis_toolbox addthis_default_style addthis_16x16_style home-share">
-				<a class="addthis_button_email"></a>
-				<a class="addthis_button_facebook"></a>
-				<a class="addthis_button_twitter"></a>
-				<a class="addthis_button_linkedin"></a>
-				<a class="addthis_button_google_plusone_share"></a>
-				<a class="addthis_button_pinterest_share"></a>
-			</div>
-			<script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
-			<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-530ee7046fcbd127"></script>
-		<!-- AddThis Button END -->
-		<h1>Borrowing > Buying</h1>
-		</br>
-		<p>Need something just the once or twice? Don't want to spend money buying or renting or time browsing around? We help you find what you need from your friends and neighbors.</p>
-		</br>
-		<div class="col-xs-6">
-			<a href="<%= new_signup_path %>" class="btn btn-primary btn-large btn-block home-btn" role="button">Add me to the waitlist! (SF area only)</a>
-			<p style="font-size:55%;"><i>If you refer the <b>86th</b> person to sign up, both you & your friend who signs up will get a gift!</i></p>
-		</div>
-		<!--
-		<div class="col-xs-4">
-			<button type="button" class="btn btn-primary btn-large btn-block home-btn" onclick="chrome.webstore.install()">Remind me to borrow! (Chrome only)</button>
-			<p style="font-size:55%;"><i>Helpful add-on reminds you to borrow when you're searching for items on the Internet.</i></p>
-		</div>
-		-->
-		<div class="col-xs-6">
-			<a href="<%= new_request_path %>" class="btn btn-primary btn-large btn-block home-btn" role="button">Log me in to borrow!</a>
-			<p style="font-size:55%;"><i>If we've reached out with log in information, please log in to borrow something today! <a href="http://www.jamesdong.com/contacts/new" style="color: grey" target="_blank">Click here</a> if you'd like to contact us.</i></p>
-		</div>
-</div>
+<%= render 'layouts/homecarousel' %>
 
-<div id="HomeCarousel" class="carousel slide">
-	<ol class="carousel-indicators">
-		<li data-target="#HomeCarousel" data-slide-to="0" class="active"></li>
-		<li data-target="#HomeCarousel" data-slide-to="1"></li>
-		<li data-target="#HomeCarousel" data-slide-to="2"></li>
-		<li data-target="#HomeCarousel" data-slide-to="3"></li>
-		<li data-target="#HomeCarousel" data-slide-to="4"></li>
-	</ol>
+<%= render "layouts/about" %>	
 
-	<div class="carousel-inner">
-		
-		<div class="item active">
-			<div class ="fill" style="background-image: url(<%= asset_path 'Camping.jpg' %>);">
-				<!--source: http://hdwallpapersci.com/wp-content/uploads/2013/11/dsfsdf1.jpg-->
-				<div class="carousel-caption">
-					<h2>Because you deserve a weekend adventure off-the-grid</h2>
-					<h4>Step 1 - Borrow a tent, bag, pad, pack</h4>
-					<h4>Step 2 - Begin your epic journey!</h4>
-			    </div>
-			</div>
-		</div>
-
-		<div class="item">
-			<div class ="fill" style="background-image: url(<%= asset_path 'Volleyball.jpg' %>);">
-				<!--source: http://www.wallsave.com/wallpapers/1920x1080/beachvolleyball/414822/beachvolleyball-beach-volleyball-serving-jump-hd-and-414822.jpg-->
-				<div class="carousel-caption">
-					<h2>Because a group of your friends are all free on a Sunday</h2>
-					<h4>Step 1 - Borrow a ball & net</h4>
-					<h4>Step 2 - Head to the nearest beach!</h4>
-			    </div>
-			</div>
-		</div>
-
-		<div class="item">
-			<div class ="fill" style="background-image: url(<%= asset_path 'Interior.jpg' %>);">
-				<!--source: http://img.wallpaperstock.net:81/beautiful-furniture-wallpapers_17618_1920x1080.jpg-->
-				<div class="carousel-caption">
-					<h2>Because it's nice to have something to show for your work</h2>
-					<h4>Step 1 - Borrow some tools</h4>
-					<h4>Step 2 - Recreate your world!</h4>
-			    </div>
-			</div>
-		</div>
-
-		<div class="item">
-			<div class ="fill" style="background-image: url(<%= asset_path 'baby.jpg' %>);">
-				<!--source: http://www.hdwallpapersin.com/files/submissions/Child_Girl_Bear_Toy_Autumn_Leaves_Nature_Photo_HD_Wallpaper_1395004946.jpg-->
-				<div class="carousel-caption">
-					<h2>Because they grow up so quickly</h2>
-					<h4>Step 1 - Borrow the perfect carrier</h4>
-					<h4>Step 2 - Take baby wherever you go!</h4>
-			    </div>
-			</div>
-		</div>
-
-		<div class="item">
-			<div class ="fill" style="background-image: url(<%= asset_path 'Skiing.jpg' %>);">
-				<!--source: http://www.wallpapersdesign.net/wallpapers/2013/12/Ski-Jump-1080x1920.jpg-->
-				<div class="carousel-caption">
-					<h2>Because it might be the closest you'll ever get to flying</h2>
-					<h4>Step 1 - Borrow warm layers & protective gear</h4>
-					<h4>Step 2 - Hit the slopes!</h4>
-			    </div>
-			</div>
-		</div>
-
-	</div>
-		
-	<a class="left carousel-control" href="#HomeCarousel" data-slide="prev">
-    	<span class="glyphicon glyphicon-chevron-left"></span>
-  	</a>
-  	<a class="right carousel-control" href="#HomeCarousel" data-slide="next">
-   		<span class="glyphicon glyphicon-chevron-right"></span>
-  	</a>
-
-</div>
-
-</div>
-
-
+<%= render "layouts/userphoto"%>
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -134,10 +26,10 @@
   ga('create', 'UA-47062117-1', 'borrows.herokuapp.com');
   ga('send', 'pageview');
 
-	
+
 //autocycles carousel
 $('.carousel').carousel({
-  interval: 4000
+	interval: 4000
 })
 
 </script>

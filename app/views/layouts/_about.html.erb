@@ -1,0 +1,45 @@
+<div class="col-xs-12" style="background-color:#96CCFE; padding-top:1%; padding-bottom: 1%;">
+	<div class= "col-xs-8 col-xs-offset-2">
+		<h4>Need something just once or twice? Don't want to spend money buying or renting, or time browsing around?</h4>
+		<p>
+			We are testing a prototype service to help you <b>borrow what you need from friends and neighbors in San Francisco.</b> We have a number of items for camping and backpacking, sports, picnics and BBQs, babies and toddlers, home and kitchen. <u><a href="mailto:jdong8@gmail.com">Contact us</a></u> if you have any questions, ideas, or suggestions!
+		</p>
+		<hr>
+
+		<h4>Borrowing what you need is easy</h4>
+		<%= render "layouts/howto" %>
+
+		<div class="col-xs-12" style="padding:0">
+			<hr>
+			<div class="col-xs-8">
+				<a href="<%= new_signup_path %>" class="btn btn-default btn-large btn-block" role="button">Sign up to try this service!</a>
+			</div>
+			<div class="col-xs-4">
+				<a href="<%= new_request_path %>" class="btn btn-default btn-large btn-block" role="button">Log in to borrow</a>
+			</div>
+		</div>
+
+		<div class="col-xs-12" style="padding-top:1%">
+			<div class="col-xs-8">
+				<p style="text-align:center; font-size: 90%; font-style: italic">
+					If you are the <b>86th</b> person to sign up, you and the person who referred you will get a gift! 
+				</p>
+			</div>
+
+			<div class="col-xs-4" style="padding-left:3%">
+				<!-- AddThis Button BEGIN -->
+				<div class="addthis_toolbox addthis_default_style addthis_16x16_style">
+				<a class="addthis_button_email"></a>
+				<a class="addthis_button_facebook"></a>
+				<a class="addthis_button_twitter"></a>
+				<a class="addthis_button_linkedin"></a>
+				<a class="addthis_button_google_plusone_share"></a>
+				<a class="addthis_button_pinterest_share"></a>
+				</div>
+				<script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
+				<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-530ee7046fcbd127"></script>
+				<!-- AddThis Button END -->
+			</div>
+		</div>
+	</div>
+</div>
