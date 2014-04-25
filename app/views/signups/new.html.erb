@@ -2,13 +2,7 @@
     <div class="vert-tablecell" style="background-color: #2E9AFE;">
 
         <div class="col-xs-6 col-xs-offset-3 opaque-container">
-          <div class="row">
-            <div class="col-xs-12">
-                <% flash.each do |key, value| %>
-                <div class="alert alert-<%= key %>"><%= value %></div>
-                <% end %>
-            </div>
-          </div>
+          <%= render "layouts/flash" %>
 
           <% if @signup.errors.any? %>
               <div id="error_explanation">
