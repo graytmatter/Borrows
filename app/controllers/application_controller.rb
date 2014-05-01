@@ -16,9 +16,9 @@ class ApplicationController < ActionController::Base
 
   def howto 
     @howtoimages = {
-      "One" => "Tell us what item you need using our form",
-      "Two" => "We email you the location of the item",
-      "Three" => "We coordinate item exchange or delivery"
+      "One" => "Tell us what you need",
+      "Two" => "We email item location",
+      "Three" => "You pick up or we deliver"
     }
 
     # One (Form) http://img.allvoices.com/thumbs/event/609/480/59012320-pen-paper.jpg
