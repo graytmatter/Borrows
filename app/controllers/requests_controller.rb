@@ -1,6 +1,4 @@
 class RequestsController < ApplicationController
-http_basic_authenticate_with :name => "borrower", :password => "bigmooch"
-#before_action :verify_entry_code, :only=>[:new, :create]
 
   def new
     @requestrecord = Request.new

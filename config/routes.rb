@@ -1,12 +1,6 @@
 GoogleTest::Application.routes.draw do
-  resources :entry_codes do
-    collection do
-      get 'guard'
-      post 'access'
-    end
-  end
 
-  root 'static_pages#home'
+  root 'signups#new'
 
   get 'new', to: 'requests#new', as: 'new_request'
   get 'edit/:edit_id', to: 'requests#edit', as: 'edit_request'

@@ -1,18 +1,4 @@
 class ApplicationController < ActionController::Base
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
-  protect_from_forgery with: :exception
-
-  # ensure that user has valid entry code
-  def verify_entry_code
-    if session[:entry_code] &&
-        EntryCode.find_by(:code=>session[:entry_code]).active?
-      return
-    end
-    session[:entry_code] = nil  # in case it was deactivated
-    session[:blocked_path] = request.path  # where they were headed
-    redirect_to guard_entry_codes_path
-  end
 
   def howto 
     @howtoimages = {
@@ -25,4 +11,23 @@ class ApplicationController < ActionController::Base
     # Two (Mail) http://img.allw.mn/www/thumbs/104/930.jpgs
     # Three (Gift) http://cdn.smugmug.com/img/help/personal-delivery/personal-delivery-box-1.jpg
   end
+
+  def images
+    @images = {
+      "Camping" => "Borrow to unplug for the weekend",
+      "BBQ" => "Borrow to enjoy a sunny afternoon",
+      "Interior" => "Borrow to do-it-yourself",
+      "Stroller" => "Borrow to take them along",
+      "Skiing" => "Borrow to catch some air"
+    }
+
+    # Stroller http://ak1.picdn.net/shutterstock/videos/5905997/preview/stock-footage-happy-parents-tending-to-baby-girl-in-pram-in-the-park-on-a-sunny-day.jpg
+    # Camping http://hdwallpapersci.com/wp-content/uploads/2013/11/dsfsdf1.jpg
+    # Interior http://img.wallpaperstock.net:81/beautiful-furniture-wallpapers_17618_1920x1080.jpg
+    # Volleyball http://www.wallsave.com/wallpapers/1920x1080/beachvolleyball/414822/beachvolleyball-beach-volleyball-serving-jump-hd-and-414822.jpg
+    # Skiing http://www.wallpapersdesign.net/wallpapers/2013/12/Ski-Jump-1080x1920.jpg
+    # Baby http://www.hdwallpapersin.com/files/submissions/Child_Girl_Bear_Toy_Autumn_Leaves_Nature_Photo_HD_Wallpaper_1395004946.jpg
+    # BBQ http://acorporateeventplanning.com/wp-content/uploads/2012/06/iStock_000002242776Large.jpg
+  end
+  
 end
