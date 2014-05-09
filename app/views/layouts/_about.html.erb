@@ -1,12 +1,12 @@
 <div class="col-xs-12" style="background-color:#BDDEFC; padding-top:1%; padding-bottom: 1%;">
-  <div class= "col-xs-8 col-xs-offset-2">
-    <h4>Need something just a few times and don't want to waste money or time shopping?</h4>
+  <div class= "col-xs-8 col-xs-offset-2" style="text-align:center;">
+    <h1 style="font-size:170%; margin-top:0">Fast, free, easy access to stuff you need</h1>
     <p>
-      We are studying how people borrow & share. That means we have a closet full of quality gear for camping and backpacking, picnics and BBQs, babies and toddlers, home and kitchen, and more... free for you! <u><a href="mailto:jdong8@gmail.com">Contact us</a></u> if you have any questions, ideas, or suggestions!
+      We have a closet of quality stuff San Francisco area residents can borrow for no cost, with no strings attached. Includes gear for camping & backpacking, picnics & BBQs, babies & toddlers, home & kitchen, etc. <b>Tell friends: the 218th borrower gets a gift</b>, <%="#{Request.count}"%> people have done it!
     </p>
     <%= render "layouts/howto" %>
 
-    <div class="col-xs-12">
+    <div class="col-xs-12" style="padding:0">
           <% if @signup.errors.any? %>
               <div id="error_explanation">
                 <div class="alert alert-danger">
@@ -21,43 +21,41 @@
               </div>
           <% end %>
           <hr>
-        </div>
 
-        <div class="col-xs-8">
+        <div class="col-xs-7">
           <%= form_for @signup do |f| %>
 
             <div class="form-group">
-              <%= f.text_field :email, class: "form-control", placeholder: "Enter your email here (we will never share it), and hit 'Go!' to begin borrowing." %>
+              <%= f.text_field :email, class: "form-control", placeholder: "Enter your email here (we will never share it), and hit 'Go!' to begin" %>
             </div>
         </div>
 
-        <div class="col-xs-4">
+        <div class="col-xs-2">
             <%= f.submit "Go!", class: "btn btn-primary btn-large btn-block" %>
           <% end %>
         </div>
 
-    <div class="col-xs-12">
-      <div class="col-xs-2" style="padding:0;">
-        <!-- AddThis Button BEGIN -->
-        <div class="addthis_toolbox addthis_default_style addthis_16x16_style">
-        <a class="addthis_button_email"></a>
-        <a class="addthis_button_facebook"></a>
-        <a class="addthis_button_twitter"></a>
-        <a class="addthis_button_linkedin"></a>
-        <a class="addthis_button_google_plusone_share"></a>
-        <a class="addthis_button_pinterest_share"></a>
+        <div class="col-xs-3">
+          <!-- AddThis Button BEGIN -->
+          <div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+          <a class="addthis_button_email"></a>
+          <a class="addthis_button_facebook"></a>
+          <a class="addthis_button_twitter"></a>
+          <a class="addthis_button_linkedin"></a>
+          <a class="addthis_button_google_plusone_share"></a>
+          <a class="addthis_button_pinterest_share"></a>
+          </div>
+          <script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
+          <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-530ee7046fcbd127"></script>
+          <!-- AddThis Button END -->
         </div>
-        <script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
-        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-530ee7046fcbd127"></script>
-        <!-- AddThis Button END -->
-      </div>
-      <div class="col-xs-10" style="padding:0;">
-        <p style="text-align:left; font-size: 90%; font-style: italic">
-          <b>Tell friends:</b> the <b>128th</b> person to borrow something will get a gift; currently <%="#{Request.count}"%> people have borrowed from our closet!
-        </p>
-      </div>
 
     </div>
-      
+
+        
+    <p style="font-size: 90%; font-style: italic">
+      We are offering this free service to study the borrowing and sharing process. Thanks for your help & please <u><a href="mailto:jdong8@gmail.com">contact us</a></u> if you have any questions.
+    </p>
+          
   </div>
 </div>

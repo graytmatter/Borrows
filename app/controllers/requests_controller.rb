@@ -2,6 +2,7 @@ class RequestsController < ApplicationController
 
   def new
     @requestrecord = Request.new
+    @requestrecord.email = session[:signup_email]
     inventory
     howto
     @pagetitle = "What would you like to borrow?"
@@ -53,7 +54,7 @@ class RequestsController < ApplicationController
 =end
 
     if @requestrecord.changed? && @requestrecord.save
-      flash[:success] = "Your request has been updated! We'll respond in a few hours."
+      flash[:success] = "Your request has been updated! We'll respond in about 3 hours."
       RequestMailer.update_email(@requestrecord).deliver
       redirect_to edit_request_path(@requestrecord.edit_id)
     else

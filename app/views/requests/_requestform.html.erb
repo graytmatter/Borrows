@@ -44,7 +44,7 @@
               <%= form_for @requestrecord do |f| %>
 
                 <div class="col-xs-12">
-                  <p><b>Item(s) we currently have</b></p>
+                  <p><b>Item(s) we have available</b></p>
                 </div>
 
                 <% @inventory.each do |category, list| %>
@@ -73,7 +73,7 @@
                   </div>
 
                   <div class="form-group">
-                    <%= f.label :email, "Your email" %>
+                    <%= f.label :email, "Email we will use to contact you" %>
                     <%= f.text_field :email, class: "form-control", placeholder: "How do we get in touch with you?" %>
                   </div>
 

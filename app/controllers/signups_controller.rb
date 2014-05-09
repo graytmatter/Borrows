@@ -11,8 +11,12 @@ class SignupsController < ApplicationController
 		images
 		howto
 		if @signup.save
-			@signup.save_subscrip
-			redirect_to new_request_path
+			if Signup.exists?(email:@signup.email) == false
+				@signup.save_subscrip
+			else
+			    session[:signup_email] = @signup.email
+			    redirect_to new_request_path
+			end
 		else
 			render new_signup_path
 		end
