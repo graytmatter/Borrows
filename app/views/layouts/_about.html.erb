@@ -2,11 +2,8 @@
   <div class= "col-xs-8 col-xs-offset-2">
     <h4>Need something just a few times and don't want to waste money or time shopping?</h4>
     <p>
-      We help you borrow what you need from friends and neighbors in San Francisco for camping and backpacking, picnics and BBQs, babies and toddlers, home and kitchen, and more! <u><a href="mailto:jdong8@gmail.com">Contact us</a></u> if you have any questions, ideas, or suggestions!
+      We are studying how people borrow & share. That means we have a closet full of quality gear for camping and backpacking, picnics and BBQs, babies and toddlers, home and kitchen, and more... free for you! <u><a href="mailto:jdong8@gmail.com">Contact us</a></u> if you have any questions, ideas, or suggestions!
     </p>
-    <hr>
-
-    <h4>Borrowing what you need is easy</h4>
     <%= render "layouts/howto" %>
 
     <div class="col-xs-12">
@@ -30,12 +27,12 @@
           <%= form_for @signup do |f| %>
 
             <div class="form-group">
-              <%= f.text_field :email, class: "form-control", placeholder: "Enter your email to start borrowing. Don't worry we won't share it with anyone." %>
+              <%= f.text_field :email, class: "form-control", placeholder: "Enter your email here (we will never share it), and hit 'Go!' to begin borrowing." %>
             </div>
         </div>
 
         <div class="col-xs-4">
-            <%= f.submit "Submit email & borrow now!", class: "btn btn-primary btn-large btn-block" %>
+            <%= f.submit "Go!", class: "btn btn-primary btn-large btn-block" %>
           <% end %>
         </div>
 
