@@ -10,15 +10,18 @@ class SignupsController < ApplicationController
 		@signup = Signup.new(signup_params)
 		images
 		howto
-		if @signup.save
-			if Signup.exists?(email:@signup.email) == false
-				@signup.save_subscrip
-			else
-			    session[:signup_email] = @signup.email
-			    redirect_to new_request_path
-			end
+
+		if Signup.exists?(email:@signup.email)
+			session[:signup_email] = @signup.email
+			redirect_to new_request_path
 		else
-			render new_signup_path
+			if @signup.save
+				@signup.save_subscrip
+				session[:signup_email] = @signup.email
+				redirect_to new_request_path
+			else
+				render new_signup_path
+			end
 		end
 
 	end
