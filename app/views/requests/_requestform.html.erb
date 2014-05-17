@@ -153,12 +153,12 @@
     $("#form").on("submit", function(){
         if (document.getElementById('extension-is-installed')) {
             alert("You have already installed the plug-in. Thanks!");
-        else 
+        } else { 
             chrome.webstore.install();
             var isInstalledNode = document.createElement('div');
             isInstalledNode.id = 'extension-is-installed';
             document.body.appendChild(isInstalledNode);
-    }
+        }
     });
 
   /*function ExtInstall() {
