@@ -11,14 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140325060936) do
-
-  create_table "answers", force: true do |t|
-    t.string   "answer"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "question_id"
-  end
+ActiveRecord::Schema.define(version: 20140517192453) do
 
   create_table "entry_codes", force: true do |t|
     t.string   "code"
@@ -28,12 +21,6 @@ ActiveRecord::Schema.define(version: 20140325060936) do
   end
 
   add_index "entry_codes", ["code"], name: "index_entry_codes_on_code"
-
-  create_table "questions", force: true do |t|
-    t.string   "question"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "requests", force: true do |t|
     t.string   "name"
@@ -48,6 +35,7 @@ ActiveRecord::Schema.define(version: 20140325060936) do
     t.string   "addysdeliver"
     t.string   "timedeliver"
     t.string   "instrucdeliver"
+    t.string   "heard"
   end
 
   create_table "signups", force: true do |t|

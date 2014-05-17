@@ -64,7 +64,7 @@ class RequestsController < ApplicationController
 
   private
     def request_params
-      params.require(:request).permit(:email, {:items => []}, :detail, :name, :rentdate, :paydeliver, :addysdeliver, :timedeliver, :instrucdeliver, :edit_id)
+      params.require(:request).permit(:email, {:items => []}, :detail, :name, :rentdate, :paydeliver, :addysdeliver, :timedeliver, :instrucdeliver, :edit_id, :heard)
     end
 
     def inventory

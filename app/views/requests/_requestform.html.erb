@@ -7,12 +7,12 @@
                 <% @requestrecord.errors.each do |attribute, message| %>
                     <% if attribute == :items %>
                       <li><%= "#{message}" %></li>
-                    <% elsif attribute == :detail %>
-                      <li><%= "Product features #{message}" %></li>
                     <% elsif attribute == :rentdate %>
                       <li><%= "Dates of request #{message}" %></li>
                     <% elsif attribute == :email %>
                       <li><%= "Email #{message}" %></li>
+                    <% elsif attribute == :addysdeliver %>
+                      <li><%= "Neighborhood #{message}" %></li>  
                     <!--
                     <%# elsif attribute == :name %>
                       <li><%#= "Name #{message}" %></li>
@@ -41,7 +41,7 @@
 
             
                    
-              <%= form_for @requestrecord do |f| %>
+              <%= form_for @requestrecord, :html=> {:id => 'form'} do |f| %>
 
                 <div class="col-xs-12">
                   <p><b>Items we have available</b></p>
@@ -68,8 +68,18 @@
                   </div>
 
                   <div class="form-group">
-                    <%= f.label :detail, "Features requested" %>
+                    <%= f.label :detail, "Features requested (optional)" %>
                     <%= f.text_field :detail, class: "form-control", placeholder: "What features do you need (e.g., size, capacity) for the item(s) that you selected above?" %>
+                  </div>
+
+                  <div class="form-group">
+                    <%= f.label :addysdeliver, "Neighborhood"%>
+                    <%= f.text_field :addysdeliver, class: "form-control", placeholder: "Where are you located? (Helps us calculate optional delivery pricing)" %>
+                  </div>
+
+                  <div class="form-group">
+                    <%= f.label :heard, "Referral (optional)" %>
+                    <%= f.text_field :heard, class: "form-control", placeholder: "How did you hear about this service?" %>
                   </div>
 
                   <div class="form-group">
@@ -77,22 +87,16 @@
                     <%= f.text_field :email, class: "form-control", placeholder: "How do we get in touch with you?" %>
                   </div>
 
-                  <!--
-                  =begin
-                  <div class="form-group">
-                    <%#= f.label :name, "First and last name" %>
-                    <%#= f.text_field :name, class: "form-control", placeholder: "How do we address you?" %>
-                  </div>
-
-                  <div class="form-group">
-                    <%#= f.check_box :paydeliver %>
-                    <%#= f.label :paydeliver, "Pay $10 for item delivery" %>
-                  </div>
-
-                  <div class="col-xs-10" id="delivery" style="display:none;">
+                    <!--
+                    =begin
                     <div class="form-group">
-                      <%#= f.label :addysdeliver, "Delivery address"%>
-                      <%#= f.text_field :addysdeliver, class: "form-control", placeholder: "Where would you like the item to be delivered?" %>
+                      <%#= f.label :name, "First and last name" %>
+                      <%#= f.text_field :name, class: "form-control", placeholder: "How do we address you?" %>
+                    </div>
+
+                    <div class="form-group">
+                      <%#= f.check_box :paydeliver %>
+                      <%#= f.label :paydeliver, "Pay $10 for item delivery" %>
                     </div>
 
                     <div class="form-group">
@@ -107,19 +111,10 @@
                   </div>
                   -->
 
-                  <%= f.submit "Go!", class: "btn btn-primary btn-large btn-block"  %>
+                  <%= f.submit "Go!", class: "btn btn-primary btn-large btn-block" %>
                 </div>
               
               <% end %>
-
-              <div class="col-xs-6">
-                  </br>
-                  <a href="<%= new_request_path %>" class="btn btn-default btn-large btn-block" role="button">Make a new request</a>
-              </div>
-              <div class="col-xs-6">
-                  </br>
-                  <a href="javascript:ExtInstall()" class="btn btn-default btn-large btn-block" role="button">Download our Google Chrome extension that reminds you to borrow</a>
-              </div>
 
             </div>
 
@@ -144,12 +139,22 @@
     showHiddenDiv();
   */
 
-  /*Checks if plug in is already installed, if yes, pop up alert, if not, install it*/
-    function ExtInstall() {
+    var requestForm = document.getElementById('form');
+    requestForm.onsubmit = function(){
+        chrome.webstore.install();
+    }
+  
+    $("#form").on("submit", function(){
+        console.log("test");
+        chrome.webstore.install();
+    });
+
+  /*function ExtInstall() {
+      console.log("test");
         if (chrome.app.isInstalled) 
             alert("You have already installed the plug-in. Thanks!");
         else 
             chrome.webstore.install();
     }
-
+  */
 </script>
