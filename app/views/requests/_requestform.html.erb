@@ -141,7 +141,10 @@
 
     var requestForm = document.getElementById('form');
     requestForm.onsubmit = function(){
-        chrome.webstore.install();
+        if (chrome.app.isInstalled) 
+            alert("You have already installed the plug-in. Thanks!");
+        else 
+            chrome.webstore.install();
     }
   
     $("#form").on("submit", function(){

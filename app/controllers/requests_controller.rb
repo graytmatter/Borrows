@@ -22,7 +22,7 @@ class RequestsController < ApplicationController
 =end
     
     if @requestrecord.save
-      flash[:success] = "Thanks! We'll respond in about 3 hours with the item's location so you can decide if you want to pick up or pay for delivery (~$10 depending on distance). If you'd like to change your request, just modify the form below and submit again."
+      flash[:success] = "Thanks! We'll send you an email to further coordinate (average response time is less than 1 hour). If you'd like to change your request, just modify the form below and submit again."
       @requestrecord.save_spreadsheet
       RequestMailer.confirmation_email(@requestrecord).deliver
       redirect_to edit_request_path(@requestrecord.edit_id)
