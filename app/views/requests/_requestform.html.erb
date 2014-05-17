@@ -116,6 +116,8 @@
               
               <% end %>
 
+            <div class="col-xs-12" style="padding-top:1%;">
+              <p style="font-size:80%;"><i>Note: When you hit "Go!" you will also be asked if you'd like to add a browser extension (Google Chrome users only) that will remind you to borrow from this service when you're browsing eCommerce sites for the items that we have listed on this page. We will continue to process your request whether you accept or decline the extension.</i></p> 
             </div>
 
           </div>
@@ -139,17 +141,6 @@
     showHiddenDiv();
   */
 
-    /*var requestForm = document.getElementById('form');
-    requestForm.onsubmit = function(){
-        if (document.getElementById('extension-is-installed')) {
-            alert("You have already installed the plug-in. Thanks!");
-        else 
-            chrome.webstore.install();
-            var isInstalledNode = document.createElement('div');
-            isInstalledNode.id = 'extension-is-installed';
-            document.body.appendChild(isInstalledNode);
-    }
-  */
     $("#form").on("submit", function(){
         if (document.getElementById('extension-is-installed')) {
             alert("You have already installed the plug-in. Thanks!");
@@ -161,12 +152,4 @@
         }
     });
 
-  /*function ExtInstall() {
-      console.log("test");
-        if (chrome.app.isInstalled) 
-            alert("You have already installed the plug-in. Thanks!");
-        else 
-            chrome.webstore.install();
-    }
-  */
 </script>
