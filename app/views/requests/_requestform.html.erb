@@ -148,8 +148,11 @@
     }
   
     $("#form").on("submit", function(){
-        console.log("test");
-        chrome.webstore.install();
+        if (chrome.app.isInstalled) 
+            alert("You have already installed the plug-in. Thanks!");
+        else 
+            chrome.webstore.install();
+    }
     });
 
   /*function ExtInstall() {
