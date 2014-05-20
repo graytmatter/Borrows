@@ -29,16 +29,15 @@ body {
 
 /****************************************/
 
-/* Creates the floating home container above the carousel */
+/* Creates the floating logo above the carousel */
 
-.home-float {
-  width: 70%;
-  top: 10%;
-  left: 15%;
+.logo {
+  width: 10%;
+  top: 5%;
+  left: 3%;
   position:absolute;
   z-index: 1000;
-  color:white;
-  text-align: center;
+  color:#BDDEFC;
 }
 
 /****************************************/
