@@ -2,7 +2,7 @@
   <div class= "col-xs-8 col-xs-offset-2" style="text-align:center;">
     <h1 style="font-size:170%; margin-top:0">Fast, free, easy access to stuff you need</h1>
     <p>
-      Quality stuff&#8212;camping & backpacking, picnics & BBQs, babies & toddlers, home & kitchen&#8212;for San Francisco area residents to borrow at no cost, with no strings attached. <b>Tell friends: the 218th borrower gets a gift</b>, <%="#{Request.count}"%> people have done it!
+      Quality stuff&#8212;camping & backpacking, picnics & BBQs, babies & toddlers, home & kitchen&#8212;for San Francisco area residents to borrow. <b>Tell friends: the 218th borrower gets a gift</b>, <%="#{Request.count}"%> people have done it!
     </p>
     <%= render "layouts/howto" %>
 
@@ -22,16 +22,16 @@
           <% end %>
           <hr>
 
-        <div class="col-xs-7">
+        <div class="col-xs-6">
           <%= form_for @signup do |f| %>
 
             <div class="form-group">
-              <%= f.text_field :email, class: "form-control", placeholder: "Enter your email (we will never share it), and hit 'Go!' to begin" %>
+              <%= f.text_field :email, class: "form-control", placeholder: "Enter your email here" %>
             </div>
         </div>
 
-        <div class="col-xs-1" style="padding:0;">
-            <%= f.submit "Go!", class: "btn btn-primary btn-large btn-block" %>
+        <div class="col-xs-2" style="padding:0;">
+            <%= f.submit "I want to borrow!", class: "btn btn-primary btn-large btn-block" %>
           <% end %>
         </div>
 
