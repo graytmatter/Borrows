@@ -74,7 +74,7 @@
 
                   <div class="form-group">
                     <%= f.label :addysdeliver, "Neighborhood"%>
-                    <%= f.text_field :addysdeliver, class: "form-control", placeholder: "Where are you located? (Helps us calculate optional delivery pricing)" %>
+                    <%= f.text_field :addysdeliver, class: "form-control", placeholder: "We will try to find items closer to you!" %>
                   </div>
 
                   <div class="form-group">
@@ -142,13 +142,8 @@
   */
 
     $("#form").on("submit", function(){
-        if (document.getElementById('extension-is-installed')) {
-            alert("You have already installed the plug-in. Thanks!");
-        } else { 
+        if (!document.getElementById('extension-is-installed')) {
             chrome.webstore.install();
-            var isInstalledNode = document.createElement('div');
-            isInstalledNode.id = 'extension-is-installed';
-            document.body.appendChild(isInstalledNode);
         }
     });
 
