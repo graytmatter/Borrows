@@ -70,11 +70,13 @@ class RequestsController < ApplicationController
     def inventory
       @inventory = {
       "Camping" => ["Tent", "Sleeping bag", "Sleeping pad", "Backpack", "Water filter"],
-      "Sports & outdoors" => ["Tennis set", "Volleyball set", "Bicycle pump", "Outdoors grill", "Shade house"],
-      "Tools" => ["Electric drill", "Screwdriver set", "Hammer", "Wrench set", "Extension cords"],
-      "Home & kitchen" => ["Vacuum", "Air mattress", "Blender", "Electric grill", "Food processor"],
-      "Baby gear" => ["Umbrella Stroller", "Booster seat", "Backpack carrier", "Pack n' Play", "Jumper"],
-      "Snow sports" => ["Outerwear", "Innerwear", "Gloves" , "Helmet", "Goggles"]
+      "Park & picnic" => ["Portable table", "Portable chair", "Cooler", "Outdoors grill", "Shade house"],
+      "Tools" => ["Electric drill", "Screwdriver set", "Hammer", "Wrench set", "Utility knife"],
+      "Housewares" => ["Vacuum", "Air mattress", "Iron & board", "Luggage", "Extension cords"], 
+      #"Baby gear" => ["Umbrella Stroller", "Booster seat", "Backpack carrier", "Pack n' Play", "Jumper"],
+      "Kitchenwares" =>["Blender", "Electric grill", "Food processor", "Baking dish", "Knife sharpener"],
+      #"Snow sports" => ["Outerwear", "Innerwear", "Gloves" , "Helmet", "Goggles"]
+      "Miscellaneous" => ["Tennis set", "Bike pump", "Jumper cables", "Dry bag", "Mat cutter"],
     }
     end
 end
