@@ -19,14 +19,13 @@ class Request < ActiveRecord::Base
     errors.add(:items, 'You must select at least one item') unless self.items.detect { |i| i != "0" } 
   end
 
-
   def save_spreadsheet
     connection = GoogleDrive.login(ENV['GMAIL_USERNAME'], ENV['GMAIL_PASSWORD'])
     ss = connection.spreadsheet_by_title('Request spreadsheet')
     ws = ss.worksheets[0]
     row = 1 + ws.num_rows #finds last row
     ws[row, 1] = self.edit_id
-    ws[row, 2] = Time.new
+    ws[row, 2] = self.created_at
     ws[row, 3] = self.items
     ws[row, 4] = self.detail
     ws[row, 5] = self.rentdate
@@ -38,8 +37,7 @@ class Request < ActiveRecord::Base
     #ws[row, 11] = self.instrucdeliver
     ws[row, 12] = self.heard
     ws.save
-  end
-
+  end 
 
 =begin
   def update_spreadsheet

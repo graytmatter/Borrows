@@ -23,7 +23,22 @@ class RequestsController < ApplicationController
     
     if @requestrecord.save
       flash[:success] = "Thanks! We'll send you an email to further coordinate (average response time is less than 1 hour). If you'd like to change your request, just modify the form below and submit again."
-      @requestrecord.save_spreadsheet
+      # Comments from here use example of @requestrecord.items = ["water filter", "tent", "0", "0", "0"] where "0" represents blank checkboxes
+      @requestrecord.items.select! { |x| x != "0" } #removes blank checkboxes; @requestrecord.items = ["water filter", "tent"]
+      num_of_requests = @requestrecord.items.count #counts number of items requested; num_of_requests = 2
+
+      i = 0 
+      cloned_request = Hash.new
+      while i < num_of_requests do
+         cloned_request[i] = Marshal.load(Marshal.dump(@requestrecord)) #creates a cloned_request[0] = @requestrecord and cloned_request[1] = @requestrecord 
+         cloned_request[i].items = @requestrecord.items.slice(i) #disaggregates the items into the cloned_requests; cloned_request[0].items = "water filter",  cloned_request[1].items = "tent" 
+         i += 1
+      end
+
+      cloned_request.each do | key, request |
+          request.save_spreadsheet
+      end
+
       RequestMailer.confirmation_email(@requestrecord).deliver
       redirect_to edit_request_path(@requestrecord.edit_id)
     else
