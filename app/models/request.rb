@@ -5,8 +5,7 @@ class Request < ActiveRecord::Base
   validate :must_have_one_item
 
   validates :email, presence: true, format: { with: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i }
-  validates :startdate, presence: true
-  validates :enddate, presence: true
+  validate :borrow_date
   validates :addysdeliver, presence: true
   
 =begin
@@ -18,6 +17,10 @@ class Request < ActiveRecord::Base
 
   def must_have_one_item
     errors.add(:items, 'You must select at least one item') unless self.items.detect { |i| i != "0" } 
+  end
+
+  def borrow_date
+    errors.add(:borrow_date, 'End date must be after start date') if :startdate > :enddate
   end
 
   def save_spreadsheet

@@ -7,10 +7,8 @@
                 <% @requestrecord.errors.each do |attribute, message| %>
                     <% if attribute == :items %>
                       <li><%= "#{message}" %></li>
-                    <% elsif attribute == :startdate %>
-                      <li><%= "Starting date #{message}" %></li>
-                    <% elsif attribute == :enddate %>
-                      <li><%= "Ending date #{message}" %></li>  
+                    <% elsif attribute == :borrow_date %>
+                      <li><%= "#{message}" %></li>
                     <% elsif attribute == :email %>
                       <li><%= "Email #{message}" %></li>
                     <% elsif attribute == :addysdeliver %>
