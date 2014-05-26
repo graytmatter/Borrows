@@ -5,7 +5,8 @@ class Request < ActiveRecord::Base
   validate :must_have_one_item
 
   validates :email, presence: true, format: { with: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i }
-  validates :rentdate, presence: true
+  validates :startdate, presence: true
+  validates :enddate, presence: true
   validates :addysdeliver, presence: true
   
 =begin
@@ -28,14 +29,15 @@ class Request < ActiveRecord::Base
     ws[row, 2] = self.created_at
     ws[row, 3] = self.items
     ws[row, 4] = self.detail
-    ws[row, 5] = self.rentdate
+    ws[row, 5] = self.startdate
+    ws[row, 6] = self.enddate
     #ws[row, 6] = self.name
     ws[row, 7] = self.email
     #ws[row, 8] = self.paydeliver
-    ws[row, 9] = self.addysdeliver
+    ws[row, 8] = self.addysdeliver
     #ws[row, 10] = self.timedeliver
     #ws[row, 11] = self.instrucdeliver
-    ws[row, 12] = self.heard
+    ws[row, 9] = self.heard
     ws.save
   end 
 
@@ -54,9 +56,11 @@ class Request < ActiveRecord::Base
   end
 =end
 
+=begin #supports entry_codes
   def to_param
     self.edit_id
   end
+=end
 
   private
 

@@ -7,8 +7,10 @@
                 <% @requestrecord.errors.each do |attribute, message| %>
                     <% if attribute == :items %>
                       <li><%= "#{message}" %></li>
-                    <% elsif attribute == :rentdate %>
-                      <li><%= "Dates of request #{message}" %></li>
+                    <% elsif attribute == :startdate %>
+                      <li><%= "Starting date #{message}" %></li>
+                    <% elsif attribute == :enddate %>
+                      <li><%= "Ending date #{message}" %></li>  
                     <% elsif attribute == :email %>
                       <li><%= "Email #{message}" %></li>
                     <% elsif attribute == :addysdeliver %>
@@ -63,8 +65,10 @@
                 <div class="col-xs-12">
 
                   <div class="form-group">
-                    <%= f.label :rentdate, "Time period of request" %>
-                    <%= f.text_field :rentdate, class: "form-control", placeholder: "From when to when are you looking to borrow?" %>
+                    <%= f.label "Item(s) needed from: " %>
+                    <%= date_select(:request, :startdate, start_year: Date.today.year, end_year: Date.today.year + 1) %>
+                    <%= f.label " to: " %>
+                    <%= date_select(:request,   :enddate, start_year: Date.today.year, end_year: Date.today.year + 1) %>
                   </div>
 
                   <div class="form-group">
@@ -73,13 +77,13 @@
                   </div>
 
                   <div class="form-group">
-                    <%= f.label :addysdeliver, "Neighborhood"%>
-                    <%= f.text_field :addysdeliver, class: "form-control", placeholder: "We will try to find items closer to you!" %>
+                    <%= f.label :heard, "Referral (optional)" %>
+                    <%= f.text_field :heard, class: "form-control", placeholder: "How did you hear about this service?" %>
                   </div>
 
                   <div class="form-group">
-                    <%= f.label :heard, "Referral (optional)" %>
-                    <%= f.text_field :heard, class: "form-control", placeholder: "How did you hear about this service?" %>
+                    <%= f.label :addysdeliver, "Neighborhood"%>
+                    <%= f.text_field :addysdeliver, class: "form-control", placeholder: "We will try to find items closer to you!" %>
                   </div>
 
                   <div class="form-group">

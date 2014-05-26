@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140517192453) do
+ActiveRecord::Schema.define(version: 20140526044923) do
 
   create_table "entry_codes", force: true do |t|
     t.string   "code"
@@ -36,6 +36,8 @@ ActiveRecord::Schema.define(version: 20140517192453) do
     t.string   "timedeliver"
     t.string   "instrucdeliver"
     t.string   "heard"
+    t.datetime "startdate"
+    t.datetime "enddate"
   end
 
   create_table "signups", force: true do |t|
