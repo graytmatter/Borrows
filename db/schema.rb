@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140527053059) do
+ActiveRecord::Schema.define(version: 20140527221031) do
 
   create_table "entry_codes", force: true do |t|
     t.string   "code"
@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 20140527053059) do
   create_table "requests", force: true do |t|
     t.string   "name"
     t.string   "email"
-    t.string   "items"
+    t.text     "items",          limit: 255
     t.string   "detail"
     t.datetime "created_at"
     t.datetime "updated_at"
