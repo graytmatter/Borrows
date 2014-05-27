@@ -10,6 +10,7 @@ class RequestsController < ApplicationController
 
   def create
     @requestrecord = Request.new(request_params)
+    Rails.logger.debug(:params)
     inventory
     howto
     @pagetitle = "What would you like to borrow?"
@@ -41,6 +42,7 @@ class RequestsController < ApplicationController
 
       RequestMailer.confirmation_email(@requestrecord).deliver
       redirect_to edit_request_path(@requestrecord.edit_id)
+
     else
       render 'new'
     end

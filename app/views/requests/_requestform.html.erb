@@ -64,9 +64,9 @@
 
                   <div class="form-group">
                     <%= f.label "Item(s) needed from: " %>
-                    <%= date_select(:request, :startdate, start_year: Date.today.year, end_year: Date.today.year + 1) %>
+                    <%= date_select(:request, :startdate, default: @requestrecord.startdate, start_year: Date.today.year, end_year: Date.today.year + 1) %>
                     <%= f.label " to: " %>
-                    <%= date_select(:request,   :enddate, start_year: Date.today.year, end_year: Date.today.year + 1) %>
+                    <%= date_select(:request, :enddate, default: @requestrecord.enddate, start_year: Date.today.year, end_year: Date.today.year + 1) %>
                   </div>
 
                   <div class="form-group">

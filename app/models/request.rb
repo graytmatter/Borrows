@@ -20,7 +20,7 @@ class Request < ActiveRecord::Base
   end
 
   def borrow_date
-    errors.add(:borrow_date, 'End date must be after start date') if :startdate > :enddate
+    errors.add(:borrow_date, 'End date must be after start date') if self.startdate > self.enddate
   end
 
   def save_spreadsheet
@@ -41,6 +41,7 @@ class Request < ActiveRecord::Base
     #ws[row, 10] = self.timedeliver
     #ws[row, 11] = self.instrucdeliver
     ws[row, 9] = self.heard
+    ws[row, 10] = ((self.startdate - self.created_at)/60/60/24).round(1)
     ws.save
   end 
 
