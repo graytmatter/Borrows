@@ -25,7 +25,8 @@ class Request < ActiveRecord::Base
 
   def save_spreadsheet
     connection = GoogleDrive.login(ENV['GMAIL_USERNAME'], ENV['GMAIL_PASSWORD'])
-    ss = connection.spreadsheet_by_title('Request spreadsheet v2')
+    ss = connection.spreadsheet_by_title('Request spreadsheet v2') if Rails.env == "production"
+    ss = connection.spreadsheet_by_title('Request spreadsheet') if Rails.env == "development"
     ws = ss.worksheets[0]
     row = 1 + ws.num_rows #finds last row
     ws[row, 1] = self.edit_id
@@ -41,7 +42,11 @@ class Request < ActiveRecord::Base
     #ws[row, 10] = self.timedeliver
     #ws[row, 11] = self.instrucdeliver
     ws[row, 9] = self.heard
-    ws[row, 10] = ((self.startdate - self.created_at)/60/60/24).round(1)
+    if (self.startdate - self.created_at) < 0
+      ws[row, 10] = 0  
+    else
+      ws[row, 10] = ((self.startdate - self.created_at)/60/60/24).round(1)
+    end
     ws.save
   end 
 
