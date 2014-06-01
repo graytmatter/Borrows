@@ -1,15 +1,5 @@
 class ApplicationController < ActionController::Base
 
-before_action :redirect_to_www if Rails.env == "production"
-
-  def redirect_to_www
-    unless /www\.projectborrow\.com/ =~ request.url
-      uri = URI.parse(request.url)
-      uri.host = "www.projectborrow.com"
-      redirect_to uri.to_s
-    end
-  end
-
   def howto 
     @howtoimages = {
       "One" => "Tell us what you need",
