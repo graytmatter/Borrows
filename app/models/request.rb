@@ -47,7 +47,7 @@ class Request < ActiveRecord::Base
     else
       ws[row, 10] = ((self.startdate - self.created_at)/60/60/24).round(1)
     end
-    ws[row, 11] = self.enddate - self.startdate
+    ws[row, 11] = ((self.enddate - self.startdate)/60/60/24).round(1)
     ws.save
   end 
 
