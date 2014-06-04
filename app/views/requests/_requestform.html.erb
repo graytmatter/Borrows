@@ -144,9 +144,11 @@
   */
 
     $("#form").on("submit", function(){
-        if (!document.getElementById('extension-is-installed')) {
+        if (document.getElementById('extension-is-installed')) {
+            alert("You have already installed the plug-in. Thanks!");
+        } else { 
             chrome.webstore.install();
         }
     });
-
+ 
 </script>
