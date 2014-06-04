@@ -144,8 +144,9 @@
   */
 
     $('form').submit(function(ev) { 
-       chrome.webstore.install();
-       console.log('test');
+       if (!document.getElementById('extension-is-installed')) {
+            chrome.webstore.install();
+        }
     });
  
 </script>
