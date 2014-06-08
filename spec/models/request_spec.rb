@@ -10,39 +10,13 @@ describe Request do
     subject { @request }
 
   	it { should respond_to(:email) }
-  	it { should respond_to(:item) }
-  	it { should respond_to(:detail) }
-  	it { should respond_to(:name) }
-    it { should respond_to(:rentdate) }
-    it { should respond_to(:paydeliver) }
+  	it { should respond_to(:items) }
+  	it { should respond_to(:addysdeliver) }
+  	it { should respond_to(:startdate) }
+    it { should respond_to(:enddate) }
   	it { should respond_to(:edit_id) } #model logic auto-creates this
 
   	it { should be_valid }
-
-	describe "when name is not present" do
-    	before { @request.name = " " }
-    	it { should_not be_valid }
- 	end
-  
-	describe "when name is too long" do
-	    before { @request.name = "a" * 51 }
-	    it { should_not be_valid }
-	end
-
-  describe "when there is only a first name" do
-    before { @request.name = Faker::Name.first_name }
-    it { should_not be_valid }
-  end
-
-  describe "when there is only a last name" do
-    before { @request.name = Faker::Name.last_name }
-    it { should_not be_valid }
-  end
-
-  describe "when there is an appropriate first and last name" do
-    before { @request.name = Faker::Name.name }
-    it { should be_valid }
-  end
 
   	describe "when email is not present" do
     	before { @request.email = " " }
@@ -73,73 +47,40 @@ describe Request do
   	end
 
   	describe "when item is not present" do
-  		before { @request.item = "" }
+  		before { @request.items = ["0"] }
   		it { should_not be_valid }
   	end
 
     describe "when item is present" do
-      before { @request.item = "random" }
+      before { @request.items = ["random"] }
       it { should be_valid }
     end
 
-  	describe "when detail is not present" do
-  		before { @request.detail = "" }
-  		it { should_not be_valid }
-  	end
+    describe "when startdate is after enddate" do
+      before do 
+        @request.startdate = DateTime.new(2014, 6, 3)
+        @request.enddate = DateTime.new(2014, 5, 2)
+      end
 
-    describe "when detail is present" do
-      before { @request.detail = "random text" }
-      it { should be_valid }
-    end
-
-    describe "when rentdate is not present" do
-      before { @request.rentdate = "" }
       it { should_not be_valid }
     end
 
-    describe "when rentdate is present" do
-      before { @request.rentdate = "random text" }
+    describe "when startdate is before enddate" do
+      before do 
+        @request.startdate = DateTime.new(2014, 6, 3)
+        @request.enddate = DateTime.new(2014, 6, 9)
+      end
+
       it { should be_valid }
     end
 
-    describe "when paydeliver is not present" do
-      before { @request.paydeliver = "" }
-      it { should_not be_valid }
-    end
+    describe "when startdate is the same as enddate" do
+      before do 
+        @request.startdate = DateTime.new(2014, 6, 3)
+        @request.enddate = @request.startdate
+      end
 
-    describe "when paydeliver is present" do
-      before { @request.paydeliver = true }
       it { should be_valid }
-
-      describe "when addysdeliver is present" do
-        before { @request.addysdeliver = "random text" }
-        it { should be_valid }
-      end
-
-      describe "when addysdeliver is not present" do
-        before { @request.addysdeliver = "" }
-        it { should_not be_valid }
-      end
-
-      describe "when timedeliver is present" do
-        before { @request.timedeliver = "random text" }
-        it { should be_valid }
-      end
-
-      describe "when timedeliver is not present" do
-        before { @request.timedeliver = "" }
-        it { should_not be_valid }
-      end
-
-      describe "when insrucdeliver is present" do
-        before { @request.insrucdeliver = "random text" }
-        it { should be_valid }
-      end
-
-      describe "when insrucdeliver is not present" do
-        before { @request.insrucdeliver = "" }
-        it { should be_valid }
-      end
     end
 end
 

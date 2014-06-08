@@ -2,15 +2,11 @@ require 'faker'
 
 FactoryGirl.define do
 	factory :request do |f|
-		f.name { Faker::Name.name }
 		f.email { Faker::Internet.email }
-		f.item { "random item" }
-		f.detail { "random text" }
-		f.rentdate { "random text" }
-		f.paydeliver { true }
+		f.items { ["random item"] }
 		f.addysdeliver { "random text" }
-		f.timedeliver { "random text" }
-		f.instrucdeliver { "random text" }
+		f.startdate { DateTime.now  }
+		f.enddate { (rand(10)+1).from_now }
 	end
 end
 	

@@ -10,35 +10,8 @@ describe Signup do
     subject { @signup }
 
   	it { should respond_to(:email) }
-  	it { should respond_to(:name) }
-  	it { should respond_to(:heard) }
 
   	it { should be_valid }
-
-	describe "when name is not present" do
-    	before { @signup.name = " " }
-    	it { should_not be_valid }
- 	end
-  
-	describe "when name is too long" do
-	    before { @signup.name = "a" * 51 }
-	    it { should_not be_valid }
-	end
-
-	describe "when there is only a first name" do
-		before { @signup.name = Faker::Name.first_name }
-		it { should_not be_valid }
-	end
-
-	describe "when there is only a last name" do
-		before { @signup.name = Faker::Name.last_name }
-		it { should_not be_valid }
-	end
-
-	describe "when there is an appropriate first and last name" do
-		before { @signup.name = Faker::Name.name }
-		it { should be_valid }
-	end
 
   	describe "when email is not present" do
     	before { @signup.email = " " }
@@ -64,19 +37,9 @@ describe Signup do
       		end
     	end
 
-    	before { @signup.email = Faker::Internet.email }
-		  it { should be_valid }
+      before { @signup.email = Faker::Internet.email }
+      it { should be_valid }
 
-  	end
-
-  	describe "when heard is not present" do
-  		before { @signup.heard = "" }
-  		it { should be_valid }
-  	end
-
-  	describe "when heard is present" do
-  		before { @signup.heard = "random text" }
-  		it { should be_valid }
   	end
 
 end
