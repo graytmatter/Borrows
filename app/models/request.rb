@@ -26,7 +26,7 @@ class Request < ActiveRecord::Base
   def save_spreadsheet
     connection = GoogleDrive.login(ENV['GMAIL_USERNAME'], ENV['GMAIL_PASSWORD'])
     ss = connection.spreadsheet_by_title('Request spreadsheet v2') if Rails.env == "production"
-    ss = connection.spreadsheet_by_title('Request spreadsheet') if Rails.env == "development"
+    ss = connection.spreadsheet_by_title('Request spreadsheet') if Rails.env <> "production"
     ws = ss.worksheets[0]
     row = 1 + ws.num_rows #finds last row
     ws[row, 1] = self.edit_id

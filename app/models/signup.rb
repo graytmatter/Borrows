@@ -5,7 +5,8 @@ class Signup < ActiveRecord::Base
 
 def save_subscrip
     connection = GoogleDrive.login(ENV['GMAIL_USERNAME'], ENV['GMAIL_PASSWORD'])
-    ss = connection.spreadsheet_by_title('Visitor spreadsheet')
+    ss = connection.spreadsheet_by_title('Visitor spreadsheet') if Rails.env == "production"
+    ss = connection.spreadsheet_by_title('Visitor spreadsheet old') if Rails.env <> "production"
     ws = ss.worksheets[0]
     row = 1 + ws.num_rows 
     ws[row, 1] = Time.new 
