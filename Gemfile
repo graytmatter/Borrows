@@ -24,6 +24,7 @@ group :test do
 	gem 'selenium-webdriver', '2.35.1' #capybara dependency
 	gem 'capybara', '2.1.0' #enables natural language tests
 	gem 'faker'
+	gem 'launchy', '~> 2.4.2'
 end
 
 # Use SCSS for stylesheets

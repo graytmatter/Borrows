@@ -1,11 +1,13 @@
 require 'spec_helper'
 
-describe SignupsController, :type => :controller do
+feature SignupsController, :type => :controller do
+	render_views
 
 	describe "new" do
 		it "creates a new signup at @signup" do
 			get :new
 			assigns(:signup).should be_a_new(Signup)
+			assert_select ('form')
 		end
 	end
 
@@ -19,6 +21,7 @@ describe SignupsController, :type => :controller do
 		it "redirect to form page" do
 			post :create, signup: FactoryGirl.attributes_for(:signup)
 			response.should render_template "subscribe/notification_email"
+			response.should redirect_to "/new"
 		end
 
 		it "sends an email" do
@@ -44,6 +47,7 @@ describe SignupsController, :type => :controller do
 		it "redirect to form page" do
 			post :create, signup: FactoryGirl.attributes_for(:repeat_signup)
 			response.should_not render_template "subscribe/notification_email"
+			response.should redirect_to "/new"
 		end
 
 		it "does not send an email" do
@@ -53,7 +57,6 @@ describe SignupsController, :type => :controller do
 		end
 
 	end
-
 
 	describe "create - with invalid data" do
 		it "does not create a new signup" do
@@ -65,6 +68,8 @@ describe SignupsController, :type => :controller do
 		it "re-renders new action" do
 			post :create, signup: FactoryGirl.attributes_for(:invalid_signup)
 			response.should render_template :new
+			response.should_not redirect_to "/new"
+			css_select ('error_explanation')
 		end
 
 		it "does not send an email" do

@@ -12,7 +12,7 @@ end
 	
 FactoryGirl.define do
 	factory :invalid_request, parent: :request do |f|
-		f.name { nil }
+		f.email { nil }
 	end
 end
 	

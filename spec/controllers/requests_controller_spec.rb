@@ -1,21 +1,27 @@
 require 'spec_helper'
 
 describe RequestsController do
+	render_views
 
-	before :each do
+	before :all do
 		@inventory = {
-	      "Camping" => ["Tent", "Sleeping bag", "Sleeping pad", "Backpack", "Water filter", "Hydration bladder"],
-	      "Housewares" => ["Air mattress", "Electric drill", "Suitcase", "Iron", "Blender", "Portable grill"],
-	      "Snow sports" => ["Outer shell (upper)", "Outer shell (lower)", "Insular mid-layer (upper)", "Insular mid-layer(lower)", "Helmet", "Goggles"],
-	      "City sports" => ["Tennis racket & balls", "Volleyball net & ball", "Football", "Bicycle", "Bicycle pump", "Bicycle helmet"]
-	      }
-	      #refactor so that this is unnecessary
+      "Camping" => ["Tent", "Sleeping bag", "Sleeping pad", "Backpack", "Water filter"],
+      "Park & picnic" => ["Portable table", "Portable chair", "Cooler", "Outdoors grill", "Shade house"],
+      "Tools" => ["Electric drill", "Screwdriver set", "Hammer", "Wrench set", "Utility knife"],
+      "Housewares" => ["Vacuum", "Air mattress", "Iron & board", "Luggage", "Extension cords"], 
+      #"Baby gear" => ["Umbrella Stroller", "Booster seat", "Backpack carrier", "Pack n' Play", "Jumper"],
+      "Kitchenwares" =>["Blender", "Electric grill", "Food processor", "Baking dish", "Knife sharpener"],
+      #"Snow sports" => ["Outerwear", "Innerwear", "Gloves" , "Helmet", "Goggles"]
+      "Miscellaneous" => ["Tennis set", "Bike pump", "Jumper cables", "Dry bag", "Mat cutter"],
+    }
+	  #refactor so that this is unnecessary
 	end
 
 	describe "GET new" do
 		it "creates a new request" do
 			get :new
 			assigns(:requestrecord).should be_a_new(Request)
+			assert_select ('form')
 		end
 	end
 
@@ -29,7 +35,7 @@ describe RequestsController do
 
 		it "redirects to edit action" do
 			post :create, request: FactoryGirl.attributes_for(:request)
-			response.should redirect_to edit_request_url(assigns[:requestrecord].edit_id)  
+			response.should redirect_to edit_request_url(assigns[:requestrecord].edit_id)
 		end
 
 
@@ -51,6 +57,7 @@ describe RequestsController do
 		it "re-render new action" do
 			post :create, request: FactoryGirl.attributes_for(:invalid_request)
 			page.should render_template :new
+			css_select ('error_explanation')
 		end
 
 		it "does not send mail" do
@@ -64,7 +71,7 @@ describe RequestsController do
 	describe "PATCH edit/update" do
 
 		before :each do
-			@testrequest = FactoryGirl.create(:request, name: "James Dong")
+			@testrequest = FactoryGirl.create(:request, email: "jdong8@gmail.com")
 		end
 		
 		it "located the requested @testrequest" do
@@ -75,19 +82,19 @@ describe RequestsController do
 		describe "using valid data" do
 
 			it "updates the request" do
-				patch :update, edit_id: @testrequest.edit_id, request: FactoryGirl.attributes_for(:request, name: "Larry Johnson")
+				patch :update, edit_id: @testrequest.edit_id, request: FactoryGirl.attributes_for(:request, email: "jamesdd9302@yahoo.com")
 				@testrequest.reload
-				@testrequest.name.should eq("Larry Johnson")
+				@testrequest.email.should eq("jamesdd9302@yahoo.com")
 			end
 
 			it "redirects to edit action" do
-				patch :update, edit_id: @testrequest.edit_id, request: FactoryGirl.attributes_for(:request, name: "Larry Johnson")
-				response.should redirect_to edit_request_url(assigns[:requestrecord].edit_id) #or to try @testrequest.edit_id
+				patch :update, edit_id: @testrequest.edit_id, request: FactoryGirl.attributes_for(:request, email: "jamesdd9302@yahoo.com")
+				response.should redirect_to edit_request_url(assigns[:requestrecord].edit_id) 
 			end
 
 			it "sends mail" do
 				expect{
-					patch :update, edit_id: @testrequest.edit_id, request: FactoryGirl.attributes_for(:request, name: "Larry Johnson")
+					patch :update, edit_id: @testrequest.edit_id, request: FactoryGirl.attributes_for(:request, email: "jamesdd9302@yahoo.com")
 				}.to change(ActionMailer::Base.deliveries, :size).by(1)
 			end
 		end
@@ -95,19 +102,19 @@ describe RequestsController do
 		describe "using invalid data" do
 
 			it "does not update the request" do
-				patch :update, edit_id: @testrequest.edit_id, request: FactoryGirl.attributes_for(:request, name: "Larry")
+				patch :update, edit_id: @testrequest.edit_id, request: FactoryGirl.attributes_for(:request, email: "jamesdd9302")
 				@testrequest.reload
-				@testrequest.name.should eq("James Dong")
+				@testrequest.email.should eq("jdong8@gmail.com")
 			end
 
 			it "re-renders edit action" do
-				patch :update, edit_id: @testrequest.edit_id, request: FactoryGirl.attributes_for(:request, name: "Larry")
-				response.should render_template 'edit' 
+				patch :update, edit_id: @testrequest.edit_id, request: FactoryGirl.attributes_for(:request, email: "jamesdd9302")
+				css_select ('error_explanation')
 			end
 
 			it "does not sends mail" do
 				expect{
-					patch :update, edit_id: @testrequest.edit_id, request: FactoryGirl.attributes_for(:request, name: "Larry")
+					patch :update, edit_id: @testrequest.edit_id, request: FactoryGirl.attributes_for(:request, email: "jamesdd9302")
 				}.to_not change(ActionMailer::Base.deliveries, :size)
 			end
 		end
