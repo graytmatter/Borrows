@@ -11,16 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140527221031) do
+ActiveRecord::Schema.define(version: 20140617012511) do
 
-  create_table "entry_codes", force: true do |t|
-    t.string   "code"
-    t.boolean  "active",     default: true
+  create_table "inventories", force: true do |t|
+    t.string   "item_name"
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "entry_codes", ["code"], name: "index_entry_codes_on_code"
+  add_index "inventories", ["item_name"], name: "index_inventories_on_item_name"
 
   create_table "requests", force: true do |t|
     t.string   "name"
@@ -38,6 +38,8 @@ ActiveRecord::Schema.define(version: 20140527221031) do
     t.string   "heard"
     t.datetime "startdate"
     t.datetime "enddate"
+    t.integer  "user_id"
+    t.boolean  "tos_agree"
   end
 
   create_table "signups", force: true do |t|
@@ -46,6 +48,25 @@ ActiveRecord::Schema.define(version: 20140527221031) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "heard"
+    t.string   "streetone"
+    t.string   "streettwo"
+    t.integer  "zipcode"
   end
+
+  add_index "signups", ["email"], name: "index_signups_on_email", unique: true
+
+  create_table "transactions", force: true do |t|
+    t.integer  "request_id"
+    t.integer  "item_id"
+    t.string   "name"
+    t.datetime "startdate"
+    t.datetime "enddate"
+    t.integer  "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "transactions", ["enddate"], name: "index_transactions_on_enddate"
+  add_index "transactions", ["startdate"], name: "index_transactions_on_startdate"
 
 end

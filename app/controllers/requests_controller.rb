@@ -3,7 +3,7 @@ class RequestsController < ApplicationController
   def new
     @requestrecord = Request.new
     @requestrecord.email = session[:signup_email]
-    inventory
+    availableitems
     howto
     @pagetitle = "What would you like to borrow?"
   end

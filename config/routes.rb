@@ -1,5 +1,7 @@
 GoogleTest::Application.routes.draw do
 
+  resources :inventories, only: [:new, :create]
+
   root 'signups#new'
 
   get 'new', to: 'requests#new', as: 'new_request'
@@ -8,6 +10,7 @@ GoogleTest::Application.routes.draw do
   patch 'requests/:edit_id', to: 'requests#update', as: 'request'
 
   resources :signups, only: [:new, :create]
+
   #get 'signup', to: 'signups#new', as: 'new_signup'
 
     # The priority is based upon order of creation: first created -> highest priority.

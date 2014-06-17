@@ -1,0 +1,50 @@
+          <% if @inventory.errors.any? %>
+              <div id="error_explanation">
+                <div class="alert alert-danger">
+                  <p>The form contains <%= pluralize(@inventory.errors.count, "error") %>:</p>
+                </br>
+                <ul>
+                <% @inventory.errors.each do |attribute, message| %>
+                    <% if attribute == :items %>
+                      <li><%= "#{message}" %></li>
+                    <% end %>
+                <% end %>
+                </ul>
+                </div>
+              </div>
+          <% end %>
+
+          <div class="row">
+
+            <div class="col-xs-12">
+              <hr>
+              <h3><%= @pagetitle %></h3></br>
+            </div>
+
+            
+                   
+              <%= form_for @inventory, :html=> {:id => 'form'} do |f| %>
+
+                <div class="col-xs-12">
+                  <p><b>Items people are asking for</b></p>
+                </div>
+
+                <% @wishlist.each do |category, list| %>
+                  <div class="col-xs-2">
+                    <div class="form-group box">
+                      <h5> <%="#{category}"%> </h5>
+                        <% list.each do |thing| %>
+                          <%= f.check_box(:items, {:multiple => true}, "#{thing}") %>
+                          <%= f.label(:items, "#{thing}") %>
+                          </br>
+                        <% end %>
+                    </div>
+                  </div>  
+                <% end %>
+
+                  <%= f.submit "Go!", class: "btn btn-primary btn-large btn-block" %>
+                </div>
+              
+              <% end %>
+
+          </div>
