@@ -13,18 +13,26 @@ class SignupsController < ApplicationController
 
 		if Signup.exists?(email:@signup.email)
 			session[:signup_email] = @signup.email
-			redirect_to new_request_path
+			redirect_button
 		else
 			if @signup.save
 				@signup.save_subscrip
 				Subscribe.notification_email(@signup).deliver
 				session[:signup_email] = @signup.email
-				redirect_to new_request_path
+				redirect_button
 			else
 				render new_signup_path
 			end
 		end
 
+	end
+
+	def redirect_button
+		if params[:borrow] 
+			redirect_to new_request_path
+		else
+			redirect_to new_inventory_path
+		end
 	end
 
 private

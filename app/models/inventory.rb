@@ -1,12 +1,12 @@
 class Inventory < ActiveRecord::Base
 	belongs_to :signup
 
-    validate :must_have_one_item
-	validates :user_id, presence: true
+  #validate :must_have_one_item
+	validates :signup_id, presence: true
 
-  def must_have_one_item
-    errors.add(:items, 'You must select at least one item') unless self.items.detect { |i| i != "0" } 
-  end
+  # def must_have_one_item
+  #   errors.add(:item_name, 'You must select at least one item') unless Signup.find_by_email(session[:signup_email]).inventories.exists? 
+  # end
 
   def save_spreadsheet
     connection = GoogleDrive.login(ENV['GMAIL_USERNAME'], ENV['GMAIL_PASSWORD'])
@@ -19,5 +19,6 @@ class Inventory < ActiveRecord::Base
     ws[row, 3] = self.signup.streetone
     ws[row, 4] = self.signup.streettwo
     #ws[row, 5] = self.item_info
+  end
 		
 end

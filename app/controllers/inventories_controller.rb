@@ -1,26 +1,29 @@
 class InventoriesController < ApplicationController
+
   def new
     wishlist
     @pagetitle = "What would you like to lend?"
-
-    @itemrecord = Inventory.new
+    @signup_parent = Signup.find_by_email(session[:signup_email])
+    @itemrecord = @signup_parent.inventories.build
   end
 
   def create
     wishlist
-    @pagetitle = "What would you like to borrow?"
-    
-    items_to_offer = []
-    inventory_params.each do |item|
-      items_to_offer <<({ :user_id => Signup.find_by_email(:signup_email), :item_name => item })
+    @pagetitle = "What would you like to lend?"
+    @signup_parent = Signup.find_by_email(session[:signup_email])
+    @itemrecord = @signup_parent.inventories.build
+    items_to_be_saved = []
+    params[:item_name].each do |i|
+        items_to_be_saved << ({ :signup_id => @signup_parent.id, :item_name => i })
     end
-    if Inventory.create items_to_offer
-      flash[:success] = "Thanks so much for helping your community! We'll be in touch when someone needs your item(s)."
-      # Comments from here use example of @requestrecord.items = ["water filter", "tent", "0", "0", "0"] where "0" represents blank checkboxes
-      redirect_to root_path
+
+    if Inventory.create items_to_be_saved
+        flash[:success] = "Thanks!"
+        redirect_to root_path
     else
-      render :action => 'new'
+        render new_inventory_path
     end
+
   end
 
   def destroy
@@ -29,9 +32,14 @@ class InventoriesController < ApplicationController
   end
 
   private
+
     def inventory_params
-      params.require(:inventory).permit(:item_name)
+      params.require(:itemrecord).permit(:item_name)
     end
+
+    # def submitted_email
+    #   params.require(:signup_parent).permit(:email)
+    # end
 
     def wishlist
       @wishlist = {

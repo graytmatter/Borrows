@@ -1,13 +1,11 @@
-          <% if @inventory.errors.any? %>
+          <% if @itemrecord.errors.any? %>
               <div id="error_explanation">
                 <div class="alert alert-danger">
-                  <p>The form contains <%= pluralize(@inventory.errors.count, "error") %>:</p>
+                  <p>The form contains <%= pluralize(@itemrecord.errors.count, "error") %>:</p>
                 </br>
                 <ul>
-                <% @inventory.errors.each do |attribute, message| %>
-                    <% if attribute == :items %>
-                      <li><%= "#{message}" %></li>
-                    <% end %>
+                <% @itemrecord.errors.full_messages.each do |msg| %>
+                    <li><%= msg %></li>
                 <% end %>
                 </ul>
                 </div>
@@ -19,12 +17,12 @@
             <div class="col-xs-12">
               <hr>
               <h3><%= @pagetitle %></h3></br>
+              <h4><%= session[:signup_email] %></h4></br>
+              <!-- something around the items you've already lent out -->
             </div>
-
-            
                    
-              <%= form_for @inventory, :html=> {:id => 'form'} do |f| %>
-
+              <%= form_for @itemrecord do |f| %>
+                
                 <div class="col-xs-12">
                   <p><b>Items people are asking for</b></p>
                 </div>
@@ -34,8 +32,7 @@
                     <div class="form-group box">
                       <h5> <%="#{category}"%> </h5>
                         <% list.each do |thing| %>
-                          <%= f.check_box(:items, {:multiple => true}, "#{thing}") %>
-                          <%= f.label(:items, "#{thing}") %>
+                            <%= check_box_tag ":item_name[]", "#{thing}" %>
                           </br>
                         <% end %>
                     </div>

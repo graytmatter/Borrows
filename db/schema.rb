@@ -11,11 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140617012511) do
+ActiveRecord::Schema.define(version: 20140618184836) do
 
   create_table "inventories", force: true do |t|
     t.string   "item_name"
-    t.integer  "user_id"
+    t.integer  "signup_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 20140617012511) do
     t.string   "heard"
     t.datetime "startdate"
     t.datetime "enddate"
-    t.integer  "user_id"
+    t.integer  "signup_id"
     t.boolean  "tos_agree"
   end
 

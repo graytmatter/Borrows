@@ -10,7 +10,9 @@ class RequestsController < ApplicationController
 
   def create
     @requestrecord = Request.new(request_params)
-    Rails.logger.debug(:params)
+    if @requestrecord.email != session[:signup_email]
+      @newsignup = Signup.new(email: @requestrecord.email)
+    end
     inventory
     howto
     @pagetitle = "What would you like to borrow?"
@@ -84,8 +86,8 @@ class RequestsController < ApplicationController
       params.require(:request).permit(:email, {:items => []}, :detail, :name, :startdate, :enddate, :rentdate, :paydeliver, :addysdeliver, :timedeliver, :instrucdeliver, :edit_id, :heard)
     end
 
-    def inventory
-      @inventory = {
+    def availableitems
+      @availableitems = {
       "Camping" => ["Tent", "Sleeping bag", "Sleeping pad", "Backpack", "Water filter"],
       "Park & picnic" => ["Portable table", "Portable chair", "Cooler", "Outdoors grill", "Shade house"],
       "Tools" => ["Electric drill", "Screwdriver set", "Hammer", "Wrench set", "Utility knife"],
