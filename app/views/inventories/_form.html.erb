@@ -33,6 +33,7 @@
                       <h5> <%="#{category}"%> </h5>
                         <% list.each do |thing| %>
                             <%= check_box_tag ":item_name[]", "#{thing}" %>
+                            <%= label_tag ':item_name[]', "#{thing}" %>
                           </br>
                         <% end %>
                     </div>
