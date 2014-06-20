@@ -4,17 +4,20 @@ class InventoriesController < ApplicationController
     wishlist
     @pagetitle = "What would you like to lend?"
     @signup_parent = Signup.find_by_email(session[:signup_email])
-    @itemrecord = @signup_parent.inventories.build
+
   end
 
   def create
     wishlist
     @pagetitle = "What would you like to lend?"
     @signup_parent = Signup.find_by_email(session[:signup_email])
-    @itemrecord = @signup_parent.inventories.build
+
     items_to_be_saved = []
-    params[:item_name].each do |i|
-        items_to_be_saved << ({ :signup_id => @signup_parent.id, :item_name => i })
+    inventory_params.each do |item, quantity|
+      quantity = quantity.to_i
+      quantity.times do
+        items_to_be_saved << ({:signup_id => @signup_parent.id, :item_name => item })
+      end
     end
 
     if Inventory.create items_to_be_saved
@@ -34,7 +37,7 @@ class InventoriesController < ApplicationController
   private
 
     def inventory_params
-      params.require(:itemrecord).permit(:item_name)
+      params.except(:utf8, :authenticity_token, :commit, :method, :action, :controller)
     end
 
     # def submitted_email

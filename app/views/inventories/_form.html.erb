@@ -1,16 +1,3 @@
-          <% if @itemrecord.errors.any? %>
-              <div id="error_explanation">
-                <div class="alert alert-danger">
-                  <p>The form contains <%= pluralize(@itemrecord.errors.count, "error") %>:</p>
-                </br>
-                <ul>
-                <% @itemrecord.errors.full_messages.each do |msg| %>
-                    <li><%= msg %></li>
-                <% end %>
-                </ul>
-                </div>
-              </div>
-          <% end %>
 
           <div class="row">
 
@@ -32,7 +19,7 @@
                     <div class="form-group box">
                       <h5> <%="#{category}"%> </h5>
                         <% list.each do |thing| %>
-                            <%= number_field_tag ":item_name[]", "#{thing}", min: 0, placeholder: '0'%>
+                            <%= number_field_tag "#{thing}", :quantity, min: 0, placeholder: 0 %>
                             <%= label_tag "#{thing}" %>
                           </br>
                         <% end %>
