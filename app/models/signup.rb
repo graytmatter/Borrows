@@ -5,7 +5,7 @@ class Signup < ActiveRecord::Base
     #validates :name, presence: true, length: { maximum: 50 }, format: { with: /\s/ }
 
 def save_subscrip
-    connection = GoogleDrive.login(ENV['GMAIL_USERNAME'], ENV['GMAIL_PASSWORD'])
+    #connection = GoogleDrive.login(ENV['GMAIL_USERNAME'], ENV['GMAIL_PASSWORD'])
     ss = connection.spreadsheet_by_title('Visitor spreadsheet') if Rails.env == "production"
     ss = connection.spreadsheet_by_title('Visitor spreadsheet old') if Rails.env != "production"
     ws = ss.worksheets[0]

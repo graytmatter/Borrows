@@ -7,8 +7,7 @@
     <%= render "layouts/howto" %>
 
     <div class="col-xs-12" style="padding:0">
-          %>
-          <hr><% if @signup.errors.any? %>
+          <% if @signup.errors.any? %>
               <div id="error_explanation">
                 <div class="alert alert-danger">
                   <p>The form contains <%= pluralize(@signup.errors.count, "error") %>:</p>
@@ -21,6 +20,7 @@
                 </div>
               </div>
           <% end %>
+          <hr>
 
         <div class="col-xs-6">
           <%= form_for @signup do |f| %>

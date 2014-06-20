@@ -1,7 +1,6 @@
 class Inventory < ActiveRecord::Base
 	belongs_to :signup
 
-
   #validate :must_have_one_item
 	validates :signup_id, presence: true
 

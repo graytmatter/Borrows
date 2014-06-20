@@ -21,7 +21,7 @@
               <!-- something around the items you've already lent out -->
             </div>
                    
-              <%= form_for @itemrecord do |f| %>
+              <%= form_tag inventories_path method: :post do %>
                 
                 <div class="col-xs-12">
                   <p><b>Items people are asking for</b></p>
@@ -32,15 +32,15 @@
                     <div class="form-group box">
                       <h5> <%="#{category}"%> </h5>
                         <% list.each do |thing| %>
-                            <%= check_box_tag ":item_name[]", "#{thing}" %>
-                            <%= label_tag ':item_name[]', "#{thing}" %>
+                            <%= number_field_tag ":item_name[]", "#{thing}", min: 0, placeholder: '0'%>
+                            <%= label_tag "#{thing}" %>
                           </br>
                         <% end %>
                     </div>
                   </div>  
                 <% end %>
 
-                  <%= f.submit "Go!", class: "btn btn-primary btn-large btn-block" %>
+                  <%= submit_tag "Go!", class: "btn btn-primary btn-large btn-block" %>
                 </div>
               
               <% end %>
