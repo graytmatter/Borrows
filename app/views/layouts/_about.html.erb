@@ -5,6 +5,7 @@
       Quality stuff&#8212;camping & backpacking, picnics & BBQs, babies & toddlers, home & kitchen&#8212;for San Francisco area residents to borrow. <b>Tell friends: the 218th borrower gets a gift</b>, <%="#{Request.count}"%> people have done it!
     </p>
     <%= render "layouts/howto" %>
+    <%= render 'layouts/flash' %>
 
     <div class="col-xs-12" style="padding:0">
           <% if @signup.errors.any? %>

@@ -3,14 +3,24 @@ class InventoriesController < ApplicationController
   def new
     wishlist
     @pagetitle = "What would you like to lend?"
-    @signup_parent = Signup.find_by_email(session[:signup_email])
-
+    if session[:signup_email].nil?
+      flash[:danger] = "You must enter an email on the home page to access the rest of the site"
+      redirect_to root_path
+    else
+      @signup_parent = Signup.find_by_email(session[:signup_email])
+    end
   end
 
   def create
     wishlist
     @pagetitle = "What would you like to lend?"
-    @signup_parent = Signup.find_by_email(session[:signup_email])
+    
+    if session[:signup_email].nil?
+      flash[:danger] = "You must enter an email on the home page to access the rest of the site"
+      redirect_to root_path
+    else
+      @signup_parent = Signup.find_by_email(session[:signup_email])
+    end
 
     items_to_be_saved = []
     inventory_params.each do |item, quantity|
@@ -20,18 +30,27 @@ class InventoriesController < ApplicationController
       end
     end
 
-    if Inventory.create items_to_be_saved
-        flash[:success] = "Thanks!"
-        redirect_to root_path
+    if items_to_be_saved.blank?
+      flash[:danger] = "You must select at least one item before submitting the form"
+      render new_inventory_path
     else
-        render new_inventory_path
+      Inventory.create items_to_be_saved
+      flash[:success] = "Thanks!"
+      redirect_to new_inventory_path
     end
 
   end
 
+  def index
+  end
+
   def destroy
-    @inventory.find(params[:id]).destroy
-    redirect_to :action => 'index'
+    Inventory.find(params[:id]).destroy
+    if request.referer.include? 'admin'
+      redirect_to :action => 'index'
+    else
+      redirect_to :action => 'new'
+    end
   end
 
   private
@@ -40,10 +59,6 @@ class InventoriesController < ApplicationController
       params.permit[:quantity]
       params.reject { |k, v| v == "" }
     end
-
-    # def submitted_email
-    #   params.require(:signup_parent).permit(:email)
-    # end
 
     def wishlist
       @wishlist = {

@@ -1,6 +1,5 @@
 GoogleTest::Application.routes.draw do
 
-  resources :inventories, only: [:new, :create]
 
   root 'signups#new'
 
@@ -10,6 +9,8 @@ GoogleTest::Application.routes.draw do
   patch 'requests/:edit_id', to: 'requests#update', as: 'request'
 
   resources :signups, only: [:new, :create]
+  resources :inventories, only: [:new, :create, :destroy]
+  get 'admin/inventories', to: 'inventories#index', as: 'inventory_index'
 
   #get 'signup', to: 'signups#new', as: 'new_signup'
 

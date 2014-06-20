@@ -3,18 +3,16 @@
 <table>
   <thead>
     <tr>
-      <th>Item name</th>
-      <th>User ID</th>
+      <th>Item</th>
       <th>Email</th>
       <th colspan="3"></th>
     </tr>
   </thead>
 
   <tbody>
-    <% @inventories.each do |inventory| %>
+    <% Inventory.all.each do |inventory| %>
       <tr>
         <td><%= inventory.item_name %></td>
-        <td><%= inventory.user_id %></td>
         <td><%= inventory.signup.email %></td>
         <td><%= link_to 'Destroy', inventory, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>

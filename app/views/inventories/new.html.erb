@@ -2,7 +2,33 @@
     <div class="vert-tablecell" style="background-color: #BDDEFC;">
 
         <div class="container opaque-container">
-        	
+        
+        <%= render "layouts/flash" %>
+        
+        <% if @signup_parent.inventories.count > 0 %>
+          
+          	<h3>Things you are already lending</h3>
+
+        	<table>
+			  <thead>
+			    <tr>
+			      <th>Item</th>
+			      <th colspan="3"></th>
+			    </tr>
+			  </thead>
+
+			  <tbody>
+			    <% @signup_parent.inventories.each do |inventory| %>
+			      <tr>
+			        <td><%= inventory.item_name %></td>
+			        <td><%= link_to 'Destroy', inventory, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+			      </tr>
+			    <% end %>
+			  </tbody>
+			</table>
+
+		<% end %>
+
           <%= render "inventories/form" %>
 
         </div>
