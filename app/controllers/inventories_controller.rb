@@ -37,7 +37,8 @@ class InventoriesController < ApplicationController
   private
 
     def inventory_params
-      params.except(:utf8, :authenticity_token, :commit, :method, :action, :controller)
+      params.permit[:quantity]
+      params.reject { |k, v| v == "" }
     end
 
     # def submitted_email
