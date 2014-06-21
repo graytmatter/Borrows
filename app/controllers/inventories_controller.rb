@@ -3,6 +3,7 @@ class InventoriesController < ApplicationController
   def new
     wishlist
     @pagetitle = "What would you like to lend?"
+    
     if session[:signup_email].nil?
       flash[:danger] = "You must enter an email on the home page to access the rest of the site"
       redirect_to root_path

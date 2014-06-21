@@ -1,5 +1,8 @@
 class Request < ActiveRecord::Base
   before_create :create_edit_id
+  belongs_to :signup
+  has_many :transactions, dependent: :destroy
+  accepts_nested_attributes_for :transactions
   
   serialize :items
   validate :must_have_one_item

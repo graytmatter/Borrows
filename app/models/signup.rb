@@ -1,6 +1,7 @@
 class Signup < ActiveRecord::Base
     has_many :inventories, dependent: :destroy
-
+    has_many :requests
+    
 	validates :email, presence: true, format: { with: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i }
     #validates :name, presence: true, length: { maximum: 50 }, format: { with: /\s/ }
 
