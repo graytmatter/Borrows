@@ -11,8 +11,8 @@ class RequestsController < ApplicationController
     else
       @signup_parent = Signup.find_by_email(session[:signup_email])
     end
-    @requestrecord = @signup_parent.requests.new
-
+    @requestrecord = @signup_parent.requests.build #OPTION 1
+    #@requestrecord = Request.new #OPTION 2
   end
 
   def create
@@ -26,23 +26,26 @@ class RequestsController < ApplicationController
     else
       @signup_parent = Signup.find_by_email(session[:signup_email])
     end
-    @requestrecord = @signup_parent.requests.build(request_params)
+
+    request_params
+    @requestrecord = @signup_parent.requests.create(@requestparams) #OPTION 1 build/create
+    #@requestrecord = Request.new(@requestparams)
 
     transactions_to_be_saved = []
-    transaction_params.each do |item, quantity|
+    @transactionparams.each do |item, quantity|
       quantity = quantity.to_i
       quantity.times do
-        items_to_be_saved << ({:request_id => @signup_parent.id, :item_name => item })
+        transactions_to_be_saved << ({:request_id => @requestrecord.id, :name => item })
       end
     end
 
-    if items_to_be_saved.blank?
+    if transactions_to_be_saved.blank?
       flash[:danger] = "You must select at least one item before submitting the form"
-      render new_inventory_path
+      render 'new'
     else
-      Transaction.create items_to_be_saved
+      Transaction.create transactions_to_be_saved
       flash[:success] = "Thanks!"
-      redirect_to new_inventory_path
+      redirect_to edit_request_path(@requestrecord.edit_id)
     end
 
 
@@ -74,18 +77,40 @@ class RequestsController < ApplicationController
   end
 
   def edit 
-    @requestrecord = Request.find_by_edit_id(params[:edit_id])
-    inventory
+    availableitems
+    @pagetitle = "What would you like to borrow?"
     howto
-    @pagetitle = "Update your request"
+
+    @requestrecord = Request.find_by_edit_id(params[:edit_id])
+    
   end
 
   def update
-    @requestrecord = Request.find_by_edit_id(params[:edit_id])
-    inventory
+    availableitems
+    @pagetitle = "What would you like to borrow?"
     howto
-    @pagetitle = "Update your request"
-    @requestrecord.attributes = request_params
+
+    @requestrecord = Request.find_by_edit_id(params[:edit_id])
+    @requestrecord.attributes = @requestparams
+
+    @requestrecord.transactions.delete_all
+    transactions_to_be_saved = []
+    @transactionparams.each do |item, quantity|
+      quantity = quantity.to_i
+      quantity.times do
+        transactions_to_be_saved << ({:request_id => @requestrecord.id, :name => item })
+      end
+    end
+
+    if transactions_to_be_saved.blank?
+      flash[:danger] = "You must select at least one item before submitting the form"
+      render 'new'
+    else
+      Transaction.create transactions_to_be_saved
+      flash[:success] = "Thanks!"
+      redirect_to edit_request_path(@requestrecord.edit_id)
+    end
+
 
 =begin
     if @requestrecord.paydeliver == false
@@ -105,8 +130,19 @@ class RequestsController < ApplicationController
   end
 
   private
+
     def request_params
       params.require(:request).permit(:quantity, :detail, :startdate, :enddate, :addysdeliver, :heard)
+
+      #almost there, but wanted to stop to try to see the "right" way of getting the data out
+      @requestparams = params.require(:request).permit(:detail, :startdate, :enddate, :addysdeliver, :heard) #OPTION 1
+      #@requestparams[:signup_id] = @signup_parent.id #OPTION 2
+
+      #works will generate the proper hash
+      @transactionparams = params["transaction"]
+      @transactionparams = @transactionparams.first.reject { |k, v| v == "" }
+      # flash[:danger] = "You must select at least one item before submitting the form" if @transactionparams.empty?
+      # render 'new'
     end
 
     def availableitems

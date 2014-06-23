@@ -2,12 +2,12 @@ class Request < ActiveRecord::Base
   before_create :create_edit_id
   belongs_to :signup
   has_many :transactions, dependent: :destroy
-  accepts_nested_attributes_for :transactions
+  accepts_nested_attributes_for :transactions #i don't think thi sis needed
   
-  serialize :items
-  validate :must_have_one_item
-
-  validates :email, presence: true, format: { with: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i }
+ 
+  #validate :must_have_one_item
+  validates :signup_id, presence: true
+  #validates :email, presence: true, format: { with: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i }
   validate :borrow_date
   validates :addysdeliver, presence: true
   

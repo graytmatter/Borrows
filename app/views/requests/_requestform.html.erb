@@ -1,18 +1,16 @@
-<% if @requestrecord.errors.any? %>
+<% if @requestrecord.errors.any? #|| @no_item.exists? %>
     <div id="error_explanation">
       <div class="alert alert-danger">
-        <p>The form contains <%= pluralize(@requestrecord.errors.count, "error") %>:</p>
+        <p>Please correct the following error(s):</p>
       </br>
       <ul>
       <% @requestrecord.errors.each do |attribute, message| %>
-          <% if attribute == :items %>
+          <% if attribute == :borrow_date %>
             <li><%= "#{message}" %></li>
-          <% elsif attribute == :borrow_date %>
-            <li><%= "#{message}" %></li>
-          <% elsif attribute == :email %>
-            <li><%= "Email #{message}" %></li>
           <% elsif attribute == :addysdeliver %>
             <li><%= "Neighborhood #{message}" %></li>  
+          <% elsif attribute == :no_item %>
+            <li><%= "#{message}" %></li> 
           <!--
           <%# elsif attribute == :name %>
             <li><%#= "Name #{message}" %></li>
@@ -23,6 +21,7 @@
           -->
           <% end %>
       <% end %>
+      <li><%#= "You must select at least one item" if @no_item.exists? %></li>
       </ul>
       </div>
     </div>
@@ -53,6 +52,7 @@
             <h5> <%="#{category}"%> </h5>
               <% list.each do |thing| %>
                 <%= number_field_tag "transaction[][#{thing}]", :quantity, min: 0, placeholder: 0 %>
+                <!--controller code @placeholder = @requestrecord.transactions.find_all_by_name(#{thing} and this should be 0 if new) -->
                 <%= label_tag "#{thing}" %>
                 </br>
               <% end %>
