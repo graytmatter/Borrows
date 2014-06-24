@@ -18,17 +18,7 @@
     </div>
 <% end %>
 
-<div class="row">
-
-  <div class="col-xs-10 col-xs-offset-1">
-    <%= render "layouts/howto" %>
-  </div>
-
-  <div class="col-xs-12">
-    <hr>
-    <h3><%= @pagetitle %></h3></br>
-    <h4><%= session[:signup_email] %></h4></br>
-  </div>
+  <div class="row">
          
     <%= form_for @requestrecord, :html=> {:id => 'form'} do |f| %>
 
@@ -43,7 +33,6 @@
             <h5> <%="#{category}"%> </h5>
               <% list.each do |thing| %>
                 <%= number_field_tag "transaction[][#{thing}]", :quantity, min: 0, placeholder: @transactionparams ? @transactionparams["#{thing}"] : 0 %>
-                <!-- Good enough for now, above runs into problems because @transactionparams traces the last submit, therefore if user submits the 2nd time with different transactionparams (or just hits submit without filling anything in), the memory cache is cleared and the old info is lost (remember that here, no information is being submitted or posted to DB until it's right, so I can't just call a count on DB instances). This is further complicated when considering the edit actions, because since placeholders aren't real, even if they're shown, unless the user re-enters the number, it will register an error, therefore the edit actions deleted for now-->
                 <%= label_tag "#{thing}" %>
                 </br>
               <% end %>
@@ -75,30 +64,6 @@
           <%= f.text_field :addysdeliver, class: "form-control", placeholder: "We will try to find items closer to you!" %>
         </div>
 
-          <!--
-          =begin
-          <div class="form-group">
-            <%#= f.label :name, "First and last name" %>
-            <%#= f.text_field :name, class: "form-control", placeholder: "How do we address you?" %>
-          </div>
-
-          <div class="form-group">
-            <%#= f.check_box :paydeliver %>
-            <%#= f.label :paydeliver, "Pay $10 for item delivery" %>
-          </div>
-
-          <div class="form-group">
-            <%#= f.label :timedeliver, "Delivery dates and times"%>
-            <%#= f.text_field :timedeliver, class: "form-control", placeholder: "What are some dates & times that work for you?" %>
-          </div>
-
-          <div class="form-group">
-            <%#= f.label :instrucdeliver, "Special delivery instructions (optional)"%>
-            <%#= f.text_field :instrucdeliver, class: "form-control", placeholder: "What are some specific instructions? E.g., leave with building attendant" %>
-          </div>
-        </div>
-        -->
-
         <%= f.submit "Go!", class: "btn btn-primary btn-large btn-block" %>
       </div>
     
@@ -107,9 +72,9 @@
   <div class="col-xs-12" style="padding-top:1%;">
     <p style="font-size:80%;"><i>Note: When you hit "Go!" you will also be asked if you'd like to add a browser extension (Google Chrome users only) that will remind you to borrow from this service when you're browsing eCommerce sites for the items that we have listed on this page. We will continue to process your request whether you accept or decline the extension.</i></p> 
   </div>
-
 </div>
 
+<!-- Good enough for now, above runs into problems because @transactionparams traces the last submit, therefore if user submits the 2nd time with different transactionparams (or just hits submit without filling anything in), the memory cache is cleared and the old info is lost (remember that here, no information is being submitted or posted to DB until it's right, so I can't just call a count on DB instances). This is further complicated when considering the edit actions, because since placeholders aren't real, even if they're shown, unless the user re-enters the number, it will register an error, therefore the edit actions deleted for now-->
 
 <script>
 

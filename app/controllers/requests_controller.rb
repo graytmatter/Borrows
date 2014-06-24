@@ -28,18 +28,20 @@ class RequestsController < ApplicationController
 
     request_params
     @requestrecord = @signup_parent.requests.create(@requestparams)
-    if @transactionparams.blank?
+    
+    transactions_to_be_saved = []
+    @transactionparams.each do |item, quantity|
+    quantity = quantity.to_i
+      quantity.times do
+        transactions_to_be_saved << ({:request_id => @requestrecord.id, :name => item })
+      end
+    end
+
+    if transactions_to_be_saved.blank?
       @requestrecord.errors.add(:items, 'You must select at least one item')
       render 'new'
     else
       if @requestrecord.save
-        transactions_to_be_saved = []
-        @transactionparams.each do |item, quantity|
-        quantity = quantity.to_i
-          quantity.times do
-            transactions_to_be_saved << ({:request_id => @requestrecord.id, :name => item })
-          end
-        end
         Transaction.create transactions_to_be_saved
         flash[:success] = "Thanks!"
         redirect_to root_path

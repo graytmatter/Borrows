@@ -1,5 +1,6 @@
 class Request < ActiveRecord::Base
   before_create :create_edit_id
+  
   belongs_to :signup
   has_many :transactions, dependent: :destroy
 

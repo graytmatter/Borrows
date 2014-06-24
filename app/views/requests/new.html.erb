@@ -2,6 +2,16 @@
     <div class="vert-tablecell" style="background-color: #BDDEFC;">
 
         <div class="container opaque-container">
+
+		  <div class="col-xs-10 col-xs-offset-1">
+		    <%= render "layouts/howto" %>
+		  </div>
+
+		  <div class="col-xs-12">
+		    <hr>
+		    <h3><%= @pagetitle %></h3></br>
+		    <h4><%= session[:signup_email] %></h4></br>
+		  </div>
         	
           <%= render "requests/requestform" %>
 

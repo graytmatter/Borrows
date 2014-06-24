@@ -3,8 +3,6 @@
 
         <div class="container opaque-container">
         
-        <%= render "layouts/flash" %>
-        
         <% if @signup_parent.inventories.count > 0 %>
           
           	<h3>Things you are already lending</h3>
@@ -29,7 +27,13 @@
 
 		<% end %>
 
-          <%= render "inventories/inventoryform" %>
+        <div class="col-xs-12">
+		    <hr>
+		    <h3><%= @pagetitle %></h3></br>
+		    <h4><%= session[:signup_email] %></h4></br>
+		</div>
+
+        <%= render "inventories/inventoryform" %>
 
         </div>
     </div>

@@ -1,11 +1,6 @@
+<%= render "layouts/flash" %>
 
 <div class="row">
-
-  <div class="col-xs-12">
-    <hr>
-    <h3><%= @pagetitle %></h3></br>
-    <h4><%= session[:signup_email] %></h4></br>
-  </div>
          
     <%= form_tag inventories_path method: :post do %>
       
