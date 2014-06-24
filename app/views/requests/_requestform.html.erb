@@ -42,8 +42,8 @@
           <div class="form-group box">
             <h5> <%="#{category}"%> </h5>
               <% list.each do |thing| %>
-                <%= number_field_tag "transaction[][#{thing}]", :quantity, min: 0, placeholder: 0 %>
-                <!--controller code @placeholder = @requestrecord.transactions.find_all_by_name(#{thing} and this should be 0 if new) -->
+                <%= number_field_tag "transaction[][#{thing}]", :quantity, min: 0, placeholder: @transactionparams ? @transactionparams["#{thing}"] : 0 %>
+                <!-- good enough for now, above runs into problems because @transactionparams traces the last submit, therefore if user submits the 2nd time with different transactionparams (or just hits submit without filling anything in), the memory cache is cleared and the old info is lost (remember that here, no information is being submitted or posted to DB until it's right, so I can't just call a count on DB instances)-->
                 <%= label_tag "#{thing}" %>
                 </br>
               <% end %>
