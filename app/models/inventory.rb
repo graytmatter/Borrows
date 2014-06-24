@@ -3,10 +3,6 @@ class Inventory < ActiveRecord::Base
 
 	validates :signup_id, presence: true
 
-  def must_have_one_item
-    errors.add('You must select at least one item') unless params.exists?
-  end
-
   def save_spreadsheet
     connection = GoogleDrive.login(ENV['GMAIL_USERNAME'], ENV['GMAIL_PASSWORD'])
     ss = connection.spreadsheet_by_title('Inventory v2') if Rails.env == "production"

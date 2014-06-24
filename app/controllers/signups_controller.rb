@@ -17,7 +17,7 @@ class SignupsController < ApplicationController
 		else
 			if @signup.save
 				#@signup.save_subscrip
-				Subscribe.notification_email(@signup).deliver
+				#Subscribe.notification_email(@signup).deliver
 				session[:signup_email] = @signup.email
 				redirect_button
 			else

@@ -23,23 +23,22 @@ class InventoriesController < ApplicationController
       @signup_parent = Signup.find_by_email(session[:signup_email])
     end
 
-    items_to_be_saved = []
-    inventory_params.each do |item, quantity|
-      quantity = quantity.to_i
-      quantity.times do
-        items_to_be_saved << ({:signup_id => @signup_parent.id, :item_name => item })
-      end
-    end
-
-    if items_to_be_saved.blank?
-      flash[:danger] = "You must select at least one item before submitting the form"
+    inventory_params
+    if @inventory_params.blank?
+      flash[:danger] = "You must select at least one item"
       render new_inventory_path
     else
+      items_to_be_saved = []
+      @inventory_params.each do |item, quantity|
+        quantity = quantity.to_i
+        quantity.times do
+          items_to_be_saved << ({:signup_id => @signup_parent.id, :item_name => item })
+        end
+      end
       Inventory.create items_to_be_saved
       flash[:success] = "Thanks!"
       redirect_to new_inventory_path
     end
-
   end
 
   def index
@@ -58,7 +57,7 @@ class InventoriesController < ApplicationController
 
     def inventory_params
       params.permit[:quantity]
-      params.reject { |k, v| v == "" }
+      @inventory_params = params.first.reject { |k, v| v == "" }
     end
 
     def wishlist
