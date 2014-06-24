@@ -1,4 +1,4 @@
-<% if @requestrecord.errors.any? #|| @no_item.exists? %>
+<% if @requestrecord.errors.any? %>
     <div id="error_explanation">
       <div class="alert alert-danger">
         <p>Please correct the following error(s):</p>
@@ -9,19 +9,10 @@
             <li><%= "#{message}" %></li>
           <% elsif attribute == :addysdeliver %>
             <li><%= "Neighborhood #{message}" %></li>  
-          <% elsif attribute == :no_item %>
-            <li><%= "#{message}" %></li> 
-          <!--
-          <%# elsif attribute == :name %>
-            <li><%#= "Name #{message}" %></li>
-          <%# elsif attribute == :addysdeliver %>
-            <li><%#= "Delivery address #{message}" %></li>
-          <%# elsif attribute == :timedeliver %>
-            <li><%#= "Delivery dates and times #{message}" %></li>
-          -->
+          <% elsif attribute == :items %>
+            <li><%= "#{message}" %></li>
           <% end %>
       <% end %>
-      <li><%#= "You must select at least one item" if @no_item.exists? %></li>
       </ul>
       </div>
     </div>

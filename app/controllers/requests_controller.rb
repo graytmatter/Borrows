@@ -11,8 +11,7 @@ class RequestsController < ApplicationController
     else
       @signup_parent = Signup.find_by_email(session[:signup_email])
     end
-    @requestrecord = @signup_parent.requests.build #OPTION 1
-    #@requestrecord = Request.new #OPTION 2
+    @requestrecord = @signup_parent.requests.build 
   end
 
   def create
@@ -28,26 +27,27 @@ class RequestsController < ApplicationController
     end
 
     request_params
-    @requestrecord = @signup_parent.requests.create(@requestparams) #OPTION 1 build/create
-    #@requestrecord = Request.new(@requestparams)
+    @requestrecord = @signup_parent.requests.build(@requestparams)
 
-    transactions_to_be_saved = []
-    @transactionparams.each do |item, quantity|
-      quantity = quantity.to_i
-      quantity.times do
-        transactions_to_be_saved << ({:request_id => @requestrecord.id, :name => item })
-      end
-    end
-
-    if transactions_to_be_saved.blank?
-      flash[:danger] = "You must select at least one item before submitting the form"
+    if @transactionparams.blank?
+      @requestrecord.errors.add(:items, 'You must select at least one item')
       render 'new'
     else
-      Transaction.create transactions_to_be_saved
-      flash[:success] = "Thanks!"
-      redirect_to edit_request_path(@requestrecord.edit_id)
+      if @requestrecord.save
+        transactions_to_be_saved = []
+        @transactionparams.each do |item, quantity|
+        quantity = quantity.to_i
+          quantity.times do
+            transactions_to_be_saved << ({:request_id => @requestrecord.id, :name => item })
+          end
+        end
+        Transaction.create transactions_to_be_saved
+        flash[:success] = "Thanks!"
+        redirect_to edit_request_path(@requestrecord.edit_id)
+      else
+        render 'new'
+      end
     end
-
 
     
     # if @requestrecord.save
@@ -102,14 +102,14 @@ class RequestsController < ApplicationController
       end
     end
 
-    if transactions_to_be_saved.blank?
-      flash[:danger] = "You must select at least one item before submitting the form"
-      render 'new'
-    else
+    # if transactions_to_be_saved.blank?
+    #   flash[:danger] = "You must select at least one item before submitting the form"
+    #   render 'new'
+    # else
       Transaction.create transactions_to_be_saved
       flash[:success] = "Thanks!"
       redirect_to edit_request_path(@requestrecord.edit_id)
-    end
+    # end
 
 
 =begin
@@ -141,8 +141,6 @@ class RequestsController < ApplicationController
       #works will generate the proper hash
       @transactionparams = params["transaction"]
       @transactionparams = @transactionparams.first.reject { |k, v| v == "" }
-      # flash[:danger] = "You must select at least one item before submitting the form" if @transactionparams.empty?
-      # render 'new'
     end
 
     def availableitems

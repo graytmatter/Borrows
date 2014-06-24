@@ -5,7 +5,7 @@ class Request < ActiveRecord::Base
   accepts_nested_attributes_for :transactions #i don't think thi sis needed
   
  
-  #validate :must_have_one_item
+  # validate :must_have_one_item
   validates :signup_id, presence: true
   #validates :email, presence: true, format: { with: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i }
   validate :borrow_date
@@ -18,9 +18,9 @@ class Request < ActiveRecord::Base
   validates :timedeliver, presence: true, :if => :paydeliver?
 =end
 
-  def must_have_one_item
-    errors.add(:items, 'You must select at least one item') unless self.items.detect { |i| i != "0" } 
-  end
+  # def must_have_one_item
+  #   errors.add(:items, 'You must select at least one item') unless self.transactions.exists?
+  # end
 
   def borrow_date
     errors.add(:borrow_date, 'End date must be after start date') if self.startdate > self.enddate
