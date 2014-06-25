@@ -1,17 +1,22 @@
 GoogleTest::Application.routes.draw do
 
-
   root 'signups#new'
-
-  get 'new', to: 'requests#new', as: 'new_request'
-  get 'edit/:edit_id', to: 'requests#edit', as: 'edit_request'
-  post 'requests', to: 'requests#create' 
-  patch 'requests/:edit_id', to: 'requests#update', as: 'request'
-
   resources :signups, only: [:new, :create]
-  resources :inventories, only: [:new, :create, :destroy]
-  get 'admin/inventories', to: 'inventories#index', as: 'inventory_index'
+  get '/edit', to: 'signups#edit'
+  patch 'signups', to: 'signups#update'
 
+  get 'requests/new', to: 'requests#new', as: 'new_request'
+  post 'requests', to: 'requests#create'
+
+  get 'requests/success', to: 'requests#success'
+  
+  # get 'requests/edit/:edit_id', to: 'requests#edit', as: 'edit_request'
+  # patch 'requests/:edit_id', to: 'requests#update', as: 'request'
+
+  resources :inventories, only: [:new, :create, :destroy]
+  
+  get 'admin/inventories', to: 'inventories#index'
+  get 'admin/requests', to: 'requests#index'
   #get 'signup', to: 'signups#new', as: 'new_signup'
 
     # The priority is based upon order of creation: first created -> highest priority.

@@ -1,4 +1,17 @@
-<%= render "layouts/flash" %>
+
+<% if @signup_parent.errors.any? %>
+    <div id="error_explanation">
+      <div class="alert alert-danger">
+        <p>Please correct the following error(s):</p>
+      </br>
+      <ul>
+      <% @signup_parent.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+      <% end %>
+      </ul>
+      </div>
+    </div>
+<% end %>
 
 <div class="row">
          
@@ -8,7 +21,7 @@
         <p><b>Items people are asking for</b></p>
       </div>
 
-      <% @wishlist.each do |category, list| %>
+      <% @itemlist.each do |category, list| %>
         <div class="col-xs-2">
           <div class="form-group box">
             <h5> <%="#{category}"%> </h5>

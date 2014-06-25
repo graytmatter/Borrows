@@ -1,11 +1,20 @@
 class Signup < ActiveRecord::Base
     has_many :inventories, dependent: :destroy
     has_many :requests
-
-    accepts_nested_attributes_for :requests
     
-	validates :email, presence: true, format: { with: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i }
-    #validates :name, presence: true, length: { maximum: 50 }, format: { with: /\s/ }
+	# validates :email, presence: true, format: { with: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i }, on: :create
+
+    validate :create_validation, on: :create
+    validate :update_validation, on: :update
+
+    def create_validation
+        errors[:base] << "Please enter a valid email address to continue" if self.email.blank? || ( /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i =~ self.email) == nil 
+    end
+
+    def update_validation
+        errors[:base] << "Please enter two street names" if self.streetone.blank? || self.streettwo.blank?
+        errors[:base] << "Please enter a valid 5-digit zipcode" if self.zipcode.blank? || ( self.zipcode.length != 5 )
+    end
 
 def save_subscrip
     #connection = GoogleDrive.login(ENV['GMAIL_USERNAME'], ENV['GMAIL_PASSWORD'])

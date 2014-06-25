@@ -1,21 +1,22 @@
 class RequestsController < ApplicationController
 
   def new
-    availableitems
+    itemlist
     @pagetitle = "What would you like to borrow?"
-    howto
 
     if session[:signup_email].nil?
-      flash[:danger] = "You must enter an email on the home page to access the rest of the site"
-      redirect_to root_path
+      flash[:danger] = "You must provide additional information first"
+      redirect_to controller: 'signups', action: 'edit'
     else
       @signup_parent = Signup.find_by_email(session[:signup_email])
     end
+    
+    howto
     @requestrecord = @signup_parent.requests.build 
   end
 
   def create
-    availableitems
+    itemlist
     @pagetitle = "What would you like to borrow?"
     howto
 
@@ -27,24 +28,28 @@ class RequestsController < ApplicationController
     end
 
     request_params
-    @requestrecord = @signup_parent.requests.create(@requestparams)
-    
+    @requestrecord = @signup_parent.requests.build(@requestparams)
+
     transactions_to_be_saved = []
     @transactionparams.each do |item, quantity|
     quantity = quantity.to_i
       quantity.times do
-        transactions_to_be_saved << ({:request_id => @requestrecord.id, :name => item })
+        transactions_to_be_saved << ({:request_id => 0, :name => item })
       end
     end
 
     if transactions_to_be_saved.blank?
-      @requestrecord.errors.add(:items, 'You must select at least one item')
+      @requestrecord.errors[:base] << "Please select at least one item you'd like to borrow"
       render 'new'
     else
+      @requestrecord = @signup_parent.requests.create(@requestparams)
       if @requestrecord.save
+        transactions_to_be_saved.each do |transaction|
+          transaction[:request_id] = @requestrecord.id
+        end    
         Transaction.create transactions_to_be_saved
         flash[:success] = "Thanks!"
-        redirect_to root_path
+        redirect_to action: 'success'
       else
         render 'new'
       end
@@ -52,6 +57,9 @@ class RequestsController < ApplicationController
   end
 
   def index
+  end
+
+  def success
   end
 
   private
@@ -62,8 +70,8 @@ class RequestsController < ApplicationController
     @transactionparams = @transactionparams.first.reject { |k, v| v == "" }
   end
 
-  def availableitems
-    @availableitems = {
+  def itemlist
+    @itemlist = {
     "Camping" => ["Tent", "Sleeping bag", "Sleeping pad", "Backpack", "Water filter"],
     "Park & picnic" => ["Portable table", "Portable chair", "Cooler", "Outdoors grill", "Shade house"],
     "Tools" => ["Electric drill", "Screwdriver set", "Hammer", "Wrench set", "Utility knife"],

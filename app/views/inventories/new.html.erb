@@ -30,10 +30,11 @@
         <div class="col-xs-12">
 		    <hr>
 		    <h3><%= @pagetitle %></h3></br>
-		    <h4><%= session[:signup_email] %></h4></br>
+		    <h4><%= @signup_parent.email %></h4></br>
+		    <h5><%= "#{@signup_parent.streetone}, #{@signup_parent.streettwo}, #{@signup_parent.zipcode}" %></h5>
 		</div>
 
-        <%= render "inventories/inventoryform" %>
+		<%= render "inventories/inventoryform" %>
 
         </div>
     </div>

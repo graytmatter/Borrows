@@ -5,11 +5,11 @@ class Request < ActiveRecord::Base
   has_many :transactions, dependent: :destroy
 
   validates :signup_id, presence: true
-  validates :addysdeliver, presence: true
-  validate :borrow_date
+  validate :custom_validation
 
-  def borrow_date
-    errors.add(:borrow_date, 'End date must be after start date') if self.startdate > self.enddate
+  def custom_validation
+    errors[:base] << "Please enter a return date that is on or after the pick up date" if self.startdate > self.enddate
+    errors[:base] << "Please enter both a pick up date and a return date" if self.startdate.blank? || self.enddate.blank?
   end
 
   # def save_spreadsheet

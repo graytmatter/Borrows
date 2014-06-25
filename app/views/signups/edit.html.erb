@@ -1,0 +1,42 @@
+<div class="row">
+    <% if @signup.errors.any? %>
+    <div id="error_explanation">
+      <div class="alert alert-danger">
+        <p>Please correct the following error(s) so that we can locate lenders and borrowers closer to you:</p>
+      </br>
+      <ul>
+      <% @signup.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+      <% end %>
+      </ul>
+      </div>
+    </div>
+  <% end %>
+
+    <%= render 'layouts/flash' %>
+               
+    <%= form_for @signup, url: {action: 'update'} do |f| %>
+      
+        <div class="form-group">
+          <%= f.label :heard, "Referral (optional)" %>
+          <%= f.text_field :heard, class: "form-control", placeholder: "How did you hear about this service?" %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :email, "Email"%>
+          <%= f.text_field :email, class: "form-control", placeholder: "How do we contact you?" %>
+          <%= f.label :streetone, "Street One"%>
+          <%= f.text_field :streetone, class: "form-control" %>
+          <%= f.label :streettwo, "Street Two"%>
+          <%= f.text_field :streettwo, class: "form-control" %>
+          <%= f.label :zipcode, "Street Two"%>
+          <%= f.text_field :zipcode, class: "form-control" %>
+        </div>
+
+        <%= f.submit "I want to borrow!", name: "borrow", class: "btn btn-primary btn-large btn-block" %>
+        <%= f.submit "I want to lend!", name: "lend", class: "btn btn-primary btn-large btn-block" %>
+      </div>
+    
+    <% end %>
+
+</div>

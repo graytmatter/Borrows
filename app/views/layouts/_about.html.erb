@@ -9,17 +9,15 @@
 
     <div class="col-xs-12" style="padding:0">
           <% if @signup.errors.any? %>
-              <div id="error_explanation">
-                <div class="alert alert-danger">
-                  <p>The form contains <%= pluralize(@signup.errors.count, "error") %>:</p>
-                </br>
-                <ul>
-                <% @signup.errors.full_messages.each do |msg| %>
-                    <li><%= msg %></li>
-                <% end %>
-                </ul>
-                </div>
+            <div id="error_explanation">
+              <div class="alert alert-danger">
+              <ul>
+              <% @signup.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+              <% end %>
+              </ul>
               </div>
+            </div>
           <% end %>
           <hr>
 
@@ -32,9 +30,8 @@
         </div>
 
         <div class="col-xs-2" style="padding:0;">
-            <%= f.submit "I want to borrow!", name: "borrow", class: "btn btn-primary btn-large btn-block" %>
-            <%= f.submit "I want to lend!", name: "lend", class: "btn btn-primary btn-large btn-block" %>
-          <% end %>
+          <%= f.submit "Get started!" %>
+        <% end %>
         </div>
 
         <div class="col-xs-4">

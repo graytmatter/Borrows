@@ -11,6 +11,7 @@
 		    <hr>
 		    <h3><%= @pagetitle %></h3></br>
 		    <h4><%= session[:signup_email] %></h4></br>
+		    <h5><%= "#{@signup_parent.streetone}, #{@signup_parent.streettwo}, #{@signup_parent.zipcode}" %></h5>
 		  </div>
         	
           <%= render "requests/requestform" %>

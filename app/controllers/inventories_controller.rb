@@ -1,27 +1,23 @@
 class InventoriesController < ApplicationController
 
   def new
-    wishlist
+    itemlist
     @pagetitle = "What would you like to lend?"
     
     if session[:signup_email].nil?
-      flash[:danger] = "You must enter an email on the home page to access the rest of the site"
-      redirect_to root_path
+      flash[:danger] = "You must provide additional information first"
+      redirect_to controller: 'signups', action: 'edit'
     else
       @signup_parent = Signup.find_by_email(session[:signup_email])
     end
+
   end
 
   def create
-    wishlist
+    itemlist
     @pagetitle = "What would you like to lend?"
-    
-    if session[:signup_email].nil?
-      flash[:danger] = "You must enter an email on the home page to access the rest of the site"
-      redirect_to root_path
-    else
-      @signup_parent = Signup.find_by_email(session[:signup_email])
-    end
+
+    @signup_parent = Signup.find_by_email(session[:signup_email])
 
     inventory_params
     
@@ -34,7 +30,7 @@ class InventoriesController < ApplicationController
     end
 
     if items_to_be_saved.blank?
-      flash[:danger] = "You must select at least one item"
+      @signup_parent.errors[:base] << "Please select at least one item to lend"
       render 'new'
     else
       Inventory.create items_to_be_saved
@@ -62,8 +58,8 @@ class InventoriesController < ApplicationController
       @inventory_params = params.reject { |k, v| v == "" }
     end
 
-    def wishlist
-      @wishlist = {
+    def itemlist
+      @itemlist = {
       "Camping" => ["Tent (2-person)", "Tent (3-person)", "Tent (4-person)", "Tent (6-person)", "Tent (8-person)", "Sleeping bag", "Sleeping pad", "Backpack", "Water filter"],
       "Park & picnic" => ["Portable table", "Portable chair", "Cooler", "Outdoors grill", "Shade house"],
       "Tools" => ["Electric drill", "Screwdriver set", "Hammer", "Wrench set", "Utility knife"],

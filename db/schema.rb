@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140618184836) do
+ActiveRecord::Schema.define(version: 20140625184551) do
 
   create_table "inventories", force: true do |t|
     t.string   "item_name"
@@ -50,7 +50,7 @@ ActiveRecord::Schema.define(version: 20140618184836) do
     t.string   "heard"
     t.string   "streetone"
     t.string   "streettwo"
-    t.integer  "zipcode"
+    t.string   "zipcode"
   end
 
   add_index "signups", ["email"], name: "index_signups_on_email", unique: true
