@@ -1,0 +1,57 @@
+<% if @signup.errors.any? %>
+      <div class="alert alert-danger">
+        <p>Please correct the following error(s) so that we can locate lenders and borrowers closer to you:</p>
+        <ul>
+        <% @signup.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <%= render 'layouts/flash' %>
+
+    <div class="col-xs-12 box">
+      <%= form_for @signup, url: {action: 'update'}, :html => {:class => "form-inline"} do |f| %>
+        
+        <div class="form-group col-xs-6">
+          <%= f.label :email, "Confirm your email"%>
+          <%= f.text_field :email, class: "form-control", placeholder: "How do we contact you?" %>
+        </div>
+
+        <div class="form-group col-xs-6">
+          <%= f.label :heard, "How did you hear about us?" %>
+          <%= f.text_field :heard, class: "form-control", placeholder: "Who do we need to thank?" %>
+        </div>
+
+        <div class="col-xs-12 horiz" style="padding-top:3%; font-style: italic;">
+          <p>Using your cross streets and zipcode, we will try to find lenders & borrowers closer to you</p>
+        </div>
+        
+        <div class="form-group col-xs-4">
+          <%= f.label :streetone, "First street" %>
+          <%= f.text_field :streetone, class: "form-control" %>
+        </div>
+
+        <div class="form-group col-xs-4">
+          <%= f.label :streettwo, "Second street" %>
+          <%= f.text_field :streettwo, class: "form-control" %>
+        </div>
+
+        <div class="form-group col-xs-4">
+          <%= f.label :zipcode, "Zipcode"%>
+          <%= f.text_field :zipcode, class: "form-control"%>
+        </div>
+
+        <div class="col-xs-12", style="padding-top:3%">
+          <div class="col-xs-6">
+            <%= f.submit "I want to borrow something!", name: "borrow", class: "btn btn-primary btn-large btn-block" %>
+          </div>
+
+          <div class="col-xs-6">
+            <%= f.submit "I want to lend something!", name: "lend", class: "btn btn-warning btn-large btn-block col-xs-6" %>
+          </div>
+        </div>
+      
+      <% end %>
+    </div>
+  </div>

@@ -1,24 +1,40 @@
-<h1>Listing inventories</h1>
+<div class="col-xs-12 box">
+  <%= search_form_for @q, url: url_for(controller: 'inventories', action: 'index') do |f| %>
+    <%= f.label :item_name_cont %>
+    <%= f.search_field :item_name_cont %>
+    <%= f.label :signup_email_cont %>
+    <%= f.search_field :signup_email_cont %>
+    <%= f.submit %>
+  <% end %>
+</div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Item</th>
-      <th>Email</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% Inventory.all.each do |inventory| %>
+<div class="table-responsive">
+  <table class="table table-condensed table-hover">
+    <thead>
       <tr>
-        <td><%= inventory.item_name %></td>
-        <td><%= inventory.signup.email %></td>
-        <td><%= link_to 'Destroy', inventory, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th><%= sort_link(@q, :item_name, "Item", default_order: :desc) %></th>
+        <th>Description</th>
+        <th><%= sort_link(@q, 'signups.email', "Email") %></th>
+        <th>Action</th>
+        <th colspan="5"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+      <% Inventory.all.each do |inventory| %>
+        <tr>
+          <td><%= inventory.item_name %></td>
+          <td><%#= inventory.description %></td>
+          <td><%= inventory.signup.email %> %></td>
+          <td>
+            <!-- mini form to add description-->
+            <%= link_to 'Remove', inventory, method: :delete, data: { confirm: 'Once removed, borrowers will no longer be able to see you have this item. To remove an item temporarily (i.e., for a personal trip), please notify us via email' } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
 <br>
 

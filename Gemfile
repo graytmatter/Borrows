@@ -6,9 +6,10 @@ gem 'rails', '4.1.1'
 
 gem 'bootstrap-sass', '3.0.3.0'
 gem 'google_drive'
-gem 'figaro'
-gem 'gibbon' #mailchipm API
-gem 'newrelic_rpm'
+gem 'figaro' #creates the config/application.yml file ignored by Git
+gem 'gibbon' #mailchimp API API
+gem 'newrelic_rpm' #tracking and pinging from newrelic
+gem 'ransack' #sortable links on inventory (user and admin) and request pages (admin)
 
 # Use sqlite3 as the database for Active Record
 group :development do

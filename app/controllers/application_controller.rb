@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  protect_from_forgery
 
   def howto 
     @howtoimages = {
@@ -35,6 +36,12 @@ class ApplicationController < ActionController::Base
     # Stroller http://ak1.picdn.net/shutterstock/videos/5905997/preview/stock-footage-happy-parents-tending-to-baby-girl-in-pram-in-the-park-on-a-sunny-day.jpg
     
 
+  end
+
+  def authenticate
+    authenticate_or_request_with_http_basic do |username, password|
+      username == ENV["ADMIN_ID"] && password == ENV["ADMIN_PASSWORD"]
+    end
   end
   
 end

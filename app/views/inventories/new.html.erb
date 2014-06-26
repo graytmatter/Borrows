@@ -1,41 +1,43 @@
-<div class="container-fluid vert-table">
-    <div class="vert-tablecell" style="background-color: #BDDEFC;">
+  <% if @signup_parent.inventories.count > 0 %>
 
-        <div class="container opaque-container">
-        
-        <% if @signup_parent.inventories.count > 0 %>
-          
-          	<h3>Things you are already lending</h3>
-
-        	<table>
-			  <thead>
-			    <tr>
-			      <th>Item</th>
-			      <th colspan="3"></th>
-			    </tr>
-			  </thead>
-
-			  <tbody>
-			    <% @signup_parent.inventories.each do |inventory| %>
-			      <tr>
-			        <td><%= inventory.item_name %></td>
-			        <td><%= link_to 'Destroy', inventory, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-			      </tr>
-			    <% end %>
-			  </tbody>
-			</table>
-
-		<% end %>
-
-        <div class="col-xs-12">
-		    <hr>
-		    <h3><%= @pagetitle %></h3></br>
-		    <h4><%= @signup_parent.email %></h4></br>
-		    <h5><%= "#{@signup_parent.streetone}, #{@signup_parent.streettwo}, #{@signup_parent.zipcode}" %></h5>
-		</div>
-
-		<%= render "inventories/inventoryform" %>
-
-        </div>
+    <div class="col-xs-12" style="padding-bottom:1%;">
+      <h4><%="Thanks, #{@signup_parent.email} for being a lender! Below are the items you're currently sharing"%></h4>
     </div>
-</div>
+
+    <table>
+	  <thead>
+	    <tr>
+	      <th>Item</th>
+	      <th colspan="3"></th>
+	    </tr>
+	  </thead>
+
+	  <tbody>
+	    <% @signup_parent.inventories.each do |inventory| %>
+	      <tr>
+	        <td><%= inventory.item_name %></td>
+	        <td><%= link_to 'I can no longer share this', inventory, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+	      </tr>
+	    <% end %>
+	  </tbody>
+	</table>
+
+    <div class="col-xs-12" style="padding-bottom:1%;">
+      <h4><%="Use the form below to share more items with your neighbors"%></h4>
+    </div>
+
+  	<%= render "layouts/inventoryform" %>
+    <!-- add a contact form in case they have anything else they'd like to share -->
+  
+  <% else %>  
+
+    <div class="col-xs-12" style="padding-bottom:1%;">
+      <h4><%="Hello, #{@signup_parent.email}! What would you like to share?"%></h4>
+      <p>We are committed to providing a good experience for our lenders and minimizing</p>
+    </div> 
+
+    <%= render "layouts/inventoryform" %>
+    <!-- add a contact form in case they have anything else they'd like to share -->
+
+  <% end %>
+        

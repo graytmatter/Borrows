@@ -16,8 +16,8 @@ class SignupsController < ApplicationController
 			redirect_to action: 'edit'
 		else
 			if @signup.save
-				#@signup.save_subscrip
-				#Subscribe.notification_email(@signup).deliver
+				@signup.save_subscrip
+				Subscribe.notification_email(@signup).deliver
 				session[:signup_email] = @signup.email
 				redirect_to action: 'edit'
 			else

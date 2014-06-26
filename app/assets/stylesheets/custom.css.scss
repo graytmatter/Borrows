@@ -67,7 +67,7 @@ Child divs
 
 /* Border for each category in the request form*/
 .box {
-    padding: 5% 4% 5% 4%;
+    padding: 2% 2% 2% 2%;
     border: 1px solid #cccccc;
     border-radius: 4px;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
@@ -77,6 +77,13 @@ Child divs
     color: #555555;
     }
 
+/****************************************/
+
+/* Simulates size option for number_field_tag */
+
+.shrink_num_field {
+  width: 30px;
+}
 /****************************************/
 
 /* Centers image (used in How To section) */

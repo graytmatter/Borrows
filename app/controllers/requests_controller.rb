@@ -5,14 +5,15 @@ class RequestsController < ApplicationController
     @pagetitle = "What would you like to borrow?"
 
     if session[:signup_email].nil?
-      flash[:danger] = "You must provide additional information first"
-      redirect_to controller: 'signups', action: 'edit'
+      flash[:danger] = "Please enter your email to get started"
+      redirect_to root_path
     else
       @signup_parent = Signup.find_by_email(session[:signup_email])
+      
+      howto
+      @requestrecord = @signup_parent.requests.build 
     end
     
-    howto
-    @requestrecord = @signup_parent.requests.build 
   end
 
   def create
@@ -44,7 +45,6 @@ class RequestsController < ApplicationController
           end
         end
         Transaction.create transactions_to_be_saved
-        flash[:success] = "Thanks!"
         redirect_to action: 'success'
       else
         render 'new'
@@ -63,19 +63,21 @@ class RequestsController < ApplicationController
   def request_params
     @requestparams = params.require(:request).permit(:detail, :startdate, :enddate) 
     @transactionparams = params["transaction"]
-    @transactionparams = @transactionparams.first.reject { |k, v| (v == "0") || (v == "")}
+    @transactionparams = @transactionparams.first.params.reject { |k, v| (v == "") || ( v == "0" ) || ( v.length > 2 ) }
   end
 
   def itemlist
     @itemlist = {
-    "Camping" => ["Tent", "Sleeping bag", "Sleeping pad", "Backpack", "Water filter"],
+    "Camping" => ["Tent for 2-3", "Tent for 4", "Tent for 6", "Sleeping bag", "Sleeping pad"],
     "Park & picnic" => ["Portable table", "Portable chair", "Cooler", "Outdoors grill", "Shade house"],
     "Tools" => ["Electric drill", "Screwdriver set", "Hammer", "Wrench set", "Utility knife"],
-    "Housewares" => ["Vacuum", "Air mattress", "Iron & board", "Luggage", "Extension cords"], 
-    #"Baby gear" => ["Umbrella Stroller", "Booster seat", "Backpack carrier", "Pack n' Play", "Jumper"],
     "Kitchenwares" =>["Blender", "Electric grill", "Food processor", "Baking dish", "Knife sharpener"],
+    "Housewares" => ["Vacuum", "Air mattress", "Iron & board", "Luggage", "Extension cords"], 
+    "Backpacking" => ["Backpack", "Dry bag", "Water filter", "Headlamp", "Camp stove"]
+    #"Miscellaneous" => ["Tennis set", "Bike pump", "Jumper cables", "Dry bag", "Mat cutter"],
+    #"Baby gear" => ["Umbrella Stroller", "Booster seat", "Backpack carrier", "Pack n' Play", "Jumper"],
     #"Snow sports" => ["Outerwear", "Innerwear", "Gloves" , "Helmet", "Goggles"]
-    "Miscellaneous" => ["Tennis set", "Bike pump", "Jumper cables", "Dry bag", "Mat cutter"],
+    
   }
   end
 end

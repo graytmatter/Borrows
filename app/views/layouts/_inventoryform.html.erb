@@ -1,0 +1,33 @@
+
+<% if @signup_parent.errors.any? %>
+  <div class="alert alert-danger">
+    <p>Please correct the following error(s):</p>
+    <ul>
+    <% @signup_parent.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<div class="col-xs-12 box">  
+  <%= form_tag inventories_path method: :post do %>
+    <% @itemlist.each do |category, list| %>
+      <div class="col-xs-4">
+        <div class="form-group">
+          <h5> <%="#{category}"%> </h5>
+            <% list.each do |thing| %>
+                <%= number_field_tag "#{thing}", :quantity, min: 0, placeholder: 0, class: "shrink_num_field" %>
+                <%= label_tag "#{thing}" %>
+              </br>
+            <% end %>
+        </div>
+      </div>  
+    <% end %>
+
+    <div class="form-group col-xs-12">
+      <%= submit_tag "Go!", class: "btn btn-primary btn-large btn-block" %>
+    </div>
+  
+  <% end %>
+</div>
