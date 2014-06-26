@@ -1,13 +1,11 @@
 
   <% if @signup.errors.any? %>
-    <div id="error_explanation">
-      <div class="alert alert-danger">
+    <div class="alert alert-danger">
       <ul>
       <% @signup.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
+        <li><%= message %></li>
       <% end %>
       </ul>
-      </div>
     </div>
   <% end %>
 
