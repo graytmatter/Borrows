@@ -26,8 +26,8 @@
           <div class="form-group box">
             <h5> <%="#{category}"%> </h5>
               <% list.each do |thing| %>
-                <%= number_field_tag "transaction[][#{thing}]", :quantity, min: 0, value: @transactionparams ? @transactionparams["#{thing}"] : 0 %>
-                <%= label_tag "#{thing}" %>
+                <%= number_field_tag "transaction[][#{thing}]", :quantity, min: 0, value: @transactionparams ? @transactionparams[thing] : 0 %>
+                <%= label_tag thing %>
                 </br>
               <% end %>
           </div>

@@ -28,25 +28,21 @@ class RequestsController < ApplicationController
     end
 
     request_params
-    @requestrecord = @signup_parent.requests.build(@requestparams)
+    @requestrecord = @signup_parent.requests.build
 
-    transactions_to_be_saved = []
-    @transactionparams.each do |item, quantity|
-    quantity = quantity.to_i
-      quantity.times do
-        transactions_to_be_saved << ({:request_id => 0, :name => item })
-      end
-    end
-
-    if transactions_to_be_saved.blank?
-      @requestrecord.errors[:base] << "Please select at least one item you'd like to borrow"
+    if @transactionparams.blank?
+      @requestrecord.errors[:base] = "Please select at least one item"
       render 'new'
     else
       @requestrecord = @signup_parent.requests.create(@requestparams)
       if @requestrecord.save
-        transactions_to_be_saved.each do |transaction|
-          transaction[:request_id] = @requestrecord.id
-        end    
+        transactions_to_be_saved = []
+        @transactionparams.each do |item, quantity|
+        quantity = quantity.to_i
+          quantity.times do
+            transactions_to_be_saved << ({:request_id => 0, :name => item })
+          end
+        end
         Transaction.create transactions_to_be_saved
         flash[:success] = "Thanks!"
         redirect_to action: 'success'
@@ -65,9 +61,9 @@ class RequestsController < ApplicationController
   private
 
   def request_params
-    @requestparams = params.require(:request).permit(:detail, :startdate, :enddate, :addysdeliver, :heard) 
+    @requestparams = params.require(:request).permit(:detail, :startdate, :enddate) 
     @transactionparams = params["transaction"]
-    @transactionparams = @transactionparams.first.reject { |k, v| v == "" }
+    @transactionparams = @transactionparams.first.reject { |k, v| (v == "0") || (v == "")}
   end
 
   def itemlist
