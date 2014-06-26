@@ -1,60 +1,53 @@
-<div class="col-xs-12" style="background-color:#BDDEFC; padding-top:1%; padding-bottom: 1%;">
-  <div class= "col-xs-8 col-xs-offset-2" style="text-align:center;">
-    <h1 style="font-size:170%; margin-top:0">A fast, free, easy way to borrow the stuff you need</h1>
-    <p>
-      Quality stuff&#8212;camping & backpacking, picnics & BBQs, babies & toddlers, home & kitchen&#8212;for San Francisco area residents to borrow. <b>Tell friends: the 218th borrower gets a gift</b>, <%="#{Request.count}"%> people have done it!
-    </p>
-    <%= render "layouts/howto" %>
-    <%= render 'layouts/flash' %>
 
-    <div class="col-xs-12" style="padding:0">
-          <% if @signup.errors.any? %>
-            <div id="error_explanation">
-              <div class="alert alert-danger">
-              <ul>
-              <% @signup.errors.full_messages.each do |message| %>
-                  <li><%= message %></li>
-              <% end %>
-              </ul>
-              </div>
-            </div>
-          <% end %>
-          <hr>
-
-        <div class="col-xs-6">
-          <%= form_for @signup do |f| %>
-
-            <div class="form-group">
-              <%= f.text_field :email, class: "form-control", placeholder: "Enter your email here" %>
-            </div>
-        </div>
-
-        <div class="col-xs-2" style="padding:0;">
-          <%= f.submit "Get started!" %>
-        <% end %>
-        </div>
-
-        <div class="col-xs-4">
-          <!-- AddThis Button BEGIN -->
-          <div class="addthis_toolbox addthis_default_style addthis_32x32_style">
-          <a class="addthis_button_email"></a>
-          <a class="addthis_button_facebook"></a>
-          <a class="addthis_button_twitter"></a>
-          <a class="addthis_button_linkedin"></a>
-          <a class="addthis_button_google_plusone_share"></a>
-          <a class="addthis_button_pinterest_share"></a>
-          </div>
-          <script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
-          <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-530ee7046fcbd127"></script>
-          <!-- AddThis Button END -->
-        </div>
-
+  <% if @signup.errors.any? %>
+    <div id="error_explanation">
+      <div class="alert alert-danger">
+      <ul>
+      <% @signup.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+      <% end %>
+      </ul>
+      </div>
     </div>
+  <% end %>
 
-        
-    <p style="font-size: 90%; font-style: italic">
-      We are offering this free service to study the borrowing and sharing process. Thanks for your help & please <u><a href="mailto:jdong8@gmail.com">contact us</a></u> if you have any questions.
-    </p>
-          
+  <div class="col-xs-12" style="background:blue;">
+    <%= form_for @signup do |f| %>
+      <div class="col-xs-9">
+        <div class="form-group">
+          <%= f.text_field :email, class: "form-control", placeholder: "Enter your email here" %>
+        </div>
+      </div>
+
+      <div class="col-xs-3">
+        <%= f.submit "Get started!" %>
+      </div>
+    <% end %>
   </div>
-</div>
+
+  <div class="col-xs-12 horiz">
+    <p>Please do share us with friends!</p>
+    <br>
+    <!-- AddThis Button BEGIN -->
+    <div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+      <a class="addthis_button_email"></a>
+      <a class="addthis_button_facebook"></a>
+      <a class="addthis_button_twitter"></a>
+      <a class="addthis_button_linkedin"></a>
+      <a class="addthis_button_google_plusone_share"></a>
+      <a class="addthis_button_pinterest_share"></a>
+    </div>
+    <script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-530ee7046fcbd127"></script>
+    <!-- AddThis Button END -->
+  </div>
+
+  <div class="col-xs-12">
+    <% @images.each do |image, caption| %>
+      <div class="col-xs-4">
+        <%= image_tag "#{image}.jpg", class: "img-responsive", alt: "#{image}", title: "#{image}" %>
+        <h2><%= "#{caption}" %></h2>
+      </div>
+    <% end %>
+  </div>
+

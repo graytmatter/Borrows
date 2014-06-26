@@ -1,7 +1,37 @@
-<%= render 'layouts/logo' %>
 
-<%= render 'layouts/homecarousel' %>
+  <% if @signup.errors.any? %>
+    <div id="error_explanation">
+      <div class="alert alert-danger">
+      <ul>
+      <% @signup.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+      <% end %>
+      </ul>
+      </div>
+    </div>
+  <% end %>
 
-<%= render "layouts/about" %> 
+  <div class="col-xs-12">
+  <!-- style="background:#BDDEFC; padding-top:3%" -->
+    <%= form_for @signup do |f| %>
+      <div class="col-xs-9">
+        <div class="form-group">
+          <%= f.text_field :email, class: "form-control", placeholder: "Enter your email to get started" %>
+        </div>
+      </div>
 
-<%= render "layouts/userphoto"%>
+      <div class="col-xs-3">
+        <%= f.submit "Go!", class: "btn btn-primary btn-large btn-block"%>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="col-xs-10 col-xs-offset-1" style="padding-top:2%">
+    <% @images.each do |image, caption| %>
+      <div class="col-xs-4">
+        <%= image_tag "#{image}.jpg", class: "img-responsive", alt: "#{image}", title: "#{image}" %>
+        <h2 style="font-size:100%"><%= "#{caption}" %></h2>
+      </div>
+    <% end %>
+  </div>
+

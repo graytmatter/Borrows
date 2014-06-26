@@ -190,19 +190,29 @@ height:45%
 
 /**************************************/
 
-/* Verticalizes whatever on the screen */
+/* Centers whatever on the screen vertically, horizontally, or both */
 
-.vert-table {
+/* Parent div 
+
+.vert-horiz-table {
   height:100%;
-  display:table;
   width: 100%;
+  display:table;
   padding: 0;
 }
 
-.vert-tablecell {
-  height: 100%; 
+Child divs 
+
+.tablecell{
   display:table-cell; 
+} */
+
+.vert {
   vertical-align: middle;
+}
+
+.horiz {
+  text-align: center;
 }
 
 /**************************************/

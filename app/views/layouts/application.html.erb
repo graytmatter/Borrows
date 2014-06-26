@@ -10,9 +10,32 @@
   <meta name="google-site-verification" content="DZGI3GM2XM7Iw-rX7aETlJmhgrqAvRFhwDR7iqgr-Bk" /> <!--verification for Google Webmaster Tools -->
   <%= favicon_link_tag 'icon.ico' %>
 </head>
-<body class="regular">
+<body>
 
-<%= yield %>
+  <div class="col-xs-12">
+    <div class="horiz", style="padding-top:3%">
+      <%= image_tag("Logo.png", title: "Project Borrow", alt: "Project Borrow", width: "20%") %>
+      <h1 style="font-size:100%; font-style: italic;">Project Borrow builds a community of sharers for fast, free, easy access to the stuff you need</h1>
+    </div>
+  </div>
+
+  <div class="col-xs-8 col-xs-offset-2" style="padding-top:2%;">
+
+    <%= yield %>
+
+
+
+    <div class="col-xs-12 horiz" style="padding-top: 1%; padding-bottom:1%;">
+        <div class="col-xs-3 col-xs-offset-3">
+          <%= link_to 'Learn more' %>
+        </div>
+        <div class="col-xs-3">
+          <%= link_to 'Contact us' %>
+        </div>
+      </div>
+    </div>
+
+  </div>
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -27,7 +50,7 @@
 
 </script>
 
-<%= debug(params) if Rails.env.development? %>
+<%#= debug(params) if Rails.env.development? %>
 </body>
 </html>
 
