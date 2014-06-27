@@ -1,0 +1,7 @@
+  <div class="col-xs-12" style="padding-bottom:1%;">
+    <h4>Terms of Service</h4>
+  </div>
+
+  <div class="col-xs-12">
+  	<p style="font-style:italic;">Hello there<%= ", #{session[:signup_email]}" if session[:signup_email].present? %>! These are our shiny terms of service (<%= link_to "click here", policy_path, {style: 'color:#428bca'} %> if you're looking for our privacy policy). We know there's a lot of lawyer-speak, but please keep in mind that we basically want to build an awesome community of sharers. We encourage everyone to follow the Golden Rule: when borrowing or lending, treat the items and the other person as you would want yourself or your items to be treated! If you have any questions, please <%= mail_to 'james@projectborrow.com', 'email us', {style: 'color:#428bca'} %>.</p>
+  </div>

@@ -41,7 +41,7 @@ class InventoriesController < ApplicationController
   end
 
   def index
-    @q = Inventory.search(params[:q])
+    @q = Inventory.ransack(params[:q])
     @inventories = @q.result.includes(:signup)
   end
 

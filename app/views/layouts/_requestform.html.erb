@@ -32,9 +32,10 @@
 
       <div class="form-group col-xs-12">
         <%= f.label "Pick up:" %>
-        <%= date_select(:request, :startdate, default: @requestrecord.startdate, start_year: Date.today.year, end_year: Date.today.year + 1) %>
+        <%= date_select(:request, :pickupdate, default: @requestrecord.pickupdate, start_year: Date.today.year, end_year: Date.today.year + 1) %>
         <%= f.label "Return:" %>
-        <%= date_select(:request, :enddate, default: @requestrecord.enddate, start_year: Date.today.year, end_year: Date.today.year + 1) %>
+        <%= date_select(:request, :returndate, default: @requestrecord.returndate, start_year: Date.today.year, end_year: Date.today.year + 1) %>
+        <p class="horiz" style="font-size:85%; font-style:italic;">We recommend giving yourself an extra day on either end, just in case!</p>
       </div>
 
       <div class="form-group col-xs-12">

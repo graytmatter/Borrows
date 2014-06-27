@@ -2,8 +2,6 @@ class Signup < ActiveRecord::Base
     has_many :inventories, dependent: :destroy
     has_many :requests
     
-	# validates :email, presence: true, format: { with: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i }, on: :create
-
     validate :create_validation, on: :create
     validate :update_validation, on: :update
 
@@ -14,6 +12,7 @@ class Signup < ActiveRecord::Base
     def update_validation
         errors[:base] << "Please enter two street names" if self.streetone.blank? || self.streettwo.blank?
         errors[:base] << "Please enter a valid 5-digit zipcode" if self.zipcode.blank? || ( self.zipcode.length != 5 )
+        errors[:base] << "Please agree to the terms of service before continuing" unless self.tos == true
     end
 
 def save_subscrip

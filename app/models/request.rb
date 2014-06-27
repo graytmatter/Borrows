@@ -8,8 +8,8 @@ class Request < ActiveRecord::Base
   validate :custom_validation
 
   def custom_validation
-    errors[:base] << "Please enter a return date that is on or after the pick up date" if self.startdate > self.enddate
-    errors[:base] << "Please enter both a pick up date and a return date" if self.startdate.blank? || self.enddate.blank?
+    errors[:base] << "Please enter a return date that is on or after the pick up date" if self.pickupdate > self.returndate
+    errors[:base] << "Please enter both a pick up date and a return date" if self.pickupdate.blank? || self.returndate.blank?
   end
 
   # def save_spreadsheet

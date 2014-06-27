@@ -7,9 +7,7 @@ GoogleTest::Application.routes.draw do
 
   get 'requests/new', to: 'requests#new', as: 'new_request'
   post 'requests', to: 'requests#create'
-
   get 'requests/success', to: 'requests#success'
-  
   # get 'requests/edit/:edit_id', to: 'requests#edit', as: 'edit_request'
   # patch 'requests/:edit_id', to: 'requests#update', as: 'request'
 
@@ -17,6 +15,9 @@ GoogleTest::Application.routes.draw do
   
   get 'admin/inventories', to: 'inventories#index'
   get 'admin/requests', to: 'requests#index'
+
+  get 'termsofservice', to: 'staticpages#terms', as: 'terms'
+  get 'privacypolicy', to: 'staticpages#policy', as: 'policy'
   #get 'signup', to: 'signups#new', as: 'new_signup'
 
     # The priority is based upon order of creation: first created -> highest priority.

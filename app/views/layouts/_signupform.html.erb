@@ -19,7 +19,7 @@
         </div>
 
         <div class="form-group col-xs-6">
-          <%= f.label :heard, "How did you hear about us?" %>
+          <%= f.label :heard, "How did you hear about us? (optional)" %>
           <%= f.text_field :heard, class: "form-control", placeholder: "Who do we need to thank?" %>
         </div>
 
@@ -40,6 +40,11 @@
         <div class="form-group col-xs-4">
           <%= f.label :zipcode, "Zipcode"%>
           <%= f.text_field :zipcode, class: "form-control"%>
+        </div>
+
+        <div class="form-group col-xs-12", style="padding-top:2%">
+          <%= f.check_box :tos %>
+          <%= f.label :tos, "I have read and agree to the following #{link_to 'Terms of Service', terms_path, {style: 'color:#428bca'}}.".html_safe %>
         </div>
 
         <div class="col-xs-12", style="padding-top:3%">

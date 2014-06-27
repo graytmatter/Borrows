@@ -1,5 +1,5 @@
 
-  <% if @signup.streetone.blank? %>
+  <% if @signup.tos != true %>
 
     <div class="col-xs-12" style="padding-bottom:3%;">
       <h4><%="Hello #{session[:signup_email]}! Help us help you with just a little more info!"%></h4>

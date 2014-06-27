@@ -15,12 +15,12 @@ class ApplicationController < ActionController::Base
 
   def images
     @images = {
-      "Camping"     => "Borrow to unplug",
-      "BBQ"         => "Borrow for a sunny day",
-      "DIY"         => "Borrow to do-it-yourself",
-      "Backpacking" => "Borrow for the backcountry",
-      "Cooking"     => "Borrow for the dream meal",
-      "Skiing"      => "Borrow to catch some air"
+      "Camping"     => "Borrow for camping",
+      "BBQ"         => "Borrow for a picnic",
+      "DIY"         => "Borrow for DIY projects",
+      "Backpacking" => "Borrow for the outback",
+      "Cooking"     => "Borrow for homecooking",
+      "Skiing"      => "Borrow for snowsports"
     }
 
     # Camping http://hdwallpapersci.com/wp-content/uploads/2013/11/dsfsdf1.jpg

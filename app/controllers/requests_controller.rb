@@ -61,7 +61,7 @@ class RequestsController < ApplicationController
   private
 
   def request_params
-    @requestparams = params.require(:request).permit(:detail, :startdate, :enddate) 
+    @requestparams = params.require(:request).permit(:detail, :pickupdate, :returndate) 
     @transactionparams = params["transaction"]
     @transactionparams = @transactionparams.first.params.reject { |k, v| (v == "") || ( v == "0" ) || ( v.length > 2 ) }
   end

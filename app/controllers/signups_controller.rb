@@ -51,7 +51,7 @@ class SignupsController < ApplicationController
 private
 
 def signup_params 
-	params.require(:signup).permit(:email, :streetone, :streettwo, :zipcode, :heard) 
+	params.require(:signup).permit(:tos, :email, :streetone, :streettwo, :zipcode, :heard) 
 end
 
 end

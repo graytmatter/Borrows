@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140625184551) do
+ActiveRecord::Schema.define(version: 20140626225819) do
 
   create_table "inventories", force: true do |t|
     t.string   "item_name"
@@ -21,26 +21,25 @@ ActiveRecord::Schema.define(version: 20140625184551) do
   end
 
   add_index "inventories", ["item_name"], name: "index_inventories_on_item_name"
+  add_index "inventories", ["signup_id"], name: "index_inventories_on_signup_id"
 
   create_table "requests", force: true do |t|
     t.string   "name"
     t.string   "email"
-    t.text     "items",          limit: 255
+    t.text     "items",      limit: 255
     t.string   "detail"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "edit_id"
-    t.string   "rentdate"
-    t.boolean  "paydeliver"
-    t.string   "addysdeliver"
-    t.string   "timedeliver"
-    t.string   "instrucdeliver"
     t.string   "heard"
-    t.datetime "startdate"
-    t.datetime "enddate"
+    t.datetime "pickupdate"
+    t.datetime "returndate"
     t.integer  "signup_id"
-    t.boolean  "tos_agree"
   end
+
+  add_index "requests", ["pickupdate"], name: "index_requests_on_pickupdate"
+  add_index "requests", ["returndate"], name: "index_requests_on_returndate"
+  add_index "requests", ["signup_id"], name: "index_requests_on_signup_id"
 
   create_table "signups", force: true do |t|
     t.string   "email"
@@ -51,6 +50,7 @@ ActiveRecord::Schema.define(version: 20140625184551) do
     t.string   "streetone"
     t.string   "streettwo"
     t.string   "zipcode"
+    t.boolean  "tos"
   end
 
   add_index "signups", ["email"], name: "index_signups_on_email", unique: true
@@ -59,14 +59,13 @@ ActiveRecord::Schema.define(version: 20140625184551) do
     t.integer  "request_id"
     t.integer  "item_id"
     t.string   "name"
-    t.datetime "startdate"
-    t.datetime "enddate"
     t.integer  "status"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "transactions", ["enddate"], name: "index_transactions_on_enddate"
-  add_index "transactions", ["startdate"], name: "index_transactions_on_startdate"
+  add_index "transactions", ["item_id"], name: "index_transactions_on_item_id"
+  add_index "transactions", ["name"], name: "index_transactions_on_name"
+  add_index "transactions", ["request_id"], name: "index_transactions_on_request_id"
 
 end
