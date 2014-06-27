@@ -56,6 +56,12 @@ class RequestsController < ApplicationController
   end
 
   def success
+    if session[:signup_email] != Request.last.signup.email
+      flash[:danger] = "Please submit a request first"
+      redirect_to new_request_path
+    else
+      @signup_parent = Request.last.signup
+    end
   end
 
   private
@@ -63,7 +69,7 @@ class RequestsController < ApplicationController
   def request_params
     @requestparams = params.require(:request).permit(:detail, :pickupdate, :returndate) 
     @transactionparams = params["transaction"]
-    @transactionparams = @transactionparams.first.params.reject { |k, v| (v == "") || ( v == "0" ) || ( v.length > 2 ) }
+    @transactionparams = @transactionparams.first.reject { |k, v| (v == "") || ( v == "0" ) || ( v.length > 2 ) }
   end
 
   def itemlist

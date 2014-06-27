@@ -1,7 +1,80 @@
-  <div class="col-xs-12" style="padding-bottom:1%;">
-    <h4>Privacy Policy</h4>
-  </div>
+<div class="col-xs-12">
+  <p style="font-style:italic;">Hello there<%= ", #{session[:signup_email]}" if session[:signup_email].present? %>! Here lives our illustrious privacy policy (<%= link_to "click here", terms_path, {style: 'color:#428bca'} %> if you're looking for our terms of service). We know there's a lot of lawyer-speak, but as we're people, too, we try to follow the Golden Rule, and respect your information as we would want our own to be. (Heck, that's very true since we use Project Borrow ourselves!) If you have any questions, please <%= mail_to 'james@projectborrow.com', 'email us', {style: 'color:#428bca'} %>.</p>
+  <hr>
+  <h4>Privacy Policy</h4>
+  <h5>Effective Date: June 27, 2014</h5>
+  <p>
+	Project Borrow provides an online platform for users to share their items with each other in their local community. This Privacy Policy describes the information Project Borrow collects when you access, use or otherwise interact with Project Borrow or any of its Users, and how we use that information.   Each time you use the Site, you consent to the collection, use and storage of your personal information as described in the Privacy Policy.
+  </p>
+  <h5>1. Definitions</h5>
+  <p>
+  	<b>User:</b>  Anyone who accesses the Site for any purpose whatsoever. 
+  </p>
+  <p>
+  	<b>Borrower:</b>  Users who submit a request to borrow an item on projectborrow.com are hereinafter referred to as “Borrower.” 
+  </p>
+  <p>
+  	<b>Lender:</b>  Users who lend items through projectborrow.com are hereinafter referred to as “Lender.” 
+  </p>
+  <p>
+  	<b>Pick Up Date:</b>  The earlier date submitted in the borrow request shall hereinafter be referred to as the "Pick Up Date.”  The Pick Up Date may subsequently be changed if agreed upon by both Borrower and Lender (see Section 5).
+  </p>
+  <p>
+  	<b>Return Date:</b>  The later date submitted in the borrow request shall hereinafter referred to as the Return Date.”  The Return Date may subsequently be changed if agreed upon by both Borrower and Lender (see Section 5).
+  </p>
+  <p>
+  	<b>Project Borrow:</b>  Project Borrow is an online sharing platform owned and operated by Shuyu James Dong, doing business as Project Borrow at projectborrow.com. The use of the term  “we” incorporates anyone working on Project Borrow’s behalf, including its owners, employees, managers, agents, attorneys and volunteers.
+  </p>
+  <h5>2. Anti-Spam Policy</h5>
+  <p>
+  	Project Borrow does not send spam or sell email addresses. When you use our service for the first time, we will send you an automated email that confirms you are on our mailing list for important messages.  If you do not wish to receive these communications, please notify us by responding to the email, or emailing us at: <%= mail_to 'james@projectborrow.com', 'james@projectborrow.com', {style: 'color:#428bca'} %>.  Opting out of these communications does not preclude you from using Project Borrow. 
+  </p>
+  <h5>3. When is Information is Collected?</h5>
+  <p>
+  	We may collect information when you: 
+  	<ul>
+	<li>Use projectborrow..com in any manner;</li>
+	<li>Email, call, text or interact with Project Borrow in person;</li>
+	<li>Respond and provide information to surveys based on your experience with Project Borrow; and/or</li>
+	<li>Install and use the Google Chrome™ extension.</li> 
+	</ul>
 
-  <div class="col-xs-12">
-  	<p style="font-style:italic;">Hello there<%= ", #{session[:signup_email]}" if session[:signup_email].present? %>! Here lives our illustrious privacy policy (<%= link_to "click here", terms_path, {style: 'color:#428bca'} %> if you're looking for our terms of service). We know there's a lot of lawyer-speak, but as we're people, too, we try to follow the Golden Rule, and respect your information as we would want our own to be. (Heck, that's very true since we use Project Borrow ourselves!) If you have any questions, please <%= mail_to 'james@projectborrow.com', 'email us', {style: 'color:#428bca'} %>.</p>
-  </div>
+	<p>Additionally, when you connect to our website, our web servers recognize your IP address and certain other information about your computer.  This is necessary to facilitate transactions, administer the web server, and track down problems. </p>
+
+	<p>Project Borrow may also use “cookie” technology to gather information on Internet use in order to serve you more effectively.  Usage of cookies is in no way linked to personally identifiable information.  You can set your browser to remove or reject cookies; you do not need to accept cookies to use Project Borrow.</p> 
+  </p>
+  <h5>4. Who Maintains the Information Collected? </h5>
+  <p>
+  	Information is collected and maintained solely by Project Borrow.  Project Borrow does sell or rent information to third parties. Project Borrow does not share information to third parties in ways other than disclosed in this Privacy Policy.
+  </p>
+  <h5>5. How is Collected Information Used? </h5>
+  <p>
+  	Information collected by Project Borrow may be utilized to (i) facilitate an exchange of an item between Users; (ii) assist in a dispute resolution between Users; (iii) help us improve services offered on the Site; (iv) when we are required to do so by law, or (v) in the event of a change of ownership.  Examples include:
+
+	<p><b>Contact Information</b></p>
+	<p>Contact information, such as a User’s name, email, phone, and mailing address may be utilized to facilitate transactions between Borrowers and Lenders (including employees, agents, and/or volunteers involved in transporting items between Users).  This information will only be disclosed with the consent of Borrower and/or Lender.  If Borrower and/or Lender do not agree to release basic contact information, however, Project Borrow may not be able to facilitate the exchange of the item requested.</p> 
+
+	<p><b>Transactions</b></p>
+	<p>We may collect different types of information about items transferred between Users (e.g., description of items, condition of item, oral and written statements about transactions, items and use, before and after photos, Pick Up and Return Dates, conditions of request, etc.) to facilitate any transaction or assist with the resolution of any dispute or issue between Borrower and Lender. </p>
+
+	<p><b>Credit/Debit Card Information</b></p>
+	<p>We collect information relating to the credit or debit card used to (i) pay for any applicable deposits and/or transaction fees, (ii) receive credit for the return of deposit, and/or (iii) pay for any late fees, replacement costs, or damages incurred on any items exchanged between Users.  Project Borrow does not maintain or store any credit or debit card information once a transaction has been finalized and/or a dispute between Users has been resolved.</p>
+
+	<p><b>Survey Data</b></p>
+	<p>To the extent a User participates in any surveys generated by Project Borrow, such survey information may be processed and analyzed in order to improve our service.  In certain cases, data will be used to broaden Project Borrow’s industry-wide understanding of the sharing economy.  However, if we were to release any analytics information, we would report data only in its anonymous and aggregate form, without any personally identifiable information or reference to individual User. </p>
+
+	<p><b>When Disclosure is Required By Law</b></p>
+	<p>Information may be provided where we are required to do so by law, or if we believe in good faith that it is reasonably necessary (i) to respond to claims asserted against Project Borrow or to comply with the legal process (for example, discovery requests, subpoenas or warrants); (ii) to enforce or administer our policies and agreements with Users; (iii) for fraud prevention, risk assessment, investigation, customer support, product development and de-bugging purposes; or (iv) to protect the rights, property or safety of Project Borrow, its Users or members of the general public.  We will use commercially reasonable efforts to notify Users about law enforcement or court ordered requests for data unless otherwise prohibited by law.</p>
+
+	<p><b>Acquisition/Merger/Assignment</b></p>
+	<p>Information may be disclosed if Project Borrow is involved in any merger, acquisition or assignment of its interests.  Under such circumstances, Project Borrow will use commercially reasonable efforts to notify its Users if their personal information is to be disclosed or transferred and/or becomes subject to a different privacy policy.</p>
+
+  </p>
+  <h5>6. What is Project Borrow’s Security Policy? </h5>
+  <p>
+  	We have implemented reasonable administrative, technical and physical security measures to protect your personal information against unauthorized access, destruction or alteration of your information. However, Users should be advised that no method of transmission over the Internet and no method of storing electronic information can ever by 100% secure. 
+  </p>
+  <h5>7. What if I Download the Google Chrome™ Extension?</h5>
+  <p>
+  	If a User downloads the Google Chrome™ extension when using projectborrow.com, it will remain active on other websites not owned or controlled by Project Borrow.  Third party websites may collect information from you and will have their own rules, policies and procedures regarding their collection, use or disclosure of your information.  This policy does not apply to, and we are not responsible for, third party cookies, web beacons or other tracking technologies, and we encourage you to review the privacy policies of these third parties to learn more about their privacy practice. 
+  </p>

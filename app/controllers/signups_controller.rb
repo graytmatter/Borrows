@@ -16,8 +16,8 @@ class SignupsController < ApplicationController
 			redirect_to action: 'edit'
 		else
 			if @signup.save
-				@signup.save_subscrip
-				Subscribe.notification_email(@signup).deliver
+				@signup.save_subscrip if Rails.env == "production"
+				Subscribe.notification_email(@signup).deliver if Rails.env == "production"
 				session[:signup_email] = @signup.email
 				redirect_to action: 'edit'
 			else
@@ -28,12 +28,17 @@ class SignupsController < ApplicationController
 	end
 
 	def edit
-		@signup = Signup.find_by_email(session[:signup_email])
+		if session[:signup_email].nil?
+	      flash[:danger] = "Please enter your email to get started"
+	      redirect_to root_path
+	    else
+	      @signup_parent = Signup.find_by_email(session[:signup_email])
+	    end
 	end
 
 	def update
-		@signup = Signup.find_by_email(session[:signup_email])
-		if @signup.update_attributes(signup_params)
+		@signup_parent = Signup.find_by_email(session[:signup_email])
+		if @signup_parent.update_attributes(signup_params)
 			redirect_button
 		else
 			render "edit"

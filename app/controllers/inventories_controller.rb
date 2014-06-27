@@ -12,7 +12,7 @@ class InventoriesController < ApplicationController
       @signup_parent = Signup.find_by_email(session[:signup_email])
     end
 
-    @q = Inventory.ransack(params[:q])
+    @q = @signup_parent.inventories.ransack(params[:q])
     @inventories = @q.result.includes(:signup)
   end
 

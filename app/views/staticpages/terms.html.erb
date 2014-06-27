@@ -1,7 +1,214 @@
-  <div class="col-xs-12" style="padding-bottom:1%;">
-    <h4>Terms of Service</h4>
-  </div>
+<div class="col-xs-12 legal" style="padding-bottom:1%;">
+  <p style="font-style:italic;">Hello there<%= ", #{session[:signup_email]}" if session[:signup_email].present? %>! These are our shiny terms of service (<%= link_to "click here", policy_path, {style: 'color:#428bca'} %> if you're looking for our privacy policy). We know there's a lot of lawyer-speak, but please keep in mind that we basically want to build an awesome community of sharers. We encourage everyone to follow the Golden Rule: when borrowing or lending, treat the items and the other person as you would want yourself or your items to be treated! If you have any questions, please <%= mail_to 'james@projectborrow.com', 'email us', {style: 'color:#428bca'} %>.</p>
+  <hr>
+  <h4>Terms of Service</h4>
+  <h5>Effective Date: June 27, 2014</h5>
+  <p>
+  	These Terms of Service constitute a legally binding agreement between you and Shuyu James Dong, doing business as Project Borrow, governing your use of www.projectborrow.com (“projectborrow.com,” “Project Borrow” or the “Site”).  By clicking the “I AGREE” button or (i) accessing or using any part of the Site, or (ii) initiating any transaction through the Site, you agree to be bound by these Terms of Service.  Internet technology, and the applicable laws, rules and regulations change frequently.  Project Borrow reserves the right to make changes to these Terms of Service at any time.  <b><i>Continued access and/or use of the Site in any manner constitutes assent to any new Terms of Service provisions</i></b> that may be posted on projectborrow.com. 
+  </p>
+  <h5>1. PROJECT BORROW</h5>
+  <p>
+  	Project Borrow provides an online platform for users to share items with each other in their local community. 
+  </p>
+  <h5>2. Eligibility</h5>
+  <p>
+  	Use of Project Borrow is limited to individuals who are 18 years of age or older. In initiating a transaction with projectborrow.com, you represent and warrant that you are at least 18 years old and that all information you submit is accurate and truthful. 
+  </p>
+  <h5>3. Definitions</h5>
+  <p>
+  	<b>User:</b>  Anyone who accesses the Site for any purpose whatsoever. 
+  </p>
+  <p>
+  	<b>Borrower:</b>  Users who submit a request to borrow an item on projectborrow.com are hereinafter referred to as “Borrower.” 
+  </p>
+  <p>
+  	<b>Lender:</b>  Users who lend items through projectborrow.com are hereinafter referred to as “Lender.” 
+  </p>
+  <p>
+  	<b>Pick Up Date:</b>  The earlier date submitted in the borrow request shall hereinafter be referred to as the "Pick Up Date.”  The Pick Up Date may subsequently be changed if agreed upon by both Borrower and Lender (see Section 5).
+  </p>
+  <p>
+  	<b>Return Date:</b>  The later date submitted in the borrow request shall hereinafter referred to as the Return Date.”  The Return Date may subsequently be changed if agreed upon by both Borrower and Lender (see Section 5).
+  </p>
+  <p>
+  	<b>Responsible Party:</b>  The User responsible for an item and any damages associated with the loss, use or misuse of an item is hereinafter referred to as the “Responsible Party.”  
 
-  <div class="col-xs-12">
-  	<p style="font-style:italic;">Hello there<%= ", #{session[:signup_email]}" if session[:signup_email].present? %>! These are our shiny terms of service (<%= link_to "click here", policy_path, {style: 'color:#428bca'} %> if you're looking for our privacy policy). We know there's a lot of lawyer-speak, but please keep in mind that we basically want to build an awesome community of sharers. We encourage everyone to follow the Golden Rule: when borrowing or lending, treat the items and the other person as you would want yourself or your items to be treated! If you have any questions, please <%= mail_to 'james@projectborrow.com', 'email us', {style: 'color:#428bca'} %>.</p>
-  </div>
+	<p>The User who has physical possession of an item is considered the Responsible Party, regardless of the Pick Up/Return Dates agreed upon. </p>
+
+	<p>Project Borrow shall never be considered a Responsible Party for any transaction, regardless of any assistance Project Borrow may provide to transport an item between Users. If an item is held in temporary custody or transported by Project Borrow for the benefit of a User, the Responsible Party remains the party to whom last had physical possession of the item to be exchanged until possession has been transferred to the other party.</p>
+  </p>
+  <p>
+  	<b>Window:</b>  The 5 day period after the agreed upon Return Date (or date of actual return, if late, in accordance with Section 8) in which a Lender may submit a written request to Project Borrow to obtain Borrower’s Deposit as partial reimbursement of any loss, damage or late return of an item exchanged.
+  </p>
+  <h5>4. Transaction Fees</h5>
+  <p>
+  	There are no transaction fees to initiate a request or set up an exchange to borrow an item at this time.
+  </p>
+  <h5>5. The Borrowing Process</h5>
+  <p>
+  	We recommend (but do not mandate or enforce) Borrowers submit Pick Up and Return Dates that include a 24-hour buffer at each end.  Pick Up and Return Dates may always be changed as long as both Borrower and Lender agree.  Agreed upon changes to Pick Up or Return Dates should be communicated in writing to Project Borrow.  
+
+	<p>If Borrower wishes to change the Pick Up Date but the Lender does not agree, the Borrower must continue with the original date or request a Cancellation.  If Borrower wishes to change the Return Date but Lender does not agree, the Borrower must continue with the original date or potentially be subject to penalties pursuant to Section 8.</p>
+
+	<p>If a Lender wishes to change the Pick Up or Return Date before the Borrower has picked up the item, but the Borrower does not agree, the request is automatically cancelled.  In this instance, Project Borrow will do everything possible to find a suitable replacement, but unfortunately we cannot guarantee success.  If no replacement can be found, Borrower’s Deposit shall be returned in full.</p>
+
+	<p>Once a Borrower has taken possession of an item, the Lender cannot unilaterally shorten the Return Date.  If a Lender wishes to extend the Return Date but Borrower does not agree, Borrower may return an item to Project Borrow for temporary custody and Project Borrow will return the item to Lender at the extended Return Date.  Under such circumstances, Borrower shall remain the Responsible Party until the item exchanged has been returned to Lender’s physical possession. </p>
+
+	<p>Within 24 hours of obtaining physical possession of an item, Borrower may elect to return an item to Lender for any reason such as preexisting damage or general unsuitability.  Under such circumstances, Project Borrow will do everything possible to find a suitable replacement, but unfortunately we cannot guarantee success.  If no replacement can be found, Borrower’s Deposit will be returned in accordance with the provisions set forth in Section 8. </p>
+  </p>
+  <h5>6. Good Faith Loans & Assumption of the Risk
+</h5>
+  <p>
+  	Project Borrow aims to create an online community that facilitates the sharing of resources with our neighbors.  To that end, the success of Project Borrow depends on the courtesy, good faith and honesty of its Users with regard to the use, damage or loss of any items exchanged. 
+
+	<p><b>Lenders:</b>  Lenders are solely and exclusively responsible for, must evaluate and make their own judgments about, and assume all risks associated with, lending any items through projectborrow.com.   To ensure a mutual understanding of the quality of items exchanged, Lenders should consider asking a Borrower to inspect an item for preexisting damage before taking possession, identifying preexisting damage to an item, and/or taking pictures of items immediately before an exchange. Lenders should also consider utilizing similar procedures when an item is returned. </p>
+
+	<p><b>Borrowers:</b>  Borrowers are solely and exclusively responsible for, and assume all risks associated with, the acceptance and use of an item exchanged through projectborrow.com.  To ensure a mutual understanding of the quality of items exchanged, Borrowers should consider inspecting an item before taking possession, identifying preexisting damage to an item, and/or taking pictures of an item before taking possession.  Borrowers should also consider utilizing similar procedures when an item is returned.  To ensure proper use of an item, a Borrower should consider requesting instructions regarding the use and care of an item to be exchanged.   </p>
+
+	<p>To the extent (i) preexisting damage is discovered after Borrower takes possession, or (ii) damages are incurred by Borrower during possession, Borrower shall take all reasonable steps necessary to immediately notify Lender of damage discovered or incurred. Notification, however, does not waive Borrower from potential penalties discussed in Section 8.</p>
+
+	<p>Considerations set forth in this section are suggestions only and Users are encouraged to explore other methods to ensure an equal understanding of an item’s quality and proper use to avoid any misunderstandings or disputes.</p> 
+  </p>
+  <h5>7. Project Borrow is Not a Party to Any Transaction</h5>
+  <p>
+  	Project Borrow is not a party to any transaction between Users. Users acknowledge that Project Borrow does not screen or investigate any of its Users and does not verify or otherwise warrant the accuracy of any representations or statements made by any User regarding items to be exchanged.  Any terms, conditions, representations or warranties associated with any items exchanged through projectborrow.com are between Borrower and Lender exclusively and do not involve Project Borrow. 
+  </p>
+  <h5>8. Deposits for Damage, Loss or Late Returns</h5>
+  <p>
+  	<b>Deposit:</b>  Borrower agrees to deposit the sum of $20.00 for each item requested (hereinafter referred to as “Deposit”).  Deposits will be held by Project Borrow during the term of the exchange. 
+
+	<p><b>Late Fees:</b> If Borrower does not return an item at the agreed upon Return Date and an extension cannot be agreed upon between Borrower and Lender, Borrower shall be subject to a late fee equivalent to the cost of renting a suitably similar item for the Lender’s use calculated from the original agreed upon Return Date until the date in which Borrower returns the item to Lender, for a maximum of 3 days.  If Borrower retains possession beyond 3 days (for example if Lender will be on an extended trip requiring use of the item), this shall constitute a Failure to Return, subject to the guidelines that follow. A portion or all of the Deposit may be used to offset any claim for late fees. Borrower shall remain liable to Lender for the difference between the Deposit and any late fees incurred.</p> 
+
+	<p><b>Failure to Return:</b> If the Borrower fails to return the items exchanged within 3 days of the Return Date, Borrower shall additionally be liable for the current replacement cost of the item exchanged.  A portion or all of the Deposit may be used to offset any claim for damages.  Borrower shall remain liable to Lender for the difference between the Deposit and any replacement cost.</p>
+
+	<p><b>Damaged Items:</b> Borrower shall keep all items exchanged in the order and condition in which they were accepted and shall return them in the same order and condition, save for reasonable wear and tear. If Borrower damages an item exchanged, Borrower shall be liable for all damages incurred.  A portion or all of the Deposit may be used to offset any claim for damages.  Borrower shall remain liable to Lender for the difference between the Deposit and any damages incurred.</p>
+
+	<p><b>Deposit Return:</b>  Deposits will be returned to Borrower (i) if Borrower cancels request by notifying Project Borrow and the Lender before taking possession of the item, (ii) no later than 8 days after the agreed upon Return Date or the actual date of return if late, if no claim for late fees or compensation for loss or damage of an item is made by Lender against Borrower. </p>
+
+	<p><b>Insurance:</b>  Project Borrow shall not be responsible for any loss or damage suffered as a result of lending, sharing, obtaining possession of and/or using any item exchanged through projectborrow.com. Users shall be solely responsible for obtaining and maintaining any insurance deemed necessary or advisable to cover any loss or damage to items exchanged through projectborrow.com. Users are solely responsible for ensuring that any insurance policy covers the intended exchange of items.  </p>
+  </p>
+  <h5>9. Good Faith Dispute Resolution</h5>
+  <p>
+  	We aim to establish a trusted community of Borrowers and Lenders. Therefore, we ask that Borrowers and Lenders first cooperate with each other in good faith to resolve disputes. 
+
+	<p>If a resolution cannot be reached, Project Borrow may be contacted within the Window to assist in a good faith effort to resolve the dispute.  To the extent practicable, Project Borrow will work with the parties toward a fair and satisfactory resolution of the dispute. Both Borrower and Lender agree to provide accurate and honest information as reasonably requested by Project Borrow.  Beyond the Window, Borrower and Lender may still claim late fees or damages from the other, or dispute the offset of a Deposit against a claim for late fees or damages, but Project Borrow shall not be under any obligation to provide requested mediation assistance.</p>
+  </p>
+  <h5>10. Prohibited Conduct</h5>
+  <p>
+  	In your use of the Site, you may not: 
+  	<ul>
+	<li>Write false, inaccurate, misleading, defamatory or harassing content.</li>
+	<li>Violate any law, statute, ordinance or regulation.</li>
+	<li>Infringe upon any patent, copyright, trademark, trade-secret, right of publicity or other third party rights.</li>
+	<li>Engage in any transactions through the Site that would violate any criminal or civil law, statute, ordinance or regulation.</li>  
+	<li>Impersonate another person or entity, misrepresent your affiliation with a person or entity, or create or use a false identity.</li>
+	<li>Write, or attempt to write, obscene or sexually explicit content.</li> 	
+	<li>Distribute or transmit any code, virus or any other technologies, whether now known or yet to be developed, that may harm Project Borrow or its Users.</li> 
+	<li>Modify, adapt or hack the Site or modify another website so as to falsely imply that it is associated with Project Borrow.</li>
+	<li>Distribute or post spam, unsolicited or bulk electronic communications to Project Borrow Users.</li>
+	<li>Use any robot, spider, scraper or other automated means to access the Site for any purpose whatsoever.</li>
+	<li>Take any action that imposes, or may impose, an unreasonable or disproportionately large load on Project Borrow's infrastructure.</li> 
+	<li>Interfere or attempt to interfere with the proper working of projectborrow.com, services or tools.</li> 
+	<li>Bypass Project Borrow's robot exclusion headers or other measures Project Borrow may use to prevent or restrict access to projectborrow.com.</li>
+	</ul>	
+  </p>
+  <h5>11. Content License</h5>
+  <p>
+  	By submitting, writing, posting, storing or transmitting any content to Project Borrow, including, but not limited to photographs of Users and/or items exchanged, Users grant Project Borrow a perpetual, worldwide, non-exclusive, royalty-free, sublicenseable, right and license to use, copy, display, perform, create derivative works from, distribute, have distributed, transmit and sublicense such content in any form, in all media now known or hereinafter created, anywhere in the world, for any purpose, commercial or otherwise, without compensation or accounting. Users irrevocably waive any claims based on moral rights, if any.
+  </p>
+  <h5>12. Idea Submissions</h5>
+  <p>
+  	<b>Non-Proprietary:</b>  Project Borrow considers any suggestions, ideas, proposals or other material submitted to it by Users, whether solicited or unsolicited, (collectively, the "Material") to be non-confidential and non-proprietary.  Project Borrow shall not be liable for the disclosure, use or exploitation of such Material. 
+	
+	<p><b>License:</b>  You hereby grant and agree to grant Project Borrow, a worldwide, non-exclusive, perpetual, irrevocable, royalty-free, sublicenseable and transferable right and license to incorporate, use, publish and exploit the Material for any purpose whatsoever, commercial or otherwise, without compensation or accounting.</p>
+  </p>
+  <h5>13. Privacy</h5>
+  <p>
+  	Project Borrow will only use personal information in accordance with Project Borrow's <%= link_to "Privacy Policy", policy_path, {style: 'color:#428bca'} %>. 
+  </p>
+  <h5>14. Customer Support</h5>
+  <p>
+  	Project Borrow is available by email at <%= mail_to 'james@projectborrow.com', 'james@projectborrow.com', {style: 'color:#428bca'} %> to address any issues you may have regarding your use of the Site.  Most concerns can be quickly resolved in this matter.
+  </p>
+  <h5>15. Individual Arbitration</h5>
+  <p>
+  	EXCEPT AS OTHERWISE STATED HEREIN, Any claim or controversy with Project Borrow arising out of or relating to these Terms of Service  (including its formation, interpretation, performance and breach) shall be settled by binding arbitration administered by the American Arbitration Association in accordance with its Commercial Arbitration Rules, excluding any rules or procedures governing or permitting class actions. Any judgment on the award rendered by the arbitrator(s) may be entered in any court having jurisdiction thereof.  The Federal Arbitration Act shall govern the interpretation and enforcement of these Terms of Service. 
+
+	<p>ANY ARBITRATION UNDER THIS AGREEMENT WILL BE ON AN INDIVIDUAL BASIS ONLY.  THE PARTIES EXPRESSLY WAIVE THEIR RIGHT TO FILE OR JOIN A CLASS ACTION OR PRIVATE ATTORNEY GENERAL ACTION, OR TO CONSOLIDATE THEIR ARBITRATION WITH OTHER ARBITRATIONS.  YOU ARE WAIVING YOUR RIGHTS TO HAVE YOUR CASE DECIDED BY A JUDGE OR JURY.  IF ANY PROVISION OF THIS ARBITRATION AGREEMENT IS FOUND UNENFORCEABLE, THE UNENFORCEABLE PROVISION SHALL BE SEVERED AND THE REMAINING PROVISIONS SHALL REMAIN ENFORCEABLE.</p> 
+
+	<p>The AAA’s rules, as well as forms for initiating arbitration proceedings, are available at www.adr.org.   When initiating a request to arbitrate with the AAA, you <b>must</b> also send a copy of the competed form to Project Borrow at <%= mail_to 'james@projectborrow.com', 'james@projectborrow.com', {style: 'color:#428bca'} %>.</p>
+
+	<p><b>Exception – Small Claims Court Claims:</b> Notwithstanding the parties’ agreement to resolve all disputes through arbitration, either party may seek relief in small claims courts for disputes or claims within the scope of that court’s jurisdiction. </p>
+  </p><h5>16. Project Borrow's Intellectual Property</h5>
+  <p>
+  	<b>Copyright:</b> Project Borrow owns all materials on projectborrow.com, including, without limitation, Project Borrow’s logo, design, text, graphics, and other files, and the selection arrangement and organization thereof. You may not use such materials without permission.  © 2014 Shuyu James Dong dba Project Borrow. ALL RIGHTS RESERVED 
+
+	<p><b>Trademarks:</b> Project Borrow and its logos are trademarks owned by Project Borrow.  All page headers, custom graphics, button icons and scripts are trademarks or trade dress of Project Borrow. </p>
+
+	<p><b>Ownership and Use:</b>  Project Borrow will retain ownership of its intellectual property rights and you may not obtain any rights therein by virtue of your use of projectborrow.com or these Terms of Service. </p> 
+
+	<p><b>Your Content:</b> Project Borrow will not acquire an ownership interest in the material you post on projectborrow.com, but will acquire a non-exclusive license in accordance with Section 11.</p>
+  </p>
+  <h5>17. Notice of Claimed Infringement </h5>
+  <p>
+  	If you have a good faith belief that your copyright has been infringed, please immediately email Project Borrow at: <%= mail_to 'james@projectborrow.com', 'james@projectborrow.com', {style: 'color:#428bca'} %>.
+  </p>
+  <h5>18. Termination</h5>
+  <p>
+  	<b>Without limiting any other remedies, Project Borrow may suspend or terminate its services and Users, restrict or prohibit access or your use of projectborrow.com, remove or restrict content, and/or take any technical or legal steps necessary if Project Borrow:</b> (i) suspects a User has breached these Terms of Service; (ii) is unable to verify or authenticate any User information;  (iii) believes that a User is acting inconsistently with the letter or spirit of Project Borrow's policies, has engaged in improper or fraudulent activity in connection with Project Borrow or that a User’s actions may cause legal liability or financial loss to Project Borrow's Users or to Project Borrow; (iv) believes a User is infringing on the rights of third parties; (v) a User fails to pay any applicable Deposits or Transaction Fees (if applicable) due under these Terms of Service;  and/or (vii) if the credit or debit card associated with your Deposit or Transaction Fees (if applicable) should be rejected for any reason.
+
+  	<p><b>Effect of Termination:</b>  If your account is terminated for any reason, You shall remain liable for all debts or processing fees incurred through the date of termination.  Following termination, you will not be permitted to use Project Borrow.</p> 
+
+	<p><b>Survival:</b>  The following Sections survive termination of these Terms of Service:  Deposits for Damages, Loss or Late Returns, Content License, Disclaimers, Exclusions and Limitations, Release, Indemnity, and Individual Arbitration.</p>
+  </p>
+  <h5>19. Disclaimers, Exclusions and Limitations</h5>
+  <p>
+  	<b>Disclaimer of Warranties:</b>  To the extent permitted by applicable law, Project Borrow provides its website and services on an “as is” and “as available” basis.  Project Borrow does not represent or warrant that Project Borrow, its services or use (i) will be uninterrupted, (ii) will be free of defects, inaccuracies or errors, (iii) will meet your requirements or (iv) will operate in the configuration or with other hardware or software you use.   Project Borrow makes no warranties other than those made expressly in these Terms of Service, and hereby disclaims any and all implied warranties including, without limitation, warranties of fitness for a particular purpose, merchantability and non-infringement. 
+
+	<p>Any third party links, services, goods, resources and information that Project Borrow provides on or makes available on its website are not controlled by Project Borrow.  Accordingly, to the extent permitted by applicable law, Project Borrow makes no warranties regarding third party services, goods, resources and information including, without limitation, warranties of fitness for a particular purpose, merchantability and non-infringement and will not be liable for your use of or reliance on such third party services, goods, resources or information.</p>
+
+	<p><b>Exclusion of Damages:</b>  To the extent permitted by applicable law, Project Borrow will not be liable to any User of the Site or of Project Borrow’s services for any consequential, incidental, indirect, punitive or special damages (including damages for lost profits, lost data or loss of goodwill) arising out of, relating to or connected with the use of projectborrow.com, its services, and/or the exchange of items between Users, based on any cause of action, even if advised of the possibility of such damages.</p> 
+  </p>
+  <h5>20. Release</h5>
+  <p>
+  	If you have a dispute with one or more Project Borrow Users, you hereby release Project Borrow, its employees, representatives, agents, volunteers, attorneys, affiliates, and managers from all claims, demands, causes of action, liabilities, legal fees and costs, and damages (actual or consequential) of every kind and nature, known and unknown, arising out of or in any way connected with such disputes. <b>IF YOU ARE A CALIFORNIA RESIDENT, YOU WAIVE CALIFORNIA CIVIL CODE SECTION 1542, WHICH SAYS: “A GENERAL RELEASE DOES NOT EXTEND TO CLAIMS WHICH THE CREDITOR DOES NOT KNOW OR SUSPECT TO EXIST IN HIS OR HER FAVOR AT THE TIME OF EXECUTING THE RELEASE, WHICH IF KNOWN BY HIM OR HER MUST HAVE MATERIALLY AFFECTED HIS OR HER SETTLEMENT WITH THE DEBTOR.”</b>
+  </p>
+  <h5>21. Indemnity</h5>
+  <p>
+  	You agree to hold Project Borrow and its employees, representatives, agents, volunteers, attorneys, affiliates, and managers (the “Indemnified Parties”) harmless from any damage, loss cost or expense (including, without limitation, attorneys’ fees and costs) incurred in connection with any third-party claim, demand or action (“Claim”) brought or asserted against any of the Indemnified Parties (i) alleging facts or circumstances that would constitute a breach of any provision of these Terms of Service by you, or (ii) arising from, related to, or connected with your use of projectborrow.com, its services and/or an exchange of items between Users. 
+  </p>
+  <h5>22. Severability</h5>
+  <p>
+  	The validity or unenforceability of any provision of these Terms of Service shall not affect the validity or enforceability of any other provision of these Terms of Service.  
+  </p>
+  <h5>23. Modifications</h5>
+  <p>
+  	Our employees, volunteers or agents are not authorized to vary our Terms of Service.  These Terms of Service may only be modified by obtaining written consent signed by Shuyu James Dong. 
+  </p>
+  <h5>24. No Agency</h5>
+  <p>
+  	You and Project Borrow are independent contractors, and no agency, partnership, joint venture, employee-employer, or franchiser-franchisee relationship is intended or created by this Agreement.
+  </p>
+  <h5>25. Choice of Law</h5>
+  <p>
+  	These Terms of Service shall be governed by and construed and enforced in accordance with the substantive laws of the State of California, without regard to or application of California’s conflict of law principles.  The parties consent to the jurisdiction of the State of California, and venue in the County of San Francisco, with regard to any controversy or claim arising out of or relating to these Terms of Service, or the breach thereof. 
+  </p>
+  <h5>26. No Waiver</h5>
+  <p>
+  	No failure or delay by a party exercising any right, power or privilege under these Terms of Service will operate as a waiver thereof. 
+  </p>
+  <h5>27. Interpretation</h5>
+  <p>
+  	Headings are for reference purposes only and do not limit the scope or extent of such section
+  </p>
+  <h5>28. Notices</h5>
+  <p>
+  	All notices required or permitted to be given under these Terms of Service will be in writing and delivered to:  Project Borrow <%= mail_to 'james@projectborrow.com', 'james@projectborrow.com', {style: 'color:#428bca'} %>.   All notices by Project Borrow will be sent to you by email.
+  </p>
+  <h5>29. Complaints - California Residents</h5>
+  <p>
+  	If you are a California resident, in accordance with California Civil Code Section 1789.3, you may report complaints to the Complaint Assistance Unit of the Division of Consumer Affairs of the California Department of Consumer Affairs by contacting them in writing at 400 R Street, Sacramento, California 95814, or by telephone at (800) 952-5210.
+  </p>
+</div>
+
+
