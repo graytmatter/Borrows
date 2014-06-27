@@ -12,7 +12,7 @@
   <table class="table table-condensed table-hover">
     <thead>
       <tr>
-        <th><%= sort_link(@q, :item_name, "Item", default_order: :desc) %></th>
+        <th><%= sort_link(@q, :item_name, "Item") %></th>
         <th>Description</th>
         <th><%= sort_link(@q, 'signups.email', "Email") %></th>
         <th>Action</th>
@@ -21,11 +21,11 @@
     </thead>
 
     <tbody>
-      <% Inventory.all.each do |inventory| %>
+      <% @inventories.each do |inventory| %>
         <tr>
           <td><%= inventory.item_name %></td>
           <td><%#= inventory.description %></td>
-          <td><%= inventory.signup.email %> %></td>
+          <td><%= inventory.signup.email %></td>
           <td>
             <!-- mini form to add description-->
             <%= link_to 'Remove', inventory, method: :delete, data: { confirm: 'Once removed, borrowers will no longer be able to see you have this item. To remove an item temporarily (i.e., for a personal trip), please notify us via email' } %>

@@ -4,23 +4,31 @@
       <h4><%="Thanks, #{@signup_parent.email} for being a lender! Below are the items you're currently sharing"%></h4>
     </div>
 
-    <table>
-	  <thead>
-	    <tr>
-	      <th>Item</th>
-	      <th colspan="3"></th>
-	    </tr>
-	  </thead>
+    <div class="table-responsive">
+      <table class="table table-condensed table-hover">
+        <thead>
+          <tr>
+            <th><%= sort_link(@q, :item_name, "Item") %></th>
+            <th>Description</th>
+            <th>Action</th>
+            <th colspan="5"></th>
+          </tr>
+        </thead>
 
-	  <tbody>
-	    <% @signup_parent.inventories.each do |inventory| %>
-	      <tr>
-	        <td><%= inventory.item_name %></td>
-	        <td><%= link_to 'I can no longer share this', inventory, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-	      </tr>
-	    <% end %>
-	  </tbody>
-	</table>
+        <tbody>
+          <% @inventories.each do |inventory| %>
+            <tr>
+              <td><%= inventory.item_name %></td>
+              <td><%#= inventory.description %></td>
+              <td>
+                <!-- mini form to add description-->
+                <%= link_to 'Remove', inventory, method: :delete, data: { confirm: 'Once removed, borrowers will no longer be able to see you have this item. To remove an item temporarily (i.e., for a personal trip), please notify us via email' } %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
 
     <div class="col-xs-12" style="padding-bottom:1%;">
       <h4><%="Use the form below to share more items with your neighbors"%></h4>
