@@ -11,7 +11,6 @@
   <%= render 'layouts/flash' %>
 
   <div class="col-xs-12">
-  <!-- style="background:#BDDEFC; padding-top:3%" -->
     <%= form_for @signup do |f| %>
       <div class="col-xs-9">
         <div class="form-group">
@@ -25,9 +24,9 @@
     <% end %>
   </div>
 
-  <div class="col-xs-10 col-xs-offset-1" style="padding-top:2%">
+  <div class="col-xs-12" style="padding-top:2%">
     <% @images.each do |image, caption| %>
-      <div class="col-xs-4", style="padding:10px">
+      <div class="col-xs-4", style="padding:25px">
         <%= image_tag "#{image}.jpg", class: "img-responsive", alt: "#{image}", title: "#{image}" %>
         <h2 style="font-size:100%"><%= "#{caption}" %></h2>
       </div>
@@ -35,5 +34,41 @@
   </div>
 
   <div class="col-xs-12">
+    <hr>
+    <h4>It's quite simple, you see...</h4>
+
+    <div class="col-xs-10 col-xs-offset-1">
+      <%= image_tag "How it works.png", class: "img-responsive", alt: "how it works", title: "how it works" %>
+    </div>
+
+    <div class="col-xs-12" style="padding-top:3%">
+      <p>We are an awesome community of borrowers and lenders united against <b>wastefulness</b>. Why buy something you'll only use once or twice? Why let things stew in your closets? 
+        <ul>
+          <li><b>For borrowers,</b> we list only items that lenders have, so you're never wasting your time. And we provide pick up/delivery if you recommend us to friends!</li>
+          <li><b>For lenders,</b> we make sure you never forget who has what, and we help you get your items back in good shape.</li>
+        </ul>
+    </div>
+  </div>
+
+  <div class="col-xs-12">
+    <hr>
+    <h4>Check out our happy sharers and rad items!</h4>
+
+    <hr>
+  </div>
+
+  <div class="col-xs-12" style="background-color: orange; padding-top:2%; ">
+    <%= form_for @signup do |f| %>
+      <div class="col-xs-9">
+        <div class="form-group">
+          <%= f.text_field :email, class: "form-control", placeholder: "Enter your email to get started" %>
+        </div>
+      </div>
+
+      <div class="col-xs-3">
+        <%= f.submit "Go!", class: "btn btn-primary btn-large btn-block"%>
+      </div>
+    <% end %>
+  </div>  
     
 
