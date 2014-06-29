@@ -27,7 +27,7 @@ class InventoriesController < ApplicationController
     @inventory_params.each do |item, quantity|
       quantity = quantity.to_i
       quantity.times do
-        items_to_be_saved << ({:signup_id => @signup_parent.id, :item_name => item })
+        items_to_be_saved << ({:item_name => item })
       end
     end
 
@@ -35,7 +35,7 @@ class InventoriesController < ApplicationController
       @signup_parent.errors[:base] << "Please select at least one item to lend"
       render 'new'
     else
-      Inventory.create items_to_be_saved
+      @signup_parent.inventories.create items_to_be_saved
       flash[:success] = "Thanks!"
       redirect_to new_inventory_path
     end
