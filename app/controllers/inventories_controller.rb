@@ -10,10 +10,9 @@ class InventoriesController < ApplicationController
       redirect_to root_path
     else
       @signup_parent = Signup.find_by_email(session[:signup_email])
+      @q = @signup_parent.inventories.ransack(params[:q])
+      @inventories = @q.result.includes(:signup)
     end
-
-    @q = @signup_parent.inventories.ransack(params[:q])
-    @inventories = @q.result.includes(:signup)
   end
 
   def create
@@ -40,6 +39,13 @@ class InventoriesController < ApplicationController
       flash[:success] = "Thanks!"
       redirect_to new_inventory_path
     end
+  end
+
+  def update
+    @signup_parent = Signup.find_by_email(session[:signup_email])
+    @q = @signup_parent.inventories.ransack(params[:q])
+    @inventories = @q.result.includes(:signup)
+    redirect_to :action => 'new'
   end
 
   def index
