@@ -2,14 +2,10 @@ class SignupsController < ApplicationController
 
 	def new
 		@signup = Signup.new
-		images
-		howto
 	end
 
 	def create
 		@signup = Signup.new(signup_params)
-		images
-		howto
 
 		if Signup.exists?(email:@signup.email)
 			session[:signup_email] = @signup.email
