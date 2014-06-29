@@ -10,7 +10,6 @@ class RequestsController < ApplicationController
     else
       @signup_parent = Signup.find_by_email(session[:signup_email])
       
-      howto
       @requestrecord = @signup_parent.requests.build 
     end
     
@@ -19,7 +18,6 @@ class RequestsController < ApplicationController
   def create
     itemlist
     @pagetitle = "What would you like to borrow?"
-    howto
 
     if session[:signup_email].nil?
       flash[:danger] = "You must enter an email on the home page to access the rest of the site"

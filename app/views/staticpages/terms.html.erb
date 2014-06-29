@@ -2,7 +2,7 @@
   <p style="font-style:italic;">Hello there<%= ", #{session[:signup_email]}" if session[:signup_email].present? %>! These are our shiny terms of service (<%= link_to "click here", policy_path, {style: 'color:#428bca'} %> if you're looking for our privacy policy). We know there's a lot of lawyer-speak, but please keep in mind that we basically want to build an awesome community of sharers. We encourage everyone to follow the Golden Rule: when borrowing or lending, treat the items and the other person as you would want yourself or your items to be treated! If you have any questions, please <%= mail_to 'james@projectborrow.com', 'email us', {style: 'color:#428bca'} %>.</p>
   <hr>
   <h4>Terms of Service</h4>
-  <h5>Effective Date: June 27, 2014</h5>
+  <h5>Effective Date: June 30, 2014</h5>
   <p>
   	These Terms of Service constitute a legally binding agreement between you and Shuyu James Dong, doing business as Project Borrow, governing your use of www.projectborrow.com (“projectborrow.com,” “Project Borrow” or the “Site”).  By clicking the “I AGREE” button or (i) accessing or using any part of the Site, or (ii) initiating any transaction through the Site, you agree to be bound by these Terms of Service.  Internet technology, and the applicable laws, rules and regulations change frequently.  Project Borrow reserves the right to make changes to these Terms of Service at any time.  <b><i>Continued access and/or use of the Site in any manner constitutes assent to any new Terms of Service provisions</i></b> that may be posted on projectborrow.com. 
   </p>
@@ -38,11 +38,11 @@
 	<p>Project Borrow shall never be considered a Responsible Party for any transaction, regardless of any assistance Project Borrow may provide to transport an item between Users. If an item is held in temporary custody or transported by Project Borrow for the benefit of a User, the Responsible Party remains the party to whom last had physical possession of the item to be exchanged until possession has been transferred to the other party.</p>
   </p>
   <p>
-  	<b>Window:</b>  The 5 day period after the agreed upon Return Date (or date of actual return, if late, in accordance with Section 8) in which a Lender may submit a written request to Project Borrow to obtain Borrower’s Deposit as partial reimbursement of any loss, damage or late return of an item exchanged.
+  	<b>Window:</b>  The 5 day period after the agreed upon Return Date (or date of actual return, if late, in accordance with Section 8) in which a Lender may request assistance settling disputes with the Borrower from Project Borrow.
   </p>
-  <h5>4. Transaction Fees</h5>
+  <h5>4. Transaction Fees and Deposits</h5>
   <p>
-  	There are no transaction fees to initiate a request or set up an exchange to borrow an item at this time.
+  	There are no transaction fees or deposits to initiate a request or set up an exchange to borrow an item at this time.
   </p>
   <h5>5. The Borrowing Process</h5>
   <p>
@@ -50,11 +50,11 @@
 
 	<p>If Borrower wishes to change the Pick Up Date but the Lender does not agree, the Borrower must continue with the original date or request a Cancellation.  If Borrower wishes to change the Return Date but Lender does not agree, the Borrower must continue with the original date or potentially be subject to penalties pursuant to Section 8.</p>
 
-	<p>If a Lender wishes to change the Pick Up or Return Date before the Borrower has picked up the item, but the Borrower does not agree, the request is automatically cancelled.  In this instance, Project Borrow will do everything possible to find a suitable replacement, but unfortunately we cannot guarantee success.  If no replacement can be found, Borrower’s Deposit shall be returned in full.</p>
+	<p>If a Lender wishes to change the Pick Up or Return Date before the Borrower has picked up the item, but the Borrower does not agree, the request is automatically cancelled.  In this instance, Project Borrow will do everything possible to find a suitable replacement, but unfortunately we cannot guarantee success.  <!-- If no replacement can be found, Borrower’s Deposit will be returned in accordance with the provisions set forth in Section 8.  --></p>
 
 	<p>Once a Borrower has taken possession of an item, the Lender cannot unilaterally shorten the Return Date.  If a Lender wishes to extend the Return Date but Borrower does not agree, Borrower may return an item to Project Borrow for temporary custody and Project Borrow will return the item to Lender at the extended Return Date.  Under such circumstances, Borrower shall remain the Responsible Party until the item exchanged has been returned to Lender’s physical possession. </p>
 
-	<p>Within 24 hours of obtaining physical possession of an item, Borrower may elect to return an item to Lender for any reason such as preexisting damage or general unsuitability.  Under such circumstances, Project Borrow will do everything possible to find a suitable replacement, but unfortunately we cannot guarantee success.  If no replacement can be found, Borrower’s Deposit will be returned in accordance with the provisions set forth in Section 8. </p>
+	<p>Within 24 hours of obtaining physical possession of an item, Borrower may elect to return an item to Lender for any reason such as preexisting damage or general unsuitability.  Under such circumstances, Project Borrow will do everything possible to find a suitable replacement, but unfortunately we cannot guarantee success.  <!-- If no replacement can be found, Borrower’s Deposit will be returned in accordance with the provisions set forth in Section 8.  --></p>
   </p>
   <h5>6. Good Faith Loans & Assumption of the Risk
 </h5>
@@ -73,17 +73,17 @@
   <p>
   	Project Borrow is not a party to any transaction between Users. Users acknowledge that Project Borrow does not screen or investigate any of its Users and does not verify or otherwise warrant the accuracy of any representations or statements made by any User regarding items to be exchanged.  Any terms, conditions, representations or warranties associated with any items exchanged through projectborrow.com are between Borrower and Lender exclusively and do not involve Project Borrow. 
   </p>
-  <h5>8. Deposits for Damage, Loss or Late Returns</h5>
+  <h5>8. <!-- Deposits for  -->Damage, Loss or Late Returns</h5>
   <p>
-  	<b>Deposit:</b>  Borrower agrees to deposit the sum of $20.00 for each item requested (hereinafter referred to as “Deposit”).  Deposits will be held by Project Borrow during the term of the exchange. 
+  <!-- 	<b>Deposit:</b>  Borrower agrees to deposit the sum of $20.00 for each item requested (hereinafter referred to as “Deposit”).  Deposits will be held by Project Borrow during the term of the exchange.  -->
 
-	<p><b>Late Fees:</b> If Borrower does not return an item at the agreed upon Return Date and an extension cannot be agreed upon between Borrower and Lender, Borrower shall be subject to a late fee equivalent to the cost of renting a suitably similar item for the Lender’s use calculated from the original agreed upon Return Date until the date in which Borrower returns the item to Lender, for a maximum of 3 days.  If Borrower retains possession beyond 3 days (for example if Lender will be on an extended trip requiring use of the item), this shall constitute a Failure to Return, subject to the guidelines that follow. A portion or all of the Deposit may be used to offset any claim for late fees. Borrower shall remain liable to Lender for the difference between the Deposit and any late fees incurred.</p> 
+	<p><b>Late Fees:</b> If Borrower does not return an item at the agreed upon Return Date and an extension cannot be agreed upon between Borrower and Lender, Borrower shall be subject to a late fee equivalent to the cost of renting a suitably similar item for the Lender’s use calculated from the original agreed upon Return Date until the date in which Borrower returns the item to Lender, for a maximum of 3 days.  If Borrower retains possession beyond 3 days (for example if Lender will be on an extended trip requiring use of the item), this shall constitute a Failure to Return, subject to the guidelines that follow. <!-- A portion or all of the Deposit may be used to offset any claim for late fees. Borrower shall remain liable to Lender for the difference between the Deposit and any late fees incurred. --></p> 
 
-	<p><b>Failure to Return:</b> If the Borrower fails to return the items exchanged within 3 days of the Return Date, Borrower shall additionally be liable for the current replacement cost of the item exchanged.  A portion or all of the Deposit may be used to offset any claim for damages.  Borrower shall remain liable to Lender for the difference between the Deposit and any replacement cost.</p>
+	<p><b>Failure to Return:</b> If the Borrower fails to return the items exchanged within 3 days of the Return Date, Borrower shall additionally be liable for the current replacement cost of the item exchanged.  <!-- A portion or all of the Deposit may be used to offset any claim for damages.  Borrower shall remain liable to Lender for the difference between the Deposit and any replacement cost. --></p>
 
-	<p><b>Damaged Items:</b> Borrower shall keep all items exchanged in the order and condition in which they were accepted and shall return them in the same order and condition, save for reasonable wear and tear. If Borrower damages an item exchanged, Borrower shall be liable for all damages incurred.  A portion or all of the Deposit may be used to offset any claim for damages.  Borrower shall remain liable to Lender for the difference between the Deposit and any damages incurred.</p>
+	<p><b>Damaged Items:</b> Borrower shall keep all items exchanged in the order and condition in which they were accepted and shall return them in the same order and condition, save for reasonable wear and tear. If Borrower damages an item exchanged, Borrower shall be liable for all damages incurred.  <!-- A portion or all of the Deposit may be used to offset any claim for damages.  Borrower shall remain liable to Lender for the difference between the Deposit and any damages incurred. --></p>
 
-	<p><b>Deposit Return:</b>  Deposits will be returned to Borrower (i) if Borrower cancels request by notifying Project Borrow and the Lender before taking possession of the item, (ii) no later than 8 days after the agreed upon Return Date or the actual date of return if late, if no claim for late fees or compensation for loss or damage of an item is made by Lender against Borrower. </p>
+	<!-- <p><b>Deposit Return:</b>  Deposits will be returned to Borrower (i) if Borrower cancels request by notifying Project Borrow and the Lender before taking possession of the item, (ii) no later than 8 days after the agreed upon Return Date or the actual date of return if late, if no claim for late fees or compensation for loss or damage of an item is made by Lender against Borrower. </p> -->
 
 	<p><b>Insurance:</b>  Project Borrow shall not be responsible for any loss or damage suffered as a result of lending, sharing, obtaining possession of and/or using any item exchanged through projectborrow.com. Users shall be solely responsible for obtaining and maintaining any insurance deemed necessary or advisable to cover any loss or damage to items exchanged through projectborrow.com. Users are solely responsible for ensuring that any insurance policy covers the intended exchange of items.  </p>
   </p>
@@ -91,7 +91,7 @@
   <p>
   	We aim to establish a trusted community of Borrowers and Lenders. Therefore, we ask that Borrowers and Lenders first cooperate with each other in good faith to resolve disputes. 
 
-	<p>If a resolution cannot be reached, Project Borrow may be contacted within the Window to assist in a good faith effort to resolve the dispute.  To the extent practicable, Project Borrow will work with the parties toward a fair and satisfactory resolution of the dispute. Both Borrower and Lender agree to provide accurate and honest information as reasonably requested by Project Borrow.  Beyond the Window, Borrower and Lender may still claim late fees or damages from the other, or dispute the offset of a Deposit against a claim for late fees or damages, but Project Borrow shall not be under any obligation to provide requested mediation assistance.</p>
+	<p>If a resolution cannot be reached, Project Borrow may be contacted within the Window to assist in a good faith effort to resolve the dispute.  To the extent practicable, Project Borrow will work with the parties toward a fair and satisfactory resolution of the dispute. Both Borrower and Lender agree to provide accurate and honest information as reasonably requested by Project Borrow.  Beyond the Window, Borrower and Lender may still claim late fees or damages from the other, <!-- or dispute the offset of a Deposit against a claim for late fees or damages,  -->but Project Borrow shall not be under any obligation to provide requested mediation assistance.</p>
   </p>
   <h5>10. Prohibited Conduct</h5>
   <p>
@@ -155,11 +155,11 @@
   </p>
   <h5>18. Termination</h5>
   <p>
-  	<b>Without limiting any other remedies, Project Borrow may suspend or terminate its services and Users, restrict or prohibit access or your use of projectborrow.com, remove or restrict content, and/or take any technical or legal steps necessary if Project Borrow:</b> (i) suspects a User has breached these Terms of Service; (ii) is unable to verify or authenticate any User information;  (iii) believes that a User is acting inconsistently with the letter or spirit of Project Borrow's policies, has engaged in improper or fraudulent activity in connection with Project Borrow or that a User’s actions may cause legal liability or financial loss to Project Borrow's Users or to Project Borrow; (iv) believes a User is infringing on the rights of third parties; (v) a User fails to pay any applicable Deposits or Transaction Fees (if applicable) due under these Terms of Service;  and/or (vii) if the credit or debit card associated with your Deposit or Transaction Fees (if applicable) should be rejected for any reason.
+  	<b>Without limiting any other remedies, Project Borrow may suspend or terminate its services and Users, restrict or prohibit access or your use of projectborrow.com, remove or restrict content, and/or take any technical or legal steps necessary if Project Borrow:</b> (i) suspects a User has breached these Terms of Service; (ii) is unable to verify or authenticate any User information;  (iii) believes that a User is acting inconsistently with the letter or spirit of Project Borrow's policies, has engaged in improper or fraudulent activity in connection with Project Borrow or that a User’s actions may cause legal liability or financial loss to Project Borrow's Users or to Project Borrow; (iv) believes a User is infringing on the rights of third parties; (v) a User fails to pay any applicable Deposits or Transaction Fees (if applicable) due under these Terms of Service;  and/or (vii) if the credit or debit card associated with any applicable Deposit or Transaction Fees (if applicable) should be rejected for any reason.
 
   	<p><b>Effect of Termination:</b>  If your account is terminated for any reason, You shall remain liable for all debts or processing fees incurred through the date of termination.  Following termination, you will not be permitted to use Project Borrow.</p> 
 
-	<p><b>Survival:</b>  The following Sections survive termination of these Terms of Service:  Deposits for Damages, Loss or Late Returns, Content License, Disclaimers, Exclusions and Limitations, Release, Indemnity, and Individual Arbitration.</p>
+	<p><b>Survival:</b>  The following Sections survive termination of these Terms of Service:  <!-- Deposits for --> Damages, Loss or Late Returns, Content License, Disclaimers, Exclusions and Limitations, Release, Indemnity, and Individual Arbitration.</p>
   </p>
   <h5>19. Disclaimers, Exclusions and Limitations</h5>
   <p>
