@@ -1,5 +1,5 @@
 class Signup < ActiveRecord::Base
-    #has_many :inventories, dependent: :destroy
+    has_many :inventories, dependent: :destroy
     has_many :requests
     
     validate :create_validation, on: :create

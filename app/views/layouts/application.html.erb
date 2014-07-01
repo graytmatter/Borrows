@@ -26,8 +26,8 @@
 
     <div class="col-xs-12 horiz" style="padding-top: 1%; padding-bottom:1%;">
           <%#= link_to 'Learn more' %>
-          <%= link_to 'Terms of service', terms_path, { style: "padding-right:2%; padding-left:2%; color:#428bca"} %>
-          <%= link_to 'Privacy policy', policy_path, { style: "padding-right:2%; padding-left:2%; color:#428bca"}%>
+          <%= link_to 'Terms of service', terms_path, { style: "padding-right:2%; padding-left:2%; color:#428bca", target: "_blank" } %>
+          <%= link_to 'Privacy policy', policy_path, { style: "padding-right:2%; padding-left:2%; color:#428bca", target: "_blank" } %>
           <%= mail_to 'james@projectborrow.com', 'Contact us', { style: "padding-right:2%; padding-left:2%; color:#428bca"}%>
       </div>
     </div>
