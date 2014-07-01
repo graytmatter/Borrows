@@ -1,5 +1,5 @@
 class InventoriesController < ApplicationController
-  #before_filter :authenticate, except: [:new, :create, :destroy]
+  before_filter :authenticate, except: [:new, :create, :destroy]
 
   def new
     itemlist
@@ -41,12 +41,12 @@ class InventoriesController < ApplicationController
     end
   end
 
-  def update
-    @signup_parent = Signup.find_by_email(session[:signup_email])
-    @q = @signup_parent.inventories.ransack(params[:q])
-    @inventories = @q.result.includes(:signup)
-    redirect_to :action => 'new'
-  end
+  # def update
+  #   @signup_parent = Signup.find_by_email(session[:signup_email])
+  #   @q = @signup_parent.inventories.ransack(params[:q])
+  #   @inventories = @q.result.includes(:signup)
+  #   redirect_to :action => 'new'
+  # end
 
   def index
     @q = Inventory.ransack(params[:q])

@@ -10,7 +10,7 @@
         <thead>
           <tr>
             <th><%= sort_link(@q, :item_name, "Item") %></th>
-            <th>Description</th>
+            <!-- <th>Description</th> -->
             <th colspan="5"></th>
           </tr>
         </thead>
@@ -19,25 +19,25 @@
           <% @inventories.each do |inventory| %>
             <tr>
               <td><%= inventory.item_name %></td>
-              <td>
-                <% if inventory.description.blank? %>
-                  <%= form_for inventory, url: {action: 'update'}, :html => {:class => "form-inline"} do |f| %> 
+              <!-- <td>
+                <%# if inventory.description.blank? %>
+                  <%#= form_for inventory, url: {action: 'update'}, :html => {:class => "form-inline"} do |f| %> 
                     <div class="form-group col-xs-9">
-                      <%= f.text_field :description, class: "form-control", placeholder: "Add a link or description for borrowers to see" %>
+                      <%#= f.text_field :description, class: "form-control", placeholder: "Add a link or description for borrowers to see" %>
                     </div>
                     <div class="form-group col-xs-3">
-                      <%= f.submit "Update", class: "btn btn-default btn-large btn-block" %>
+                      <%#= f.submit "Update", class: "btn btn-default btn-large btn-block" %>
                     </div>
-                  <% end %>
-                <% else %>
+                  <%# end %>
+                <%# else %>
                   <%= inventory.description %>
-                <% end %>
-              </td>
+                <%# end %>
+              </td> -->
               <td>
-                <% if inventory.description.present? %>
-                  <%= button_to %>
-                  <!-- no clue, need this button to, 1) ideal solution: "reactivate" form with the description so that users can edit what they've put in, 2) hacky solution: delete the description entirely so that users will have to re-enter it in the form that renders once description is blank again -->
-                <% end %>
+                <%# if inventory.description.present? %>
+                  <%#= button_to %>
+                  <!-- need this button to, 1) ideal solution: "reactivate" form with the description so that users can edit what they've put in, 2) hacky solution: delete the description entirely so that users will have to re-enter it in the form that renders once description is blank again -->
+                <%# end %>
                 <%= button_to 'Remove', inventory, method: :delete, class: "btn btn-default btn-large btn-block", data: { confirm: 'Once removed, borrowers will no longer be able to see you have this item. To remove an item temporarily (i.e., for a personal trip), please notify us via email' } %>
               </td>
             </tr>
@@ -61,6 +61,7 @@
       <ul style="font-style:italic;">
         <li>Below are all the items we've been asked for by borrowers, camping stuff is especially hot right now!</li>
         <li>We value our lenders and want you to have a great experience, please reach out if you have any questions or concerns about the safety and care of your items, and feel free to review our <%= link_to "terms of service", terms_path, {style: 'color:#428bca'} %></li>
+        <li>The list below represents items borrowers have asked for, but if you have something else to share, please <%= mail_to 'james@projectborrow.com', 'tell us', {style: 'color:#428bca'} %>.</li>
       </ul>
     </div> 
 
