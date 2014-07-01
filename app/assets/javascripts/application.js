@@ -12,10 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require jquery.ui.touch-punch.min.js
 //= require_tree .
-//= require bootstrap
-//= require photopile
-
 
 // Removed require turbolinks
