@@ -72,12 +72,12 @@ class RequestsController < ApplicationController
 
   def itemlist
     @itemlist = {
-    "Camping" => ["Tent for 2-3", "Tent for 4", "Tent for 6", "Sleeping bag", "Sleeping pad"],
-    "Park & picnic" => ["Portable table", "Portable chair", "Cooler", "Outdoors grill", "Shade house"],
-    "Tools" => ["Electric drill", "Screwdriver set", "Hammer", "Wrench set", "Utility knife"],
-    "Kitchenwares" =>["Blender", "Electric grill", "Food processor", "Baking dish", "Knife sharpener"],
-    "Housewares" => ["Vacuum", "Air mattress", "Iron & board", "Luggage", "Extension cords"], 
-    "Backpacking" => ["Backpack", "Dry bag", "Water filter", "Headlamp", "Camp stove"]
+    "Camping" => ["Tent for 2-3", "Tent for 4", "Sleeping bag", "Sleeping pad", "Daypack (<40L)", "Pack rain cover (<40L)"],
+    "Park & picnic" => ["Portable table", "Portable chair", "Cooler", "Outdoors grill", "Shade house", "Hammock"],
+    "Tools" => ["Electric drill", "Screwdriver set", "Hammer", "Sliding wrench", "Utility knife", "Mat cutter"],
+    "Kitchenwares" =>["Blender", "Electric grill", "Food processor", "Baking dish", "Knife sharpener", "Juicer"],
+    "Housewares" => ["Vacuum", "Air mattress", "Iron & board", "Luggage (carry-on)", "Luggage (check-in)", "Extension cords"], 
+    "Backpacking" => ["Frame pack (80L+)", "Frame pack (60-80L)", "Dry bag", "Water filter", "Headlamp", "Camp stove"]
     #"Miscellaneous" => ["Tennis set", "Bike pump", "Jumper cables", "Dry bag", "Mat cutter"],
     #"Baby gear" => ["Umbrella Stroller", "Booster seat", "Backpack carrier", "Pack n' Play", "Jumper"],
     #"Snow sports" => ["Outerwear", "Innerwear", "Gloves" , "Helmet", "Goggles"]

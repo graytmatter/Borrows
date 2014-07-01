@@ -16,10 +16,10 @@
       <% @itemlist.each do |category, list| %>
         <div class="col-xs-4">
           <div class="form-group" style="font-size:80%" >
-            <h5> <%="#{category}"%> </h5>
+            <h5> <%= category %> </h5>
             <% list.each do |thing| %>
               <%= number_field_tag "transaction[][#{thing}]", :quantity, min: 0, value: @transactionparams ? @transactionparams[thing] : 0, class: "shrink_num_field" %>
-              <%= label_tag thing %>
+              <%= label_tag thing, thing %>
               </br>
             <% end %>
           </div>

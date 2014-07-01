@@ -14,11 +14,11 @@
   <%= form_tag inventories_path method: :post do %>
     <% @itemlist.each do |category, list| %>
       <div class="col-xs-4">
-        <div class="form-group" style="font-size:80%">
-          <h5> <%="#{category}"%> </h5>
+        <div class="form-group" style="font-size:75%">
+          <h5> <%= category %> </h5>
             <% list.each do |thing| %>
-                <%= number_field_tag "#{thing}", :quantity, min: 0, placeholder: 0, class: "shrink_num_field" %>
-                <%= label_tag "#{thing}" %>
+                <%= number_field_tag thing, :quantity, min: 0, placeholder: 0, class: "shrink_num_field" %>
+                <%= label_tag thing, thing %>
               </br>
             <% end %>
         </div>
