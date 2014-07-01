@@ -29,7 +29,7 @@ class RequestsController < ApplicationController
     # else
     #   @signup_parent = Signup.find_by_email(session[:signup_email])
     # end
-
+    @signup_parent = Signup.find_by_email(session[:signup_email])
     request_params
     @requestrecord = @signup_parent.requests.build
 
