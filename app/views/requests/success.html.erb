@@ -25,14 +25,14 @@
 	        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-530ee7046fcbd127"></script>
 	        <!-- AddThis Button END -->
           	<br>
-    		<li><b>Download our handy Google Chrome Extension:</b> It's hard to remember to borrow, so we made a tool to remind you when we have something you're looking for on e-commerce sites! <%= link_to 'Click here to download', '#', {style: 'color:#428bca',
+    		<li><b>Download our handy Google Chrome Extension:</b> It's hard to remember to borrow, so we made a tool to remind you when we have something you're looking for on e-commerce sites! <%= link_to 'Click here to download', 'javascript:chrome.webstore.install()', {style: 'color:#428bca',
         id: 'chrome-extension'} %>.</li>
     	</ul>
     </p>
   </div>
 
   <script>
-  $('chrome-extension').submit(function(ev) { 
+  $('chrome-extension').click(function(ev) { 
        if (!document.getElementById('extension-is-installed')) {
             chrome.webstore.install();
         }
