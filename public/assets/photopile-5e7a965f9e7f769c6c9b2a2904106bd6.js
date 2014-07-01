@@ -494,3 +494,4 @@ var photopile = (function() {
 })(); // photopile
 
 photopile.scatter();  // ### initialize the photopile ###
+;
