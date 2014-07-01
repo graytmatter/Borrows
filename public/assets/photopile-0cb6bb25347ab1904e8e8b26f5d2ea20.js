@@ -13,7 +13,7 @@ var photopile = (function() {
 
     // Thumbnails
     var numLayers         = 10;          // number of layers in the pile (max zindex)
-    var thumbOverlap      = 100;         // overlap amount (px)
+    var thumbOverlap      = 50;         // overlap amount (px)
     var thumbRotation     = 45;         // maximum rotation (deg)
     var thumbBorderWidth  = 2;          // border width (px)
     var thumbBorderColor  = 'white';    // border color
@@ -29,7 +29,7 @@ var photopile = (function() {
     var showInfo          = true;       // include photo description (alt tag) in photo container
 
     // Images
-    var loading    = 'assets/loading.gif';  // path to img displayed while gallery/thumbnails loads
+    //var loading    = 'assets/loading.gif';  // path to img displayed while gallery/thumbnails loads
 
     //---- END SETTINGS ----
 
