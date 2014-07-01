@@ -27,6 +27,13 @@ GoogleTest::Application.configure do
   # number of complex assets.
   config.assets.debug = true
 
+  # Do not fallback to assets pipeline if a precompiled asset is missed.
+  config.assets.compile = false
+
+  # Precompile additional assets.
+  # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
+  config.assets.precompile += %w( photopile.js, jquery.ui.touch-punch.min.js, photopile.css )
+  
   #below per Kehoe
 
   config.action_mailer.smtp_settings = {
