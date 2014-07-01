@@ -1,19 +1,22 @@
 New request
 
 Email:
-<%= @requestrecord.email %>
+<%= @requestrecord.signup.email %>
 
 Item:
-<%= @requestrecord.items %>
+<% @requestrecord.transactions.each do |t| %>
+  <%= t.name %>
+<% end %>
 
 Additional details:
 <%= @requestrecord.detail %>
 
 Start date:
-<%= @requestrecord.startdate %>
+<%= @requestrecord.pickupdate %>
 
 Start date:
-<%= @requestrecord.enddate %>
+<%= @requestrecord.returndate %>
 
 Neighborhood
-<%= @requestrecord.addysdeliver %>
+<%= @requestrecord.signup.streetone %>
+<%= @requestrecord.signup.streettwo %>

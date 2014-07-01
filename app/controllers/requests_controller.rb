@@ -39,10 +39,19 @@ class RequestsController < ApplicationController
         @transactionparams.each do |item, quantity|
         quantity = quantity.to_i
           quantity.times do
-            transactions_to_be_saved << ({:request_id => 0, :name => item })
+            transactions_to_be_saved << ({ :name => item })
           end
         end
-        Transaction.create transactions_to_be_saved
+        @requestrecord.transactions.create transactions_to_be_saved
+        
+
+        #saves to spreadsheet and sends email, delete later
+        @requestrecord.transactions.each do |t|
+          t.save_spreadsheet
+        end
+        RequestMailer.confirmation_email(@requestrecord).deliver
+
+
         redirect_to action: 'success'
       else
         render 'new'
