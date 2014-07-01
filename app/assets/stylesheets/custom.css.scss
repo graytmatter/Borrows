@@ -86,8 +86,11 @@ Child divs
 }
 /****************************************/
 
-/* Centers image (used in How To section) */
+/* Buries an image beneath photopile */
 
-.centered {
-    display: inline-block;
+.photopile-background {
+  background-image: url(image_path('Tag2.png'));
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 60%;
 }

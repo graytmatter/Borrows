@@ -1,14 +1,3 @@
-<%= stylesheet_link_tag    "photopile" %>
-<%#= javascript_include_tag "photopile", "http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.js", "http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" %>
-
-<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-<%= javascript_include_tag "photopile" %>
-
-<!-- <head>
-  <link href="assets/stylesheets/photopile.css" rel="stylesheet">
-</head> -->
-
 
   <% if @signup.errors.any? %>
     <div class="alert alert-danger">
@@ -21,7 +10,7 @@
   <% end %>
   <%= render 'layouts/flash' %>
 
-  <div class="col-xs-12">
+  <div class="col-xs-12" style="z-index:100;">
     <%= form_for @signup do |f| %>
       <div class="col-xs-9">
         <div class="form-group">
@@ -35,24 +24,24 @@
     <% end %>
   </div>
 
-  <div class="col-xs-12">
+  <div class="col-xs-12 photopile-background" style="padding-top:5%; padding-bottom:5%;" %>
     <div class="photopile-wrapper">
       <ul class="photopile">
-        <li>
-          <%= link_to "#{image_tag('Photo A.png')}".html_safe, "javascript:;" %>
-          <%= link_to "#{image_tag('Photo B.png')}".html_safe, "javascript:;" %>
-          <%= link_to "#{image_tag('Photo C.png')}".html_safe, "javascript:;" %>
-          <%= link_to "#{image_tag('Photo E.jpg')}".html_safe, "javascript:;" %>
-         <!--  <a href="/assets/images/Photo A.png">
-           <%#= image_tag "Photo A.png" %>
-          </a> -->
-        </li>
-        <!-- Add as many list items as you require for your gallery :) -->
+        <% Dir.glob("app/assets/images/Borrower photos/*").map do |path| %>
+          <li><%= link_to(image_tag("Borrower photos/#{ File.basename(path) }", class: "img-responsive", alt: "#{ File.basename(path, ".jpg") }", title: "#{ File.basename(path, ".jpg") }"), "#", class: "thumbnail", style: "margin:0") %></li>
+          <%#= link_to(image_tag("Borrower photos/#{image.split('/').last}", class: "img-responsive", alt: "#{image.split('/').last}"[0..-5], title: "#{image.split('/').last}"[0..-5]), "#", class: "thumbnail", style: "margin:0") %>
+        <% end %>
       </ul>
     </div>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.js"></script>
+    <%= javascript_include_tag "photopile", "jquery.ui.touch-punch.min" %>
+    <%= stylesheet_link_tag "photopile" %>
+
   </div>
 
-  <div class="col-xs-12 box">
+  <div class="col-xs-12 box" style="background-color:white; z-index:100;">
     <h4>It works quite simply, you see...</h4>
 
     <div class="col-xs-10 col-xs-offset-1" style="padding-top:2%">
@@ -81,9 +70,4 @@
       </div>
     <% end %>
   </div>  
-
-  <script>
-  window.onload = function init() {
-  };
-  </script>  
 

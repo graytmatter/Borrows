@@ -2,6 +2,7 @@ class SignupsController < ApplicationController
 
 	def new
 		@signup = Signup.new
+		#@images = Dir.glob("app/assets/images/Borrower photos/*.jpg")
 	end
 
 	def create

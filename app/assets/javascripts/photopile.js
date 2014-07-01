@@ -262,11 +262,13 @@ var photopile = (function() {
                 self.isPickedUp = true;
                 thumb.clearActiveClass();
                 thumb.setActive( thumbnail );
-                self.loadImage( thumb.getActiveImgSrc(), function() {
-                    self.image.fadeTo(fadeDuration, '1');
-                    self.enlarge();
-                    $('body').bind('click', function() { self.putDown(); }); // bind putdown event to body
-                });
+
+                // removed this code to prevent users from clicking on thumb and enlarging it
+                // self.loadImage( thumb.getActiveImgSrc(), function() {
+                //     self.image.fadeTo(fadeDuration, '1');
+                //     self.enlarge();
+                //     $('body').bind('click', function() { self.putDown(); }); // bind putdown event to body
+                // });
             }
         }, // pickup
 
