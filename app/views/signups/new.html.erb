@@ -27,8 +27,8 @@
   <div class="col-xs-12 photopile-background" style="padding-top:7%; padding-bottom:7%;" %>
     <div class="photopile-wrapper">
       <ul class="photopile">
-        <% Dir.glob("app/assets/images/Borrower photos/*").map do |path| %>
-          <li><%= link_to(image_tag("Borrower photos/#{ File.basename(path) }", class: "img-responsive", alt: "#{ File.basename(path, ".jpg") }", title: "#{ File.basename(path, ".jpg") }", width: "40%"), "#", class: "thumbnail", style: "margin:0") %></li>
+        <% Dir.glob("app/assets/images/Borrower photos/Borrower photos/*").map do |path| %>
+          <li><%= link_to(image_tag("Borrower photos/#{ File.basename(path) }", class: "img-responsive", alt: "#{ File.basename(path, ".jpg") }", title: "#{ File.basename(path, ".jpg") }"), "#", class: "thumbnail", style: "margin:0") %></li>
           <%#= link_to(image_tag("Borrower photos/#{image.split('/').last}", class: "img-responsive", alt: "#{image.split('/').last}"[0..-5], title: "#{image.split('/').last}"[0..-5]), "#", class: "thumbnail", style: "margin:0") %>
         <% end %>
       </ul>
