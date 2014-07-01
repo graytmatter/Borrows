@@ -59,9 +59,8 @@
       <h4><%="Step 2 of 2: Last step, #{@signup_parent.email}!"%></h4>
       <p style="font-style:italic;">First, you're awesome for being a lender. Thank you for being kind, generous, and... we could go on, but you get it. A few things to keep in mind:</p>
       <ul style="font-style:italic;">
-        <li>Below are all the items we've been asked for by borrowers, camping stuff is especially hot right now!</li>
+        <li>Below are all the items borrowers are asking for, camping stuff is especially hot! If you have something else to share, please <%= mail_to 'james@projectborrow.com', 'tell us', {style: 'color:#428bca'} %>.</li>
         <li>We value our lenders and want you to have a great experience, please reach out if you have any questions or concerns about the safety and care of your items, and feel free to review our <%= link_to "terms of service", terms_path, {style: 'color:#428bca'} %></li>
-        <li>The list below represents items borrowers have asked for, but if you have something else to share, please <%= mail_to 'james@projectborrow.com', 'tell us', {style: 'color:#428bca'} %>.</li>
       </ul>
     </div> 
 
