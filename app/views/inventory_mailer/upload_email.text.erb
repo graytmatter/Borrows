@@ -1,0 +1,10 @@
+New inventory
+
+Email:
+<%= @signup_parent.email %>
+
+Item(s), not parsed, this the full list:
+<% @signup_parent.inventories.each do |i| %>
+  <%= i.item_name %>
+<% end %>
+

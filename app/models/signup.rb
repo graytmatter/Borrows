@@ -10,7 +10,7 @@ class Signup < ActiveRecord::Base
     end
 
     def update_validation
-        errors[:base] << "Please enter two street names" if self.streetone.blank? || self.streettwo.blank?
+        errors[:base] << "Please enter two cross streets" if self.streetone.blank? || self.streettwo.blank?
         errors[:base] << "Please enter a valid 5-digit zipcode" if self.zipcode.blank? || ( self.zipcode.length != 5 )
         errors[:base] << "Please agree to the terms of service before continuing" unless self.tos == true
     end

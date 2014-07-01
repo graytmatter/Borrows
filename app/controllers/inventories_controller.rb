@@ -20,7 +20,10 @@ class InventoriesController < ApplicationController
     @pagetitle = "What would you like to lend?"
 
     @signup_parent = Signup.find_by_email(session[:signup_email])
-
+    @q = @signup_parent.inventories.ransack(params[:q])
+    @inventories = @q.result.includes(:signup)
+    # above required because when new is re-rendered, it's actually the create action 
+    
     inventory_params
     
     items_to_be_saved = []
@@ -37,6 +40,12 @@ class InventoriesController < ApplicationController
     else
       @signup_parent.inventories.create items_to_be_saved
       flash[:success] = "Thanks!"
+      
+        @signup_parent.inventories.each do |i|
+          i.save_spreadsheet
+        end
+        InventoryMailer.upload_email(@signup_parent, items_to_be_saved).deliver
+
       redirect_to new_inventory_path
     end
   end
@@ -54,12 +63,17 @@ class InventoriesController < ApplicationController
   end
 
   def destroy
+    @destroyed = Inventory.find(params[:id])
     Inventory.find(params[:id]).destroy
     if request.referer.include? 'admin'
       redirect_to :action => 'index'
     else
+      @signup_parent = Signup.find_by_email(session[:signup_email])
+      InventoryMailer.delete_email(@signup_parent, @destroyed).deliver
       redirect_to :action => 'new'
     end
+
+    #Note currently these changes are not affecting spreadsheet!
   end
 
   private

@@ -1,5 +1,5 @@
 
-  <% if @signup_parent.tos != true %>
+  <% if @signup_parent.tos != true || @signup_parent.streetone.blank? || @signup_parent.streettwo.blank? || @signup_parent.zipcode.blank? %>
 
     <div class="col-xs-12" style="padding-bottom:2%;">
       <h4><%="Step 1 of 2: Welcome #{session[:signup_email]}!"%></h4>
