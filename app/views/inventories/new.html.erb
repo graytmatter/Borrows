@@ -1,7 +1,7 @@
   <% if @signup_parent.inventories.count > 0 %>
 
     <div class="col-xs-12" style="padding-bottom:1%;">
-      <h4><%="Step 2 of 2: Last step, #{@signup_parent.email}!"%></h4>
+      <h4><%="Step 2 of 2: Lend away, #{@signup_parent.email}!"%></h4>
       <h5 style="font-size:100%; font-style:italic"><%= link_to '(I want to borrow)', new_request_path, { style: 'color:#428bca'}%></h6>
       <p style="font-style:italic;">Yayhay thanks for sharing stuff with our borrowers! In the table below, you'll be able to make changes to the items that you're currently sharing. If you'd like to share even more stuff, just complete the form below the table!</p>
     </div>
@@ -57,12 +57,12 @@
   <% else %>  
 
     <div class="col-xs-12" style="padding-bottom:1%;">
-      <h4><%="Step 2 of 2: Last step, #{@signup_parent.email}!"%></h4>
+      <h4><%="Step 2 of 2: Lend away, #{@signup_parent.email}!"%></h4>
       <h5 style="font-size:100%; font-style:italic"><%= link_to '(I want to borrow)', new_request_path, { style: 'color:#428bca'}%></h6>
       <p style="font-style:italic;">First, you're awesome for being a lender. Thank you for being kind, generous, and... we could go on, but you get it. A few things to keep in mind:</p>
       <ul style="font-style:italic;">
         <li>Below are all the items borrowers are asking for, camping stuff is especially hot! If you have something else to share, please <%= mail_to 'james@projectborrow.com', 'tell us', {style: 'color:#428bca'} %>.</li>
-        <li>We value our lenders and want you to have a great experience, please reach out if you have any questions or concerns about the safety and care of your items, and feel free to review our <%= link_to "terms of service", terms_path, { style: "padding-right:2%; padding-left:2%; color:#428bca", target: "_blank" } %></li>
+        <li>We value our lenders and want you to have a great experience, please reach out if you have any questions or concerns about the safety and care of your items, and feel free to review our <%= link_to "terms of service", terms_path, { style: "color:#428bca", target: "_blank" } %></li>
       </ul>
     </div> 
 
