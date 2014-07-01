@@ -6,7 +6,7 @@ GoogleTest::Application.routes.draw do
   get '/new', to: 'signups#new' #maintenance mode
 
   resources :signups, only: [:new, :create]
-  get '/edit', to: 'signups#edit'
+  get '/edit', to: 'signups#edit', as: 'edit_signup'
   patch 'signups', to: 'signups#update'
 
   get 'requests/new', to: 'requests#new', as: 'new_request'

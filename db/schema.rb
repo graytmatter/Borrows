@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140629170050) do
+ActiveRecord::Schema.define(version: 20140701071947) do
 
   create_table "inventories", force: true do |t|
     t.string   "item_name"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 20140629170050) do
     t.datetime "pickupdate"
     t.datetime "returndate"
     t.integer  "signup_id"
+    t.boolean  "tos"
   end
 
   add_index "requests", ["pickupdate"], name: "index_requests_on_pickupdate"

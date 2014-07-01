@@ -9,8 +9,12 @@ class RequestsController < ApplicationController
       redirect_to root_path
     else
       @signup_parent = Signup.find_by_email(session[:signup_email])
-      
-      @requestrecord = @signup_parent.requests.build 
+      if @signup_parent.tos != true || @signup_parent.streetone.blank? || @signup_parent.streettwo.blank? || @signup_parent.zipcode.blank?
+        flash[:danger] = "Almost there! We just need a little more info"
+        redirect_to edit_signup_path
+      else
+        @requestrecord = @signup_parent.requests.build 
+      end
     end
     
   end
@@ -19,12 +23,12 @@ class RequestsController < ApplicationController
     itemlist
     @pagetitle = "What would you like to borrow?"
 
-    if session[:signup_email].nil?
-      flash[:danger] = "Please enter your email to get started"
-      redirect_to root_path
-    else
-      @signup_parent = Signup.find_by_email(session[:signup_email])
-    end
+    # if session[:signup_email].nil?
+    #   flash[:danger] = "Please enter your email to get started"
+    #   redirect_to root_path
+    # else
+    #   @signup_parent = Signup.find_by_email(session[:signup_email])
+    # end
 
     request_params
     @requestrecord = @signup_parent.requests.build
