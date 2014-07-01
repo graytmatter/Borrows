@@ -1,7 +1,10 @@
 GoogleTest::Application.routes.draw do
 
-  root 'signups#new'
+  #root 'signups#new'
+  root 'staticpages#maintenance'
+
   resources :signups, only: [:new, :create]
+  get '/new', to: 'signups#new'
   get '/edit', to: 'signups#edit'
   patch 'signups', to: 'signups#update'
 

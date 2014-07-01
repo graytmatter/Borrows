@@ -6,4 +6,7 @@ class StaticpagesController < ApplicationController
 	def policy
 	end
 
+	def maintenance
+	end
+
 end
