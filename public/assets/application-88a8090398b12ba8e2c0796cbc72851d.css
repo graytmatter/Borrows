@@ -10,6 +10,7 @@
  *
 
 
+
  */
 
 
@@ -7776,7 +7777,7 @@ Child divs
 /* Buries an image beneath photopile */
 /* line 90, /Users/jamesdong/development/borrows/app/assets/stylesheets/custom.css.scss */
 .photopile-background {
-  background-image: url("/assets/Tag2.png");
+  background-image: url(/assets/Tag2.png);
   background-repeat: no-repeat;
   background-position: center;
   background-size: 60%;
