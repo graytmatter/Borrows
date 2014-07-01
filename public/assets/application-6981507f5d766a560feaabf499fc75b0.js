@@ -10789,7 +10789,7 @@ var photopile = (function() {
     var showInfo          = true;       // include photo description (alt tag) in photo container
 
     // Images
-    //var loading    = 'assets/loading.gif';  // path to img displayed while gallery/thumbnails loads
+    var loading    = 'assets/loading.gif';  // path to img displayed while gallery/thumbnails loads
 
     //---- END SETTINGS ----
 
