@@ -20,7 +20,7 @@ class RequestsController < ApplicationController
     @pagetitle = "What would you like to borrow?"
 
     if session[:signup_email].nil?
-      flash[:danger] = "You must enter an email on the home page to access the rest of the site"
+      flash[:danger] = "Please enter your email to get started"
       redirect_to root_path
     else
       @signup_parent = Signup.find_by_email(session[:signup_email])

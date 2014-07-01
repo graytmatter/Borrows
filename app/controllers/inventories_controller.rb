@@ -39,7 +39,7 @@ class InventoriesController < ApplicationController
       render 'new'
     else
       @signup_parent.inventories.create items_to_be_saved
-      flash[:success] = "Thanks!"
+      flash[:success] = "Thank you so much! We'll be in touch when a borrower comes-a-knockin'!"
       
         @signup_parent.inventories.each do |i|
           i.save_spreadsheet
