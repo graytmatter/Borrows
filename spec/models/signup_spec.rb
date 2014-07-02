@@ -3,44 +3,129 @@ require 'spec_helper'
 
 describe Signup do
 
-  	before do
-   		@signup = FactoryGirl.create(:signup)
-  	end
+  subject { @signup }
 
-    subject { @signup }
+  describe "mimic create action" do
+
+  	before do
+   		@signup = FactoryGirl.build(:signup)
+  	end
 
   	it { should respond_to(:email) }
 
-  	it { should be_valid }
+    it { should be_valid }
 
-  	describe "when email is not present" do
-    	before { @signup.email = " " }
-    	it { should_not be_valid }
- 	 end
+  	describe "email tests" do
 
-    describe "when email format is invalid" do
-   		it "should be invalid" do
-	      	addresses = %w[user@foo..com, user@foo,com user_at_foo.org example.user@foo. foo@bar_baz.com foo@bar+baz.com]
-	      	addresses.each do |invalid_address|
-	        	@signup.email = invalid_address
-	        	expect(@signup).not_to be_valid
-	      	end
-    	end
-  	end
+      describe "invalid tests" do 
+        # blank email
+    	  before { @signup.email = " " }
+        it { should_not be_valid }
 
-  	describe "when email format is valid" do
-   		it "should be valid" do
-	        addresses = %w[user@foo.COM A_US-ER@f.b.org frst.lst@foo.jp a+b@baz.cn]
-	        addresses.each do |valid_address|
-        		@signup.email = valid_address
-       			expect(@signup).to be_valid
-      		end
-    	end
+        # invalid format email
+        addresses = %w[user@foo..com, user@foo,com user_at_foo.org example.user@foo. foo@bar_baz.com foo@bar+baz.com]
+        addresses.each do |invalid_address|
+          before { @signup.email = invalid_address }
+          it { should_not be_valid }
+        end
+ 	    end
 
-      before { @signup.email = Faker::Internet.email }
-      it { should be_valid }
+      describe "valid tests" do 
+        #valid format 
+        addresses = %w[user@foo.COM A_US-ER@f.b.org frst.lst@foo.jp a+b@baz.cn]
+        addresses.each do |valid_address|
+      		before { @signup.email = valid_address }
+     			it { should be_valid }
+    		end
 
-  	end
+        #double check using anything Faker can generate
+        before { @signup.email = Faker::Internet.email }
+        it { should be_valid }
+      end
+    end
+  end
 
+  describe "mimic update action" do
+
+    before do
+      @signup = FactoryGirl.create(:signup)
+    end
+
+    it { should respond_to(:email) }
+    it { should respond_to(:streetone) }
+    it { should respond_to(:streettwo) }
+    it { should respond_to(:zipcode) }
+    it { should respond_to(:heard) }
+    it { should respond_to(:tos) }
+    
+    it { should be_valid }
+
+    describe "cross streets tests" do
+      
+      describe "invalid tests" do
+        before { @signup.streetone = " " }
+        it { should_not be_valid }
+
+        before { @signup.streettwo = " " } 
+        it { should_not be_valid }
+        
+        before { @signup.streetone = "Post" }
+        before { @signup.streetone = @signup.streettwo }
+        it { should_not be_valid }
+      end
+
+      describe "valid tests" do
+        before { @signup.streetone = " Post " }
+        before { @signup.streettwo = " Taylor " }
+        it { should be_valid }
+      end
+
+    end
+
+    describe "zipcode tests" do
+      describe "invalid tests" do
+        before { @signup.zipcode = " " }
+        it { should_not be_valid }
+        
+        before { @signup.zipcode = "asdfd" }
+        it { should_not be_valid }
+        
+        before { @signup.zipcode = "123" }
+        it { should_not be_valid }
+        
+        before { @signup.zipcode = "-123asdf" }
+        it { should_not be_valid }
+        
+        before { @signup.zipcode = "-12345" }
+        it { should_not be_valid }
+        
+        before { @signup.zipcode = "-1234" }
+        it { should_not be_valid }
+      end
+
+      describe "valid tests" do
+        before { @signup.zipcode = "94109" }
+        it { should be_valid }
+
+        before { @signup.zipcode = " 94109 " }
+        it { should be_valid }
+      end
+    end
+
+    describe "tos tests" do
+      describe "invalid tests" do
+        before { @signup.tos = "" }
+        it { should_not be_valid }
+
+        before { @signup.tos = false }
+        it { should_not be_valid }
+      end
+
+      describe "valid tests" do
+        before { @signup.tos = true }
+        it { should be_valid }
+      end
+    end
+  end
 end
 

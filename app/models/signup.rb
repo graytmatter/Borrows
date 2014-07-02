@@ -6,12 +6,12 @@ class Signup < ActiveRecord::Base
     validate :update_validation, on: :update
 
     def create_validation
-        errors[:base] << "Please enter a valid email address to continue" if self.email.blank? || ( /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i =~ self.email) == nil 
+        errors[:base] << "Please enter a valid email address to continue" if self.email.blank? || (( /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i =~ self.email) == nil) 
     end
 
     def update_validation
-        errors[:base] << "Please enter two cross streets" if self.streetone.blank? || self.streettwo.blank?
-        errors[:base] << "Please enter a valid 5-digit zipcode" if self.zipcode.blank? || ( self.zipcode.length != 5 )
+        errors[:base] << "Please enter two different cross streets" if self.streetone.blank? || self.streettwo.blank? || ( self.streetone == self.streettwo )
+        errors[:base] << "Please enter a valid 5-digit zipcode" if self.zipcode.blank? || ( self.zipcode.strip.length != 5 ) || (self.zipcode.to_i < 0) || (self.zipcode.to_i.to_s.strip.length != 5)
         errors[:base] << "Please agree to the terms of service before continuing" unless self.tos == true
     end
 

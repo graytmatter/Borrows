@@ -3,6 +3,11 @@ require 'faker'
 FactoryGirl.define do
 	factory :signup do |f|
 		f.email { Faker::Internet.email }
+		f.heard { "random" }
+		f.streetone { "Post" }
+		f.streettwo { "Taylor" }
+		f.zipcode { "94109" }
+		f.tos { true }
 	end
 end
 	
