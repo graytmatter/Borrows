@@ -50,9 +50,9 @@ class InventoriesController < ApplicationController
       @signup_parent.inventories.create items_to_be_saved
       flash[:success] = "Thank you so much! We'll be in touch when a borrower comes-a-knockin'!"
       
-        @signup_parent.inventories.each do |i|
-          i.save_spreadsheet
-        end
+        # @signup_parent.inventories.each do |i|
+        #   i.save_spreadsheet
+        # end
         InventoryMailer.upload_email(@signup_parent, items_to_be_saved).deliver
 
       redirect_to new_inventory_path

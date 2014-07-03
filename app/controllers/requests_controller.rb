@@ -50,9 +50,9 @@ class RequestsController < ApplicationController
         
 
         #saves to spreadsheet and sends email, delete later
-        @requestrecord.transactions.each do |t|
-          t.save_spreadsheet
-        end
+        # @requestrecord.transactions.each do |t|
+        #   t.save_spreadsheet
+        # end
         RequestMailer.confirmation_email(@requestrecord).deliver
 
 
