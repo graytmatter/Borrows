@@ -75,12 +75,12 @@ class RequestsController < ApplicationController
       if @signup_parent.tos != true || @signup_parent.streetone.blank? || @signup_parent.streettwo.blank? || @signup_parent.zipcode.blank?
         flash[:danger] = "Almost there! We just need a little more info"
         redirect_to edit_signup_path
-      else
+      #else
         # if session[:signup_email] != Request.last.signup.email
         #   flash[:danger] = "Please submit a request first"
         #   redirect_to new_request_path
         # else
-          @signup_parent = Request.last.signup
+        #  @signup_parent = Request.last.signup
         # end 
       end
     end
