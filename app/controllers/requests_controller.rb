@@ -76,12 +76,12 @@ class RequestsController < ApplicationController
         flash[:danger] = "Almost there! We just need a little more info"
         redirect_to edit_signup_path
       else
-        if session[:signup_email] != Request.last.signup.email
-          flash[:danger] = "Please submit a request first"
-          redirect_to new_request_path
-        else
+        # if session[:signup_email] != Request.last.signup.email
+        #   flash[:danger] = "Please submit a request first"
+        #   redirect_to new_request_path
+        # else
           @signup_parent = Request.last.signup
-        end 
+        # end 
       end
     end
   end
