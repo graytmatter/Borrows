@@ -14,10 +14,6 @@ class InventoriesController < ApplicationController
         flash[:danger] = "Almost there! We just need a little more info"
         redirect_to edit_signup_path
       else
-        puts "inspect"
-        puts @signup_parent.inspect
-        puts @signup_parent.inventories.inspect
-        puts "end"
         @q = @signup_parent.inventories.ransack(params[:q])
         @inventories = @q.result.includes(:signup)
       end
