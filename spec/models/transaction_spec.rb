@@ -20,11 +20,6 @@ describe Transaction do
       it { should_not be_valid }
     end
 
-    describe "item_id invalid tests" do
-      before { @transaction.item_id = "" }
-      it { should_not be_valid }
-    end
-
     describe "name invalid tests" do
       before { @transaction.name = "" }
       it { should_not be_valid }
