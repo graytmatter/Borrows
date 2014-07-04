@@ -11,7 +11,7 @@
     <%= render 'layouts/flash' %>
 
     <div class="col-xs-12 box">
-      <%= form_for @signup_parent, url: {action: 'update'}, :html => {:class => "form-inline"} do |f| %>
+      <%= form_for @signup_parent, url: {action: 'update'}, :html => {:class => "form-inline", :autocomplete => "off"} do |f| %>
         
         <div class="form-group col-xs-6">
           <%= f.label :email, "Confirm your email"%>

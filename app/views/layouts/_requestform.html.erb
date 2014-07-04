@@ -28,7 +28,7 @@
 
       <div class="form-group col-xs-12">
         <%= f.label :detail, "Features requested (optional)" %>
-        <%= f.text_field :detail, class: "form-control", placeholder: "What features do you need (e.g., size, capacity) for the item(s) that you selected above?" %>
+        <%= f.text_field :detail, class: "form-control", placeholder: "What features do you need (e.g., size, capacity) for the item(s) that you selected above?", autocomplete: :off %>
       </div>
 
       <div class="form-group col-xs-12">
@@ -39,8 +39,7 @@
       </div>
 
       <div class="form-group col-xs-12">
-        <p class="horiz", style="font-size:90%; font-style:italic; font-weight: bold;">Please be patient & do not hit "Go!" more than once; site speed may be slow!</p>
-        <%= f.submit "Go!", class: "btn btn-primary btn-large btn-block", data: { confirm: 'Please review everything before submitting. Please be patient as it may take awhile to process your request', disable_with: 'Looking for lenders now, take a breather =)' }  %>
+        <%= f.submit "Go!", class: "btn btn-primary btn-large btn-block", data: { confirm: 'Please review everything before submitting', disable_with: 'Looking for lenders now, take a breather =)' }  %>
       </div>
 
     <% end %>

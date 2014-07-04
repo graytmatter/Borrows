@@ -17,9 +17,8 @@ group :development do
 end
 
 group :development, :test do
-	gem 'rspec-rails', '~> 2.14.0.rc1' #test framework
+	gem 'rspec-rails', '2.13.1' #test framework
 	gem 'factory_girl_rails'
-	gem 'shoulda-matchers'
 end
 
 group :test do

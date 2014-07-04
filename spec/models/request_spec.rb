@@ -1,5 +1,6 @@
 require 'spec_helper'
 
+
 describe Request do
 
   	before do
@@ -14,8 +15,6 @@ describe Request do
     it { should respond_to(:returndate) }
   	it { should respond_to(:edit_id) } #model logic auto-creates this
 
-    it { should have_many(:transactions) }
-    it { should belong_to(:signup) }
   	it { should be_valid }
 
     describe "signup_id invalid tests" do
