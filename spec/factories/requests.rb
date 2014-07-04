@@ -1,12 +1,9 @@
-require 'faker'
-
 FactoryGirl.define do
 	factory :request do |f|
-		f.email { Faker::Internet.email }
-		f.items { ["random item"] }
-		f.addysdeliver { "random text" }
-		f.startdate { DateTime.now  }
-		f.enddate { (rand(10)+1).from_now }
+		f.pickupdate { DateTime.now  }
+		f.returndate { (rand(10)+1).from_now }
+		f.signup_id { rand(0..1000000000) }
+		f.detail { "random" }
 	end
 end
 	

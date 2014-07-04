@@ -2,7 +2,8 @@
 
 FactoryGirl.define do
   factory :inventory do
-    item_name "MyString"
-    user_id 1
+    item_name { "item" }
+    signup_id { rand(0..1000000000) }
+    description { "random" }
   end
 end

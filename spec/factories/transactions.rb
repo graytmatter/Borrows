@@ -2,11 +2,9 @@
 
 FactoryGirl.define do
   factory :transaction do
-    request_id 1
-    item_id 1
-    name "MyString"
-    startdate "2014-06-16 17:56:50"
-    enddate "2014-06-16 17:56:50"
-    status 1
+    request_id { rand(0..1000000000) }
+    item_id { rand(0..1000000000) }
+    name { "item name" }
+    status { rand(0..5) } 
   end
 end

@@ -2,6 +2,11 @@ class Inventory < ActiveRecord::Base
 	belongs_to :signup
 
 	validates :signup_id, presence: true
+  validate :custom_validation
+
+  def custom_validation
+    errors[:base] << "Please select at least one item" if self.item_name.blank? 
+  end
 
   def save_spreadsheet
       connection = GoogleDrive.login(ENV['GMAIL_USERNAME'], ENV['GMAIL_PASSWORD'])
