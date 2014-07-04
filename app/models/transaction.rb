@@ -2,7 +2,6 @@ class Transaction < ActiveRecord::Base
 	belongs_to :request
 
 	validates :request_id, presence: true
-	
 	validate :custom_validation
 
 	def custom_validation
