@@ -1,6 +1,5 @@
 require 'spec_helper'
 
-
 describe Signup do
 
   subject { @signup }
@@ -13,6 +12,8 @@ describe Signup do
 
   	it { should respond_to(:email) }
 
+    it { should have_many(:requests) }
+    it { should have_many(:inventories) }
     it { should be_valid }
 
   	describe "email invalid tests" do

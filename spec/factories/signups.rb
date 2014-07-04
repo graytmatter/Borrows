@@ -10,10 +10,23 @@ FactoryGirl.define do
 		f.tos { true }
 	end
 end
+
+FactoryGirl.define do
+	factory :initial_signup, parent: :signup do |f|
+		f.email { Faker::Internet.email }
+	end
+end
 	
 FactoryGirl.define do
-	factory :invalid_signup, parent: :signup do |f|
+	factory :invalid_initial_signup, parent: :signup do |f|
 		f.email { nil }
+	end
+end
+
+FactoryGirl.define do
+	factory :invalid_update_signup, parent: :signup do |f|
+		f.email { Faker::Internet.email }
+		f.tos { true }
 	end
 end
 

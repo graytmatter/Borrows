@@ -13,6 +13,7 @@ describe Transaction do
   	it { should respond_to(:name) }
   	it { should respond_to(:status) }
 
+    it { should belong_to(:request) }
   	it { should be_valid }
 
     describe "request_id invalid tests" do

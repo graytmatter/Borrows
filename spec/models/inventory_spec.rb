@@ -12,6 +12,7 @@ describe Inventory do
   	it { should respond_to(:item_name) }
   	it { should respond_to(:description) }
 
+    it { should belong_to(:signup) }
   	it { should be_valid }
 
     describe "signup_id invalid tests" do

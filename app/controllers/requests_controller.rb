@@ -38,27 +38,31 @@ class RequestsController < ApplicationController
       render 'new'
     else
       @requestrecord = @signup_parent.requests.create(@requestparams)
-      if @requestrecord.save
-        transactions_to_be_saved = []
-        @transactionparams.each do |item, quantity|
-        quantity = quantity.to_i
-          quantity.times do
-            transactions_to_be_saved << ({ :name => item })
-          end
-        end
-        @requestrecord.transactions.create transactions_to_be_saved
-        
-
-        #saves to spreadsheet and sends email, delete later
-        # @requestrecord.transactions.each do |t|
-        #   t.save_spreadsheet
-        # end
-        RequestMailer.confirmation_email(@requestrecord).deliver
-
-
-        redirect_to action: 'success'
-      else
+      if @requestrecord.signup.email = Request.last.email
         render 'new'
+      else
+        if @requestrecord.save
+          transactions_to_be_saved = []
+          @transactionparams.each do |item, quantity|
+          quantity = quantity.to_i
+            quantity.times do
+              transactions_to_be_saved << ({ :name => item })
+            end
+          end
+          @requestrecord.transactions.create transactions_to_be_saved
+          
+
+          #saves to spreadsheet and sends email, delete later
+          # @requestrecord.transactions.each do |t|
+          #   t.save_spreadsheet
+          # end
+          RequestMailer.confirmation_email(@requestrecord).deliver
+
+
+          redirect_to action: 'success'
+        else
+          render 'new'
+        end
       end
     end
   end
