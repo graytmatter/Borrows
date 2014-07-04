@@ -73,12 +73,12 @@ class RequestsController < ApplicationController
 
   def itemlist
     @itemlist = {
-    "Camping" => ["Tent for 2-3", "Tent for 4", "Sleeping bag", "Sleeping pad", "Daypack (<40L)", "Pack rain cover (<40L)"],
-    "Park & picnic" => ["Portable table", "Portable chair", "Cooler", "Outdoors grill", "Shade house", "Hammock"],
-    "Tools" => ["Electric drill", "Screwdriver set", "Hammer", "Sliding wrench", "Utility knife", "Mat cutter"],
-    "Kitchenwares" =>["Blender", "Electric grill", "Food processor", "Baking dish", "Knife sharpener", "Juicer"],
-    "Housewares" => ["Vacuum", "Air mattress", "Iron & board", "Luggage (carry-on)", "Luggage (check-in)", "Extension cords"], 
-    "Backpacking" => ["Frame pack (80L+)", "Frame pack (60-80L)", "Dry bag", "Water filter", "Headlamp", "Camp stove"]
+    "Camping" => ["Tent for 2", "Tent for 3", "Tent for 4", "Sleeping bag", "Sleeping pad", "Daypack (<40L)", "Pack rain cover (<40L)"],
+    "Park & picnic" => ["Portable table", "Portable chair", "Cooler", "Outdoors grill", "Shade house", "Portable lantern", "Hammock"],
+    "Tools" => ["Electric drill", "Screwdriver set", "Hammer", "Sliding wrench", "Utility knife", "Yardstick", "Measuring tape"],
+    "Kitchenwares" =>["Blender", "Electric grill", "Food processor", "Baking dish", "Knife sharpener", "Juicer", "Rice cooker"],
+    "Housewares" => ["Vacuum", "Air mattress", "Iron & board", "Luggage (carry-on)", "Luggage (check-in)", "Extension cords", "Jumper cables"], 
+    "Backpacking" => ["Frame pack (80L+)", "Frame pack (60-80L)", "Dry bag", "Water purifier", "Headlamp", "Camp stove", "One person bug net"]
     #"Miscellaneous" => ["Tennis set", "Bike pump", "Jumper cables", "Dry bag", "Mat cutter"],
     #"Baby gear" => ["Umbrella Stroller", "Booster seat", "Backpack carrier", "Pack n' Play", "Jumper"],
     #"Snow sports" => ["Outerwear", "Innerwear", "Gloves" , "Helmet", "Goggles"]

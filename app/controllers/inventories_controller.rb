@@ -95,15 +95,16 @@ class InventoriesController < ApplicationController
       "Backpacking" => ["Trekking poles", "Frame pack (80L+)", "Frame pack (60-80L)", "Frame pack (40-60L)", "Pack rain cover (80L+)", "Pack rain cover (60-80L)", "Pack rain cover (40-60L)", "Water purifier", "Camp stove", "Camp cookware", "Hammock", "Dry bag", "Headlamp"],
       "Kitchenwares" =>["Blender", "Electric grill", "Food processor", "Baking dish", "Knife sharpener", "Springform cake pan", "Sandwich/panini press", "Rice cooker", "Immersion blender", "Hand/stand mixer", "Ice cream maker", "Juicer", "Pressure Canner"],
       
+      #9 items each
+      "Housewares" => ["Vacuum", "Air mattress", "Iron & board", "Luggage (carry-on)", "Luggage (check-in)", "Extension cords", "Steam cleaner", "Sewing machine", "Jumper cables"], 
+      "Tools" => ["Electric drill", "Screwdriver set", "Hammer", "Sliding wrench", "Utility knife", "Handsaw", "Level", "Yardstick", "Measuring tape"],
+      "Sports gear" => ["Tennis set", "Volleyball set", "Bicycle (city)", "Bicycle (mountain)", "Bike helmet", "Bike pump", "Football", "Soccerball", "Basketball" ],
+
       #8 items each
       "Park & picnic" => ["Portable table", "Portable chair", "Cooler", "Outdoors grill", "Shade house", "Portable lanterns", "Portable speakers", "Hammock"],
-      "Housewares" => ["Vacuum", "Air mattress", "Iron & board", "Luggage (carry-on)", "Luggage (check-in)", "Extension cords", "Steam cleaner", "Sewing machine"], 
-      "Tools" => ["Electric drill", "Screwdriver set", "Hammer", "Sliding wrench", "Utility knife", "Handsaw", "Jumper cables", "Level"],
+      "Snow sports gear" => ["Outerwear (top)", "Outerwear (bottom)", "Thermalwear (top)", "Thermalwear (bottom)", "Gloves" , "Helmet", "Goggles", "Crampons"],
+      "Baby gear" => ["Umbrella Stroller", "Booster seat", "Carrier", "Pack n' Play", "Jumper", "Bassinet", "Carrier for backpacking", "Car seat"]
       
-      #7 items each
-      "Snow sports gear" => ["Outerwear (top)", "Outerwear (bottom)", "Thermalwear (top)", "Thermalwear (bottom)", "Gloves" , "Helmet", "Goggles"],
-      "Baby gear" => ["Umbrella Stroller", "Booster seat", "Carrier", "Pack n' Play", "Jumper", "Bassinet", "Carrier for backpacking"],
-      "Sports gear" => ["Tennis set", "Volleyball set", "Bike helmet", "Bike pump", "Football", "Soccerball", "Basketball" ]
     }
     end
 end
