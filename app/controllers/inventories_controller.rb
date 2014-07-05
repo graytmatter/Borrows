@@ -91,19 +91,19 @@ class InventoriesController < ApplicationController
     def itemlist
       @itemlist = {
       #13 items each
-      "Camping" => ["Tent (1-Person)", "Tent (2-person)", "Tent (3-person)", "Tent (4-person)", "Tent (6-person)", "Tent (8-person)", "Tent (10-person)", "Sleeping bag", "Sleeping pad", "Camp pillow", "Daypack (<40L)", "Pack rain cover (<40L)", "Bear canister" ],
-      "Backpacking" => ["Trekking poles", "Frame pack (80L+)", "Frame pack (60-80L)", "Frame pack (40-60L)", "Pack rain cover (80L+)", "Pack rain cover (60-80L)", "Pack rain cover (40-60L)", "Water purifier", "Camp stove", "Camp cookware", "Hammock", "Dry bag", "Headlamp"],
-      "Kitchenwares" =>["Blender", "Electric grill", "Food processor", "Baking dish", "Knife sharpener", "Springform cake pan", "Sandwich/panini press", "Rice cooker", "Immersion blender", "Hand/stand mixer", "Ice cream maker", "Juicer", "Pressure Canner"],
+      "Camping" => ["1-Person Tent", "2-Person Tent", "3-Person Tent", "4-Person Tent", "6-Person Tent", "8-Person Tent", "10-Person Tent", "Sleeping bag", "Sleeping pad", "Camp pillow", "<40L Daypack", "<40L Pack rain cover", "Bear canister" ],
+      "Backpacking" => ["Trekking pole set", "80L+ Frame pack", "60-80L Frame pack", "40-60L Frame pack", "80L+ Pack rain cover", "60-80L Pack rain cover", "40-60L Pack rain cover", "Water purifier", "Pocket stove", "Camp cookware set", "Backpacking hammock", "Dry bag", "Headlamp"],
+      "Kitchenwares" =>["Blender", "Electric grill", "Food processor", "Baking dish", "Knife sharpener", "Springform cake pan", "Sandwich/panini press", "Rice cooker", "Immersion blender", "Hand/stand mixer", "Ice cream maker", "Juicer", "Pressure canner"],
       
       #9 items each
-      "Housewares" => ["Vacuum", "Air mattress", "Iron & board", "Luggage (carry-on)", "Luggage (check-in)", "Extension cords", "Steam cleaner", "Sewing machine", "Jumper cables"], 
+      "Housewares" => ["Vacuum", "Air mattress", "Iron & board set", "Carry-on Luggage", "Check-in Luggage", "Extension cords", "Steam cleaner", "Sewing machine", "Jumper cables"], 
       "Tools" => ["Electric drill", "Screwdriver set", "Hammer", "Sliding wrench", "Utility knife", "Handsaw", "Level", "Yardstick", "Measuring tape"],
-      "Sports gear" => ["Tennis set", "Volleyball set", "Bicycle (city)", "Bicycle (mountain)", "Bike helmet", "Bike pump", "Football", "Soccerball", "Basketball" ],
+      "Sports gear" => ["Tennis set", "Volleyball set", "City bike", "Mountain bike", "Bike helmet", "Bike pump", "Football", "Soccerball", "Basketball" ],
 
       #8 items each
-      "Park & picnic" => ["Portable table", "Portable chair", "Cooler", "Outdoors grill", "Shade house", "Portable lanterns", "Portable speakers", "Hammock"],
-      "Snow sports gear" => ["Outerwear (top)", "Outerwear (bottom)", "Thermalwear (top)", "Thermalwear (bottom)", "Gloves" , "Helmet", "Goggles", "Crampons"],
-      "Baby gear" => ["Umbrella Stroller", "Booster seat", "Carrier", "Pack n' Play", "Jumper", "Bassinet", "Carrier for backpacking", "Car seat"]
+      "Park & picnic" => ["Portable table", "Portable chair", "Cooler", "Outdoors grill", "Shade structure", "Portable lantern", "Portable speaker set", "Portable hammock"],
+      "Snow sports gear" => ["Top Outerwear", "Bottom Outerwear", "Top Thermalwear", "Bottom Thermalwear", "Glove pair" , "Helmet", "Goggles", "Crampon pair"],
+      "Baby gear" => ["Umbrella stroller", "Booster seat", "Carrier", "Pack n' Play", "Jumper", "Bassinet", "Backpacking carrier", "Car seat"]
       
     }
     end

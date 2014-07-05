@@ -46,63 +46,20 @@ class RequestsController < ApplicationController
         # @requestrecord.transactions.each do |t|
         #   t.save_spreadsheet
         # end
-        #RequestMailer.confirmation_email(@requestrecord).deliver
-        #will replace RequestMailer above
-
         @transactionparams.each do |item, quantity|
-          @available_items = Hash.new
-          @matched_inventory = Inventory.where.not(signup_id: item.request.signup.id).where(item_name: item.name).ids
-          @matched_inventory.each do |inventory|
-            if Transaction.find_by_item_id(inventory) == nil
-              @available_items[item] = quantity
-            else
-              if ( (item.request.pickupdate - Transaction.find_by_item_id(inventory).request.returndate) * (Transaction.find_by_item_id(inventory).request.pickupdate - item.request.returndate) ) < 0 
-                @available_items[item] = quantity
-              end
-            end
-          end
-          if @available_items.blank?
-            RequestMailer.not_found_email(@requestrecord, t).deliver
-          else
-            @lender_array = []
-            @available_items.each do |i, q|
-              @lender_array << Inventory.find_by_id(i).signup.email
-            end
-            RequestMailer.found_email(@lender_array, item, quantity).deliver
+          #1) Select ids of inventory items that don't belong to borrower and match the transaction items
+          @matched_inventory = Inventory.where.not(signup_id: @requestrecord.signup.id).where(item_name: item).ids 
+          #2) Select (i.e., narrow down) to only the ids of inventory items that aren't associated with any transaction or are associated with a transaction but in a non competing time period
+          @matched_inventory.select { |id| (Transaction.find_by_item_id(id) == nil)|| ( (@requestrecord.pickupdate - Transaction.find_by_item_id(id).request.returndate) * (Transaction.find_by_item_id(id).request.pickupdate - @requestrecord.returndate) ) < 0 }
+          #3) Select the emails of those available inventory ids
+          @lender_array = Inventory.where(id: @matched_inventory).joins(:signup).pluck("signups.email")
+          #4) Email the lenders
+          RequestMailer.found_email(@requestrecord, @lender_array, item, quantity).deliver unless @lender_array.blank?
+          #5) If the total number of inventory items matched was less than the quantity requested, let me know
+          if @matched_inventory.count < quantity.to_i
+            RequestMailer.not_found_email(@requestrecord, @matched_inventory, item, quantity).deliver
           end
         end
-
-        # @requestrecord.transactions.each do |t|
-        #   @available_items = []
-        #   @matched_items = Inventory.where.not(signup_id: t.request.signup.id).where(item_name: t.name).ids
-        #   puts "INSPECT, expect below to be an array of matched item_ids"
-        #   puts @matched_items.inspect 
-        #   puts "END"
-        #   @matched_items.each do |item|
-        #     if Transaction.find_by_item_id(item) == nil
-        #         @available_items << item
-        #     else
-        #       if ( (t.request.pickupdate - Transaction.find_by_item_id(item).request.returndate) * (Transaction.find_by_item_id(item).request.pickupdate - t.request.returndate) ) < 0 
-        #         @available_items << item
-        #       end
-        #     end
-        #   end
-        #   puts "INSPECT, expect below to be an array of available item_ids"
-        #   puts @available_items.inspect 
-        #   puts "END"
-        #   if @available_items.blank?
-        #     RequestMailer.not_found_email(@requestrecord, t).deliver
-        #   else
-        #     @lender_array = []
-        #     @available_items.each do |item|
-        #       @lender_array << Inventory.find_by_id(item).signup.email
-        #     end
-        #     puts "INSPECT lender array"
-        #     puts @lender_array.inspect
-        #     puts "END"
-        #     RequestMailer.found_email(@lender_array, t).deliver
-        #   end
-        # end
 
         redirect_to action: 'success'
       else
@@ -127,12 +84,12 @@ class RequestsController < ApplicationController
 
   def itemlist
     @itemlist = {
-    "Camping" => ["Tent (2-person)", "Tent (3-person)", "Tent (4-person)", "Sleeping bag", "Sleeping pad", "Daypack (<40L)", "Pack rain cover (<40L)"],
-    "Park & picnic" => ["Portable table", "Portable chair", "Cooler", "Outdoors grill", "Shade house", "Portable lantern", "Hammock"],
+    "Camping" => ["2-Person Tent", "3-Person Tent", "4-Person Tent", "Sleeping bag", "Sleeping pad", "<40L Daypack", "<40L Pack rain cover"],
+    "Park & picnic" => ["Portable table", "Portable chair", "Cooler", "Outdoors grill", "Shade structure", "Portable lantern", "Backpacking hammock"],
     "Tools" => ["Electric drill", "Screwdriver set", "Hammer", "Sliding wrench", "Utility knife", "Yardstick", "Measuring tape"],
     "Kitchenwares" =>["Blender", "Electric grill", "Food processor", "Baking dish", "Knife sharpener", "Juicer", "Rice cooker"],
-    "Housewares" => ["Vacuum", "Air mattress", "Iron & board", "Luggage (carry-on)", "Luggage (check-in)", "Extension cords", "Jumper cables"], 
-    "Backpacking" => ["Frame pack (80L+)", "Frame pack (60-80L)", "Dry bag", "Water purifier", "Headlamp", "Camp stove", "One person bug net"]
+    "Housewares" => ["Vacuum", "Air mattress", "Iron & board set", "Carry-on Luggage", "Check-in Luggage", "Extension cords", "Jumper cables"], 
+    "Backpacking" => ["80L+ Frame pack", "60-80L Frame pack", "Dry bag", "Water purifier", "Headlamp", "Pocket stove", "80L+ Pack rain cover"]
     #"Miscellaneous" => ["Tennis set", "Bike pump", "Jumper cables", "Dry bag", "Mat cutter"],
     #"Baby gear" => ["Umbrella Stroller", "Booster seat", "Backpack carrier", "Pack n' Play", "Jumper"],
     #"Snow sports" => ["Outerwear", "Innerwear", "Gloves" , "Helmet", "Goggles"]

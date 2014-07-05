@@ -1,10 +1,13 @@
-Could not find any available items
+Could not find items, either full or partial
 
 Email:
 <%= @requestrecord.signup.email %>
 
-Item in question:
-<% @t.name %>
+Item/ quantity desired:
+<%= @item %>, <%= @quantity %>
+
+Found quantity:
+<%= @matched_inventory.count %>
 
 Additional details:
 <%= @requestrecord.detail %>

@@ -7,11 +7,13 @@
 
 <p>Hi there!</p>
 
-<p>One of our borrowers would like to borrow <%= pluralize("#{@quantity}","#{@item.name}") %> between <%= "#{@item.request.pickupdate.to_date} and #{@item.request.returndate.to_date}"%>. Can you help them out with what you have? If so, we'll connect you with the borrower directly to coordinate further.</p>
+<p><%= "One of our borrowers would like to borrow #{pluralize(@quantity.to_i,@item.downcase)} between #{@requestrecord.pickupdate.to_date} and #{@requestrecord.returndate.to_date}. Can you help them out?"%>
 
-<% if @item.request.detail.present? %>
-	<p><%= "Here's a note from the borrower: #{@t.request.detail}" %>
-<% end %>
+	<%= "If so, let us know as well if you can lend more than 1 #{@item.downcase.pluralize}." if @quantity.to_i > 1 %></p>
+
+<p><%= "Here's a personal note from the borrower: '#{@requestrecord.detail}' " if @requestrecord.detail.present? %>
+
+<p>Once we hear back, we'll connect you with the borrower directly to coordinate further.</p>
 
 <p>Thanks again for being a great sharer!</p>
 
