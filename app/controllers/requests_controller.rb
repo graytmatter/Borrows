@@ -41,7 +41,6 @@ class RequestsController < ApplicationController
           end
         end
         @requestrecord.transactions.create transactions_to_be_saved
-        
 
         #saves to spreadsheet and sends email, delete later
         # @requestrecord.transactions.each do |t|
@@ -50,37 +49,61 @@ class RequestsController < ApplicationController
         #RequestMailer.confirmation_email(@requestrecord).deliver
         #will replace RequestMailer above
 
-        @requestrecord.transactions.each do |t|
-          @available_items = []
-          @matched_items = Inventory.where.not(signup_id: t.request.signup.id).where(item_name: t.name).ids
-          puts "INSPECT, expect below to be an array of matched item_ids"
-          puts @matched_items.inspect 
-          puts "END"
-          @matched_items.each do |item|
-            if Transaction.find_by_item_id(item) == nil
-                @available_items << item
+        @transactionparams.each do |item, quantity|
+          @available_items = Hash.new
+          @matched_inventory = Inventory.where.not(signup_id: item.request.signup.id).where(item_name: item.name).ids
+          @matched_inventory.each do |inventory|
+            if Transaction.find_by_item_id(inventory) == nil
+              @available_items[item] = quantity
             else
-              if ( (t.request.pickupdate - Transaction.find_by_item_id(item).request.returndate) * (Transaction.find_by_item_id(item).request.pickupdate - t.request.returndate) ) < 0 
-                @available_items << item
+              if ( (item.request.pickupdate - Transaction.find_by_item_id(inventory).request.returndate) * (Transaction.find_by_item_id(inventory).request.pickupdate - item.request.returndate) ) < 0 
+                @available_items[item] = quantity
               end
             end
           end
-          puts "INSPECT, expect below to be an array of available item_ids"
-          puts @available_items.inspect 
-          puts "END"
           if @available_items.blank?
             RequestMailer.not_found_email(@requestrecord, t).deliver
           else
             @lender_array = []
-            @available_items.each do |item|
-              @lender_array << Inventory.find_by_id(item).signup.email
+            @available_items.each do |i, q|
+              @lender_array << Inventory.find_by_id(i).signup.email
             end
-            puts "INSPECT lender array"
-            puts @lender_array.inspect
-            puts "END"
-            RequestMailer.found_email(@lender_array, t).deliver
+            RequestMailer.found_email(@lender_array, item, quantity).deliver
           end
         end
+
+        # @requestrecord.transactions.each do |t|
+        #   @available_items = []
+        #   @matched_items = Inventory.where.not(signup_id: t.request.signup.id).where(item_name: t.name).ids
+        #   puts "INSPECT, expect below to be an array of matched item_ids"
+        #   puts @matched_items.inspect 
+        #   puts "END"
+        #   @matched_items.each do |item|
+        #     if Transaction.find_by_item_id(item) == nil
+        #         @available_items << item
+        #     else
+        #       if ( (t.request.pickupdate - Transaction.find_by_item_id(item).request.returndate) * (Transaction.find_by_item_id(item).request.pickupdate - t.request.returndate) ) < 0 
+        #         @available_items << item
+        #       end
+        #     end
+        #   end
+        #   puts "INSPECT, expect below to be an array of available item_ids"
+        #   puts @available_items.inspect 
+        #   puts "END"
+        #   if @available_items.blank?
+        #     RequestMailer.not_found_email(@requestrecord, t).deliver
+        #   else
+        #     @lender_array = []
+        #     @available_items.each do |item|
+        #       @lender_array << Inventory.find_by_id(item).signup.email
+        #     end
+        #     puts "INSPECT lender array"
+        #     puts @lender_array.inspect
+        #     puts "END"
+        #     RequestMailer.found_email(@lender_array, t).deliver
+        #   end
+        # end
+
         redirect_to action: 'success'
       else
         render 'new'
