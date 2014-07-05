@@ -2,6 +2,7 @@ class RequestsController < ApplicationController
 
   def new
     itemlist
+    @itemlist.first(6)
     @pagetitle = "What would you like to borrow?"
 
     if session[:signup_email].nil?
@@ -21,6 +22,7 @@ class RequestsController < ApplicationController
 
   def create
     itemlist
+    @itemlist.first(6)
     @pagetitle = "What would you like to borrow?"
 
     @signup_parent = Signup.find_by_email(session[:signup_email])
@@ -80,20 +82,5 @@ class RequestsController < ApplicationController
     @requestparams = params.require(:request).permit(:detail, :pickupdate, :returndate) 
     @transactionparams = params["transaction"]
     @transactionparams = @transactionparams.first.reject { |k, v| (v == "") || ( v == "0" ) || ( v.length > 2 ) }
-  end
-
-  def itemlist
-    @itemlist = {
-    "Camping" => ["2-Person Tent", "3-Person Tent", "4-Person Tent", "Sleeping bag", "Sleeping pad", "<40L Daypack", "<40L Pack rain cover"],
-    "Park & picnic" => ["Portable table", "Portable chair", "Cooler", "Outdoors grill", "Shade structure", "Portable lantern", "Backpacking hammock"],
-    "Tools" => ["Electric drill", "Screwdriver set", "Hammer", "Sliding wrench", "Utility knife", "Yardstick", "Measuring tape"],
-    "Kitchenwares" =>["Blender", "Electric grill", "Food processor", "Baking dish", "Knife sharpener", "Juicer", "Rice cooker"],
-    "Housewares" => ["Vacuum", "Air mattress", "Iron & board set", "Carry-on Luggage", "Check-in Luggage", "Extension cords", "Jumper cables"], 
-    "Backpacking" => ["80L+ Frame pack", "60-80L Frame pack", "Dry bag", "Water purifier", "Headlamp", "Pocket stove", "80L+ Pack rain cover"]
-    #"Miscellaneous" => ["Tennis set", "Bike pump", "Jumper cables", "Dry bag", "Mat cutter"],
-    #"Baby gear" => ["Umbrella Stroller", "Booster seat", "Backpack carrier", "Pack n' Play", "Jumper"],
-    #"Snow sports" => ["Outerwear", "Innerwear", "Gloves" , "Helmet", "Goggles"]
-    
-  }
   end
 end
