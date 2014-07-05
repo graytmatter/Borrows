@@ -47,9 +47,40 @@ class RequestsController < ApplicationController
         # @requestrecord.transactions.each do |t|
         #   t.save_spreadsheet
         # end
-        RequestMailer.confirmation_email(@requestrecord).deliver
+        #RequestMailer.confirmation_email(@requestrecord).deliver
+        #will replace RequestMailer above
 
-
+        @requestrecord.transactions.each do |t|
+          @available_items = []
+          @matched_items = Inventory.where.not(signup_id: t.request.signup.id).where(item_name: t.name).ids
+          puts "INSPECT, expect below to be an array of matched item_ids"
+          puts @matched_items.inspect 
+          puts "END"
+          @matched_items.each do |item|
+            if Transaction.find_by_item_id(item) == nil
+                @available_items << item
+            else
+              if ( (t.request.pickupdate - Transaction.find_by_item_id(item).request.returndate) * (Transaction.find_by_item_id(item).request.pickupdate - t.request.returndate) ) < 0 
+                @available_items << item
+              end
+            end
+          end
+          puts "INSPECT, expect below to be an array of available item_ids"
+          puts @available_items.inspect 
+          puts "END"
+          if @available_items.blank?
+            RequestMailer.not_found_email(@requestrecord, t).deliver
+          else
+            @lender_array = []
+            @available_items.each do |item|
+              @lender_array << Inventory.find_by_id(item).signup.email
+            end
+            puts "INSPECT lender array"
+            puts @lender_array.inspect
+            puts "END"
+            RequestMailer.found_email(@lender_array, t).deliver
+          end
+        end
         redirect_to action: 'success'
       else
         render 'new'
@@ -73,7 +104,7 @@ class RequestsController < ApplicationController
 
   def itemlist
     @itemlist = {
-    "Camping" => ["Tent for 2", "Tent for 3", "Tent for 4", "Sleeping bag", "Sleeping pad", "Daypack (<40L)", "Pack rain cover (<40L)"],
+    "Camping" => ["Tent (2-person)", "Tent (3-person)", "Tent (4-person)", "Sleeping bag", "Sleeping pad", "Daypack (<40L)", "Pack rain cover (<40L)"],
     "Park & picnic" => ["Portable table", "Portable chair", "Cooler", "Outdoors grill", "Shade house", "Portable lantern", "Hammock"],
     "Tools" => ["Electric drill", "Screwdriver set", "Hammer", "Sliding wrench", "Utility knife", "Yardstick", "Measuring tape"],
     "Kitchenwares" =>["Blender", "Electric grill", "Food processor", "Baking dish", "Knife sharpener", "Juicer", "Rice cooker"],
