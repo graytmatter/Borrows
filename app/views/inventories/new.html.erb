@@ -5,6 +5,7 @@
       <h5 style="font-size:100%; font-style:italic"><%= link_to '(I want to borrow)', new_request_path, { style: 'color:#428bca'}%></h6>
       <p style="font-style:italic;">Yayhay thanks for sharing stuff with our borrowers! In the table below, you'll be able to make changes to the items that you're currently sharing. If you'd like to share even more stuff, just complete the form below the table!</p>
     </div>
+    <%= render "layouts/flash" %>
 
     <div class="table-responsive">
       <table class="table table-condensed table-hover">
@@ -65,6 +66,7 @@
         <li>We value our lenders and want you to have a great experience, please reach out if you have any questions or concerns about the safety and care of your items, and feel free to review our <%= link_to "terms of service", terms_path, { style: "color:#428bca", target: "_blank" } %></li>
       </ul>
     </div> 
+    <%= render "layouts/flash" %>
 
     <%= render "layouts/inventoryform" %>
     <!-- add a contact form in case they have anything else they'd like to share -->

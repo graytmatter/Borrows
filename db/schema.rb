@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140704025545) do
+ActiveRecord::Schema.define(version: 20140705051134) do
 
   create_table "inventories", force: true do |t|
     t.string   "item_name"
@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 20140704025545) do
     t.string   "name"
     t.string   "email"
     t.text     "items",      limit: 255
-    t.string   "detail"
+    t.text     "detail",     limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "edit_id"
