@@ -19,7 +19,8 @@ GoogleTest::Application.routes.draw do
   patch 'inventories', to: 'inventories#update'
 
   get 'admin/inventories', to: 'inventories#index'
-  get 'admin/requests', to: 'requests#index'
+  # get 'admin/requests', to: 'requests#index'
+  get 'admin/transactions', to: 'transactions#index'
 
   get 'termsofservice', to: 'staticpages#terms', as: 'terms'
   get 'privacypolicy', to: 'staticpages#policy', as: 'policy'

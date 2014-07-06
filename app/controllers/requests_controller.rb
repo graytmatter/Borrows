@@ -70,8 +70,8 @@ class RequestsController < ApplicationController
     end
   end
 
-  def index
-  end
+  # def index
+  # end
 
   def success
   end
