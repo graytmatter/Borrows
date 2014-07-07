@@ -62,6 +62,32 @@ class InventoriesController < ApplicationController
   #   redirect_to :action => 'new'
   # end
 
+  def admin_edit
+    @inventory = Inventory.find(params[:id])
+  end
+
+  def admin_update
+    @inventory = Inventory.find(params[:id])
+    if @inventory.update_attributes(inventory_update_params)
+      redirect_to :action => 'index'
+    else
+      render 'admin_edit'
+    end
+  end
+
+  def edit
+    @inventory = Inventory.find(params[:id])
+  end
+
+  def update
+    @inventory = Inventory.find(params[:id])
+    if @inventory.update_attributes(inventory_update_params)
+      redirect_to :action => 'new'
+    else
+      render 'edit'
+    end
+  end
+
   def index
     @q = Inventory.ransack(params[:q])
     @inventories = @q.result.includes(:signup)
@@ -86,5 +112,9 @@ class InventoriesController < ApplicationController
     def inventory_params
       params.permit[:quantity]
       @inventory_params = params.reject { |k, v| (v == "") || ( v == "0" ) || ( v.length > 2 ) }
+    end
+
+    def inventory_update_params
+      params.require(:inventory).permit(:description)
     end
 end

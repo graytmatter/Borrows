@@ -15,9 +15,10 @@ GoogleTest::Application.routes.draw do
   # get 'requests/edit/:edit_id', to: 'requests#edit', as: 'edit_request'
   # patch 'requests/:edit_id', to: 'requests#update', as: 'request'
 
-  resources :inventories, only: [:new, :create, :destroy]
-  patch 'inventories', to: 'inventories#update'
-
+  resources :inventories, only: [:new, :create, :destroy, :edit, :update]
+  get 'admin/inventories/:id', to: 'inventories#admin_edit', as: 'admin_edit_inventory'
+  patch 'admin/inventories/:id', to: 'inventories#admin_update'
+  
   resources :transactions, only: [:edit, :update]
 
   get 'admin/inventories', to: 'inventories#index'

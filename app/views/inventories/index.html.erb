@@ -24,10 +24,11 @@
       <% @inventories.each do |inventory| %>
         <tr>
           <td><%= inventory.item_name %></td>
-          <td><%#= inventory.description %></td>
+          <td><%= inventory.description %></td>
           <td><%= inventory.signup.email %></td>
           <td>
             <!-- mini form to add description-->
+            <%= link_to 'Add description', admin_edit_inventory_path(inventory) %>
             <%= link_to 'Remove', inventory, method: :delete, data: { confirm: 'Once removed, borrowers will no longer be able to see you have this item. To remove an item temporarily (i.e., for a personal trip), please notify us via email' } %>
           </td>
         </tr>
