@@ -24,12 +24,12 @@
               <td><%= inventory.item_name %></td>
               <td>
                 <% if inventory.description.blank? %>
-                  <%= form_for inventory, url: edit_inventory_path(inventory), method: :patch, :html => {:class => "form-inline"} do |f| %> 
-                    <div class="form-group col-xs-9">
-                      <%= f.text_field :description, class: "form-control", placeholder: "Add a link or description for borrowers to see" %>
+                  <%= form_for inventory, url: edit_inventory_path(inventory), method: :patch, :html => {:class => "form-inline", :autocomplete => "off"} do |f| %> 
+                    <div class="form-group col-xs-10" style="padding:1px;">
+                      <%= f.text_field :description, class: "form-control", placeholder: "Add a link or description" %>
                     </div>
-                    <div class="form-group col-xs-3">
-                      <%= f.submit "Update", class: "btn btn-default btn-large btn-block" %>
+                    <div class="form-group col-xs-2" style="padding:1px;">
+                      <%= f.submit "Add", class: "btn btn-default btn-default btn-block" %>
                     </div>
                   <% end %>
                 <% else %>
@@ -38,9 +38,13 @@
               </td>
               <td>
                 <% if inventory.description.present? %>
-                  <%= link_to 'New description', destroy_description_path(inventory), method: :patch %>
+                  <div class="col-xs-6" style="padding:1px; ">
+                    <%= button_to 'New description', destroy_description_path(inventory), method: :patch, class: "btn btn-default btn-default btn-block" %>
+                  </div>
                 <% end %>
-                <%= link_to 'Remove item', inventory, method: :delete, data: { confirm: 'Once removed, borrowers will no longer be able to see you have this item. To remove an item temporarily (i.e., for a personal trip), please notify us via email' } %>
+                  <div class="col-xs-6" style="padding:1px; ">
+                    <%= button_to 'Remove item', inventory, method: :delete, class: "btn btn-default btn-default btn-block", data: { confirm: 'Once removed, borrowers will no longer be able to see you have this item. To remove an item temporarily (i.e., for a personal trip), please notify us via email' } %>
+                  </div>
               </td>
             </tr>
           <% end %>
