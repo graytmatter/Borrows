@@ -1,27 +1,10 @@
-<div class ="col-xs-6 float box">
-  <h5>Status codes</h5>
-  <ul>
-    <li>1 - Working</li>
-    <li>2 - In progress</li>
-    <li>3 - Cancelled: No response from borrower</li>
-    <li>4 - Cancelled: No response from lender</li>
-    <li>5 - Cancelled: Time period too long</li>
-    <li>6 - Cancelled: No inventory available</li>
-    <li>7 - Cancelled: Borrowed instead</li>
-    <li>8 - Cancelled: Rented instead</li>
-    <li>9 - Cancelled: Bought instead</li>
-    <li>10 - Cancelled: Occasion for use cancelled</li>  
-    <li>11 - Complete: A-OK</li>
-    <li>12 - Complete: damages/repairs paid</li> 
-    <li>13 - Complete: replacement paid</li>
-  </ul> 
-</div>
+<%= render 'layouts/flash' %>
 
 <div class="col-xs-12 box">
   <%= search_form_for @q, url: url_for(controller: 'transactions', action: 'index')  do |f| %>
     <div class="form group">
       <%= f.label :status_eq %>
-      <%= f.select :status_eq, Transaction.all.pluck(:status).uniq, :include_blank => true %>
+      <%= f.select :status_eq, options_for_select(@statuscodes), {default: @q.status, include_blank: @q.status.nil?} %>
     </div>
     <div class="form group">
       <%= f.label :item_id_eq, "Item ID equals"%>
@@ -57,11 +40,13 @@
   <table class="table table-condensed table-hover">
     <thead>
       <tr>
+        <th><%= sort_link(@q, :id, "Transac ID") %></th>
+        <th><%= sort_link(@q, :created_at, "Transac ID") %></th>
         <th><%= sort_link(@q, :status, "Status") %></th>
         <th><%= sort_link(@q, :item_id, "Item ID") %></th>
         <th><%= sort_link(@q, :name, "Item") %></th>
-        <th><%= sort_link(@q, 'requests.signup.email', "Email") %></th>
-        <th><%= sort_link(@q, 'requests.pickupdate', "Pick up date") %></th>
+        <th><%= sort_link(@q, 'requests.signup.email', "Signup Email") %></th>
+        <th><%= sort_link(@q, 'requests.pickupdate', "Pickup date") %></th>
         <th><%= sort_link(@q, 'requests.returndate', "Returndate") %></th>
         <th>Action</th>
         <th colspan="5"></th>
@@ -71,6 +56,8 @@
     <tbody>
       <% @transactions.each do |transaction| %>
         <tr>
+          <td><%= transaction.id %></td>
+          <td><%= transaction.created_at.to_date %></td>
           <td><%= transaction.status %></td>
           <td><%= transaction.item_id %></td>
           <td><%= transaction.name %></td>
@@ -78,7 +65,7 @@
           <td><%= transaction.request.pickupdate.to_date %></td>
           <td><%= transaction.request.returndate.to_date %></td>
           <td>
-            <%= link_to 'Update' %> <!--update status and item_id, but everything can be udpated. DO NOT REMOVE, remove is handled by a specific status code -->
+            <%= link_to 'Update', edit_transaction_path(transaction) %> <!--update status and item_id, but everything can be udpated. DO NOT REMOVE, remove is handled by a specific status code -->
           </td>
         </tr>
       <% end %>

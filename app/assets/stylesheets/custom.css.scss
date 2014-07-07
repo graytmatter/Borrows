@@ -95,14 +95,3 @@ Child divs
 }
 
 /****************************************/
-
-/* Floats something off to the side */
-
-.float {
-  position:absolute;
-  z-index:1000;
-  left:75%;
-  padding:0;
-  margin:0;
-  background-color:white;
-}

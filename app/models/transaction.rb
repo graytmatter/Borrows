@@ -1,5 +1,6 @@
 class Transaction < ActiveRecord::Base
 	belongs_to :request
+	accepts_nested_attributes_for :request
 
 	validates :request_id, presence: true
 	validate :custom_validation

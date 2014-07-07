@@ -1,0 +1,44 @@
+  
+  <% if @transaction.errors.any? %>
+    <div class="alert alert-danger">
+      <p>Please correct the following error(s):</p>
+      <ul>
+        <% @transaction.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%= render "layouts/flash" %>
+
+  <div class="col-xs-12 box">
+    <h4>Now editing</h4>
+    <h5><%= "Item: #{@transaction.name}" %></h5>
+    <h5><%= "Signup email: #{@transaction.request.signup.email}" %> </h5>
+    <h5><%= "Request message: #{@transaction.request.detail}" %></h5>  
+    <%= form_for @transaction, url: {action: 'update'} do |f| %>
+      <div class="form-group">
+        <%= f.label "Status" %>
+        <%= f.select :status, options_for_select(@statuscodes), {default: @transaction.status, include_blank: @transaction.status.nil?} %>
+      </div>  
+      <div class="form-group">
+        <%= f.label "Item ID used to fulfill" %>
+        <%= f.number_field :item_id, min: 0 %>
+      </div> 
+
+      <%= f.fields_for :request do |r| %>
+        <div class="form-group">
+          <%= r.label "Request pickup date" %>
+          <%= r.text_field :pickupdate %>
+        </div>
+        <div class="form-group">
+          <%= r.label "Request return date" %>
+          <%= r.text_field :returndate %>
+        </div>
+      <% end %>
+
+      <div class="form-group">
+        <%= f.submit "Update!", class: "btn btn-primary btn-large btn-block" %>
+      </div>
+    <% end %>
+  </div>
