@@ -6,6 +6,18 @@ class ApplicationController < ActionController::Base
       username == ENV["ADMIN_ID"] && password == ENV["ADMIN_PASSWORD"]
     end
   end
+
+  def call_rake(task, options = {})
+      options[:rails_env] ||= Rails.env
+      args = options.map { |n, v| "#{n.to_s}=#{v}" }
+      rake_path = "/Users/jamesdong/.rvm/gems/ruby-2.1.2@global/bin/rake"
+      puts "INSPECT"
+      puts args.inspect 
+      puts "#{rake_path} #{task} #{args.join(' ')}".inspect
+      puts "END"
+      system "#{rake_path} #{task} #{args.join(' ')} --trace 2>&1 >> #{Rails.root}/log/rake.log &"
+      # need to add path to rake /usr/bin/rake, etc.
+  end
   
   def itemlist
       @itemlist = {

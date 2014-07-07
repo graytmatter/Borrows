@@ -21,12 +21,10 @@ GoogleTest::Application.routes.draw do
   resources :transactions, only: [:edit, :update]
 
   get 'admin/inventories', to: 'inventories#index'
-  # get 'admin/requests', to: 'requests#index'
   get 'admin/transactions', to: 'transactions#index'
 
   get 'termsofservice', to: 'staticpages#terms', as: 'terms'
   get 'privacypolicy', to: 'staticpages#policy', as: 'policy'
-  #get 'signup', to: 'signups#new', as: 'new_signup'
 
     # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

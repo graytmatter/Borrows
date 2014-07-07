@@ -56,10 +56,11 @@ class RequestsController < ApplicationController
           #3) Select the emails of those available inventory ids
           @lender_array = Inventory.where(id: @matched_inventory).joins(:signup).pluck("signups.email")
           #4) Email the lenders
-          RequestMailer.found_email(@requestrecord, @lender_array, item, quantity).deliver unless @lender_array.blank?
+          #system "rake connect_email rails_env = #{Rails.env} requestrecord = #{@requestrecord} lender_array = #{@lender_array} item = item quantity = quantity --trace >> #{Rails.root}/log/rake.log &"
+          call_rake :connect_email, :requestrecord => @requestrecord, :lender_array => @lender_array, :item => item, :quantity => quantity
           #5) If the total number of inventory items matched was less than the quantity requested, let me know
           if @matched_inventory.count < quantity.to_i
-            RequestMailer.not_found_email(@requestrecord, @matched_inventory, item, quantity).deliver
+            call_rake :not_found_email, :requestrecord => @requestrecord, :matched_inventory => @matched_inventory, :item => item, :quantity => quantity
           end
         end
 
@@ -69,9 +70,6 @@ class RequestsController < ApplicationController
       end
     end
   end
-
-  # def index
-  # end
 
   def success
   end

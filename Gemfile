@@ -10,6 +10,7 @@ gem 'figaro' #creates the config/application.yml file ignored by Git
 gem 'gibbon' #mailchimp API API
 gem 'newrelic_rpm' #tracking and pinging from newrelic
 gem 'ransack' #sortable links on inventory (user and admin) and request pages (admin)
+gem 'whenever', :require => false #executes cron jobs, sending reminders on pickup/returndates
 
 # Use sqlite3 as the database for Active Record
 group :development do
@@ -24,8 +25,8 @@ end
 group :test do
 	gem 'selenium-webdriver', '2.35.1' #capybara dependency
 	gem 'capybara', '2.1.0' #enables natural language tests
-	gem 'faker'
-	gem 'launchy', '~> 2.4.2'
+	gem 'faker' #generates fake data for tests
+	gem 'launchy', '~> 2.4.2' #enables save_and_open_page so I can see what's rendered
 end
 
 # Use SCSS for stylesheets
