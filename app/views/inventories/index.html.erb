@@ -24,12 +24,27 @@
       <% @inventories.each do |inventory| %>
         <tr>
           <td><%= inventory.item_name %></td>
-          <td><%= inventory.description %></td>
+          <td>
+            <% if inventory.description.blank? %>
+              <%= form_for inventory, url: edit_inventory_path(inventory), method: :patch, :html => {:class => "form-inline"} do |f| %> 
+                <div class="form-group col-xs-9">
+                  <%= f.text_field :description, class: "form-control", placeholder: "Add a link or description for borrowers to see" %>
+                </div>
+                <div class="form-group col-xs-3">
+                  <%= f.submit "Update", class: "btn btn-default btn-large btn-block" %>
+                </div>
+              <% end %>
+            <% else %>
+              <%= inventory.description %>
+            <% end %>
+
+          </td>
           <td><%= inventory.signup.email %></td>
           <td>
-            <!-- mini form to add description-->
-            <%= link_to 'Add description', admin_edit_inventory_path(inventory) %>
-            <%= link_to 'Remove', inventory, method: :delete, data: { confirm: 'Once removed, borrowers will no longer be able to see you have this item. To remove an item temporarily (i.e., for a personal trip), please notify us via email' } %>
+            <% if inventory.description.present? %>
+              <%= link_to 'New description', destroy_description_path(inventory), method: :patch %>
+            <% end %>
+            <%= link_to 'Remove item', inventory, method: :delete, data: { confirm: 'Once removed, borrowers will no longer be able to see you have this item. To remove an item temporarily (i.e., for a personal trip), please notify us via email' } %>
           </td>
         </tr>
       <% end %>

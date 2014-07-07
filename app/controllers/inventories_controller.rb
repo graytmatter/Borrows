@@ -55,42 +55,29 @@ class InventoriesController < ApplicationController
     end
   end
 
-  # def update
-  #   @signup_parent = Signup.find_by_email(session[:signup_email])
-  #   @q = @signup_parent.inventories.ransack(params[:q])
-  #   @inventories = @q.result.includes(:signup)
-  #   redirect_to :action => 'new'
-  # end
-
-  def admin_edit
-    @inventory = Inventory.find(params[:id])
-  end
-
-  def admin_update
-    @inventory = Inventory.find(params[:id])
-    if @inventory.update_attributes(inventory_update_params)
-      redirect_to :action => 'index'
-    else
-      render 'admin_edit'
-    end
-  end
-
-  def edit
-    @inventory = Inventory.find(params[:id])
-  end
-
   def update
     @inventory = Inventory.find(params[:id])
-    if @inventory.update_attributes(inventory_update_params)
-      redirect_to :action => 'new'
+    @inventory.update_attributes(inventory_update_params)
+    if request.referer.include? 'admin'
+      redirect_to :action => 'index'
     else
-      render 'edit'
+      redirect_to :action => 'new'
     end
   end
 
   def index
     @q = Inventory.ransack(params[:q])
     @inventories = @q.result.includes(:signup)
+  end
+
+  def destroy_description
+    @inventory = Inventory.find(params[:id])
+    @inventory.update_attributes(description: "")
+    if request.referer.include? 'admin'
+      redirect_to :action => 'index'
+    else
+      redirect_to :action => 'new'
+    end
   end
 
   def destroy
