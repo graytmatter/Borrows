@@ -21,6 +21,14 @@ GoogleTest::Application.routes.draw do
 
   resources :transactions, only: [:edit, :update]
 
+  get 'admin/statuses', to: 'statuses#index'
+  post 'admin/statuses/new', to: 'statuses#create', as: 'new_status'
+  patch 'admin/statuses/:id/edit', to: 'statuses#update', as: 'edit_status'
+  patch 'admin/statuses/:id/destroy_status', to: 'statuses#destroy_status', as: 'destroy_status'
+  
+  post 'admin/statuses', to: 'statuses#index'
+  patch 'admin/statuses', to: 'statuses#index'
+
   get 'admin/inventories', to: 'inventories#index'
   get 'admin/transactions', to: 'transactions#index'
 

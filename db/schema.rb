@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140707182525) do
+ActiveRecord::Schema.define(version: 20140708005106) do
 
   create_table "inventories", force: true do |t|
     t.string   "item_name"
@@ -55,6 +55,12 @@ ActiveRecord::Schema.define(version: 20140707182525) do
   end
 
   add_index "signups", ["email"], name: "index_signups_on_email", unique: true
+
+  create_table "statuses", force: true do |t|
+    t.string   "status_meaning"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "transactions", force: true do |t|
     t.integer  "request_id"
