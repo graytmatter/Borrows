@@ -25,9 +25,11 @@ GoogleTest::Application.routes.draw do
   post 'admin/statuses/new', to: 'statuses#create', as: 'new_status'
   patch 'admin/statuses/:id/edit', to: 'statuses#update', as: 'edit_status'
   patch 'admin/statuses/:id/destroy_status', to: 'statuses#destroy_status', as: 'destroy_status'
-  
-  post 'admin/statuses', to: 'statuses#index'
-  patch 'admin/statuses', to: 'statuses#index'
+
+  get 'admin/itemlists', to: 'itemlists#index'
+  post 'admin/itemlists/new', to: 'itemlists#create', as: 'new_itemlist'
+  get 'admin/itemlists/:id/edit', to: 'itemlists#edit', as: 'edit_itemlist'
+  patch 'admin/itemlists/:id/edit', to: 'itemlists#update'
 
   get 'admin/inventories', to: 'inventories#index'
   get 'admin/transactions', to: 'transactions#index'
