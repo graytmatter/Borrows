@@ -2,7 +2,6 @@ class InventoriesController < ApplicationController
   before_filter :authenticate, except: [:new, :create, :destroy]
 
   def new
-    itemlist
     @pagetitle = "What would you like to lend?"
 
     if session[:signup_email].nil?
@@ -21,7 +20,6 @@ class InventoriesController < ApplicationController
   end
 
   def create
-    itemlist
     @pagetitle = "What would you like to lend?"
 
     @signup_parent = Signup.find_by_email(session[:signup_email])

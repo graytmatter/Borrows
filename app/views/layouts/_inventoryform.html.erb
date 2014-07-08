@@ -12,17 +12,19 @@
 
 <div class="col-xs-12 box">  
   <%= form_tag inventories_path method: :post do %>
-    <% @itemlist.each do |category, list| %>
-      <div class="col-xs-4">
-        <div class="form-group" style="font-size:75%">
-          <h5> <%= category %> </h5>
-            <% list.each do |thing| %>
-                <%= number_field_tag thing, :quantity, min: 0, placeholder: 0, class: "shrink_num_field" %>
-                <%= label_tag thing, thing %>
-              </br>
-            <% end %>
-        </div>
-      </div>  
+    <% Itemlist.all.pluck("category").uniq.each do |c| %>
+      <% if Itemlist.where(category: c, inventory_list: true).count > 0 %>
+        <div class="col-xs-4">
+          <div class="form-group" style="font-size:75%">
+            <h5> <%= c %> </h5>
+              <% Itemlist.where(category: c, inventory_list: true).pluck("name").each do |i| %>
+                  <%= number_field_tag i, :quantity, min: 0, placeholder: 0, class: "shrink_num_field" %>
+                  <%= label_tag i, i %>
+                </br>
+              <% end %>
+          </div>
+        </div>  
+      <% end %>
     <% end %>
 
     <div class="form-group col-xs-12">

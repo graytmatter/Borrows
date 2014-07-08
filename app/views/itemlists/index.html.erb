@@ -1,0 +1,61 @@
+<% @categories.each do |c| %>
+	<div class="col-xs-12">
+		<h4><%= c %></h4>
+		<table class="table table-condensed table-hover">
+		    <thead>
+		      <tr>
+		        <th>Item</th>
+		        <th>Request List?</th>
+		        <th>Inventory List?</th>
+		        <th>Action</th>
+		        <th colspan="5"></th>
+		      </tr>
+		    </thead>
+
+		    <tbody>
+		      <% Itemlist.where(category: c).pluck("name").each do |i| %>
+		        <tr>
+		          <td><%= i %></td>
+		          <td><%= Itemlist.where(name: i).pluck("request_list")%></td>
+		          <td><%= Itemlist.where(name: i).pluck("inventory_list")%></td>
+		          <td><%= link_to "Update", edit_itemlist_path(Itemlist.where(name: i).pluck("id")) %></td>
+		        </tr>
+		      <% end %>
+		    </tbody>
+		</table>
+	</div>
+<% end %>
+
+
+<% if @item.errors.any? %>
+<div class="alert alert-danger">
+  <ul>
+  <% @item.errors.full_messages.each do |message| %>
+    <li><%= message %></li>
+  <% end %>
+  </ul>
+</div>
+<% end %>
+
+<div class="col-xs-12 box">
+  <h4>Create New Items</h4>
+  <%= form_for @item, url: new_itemlist_path, method: :post, :html => {:autocomplete => "off"} do |f| %>
+    <div class="form-group">
+      <%= f.label "Category" %>
+      <%= f.text_field :category %>
+    </div>
+    <div class="form-group">
+      <%= f.label "Name" %>
+      <%= f.text_field :name %>
+    </div>
+    <div class="form-group">
+      <%= f.label "Request list?" %>
+      <%= f.check_box :request_list %>
+    </div>
+    <div class="form-group">
+      <%= f.label "Inventory list?" %>
+      <%= f.check_box :inventory_list %>
+    </div>
+    <%= f.submit "Go!", class: "btn btn-success btn-large btn-block"%>
+  <% end %>
+</div>
