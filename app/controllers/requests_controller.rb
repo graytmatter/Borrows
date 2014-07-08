@@ -1,8 +1,6 @@
 class RequestsController < ApplicationController
 
   def new
-    itemlist
-    @itemlist.first(6)
     @pagetitle = "What would you like to borrow?"
 
     if session[:signup_email].nil?
@@ -21,8 +19,6 @@ class RequestsController < ApplicationController
   end
 
   def create
-    itemlist
-    @itemlist.first(6)
     @pagetitle = "What would you like to borrow?"
 
     @signup_parent = Signup.find_by_email(session[:signup_email])

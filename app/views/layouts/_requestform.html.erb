@@ -13,15 +13,16 @@
 
   <div class="col-xs-12 box">   
     <%= form_for @requestrecord, :url => { action: 'create' }, :html => {:autocomplete => "off"}  do |f| %>
-      <% @itemlist.first(6).each do |category, list| %>
+
+      <% Categorylist.all.select { |c| c.itemlists.pluck("request_list").include? true }.each do |n| %>
         <div class="col-xs-4">
-          <div class="form-group" style="font-size:80%" >
-            <h5> <%= category %> </h5>
-            <% list.first(8).each do |thing| %>
-              <%= number_field_tag "transaction[][#{thing}]", :quantity, min: 0, value: @transactionparams ? @transactionparams[thing] : 0, class: "shrink_num_field" %>
-              <%= label_tag thing, thing %>
-              </br>
-            <% end %>
+          <div class="form-group" style="font-size:75%">
+            <h5> <%= n.name %> </h5>
+              <% n.itemlists.each do |i| %>
+                  <%= number_field_tag "transaction[][#{i}]", :quantity, min: 0, value: @transactionparams ? @transactionparams[i] : 0, class: "shrink_num_field" %>
+                  <%= label_tag i.name %>
+                </br>
+              <% end %>
           </div>
         </div>  
       <% end %>
