@@ -4,7 +4,7 @@
   <%= search_form_for @q, url: url_for(controller: 'transactions', action: 'index')  do |f| %>
     <div class="form group">
       <%= f.label :status_eq %>
-      <%= f.select :status_eq, options_for_select(@statuscodes), {default: @q.status, include_blank: @q.status.nil?} %>
+      <%= f.collection_select :status_eq, Status.all, :id, :status_meaning, {default: @q.status, include_blank: @q.status.nil?} %>
     </div>
     <div class="form group">
       <%= f.label :item_id_eq, "Item ID equals"%>
@@ -58,7 +58,7 @@
         <tr>
           <td><%= transaction.id %></td>
           <td><%= transaction.created_at.to_date %></td>
-          <td><%= transaction.status %></td>
+          <td><%= Status.find_by_id(transaction.status).status_meaning %></td>
           <td><%= transaction.item_id %></td>
           <td><%= transaction.name %></td>
           <td><%= transaction.request.signup.email %></td>

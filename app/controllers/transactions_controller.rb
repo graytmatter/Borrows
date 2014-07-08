@@ -2,18 +2,15 @@ class TransactionsController < ApplicationController
   before_filter :authenticate
   
   def index
-  	statuscodes
     @q = Transaction.ransack(params[:q])
     @transactions = @q.result.includes(:request => :signup)
   end
 
   def edit
-  	statuscodes
   	@transaction = Transaction.find(params[:id])
   end
 
   def update
-  	statuscodes
   	@transaction = Transaction.find(params[:id])
   	if @transaction.update_attributes(transaction_params)
   		flash[:success] = "Update successful"
@@ -21,26 +18,6 @@ class TransactionsController < ApplicationController
   	else
   		render 'edit'
   	end
-  end
-
-  def statuscodes
-  	@statuscodes = {
-	  "Working" => 1,
-    "In progress" => 2,
-    "Cancelled: No response from borrower" => 3,
-    "Cancelled: No response from lender" => 4,
-    "Cancelled: Time period too long" => 5,
-    "Cancelled: No inventory available" => 6,
-    "Cancelled: Borrowed instead" => 7,
-    "Cancelled: Rented instead" => 8,
-    "Cancelled: Bought instead" => 9,
-    "Cancelled: Occasion for use cancelled" => 10,
-    "Cancelled: Didn't actually need this item" => 11,
-    "Cancelled: Out of area request" => 12,
-    "Complete: A-OK" => 13,
-    "Complete: damages/repairs paid" => 14,
-    "Complete: replacement paid" => 15
-  	}
   end
 
   private

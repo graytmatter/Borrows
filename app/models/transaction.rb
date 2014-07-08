@@ -1,4 +1,5 @@
 class Transaction < ActiveRecord::Base
+	before_create :set_default_status
 	belongs_to :request
 	accepts_nested_attributes_for :request
 
@@ -36,4 +37,10 @@ class Transaction < ActiveRecord::Base
 	    ws[row, 11] = ((self.request.returndate - self.request.pickupdate)/60/60/24).round(1)
 	    ws.save
   	end 
+
+  	private
+
+  	def set_default_status
+      self.status = Status.find_by_status_meaning("Searching").id
+    end
 end

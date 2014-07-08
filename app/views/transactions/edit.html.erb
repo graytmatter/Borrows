@@ -19,7 +19,7 @@
     <%= form_for @transaction, url: {action: 'update'} do |f| %>
       <div class="form-group">
         <%= f.label "Status" %>
-        <%= f.select :status, options_for_select(@statuscodes), {default: @transaction.status, include_blank: @transaction.status.nil?} %>
+        <%= f.collection_select :status, Status.all, :id, :status_meaning, {default: @transaction.status, include_blank: @transaction.status.nil?} %>
       </div>  
       <div class="form-group">
         <%= f.label "Item ID used to fulfill" %>
