@@ -11,10 +11,10 @@
 <div class="col-xs-12 box">
   <h4>Edit Item</h4>
   <h4><%= "Item: #{@item.name}" %></h4>
-  <%= form_for @item, url: edit_itemlist_path, method: :patch, :html => {:autocomplete => "off"} do |f| %>
+  <%= form_for @item, url: edit_itemlist_path(@item), method: :patch, :html => {:autocomplete => "off"} do |f| %>
     <div class="form-group">
       <%= f.label "Category" %>
-      <%= f.text_field :category %>
+      <%= f.collection_select :categorylist_id, Categorylist.all, :id, :name, {default: @item.categorylist_id, include_blank: @item.categorylist_id.nil?} %>
     </div>
     <div class="form-group">
       <%= f.label "Name" %>

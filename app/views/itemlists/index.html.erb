@@ -1,6 +1,6 @@
-<% @categories.each do |c| %>
+<% Categorylist.all.each do |c| %>
 	<div class="col-xs-12">
-		<h4><%= c %></h4>
+		<h4><%= link_to "#{c.name}", edit_categorylist_path(c) %></h4>
 		<table class="table table-condensed table-hover">
 		    <thead>
 		      <tr>
@@ -13,12 +13,23 @@
 		    </thead>
 
 		    <tbody>
-		      <% Itemlist.where(category: c).pluck("name").each do |i| %>
+		      <% c.itemlists.each do |i| %>
 		        <tr>
-		          <td><%= i %></td>
-		          <td><%= Itemlist.where(name: i).pluck("request_list")%></td>
-		          <td><%= Itemlist.where(name: i).pluck("inventory_list")%></td>
-		          <td><%= link_to "Update", edit_itemlist_path(Itemlist.where(name: i).pluck("id")) %></td>
+		          <td><%= i.name %></td>
+		          <td>
+                <% if i.request_list == true %>
+                  <span class="glyphicon glyphicon-check"></span> yes
+                <% else %>
+                  <span class="glyphicon glyphicon-unchecked"></span> no
+                <% end %>
+              </td>
+		          <td>
+                <% if i.inventory_list == true %>
+                  <span class="glyphicon glyphicon-check"></span> yes
+                <% else %>
+                  <span class="glyphicon glyphicon-unchecked"></span> no
+                <% end %>
+		          <td><%= link_to "Update", edit_itemlist_path(i) %></td>
 		        </tr>
 		      <% end %>
 		    </tbody>
@@ -27,25 +38,39 @@
 <% end %>
 
 
-<% if @item.errors.any? %>
+<% if @item.errors.any? || @category.errors.any? %>
 <div class="alert alert-danger">
   <ul>
   <% @item.errors.full_messages.each do |message| %>
+    <li><%= message %></li>
+  <% end %>
+  <% @category.errors.full_messages.each do |message| %>
     <li><%= message %></li>
   <% end %>
   </ul>
 </div>
 <% end %>
 
-<div class="col-xs-12 box">
+<div class="col-xs-6 box">
+  <h4>Create New Categories</h4>
+  <%= form_for @category, url: new_categorylist_path, method: :post, :html => {:autocomplete => "off"} do |f| %>
+    <div class="form-group">
+      <%= f.label "Category name" %>
+      <%= f.text_field :name %>
+    </div>
+    <%= f.submit "Go!", class: "btn btn-success btn-large btn-block"%>
+  <% end %>
+</div>
+
+<div class="col-xs-6 box">
   <h4>Create New Items</h4>
   <%= form_for @item, url: new_itemlist_path, method: :post, :html => {:autocomplete => "off"} do |f| %>
     <div class="form-group">
       <%= f.label "Category" %>
-      <%= f.text_field :category %>
+      <%= f.collection_select :categorylist_id, Categorylist.all, :id, :name %>
     </div>
     <div class="form-group">
-      <%= f.label "Name" %>
+      <%= f.label "Item name" %>
       <%= f.text_field :name %>
     </div>
     <div class="form-group">

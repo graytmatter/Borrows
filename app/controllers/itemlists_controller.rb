@@ -20,13 +20,13 @@ class ItemlistsController < ApplicationController
   end
 
   def index
-  	@categories = Itemlist.all.pluck("category").uniq
     @item = Itemlist.new
+    @category = Categorylist.new
   end
 
   private
 
   def itemlist_params
-  	params.require(:itemlist).permit(:category, :name, :request_list, :inventory_list)
+  	params.require(:itemlist).permit(:categorylist_id, :name, :request_list, :inventory_list)
   end
 end
