@@ -36,9 +36,10 @@ class TransactionsController < ApplicationController
     "Cancelled: Bought instead" => 9,
     "Cancelled: Occasion for use cancelled" => 10,
     "Cancelled: Didn't actually need this item" => 11,
-    "Complete: A-OK" => 12,
-    "Complete: damages/repairs paid" => 13,
-    "Complete: replacement paid" => 14
+    "Cancelled: Out of area request" => 12,
+    "Complete: A-OK" => 13,
+    "Complete: damages/repairs paid" => 14,
+    "Complete: replacement paid" => 15
   	}
   end
 
