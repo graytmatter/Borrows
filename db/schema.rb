@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140708175658) do
+ActiveRecord::Schema.define(version: 20140710000332) do
 
   create_table "categorylists", force: true do |t|
     t.string   "name"
@@ -84,6 +84,7 @@ ActiveRecord::Schema.define(version: 20140708175658) do
     t.integer  "status"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "itemlist_id"
   end
 
   add_index "transactions", ["item_id"], name: "index_transactions_on_item_id"
