@@ -11,13 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140710000332) do
+ActiveRecord::Schema.define(version: 20140710233511) do
 
   create_table "categorylists", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "categorylists", ["name"], name: "index_categorylists_on_name", unique: true
 
   create_table "inventories", force: true do |t|
     t.string   "item_name"
@@ -38,6 +40,8 @@ ActiveRecord::Schema.define(version: 20140710000332) do
     t.datetime "updated_at"
     t.integer  "categorylist_id"
   end
+
+  add_index "itemlists", ["name"], name: "index_itemlists_on_name", unique: true
 
   create_table "requests", force: true do |t|
     t.string   "name"
@@ -76,6 +80,8 @@ ActiveRecord::Schema.define(version: 20140710000332) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "statuses", ["status_meaning"], name: "index_statuses_on_status_meaning", unique: true
 
   create_table "transactions", force: true do |t|
     t.integer  "request_id"

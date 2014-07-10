@@ -8,7 +8,7 @@ class InventoriesController < ApplicationController
       flash[:danger] = "Please enter your email to get started"
       redirect_to root_path
     else
-      @signup_parent = Signup.find_by_email(session[:signup_email])
+      @signup_parent = Signup.find_by_email(session[:signup_email].downcase)
       if @signup_parent.tos != true || @signup_parent.streetone.blank? || @signup_parent.streettwo.blank? || @signup_parent.zipcode.blank?
         flash[:danger] = "Almost there! We just need a little more info"
         redirect_to edit_signup_path
@@ -22,7 +22,7 @@ class InventoriesController < ApplicationController
   def create
     @pagetitle = "What would you like to lend?"
 
-    @signup_parent = Signup.find_by_email(session[:signup_email])
+    @signup_parent = Signup.find_by_email(session[:signup_email].downcase)
     @q = @signup_parent.inventories.ransack(params[:q])
     @inventories = @q.result.includes(:signup)
     # above required because when new is re-rendered, it's actually the create action 
@@ -33,7 +33,7 @@ class InventoriesController < ApplicationController
     @inventory_params.each do |item, quantity|
       quantity = quantity.to_i
       quantity.times do
-        items_to_be_saved << ({:item_name => item })
+        items_to_be_saved << ({:itemlist_id => Itemlist.find_by_name(item) })
       end
     end
 
@@ -84,7 +84,7 @@ class InventoriesController < ApplicationController
     if request.referer.include? 'admin'
       redirect_to :action => 'index'
     else
-      @signup_parent = Signup.find_by_email(session[:signup_email])
+      @signup_parent = Signup.find_by_email(session[:signup_email].downcase)
       InventoryMailer.delete_email(@signup_parent, @destroyed).deliver
       redirect_to :action => 'new'
     end

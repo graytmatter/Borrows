@@ -4,5 +4,5 @@ Email:
 <%= @signup_parent.email %>
 
 Item (destroy is one at a time):
-<%= @destroyed.item_name %>
+<%= Itemlist.find_by_id(@destroyed.itemlist_id).name %>
 

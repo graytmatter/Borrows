@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html> 
+<head> 
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" /> 
+</head> 
+<body style:"color: black;"> 
+
+<p>Hi there!</p>
+
+<p>We received your request for the following items:</p> 
+<ul>
+	<% @requestrecord.transactions.each do |t| %>
+	<li><%= Itemlist.find_by_id(t.itemlist_id).name %>
+</ul>
+
+<p><%= "However, it looks like you indicated today, '#{Date.today}' as both the Pick Up and Return date for your request. Is that right? If so, just respond yes and we'll resume looking for your items. Just to set expectations, with same day requests, it may be difficult to get a response from a lender in time. If we hear back, we'll connect you with the borrower directly to coordinate further" %>
+
+<p>Thanks again for using Project Borrow!</p>
+
+<p>James</p>
+
+<p><a href="http://www.projectborrow.com/?utm_source=james%40projectborrow&utm_medium=email&utm_campaign=email%20signature">Click here</a> to borrow something. Please feel free to share with your friends!</p>
+
+</body> 
+</html>

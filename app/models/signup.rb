@@ -2,6 +2,8 @@ class Signup < ActiveRecord::Base
     has_many :inventories, dependent: :destroy
     has_many :requests
     
+    before_save :downcase_email
+
     validate :create_validation, on: :create
     validate :update_validation, on: :update
 
@@ -13,6 +15,10 @@ class Signup < ActiveRecord::Base
         errors[:base] << "Please enter two different cross streets" if self.streetone.blank? || self.streettwo.blank? || ( self.streetone == self.streettwo )
         errors[:base] << "Please enter a valid 5-digit zipcode" if self.zipcode.blank? || ( self.zipcode.strip.length != 5 ) || (self.zipcode.to_i < 0) || (self.zipcode.to_i.to_s.strip.length != 5)
         errors[:base] << "Please agree to the terms of service before continuing" unless self.tos == true
+    end
+
+    def downcase_email
+        self.email = self.email.downcase
     end
 
 def save_subscrip

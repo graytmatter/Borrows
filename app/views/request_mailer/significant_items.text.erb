@@ -1,0 +1,24 @@
+High number of items requested
+
+Email:
+<%= @requestrecord.signup.email %>
+
+Item/ quantity desired:
+<%= @requestrecord.transactions.each { |t| print Itemlist.find_by_id(t.itemlist_id).name } %>
+
+Additional details:
+<%= @requestrecord.detail %>
+
+Pickup date:
+<%= @requestrecord.pickupdate %>
+
+Return date:
+<%= @requestrecord.returndate %>
+
+Neighborhood
+<%= @requestrecord.signup.streetone %>
+<%= @requestrecord.signup.streettwo %>
+<%= @requestrecord.signup.zipcode %>
+
+Heard
+<%= @requestrecord.signup.heard %>

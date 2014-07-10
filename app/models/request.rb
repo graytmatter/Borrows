@@ -4,13 +4,14 @@ class Request < ActiveRecord::Base
   belongs_to :signup
   has_many :transactions, dependent: :destroy
 
-  serialize :items
-  #validates :signup_id, presence: true
+  validates :signup_id, presence: true
   validate :custom_validation
 
   def custom_validation
-    errors[:base] << "Please enter a return date that is on or after the pick up date" if self.pickupdate > self.returndate
     errors[:base] << "Please enter both a pick up date and a return date" if self.pickupdate.blank? || self.returndate.blank?
+    if self.pickupdate.present? && self.returndate.present?
+      errors[:base] << "Please enter a return date that is on or after the pick up date" if self.pickupdate > self.returndate
+    end
   end
 
 # HAVE TO GO IN THIS ORDER! Also before doing anything, have to make sure Itemlists/ Categorylists  are fully updated with next rev 
@@ -33,7 +34,7 @@ class Request < ActiveRecord::Base
 # ActiveRecord::Base.record_timestamps = false
 # Request.where("items <> '' ").each do |r|
 #   r.items.each do |i|
-#     Transaction.create(request_id: r.id, name: i, created_at: "")
+#     Transaction.create(request_id: r.id, name: i, created_at: r.created_at)
 #   end
 # end
 # ActiveRecord::Base.record_timestamps = true
@@ -81,6 +82,9 @@ class Request < ActiveRecord::Base
 #   end
 # end
 # fourthtest
+
+# FIFTH
+# Signup.all.each { |s| s.update_attributes(email: s.email.downcase) }
 
 # FINAL CHECKS
 # Check that all Request does belong to a Signup (i.e., signup.email exists)

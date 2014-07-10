@@ -3,8 +3,8 @@ New inventory
 Email:
 <%= @signup_parent.email %>
 
-Item(s), not parsed, this the full list:
-<% @signup_parent.inventories.each do |i| %>
-  <%= i.item_name %>
+Item(s) saved this time:
+<% @items_to_be_saved.each do |i| %>
+  <%= Itemlist.find_by_id(i.itemlist_id).name %>
 <% end %>
 
