@@ -4,6 +4,7 @@
 		<table class="table table-condensed table-hover">
 		    <thead>
 		      <tr>
+            <th>Number</th>
 		        <th>Item</th>
 		        <th>Request List?</th>
 		        <th>Inventory List?</th>
@@ -13,8 +14,9 @@
 		    </thead>
 
 		    <tbody>
-		      <% c.itemlists.each do |i| %>
+		      <% c.itemlists.each_with_index do |i, index| %>
 		        <tr>
+              <td><%= (index + 1) %></td> <!-- because index starts at 0 -->
 		          <td><%= i.name %></td>
 		          <td>
                 <% if i.request_list == true %>

@@ -4,7 +4,9 @@ Email:
 <%= @signup_parent.email %>
 
 Item(s) saved this time:
-<% @items_to_be_saved.each do |i| %>
-  <%= Itemlist.find_by_id(i.itemlist_id).name %>
+<% @items_to_be_saved.each do |hashpair| %>
+	<% hashpair.each do |label, itemlist_id| %>
+  		<%= Itemlist.find_by_id(itemlist_id).name %>
+  	<% end %>
 <% end %>
 

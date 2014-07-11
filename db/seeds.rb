@@ -69,7 +69,7 @@ status_codes = {
 
 status_codes.each do |c, s|
   Statuscategory.create(name: c)
-  s.each do |i|
+  s.each do |s|
     Statuscategory.find_by_name(c).statuses.create(name: s)
   end
 end
@@ -199,11 +199,17 @@ end
 
 itemlist.each do |c, i|
 	Categorylist.create(name: c)
-	i.first(8).each do |i|
-		Categorylist.find_by_name(c).itemlists.create(name: i, request_list: true, inventory_list: true)
-	end
-	temp = i - i.first(8)
-	temp.each do |i|
-		Categorylist.find_by_name(c).itemlists.create(name: i, request_list: false, inventory_list: true)
-	end
+  if c.include? "gear" #because the last 3 categories that are inventory_list only just happen to have gear, can be more specific here
+    i.each do |i|
+      Categorylist.find_by_name(c).itemlists.create(name: i, request_list: false, inventory_list: true)
+    end
+  else
+    i.first(8).each do |i|
+      Categorylist.find_by_name(c).itemlists.create(name: i, request_list: true, inventory_list: true)
+    end
+    temp = i - i.first(8)
+    temp.each do |i|
+      Categorylist.find_by_name(c).itemlists.create(name: i, request_list: false, inventory_list: true)
+    end
+  end
 end

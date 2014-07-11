@@ -1,0 +1,21 @@
+<% if @statuscategory.errors.any? %>
+<div class="alert alert-danger">
+  <ul>
+  <% @statuscategory.errors.full_messages.each do |message| %>
+    <li><%= message %></li>
+  <% end %>
+  </ul>
+</div>
+<% end %>
+
+<div class="col-xs-12 box">
+  <h4>Edit Category</h4>
+  <h4><%= "Category: #{@statuscategory.name}" %></h4>
+  <%= form_for @statuscategory, url: edit_statuscategory_path(@statuscategory), method: :patch, :html => {:autocomplete => "off"} do |f| %>
+    <div class="form-group">
+      <%= f.label "Name" %>
+      <%= f.text_field :name %>
+    </div>
+    <%= f.submit "Go!", class: "btn btn-success btn-large btn-block"%>
+  <% end %>
+</div>

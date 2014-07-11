@@ -28,17 +28,11 @@ class InventoriesController < ApplicationController
     # above required because when new is re-rendered, it's actually the create action 
     
     inventory_params
-    puts "INSPECT"
-    @inventory_params.each do |i, q|
-      puts i.inspect 
-      puts q.inspect 
-    end
-    puts "END"
     items_to_be_saved = []
     @inventory_params.each do |item, quantity|
       quantity = quantity.to_i
       quantity.times do
-        items_to_be_saved << ({:itemlist_id => Itemlist.find_by_name(item) })
+        items_to_be_saved << ({:itemlist_id => item.to_i })
       end
     end
 
@@ -49,6 +43,9 @@ class InventoriesController < ApplicationController
       @signup_parent.inventories.create items_to_be_saved
       flash[:success] = "Thank you so much! We'll be in touch when a borrower comes-a-knockin'!"
       
+      puts "INSPECT"
+      puts items_to_be_saved.inspect 
+      puts "END"
         # @signup_parent.inventories.each do |i|
         #   i.save_spreadsheet
         # end
@@ -103,6 +100,8 @@ class InventoriesController < ApplicationController
       #params.require(:inventory).permit(:itemlist_id, :quantity )
       #params.permit(inventory: [{:itemlist_id => :quantity}] )
       @inventory_params = params["inventory"]
+      #@inventory_params = params.permit("inventory")
+      #@inventory_params = params.permit(:inventory)
       @inventory_params = @inventory_params.reject { |k, v| (v == "") || ( v == "0" ) }
     end
 

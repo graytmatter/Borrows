@@ -47,7 +47,7 @@ class RequestsController < ApplicationController
 
         if @requestrecord.pickupdate.to_date == Date.today && @requestrecord.returndate.to_date = Date.today
           RequestMailer.same_as_today(@requestrecord).deliver
-        elsif @requestrecord.transactions.count > ENV["item_alert_threshold"]
+        elsif @requestrecord.transactions.count > 20
           RequestMailer.significant_items(@requestrecord).deliver
         else
           @transactionparams.each do |item, quantity|

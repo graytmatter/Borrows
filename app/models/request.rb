@@ -34,7 +34,7 @@ class Request < ActiveRecord::Base
 # ActiveRecord::Base.record_timestamps = false
 # Request.where("items <> '' ").each do |r|
 #   r.items.each do |i|
-#     Transaction.create(request_id: r.id, name: i, created_at: r.created_at)
+#     Transaction.create(request_id: r.id, itemlist_id: Itemlist.find_by_name(i).id, created_at: r.created_at)
 #   end
 # end
 # ActiveRecord::Base.record_timestamps = true
@@ -81,6 +81,7 @@ class Request < ActiveRecord::Base
 #     fourthtest << "Error at #{t.id}"
 #   end
 # end
+
 # fourthtest
 
 # FIFTH
@@ -90,6 +91,8 @@ class Request < ActiveRecord::Base
 # Check that all Request does belong to a Signup (i.e., signup.email exists)
 # Check that all Transactions belong to a Request
 # Check that all Transactions have an Itemlist
+# Check that all Transactions have two statuses
+# Check that all Inventories have an Itemlist ID
 
 # Check that all Request have a signup_id field
 # Check that all Transactions has a itemlist_id field and a request_id field
