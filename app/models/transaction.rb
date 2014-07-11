@@ -1,9 +1,10 @@
 class Transaction < ActiveRecord::Base
-	before_create :set_default_status
+	before_create :set_default_status1
 	belongs_to :request
 	accepts_nested_attributes_for :request
 
 	validates :request_id, presence: true
+	valdates :status1, presence: true
 	validate :custom_validation
 
 	def custom_validation
@@ -40,7 +41,7 @@ class Transaction < ActiveRecord::Base
 
   	private
 
-  	def set_default_status
-      self.status = Status.find_by_status_meaning("Searching").id
+  	def set_default_status1
+      self.status1 = Status.find_by_name("Searching").id
     end
 end

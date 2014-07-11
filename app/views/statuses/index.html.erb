@@ -1,51 +1,64 @@
-
-  <div class="table-responsive">
+<% Statuscategory.all.each do |c| %>
+  <div class="col-xs-12">
+    <h4><%= link_to "#{c.name}", edit_statuscategory_path(c) %></h4>
     <table class="table table-condensed table-hover">
-      <thead>
-        <tr>
-          <th>Status ID</th>
-          <th>Description</th>
-          <th>Action</th>
-          <th colspan="5"></th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <% @all_status.each do |status| %>
+        <thead>
           <tr>
-            <td><%= status.id %></td>
-            <td>
-              <% if status.status_meaning.blank? %>
-                <%= form_for status, url: edit_status_path(status), method: :patch, :html => {:class => "form-inline", :autocomplete => "off"} do |f| %> 
-                  <div class="form-group col-xs-10" style="padding:1px;">
-                    <%= f.text_field :status_meaning, class: "form-control", placeholder: "Write description" %>
-                  </div>
-                  <div class="form-group col-xs-2" style="padding:1px;">
-                    <%= f.submit "Add", class: "btn btn-default btn-default btn-block" %>
-                  </div>
-                <% end %>
-              <% else %>
-                <%= status.status_meaning %>
-              <% end %>
-            </td>
-            <td>
-              <% if status.status_meaning.present? %>
-                <%= button_to 'New description', destroy_status_path(status), method: :patch, class: "btn btn-default btn-default btn-block" %>
-              <% end %>
-            <td>
+            <th>Status</th>
+            <th>Action</th>
+            <th colspan="5"></th>
           </tr>
-        <% end %>
-      </tbody>
+        </thead>
+
+        <tbody>
+          <% c.statuses.each do |s| %>
+            <tr>
+              <td><%= s.name %></td>
+              <td><%= link_to "Update", edit_status_path(s) %></td>
+            </tr>
+          <% end %>
+        </tbody>
     </table>
   </div>
+<% end %>
 
-<div class="col-xs-12 box">
-  <h4>Create Status Code</h4>
-  <%= form_for @status, url: new_status_path, method: :post, :html => {:autocomplete => "off"} do |f| %>
+
+<% if @status.errors.any? || @statuscategory.errors.any? %>
+<div class="alert alert-danger">
+  <ul>
+  <% @status.errors.full_messages.each do |message| %>
+    <li><%= message %></li>
+  <% end %>
+  <% @statuscategory.errors.full_messages.each do |message| %>
+    <li><%= message %></li>
+  <% end %>
+  </ul>
+</div>
+<% end %>
+
+<div class="col-xs-6 box">
+  <h4>Create New Categories</h4>
+  <%= form_for @statuscategory, url: new_statuscategory_path, method: :post, :html => {:autocomplete => "off"} do |f| %>
     <div class="form-group">
-      <%= f.label "New status meaning" %>
-      <%= f.text_field :status_meaning %>
+      <%= f.label "Category name" %>
+      <%= f.text_field :name %>
     </div>
     <%= f.submit "Go!", class: "btn btn-success btn-large btn-block"%>
   <% end %>
 </div>
+
+<div class="col-xs-6 box">
+  <h4>Create New Statuses</h4>
+  <%= form_for @status, url: new_status_path, method: :post, :html => {:autocomplete => "off"} do |f| %>
+    <div class="form-group">
+      <%= f.label "Category" %>
+      <%= f.collection_select :statuscategory_id, Statuscategory.all, :id, :name %>
+    </div>
+    <div class="form-group">
+      <%= f.label "Status name" %>
+      <%= f.text_field :name %>
+    </div>
+    <%= f.submit "Go!", class: "btn btn-success btn-large btn-block"%>
+  <% end %>
+</div>
+

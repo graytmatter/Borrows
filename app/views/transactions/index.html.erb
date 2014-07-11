@@ -3,12 +3,16 @@
 <div class="col-xs-12 box">
   <%= search_form_for @q, url: url_for(controller: 'transactions', action: 'index')  do |f| %>
     <div class="form group">
-      <%= f.label :status_eq %>
-      <%= f.collection_select :status_eq, Status.all, :id, :status_meaning, {default: @q.status, include_blank: @q.status.nil?} %>
+      <%= f.label :status1_eq %>
+      <%= f.collection_select :status1_eq, Status.includes(:statuscategories).where("statuscategories.name LIKE ?", "%1%"), :id, :name, {default: @q.status1, include_blank: @q.status1.nil?} %>
     </div>
     <div class="form group">
-      <%= f.label :item_id_eq, "Item ID equals"%>
-      <%= f.search_field :item_id_eq %>
+      <%= f.label :status2_eq %>
+      <%= f.collection_select :status2_eq, Status.includes(:statuscategories).where("statuscategories.name LIKE ?", "%2%"), :id, :name, {default: @q.status2, include_blank: @q.status2.nil?} %>
+    </div>
+    <div class="form group">
+      <%= f.label :inventory_id_eq, "Item ID equals"%>
+      <%= f.search_field :inventory_id_eq %>
     </div>
     <div class="form group">
       <%= f.label :name_eq %>
@@ -42,8 +46,9 @@
       <tr>
         <th><%= sort_link(@q, :id, "Transac ID") %></th>
         <th><%= sort_link(@q, :created_at, "Created at") %></th>
-        <th><%= sort_link(@q, :status, "Status") %></th>
-        <th><%= sort_link(@q, :item_id, "Item ID") %></th>
+        <th><%= sort_link(@q, :status1, "Status 1") %></th>
+        <th><%= sort_link(@q, :status2, "Status 2") %></th>
+        <th><%= sort_link(@q, :inventory_id, "Inventory ID") %></th>
         <th><%= sort_link(@q, :name, "Item") %></th>
         <th><%= sort_link(@q, 'requests.signups.email', "Signup Email") %></th>
         <th><%= sort_link(@q, 'requests.pickupdate', "Pickup date") %></th>
@@ -58,14 +63,15 @@
         <tr>
           <td><%= transaction.id %></td>
           <td><%= transaction.created_at.to_date %></td>
-          <td><%= Status.find_by_id(transaction.status).status_meaning %></td>
+          <td><%= Status.find_by_id(transaction.status1).name %></td>
+          <td><%= Status.find_by_id(transaction.status2).name %></td>
           <td><%= transaction.item_id %></td>
           <td><%= transaction.name %></td>
           <td><%= transaction.request.signup.email %></td>
           <td><%= transaction.request.pickupdate.to_date %></td>
           <td><%= transaction.request.returndate.to_date %></td>
           <td>
-            <%= link_to 'Update', edit_transaction_path(transaction) %> <!--update status and item_id, but everything can be udpated. DO NOT REMOVE, remove is handled by a specific status code -->
+            <%= link_to 'Update', edit_transaction_path(transaction) %> <!--update status and inventory_id, but everything can be udpated. DO NOT REMOVE, remove is handled by a specific status code -->
           </td>
         </tr>
       <% end %>

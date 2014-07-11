@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140710233511) do
+ActiveRecord::Schema.define(version: 20140711060048) do
 
   create_table "categorylists", force: true do |t|
     t.string   "name"
@@ -75,25 +75,35 @@ ActiveRecord::Schema.define(version: 20140710233511) do
 
   add_index "signups", ["email"], name: "index_signups_on_email", unique: true
 
-  create_table "statuses", force: true do |t|
-    t.string   "status_meaning"
+  create_table "statuscategories", force: true do |t|
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "statuses", ["status_meaning"], name: "index_statuses_on_status_meaning", unique: true
+  add_index "statuscategories", ["name"], name: "index_statuscategories_on_name", unique: true
+
+  create_table "statuses", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "statuscategory_id"
+  end
+
+  add_index "statuses", ["name"], name: "index_statuses_on_name", unique: true
 
   create_table "transactions", force: true do |t|
     t.integer  "request_id"
-    t.integer  "item_id"
+    t.integer  "inventory_id"
     t.string   "name"
-    t.integer  "status"
+    t.integer  "status1"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "itemlist_id"
+    t.integer  "status2"
   end
 
-  add_index "transactions", ["item_id"], name: "index_transactions_on_item_id"
+  add_index "transactions", ["inventory_id"], name: "index_transactions_on_inventory_id"
   add_index "transactions", ["name"], name: "index_transactions_on_name"
   add_index "transactions", ["request_id"], name: "index_transactions_on_request_id"
 

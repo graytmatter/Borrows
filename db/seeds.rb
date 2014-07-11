@@ -6,29 +6,72 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-status_codes = [
-	"Searching",
-	"In progress",
-	"Cancelled - No response from borrower",
-	"Cancelled - No response from lender",
-	"Cancelled - Time period too long",
-	"Cancelled - Inventory not available",
-	"Cancelled - Out of area",
-	"Cancelled - Request too last minute",
-	"Cancelled - Occasion for use cancelled",
-	"Cancelled - Didn't actually need item",
-	"Cancelled - Inventory not suitable",
-	"Cancelled - Borrowed elsewhere",
-	"Cancelled - Rented elsewhere",
-	"Cancelled - Bought elsewhere",
-	"Complete",
-	"Dispute",
-	"Complete - Damages settled",
-	"Complete - Replacement settled"
-]
+status_codes = {
 
-status_codes.each do |s|
-	Status.create(status_meaning: s)
+#First column: Did borrower use or not use Project Borrow?
+
+  "1 Did use PB" => [
+    "Searching", #Default status, assumes that PB will help
+    "In progress", #Follows Searching 
+    "Complete - OK", #Follows In Progress, indicates everything went well
+    "Complete - Disputing", #Follow In Progress, something went wrong
+    "Complete - Settled Informally", #Follows Complete - Disputing, indicates that some settlement was reached mediated by PB at most
+    "Complete - Settled Formally" #Follows Complete - Disputing, indicates that some settlement was reached that required legal action
+  ],
+
+  #What was the primary reason where, had it not been the case, the transaction would have happened and the borrower would have used PB?
+
+  #FC = False Cancel, with slight changes in circumstance, the transaction could have happend
+  #TC = True Cancel, very likely that the borrower would have cancelled no matter what changes in circumstance
+
+  "1 Did not use PB" => [
+    "FC - No response from borrower",
+    "FC - No response from lender",
+    "FC - Borrower forgot last minute", #E.g., borrower did not pick up at scheduled time, and didn't change the time
+    "FC - Lender forgot last minute", #E.g., lender forgot to make item available at scheduled time, and didn't change the time
+    "FC - Scheduling conflict",
+    "FC - Time period too long",
+    "FC - Out of area",
+    "FC - Inventory not available",
+    "FC - Inventory not suitable", #E.g., specifications not met
+    "FC - Too inconvenient (time/money cost)",
+    "FC - Found sale",
+
+    "TC - Occasion for use cancelled",
+    "TC - Item not actually needed", #E.g., consumer education, water filters not needed for car camping
+    "TC - Actually needs item frequently" #E.g., buying makes more sense
+  ],
+
+#Second column, more info for Complete - Settled what settlement was reached or if PB was not used what borrower did instead
+
+  "2 Did use PB" => [
+    "Borrower paid to replace lost item",
+    "Project Borrow paid to replace lost item",
+    
+    "Borrower paid to repair damaged item",
+    "Project Borrow paid to repair damaged item",
+    
+    "Project Borrow paid to replace stolen item",
+    
+    "Lender said no big deal to loss/theft",
+    "Lender said no big deal to damage"
+  ],
+
+  "2 Did not use PB" => [
+    "Borrowed from friend/family",
+    "Borrowed from neighbor",
+    "Rented elsewhere",
+    "Bought online",
+    "Bought in-store",
+    "Found suitable alternative"
+  ]
+}
+
+status_codes.each do |c, s|
+  Statuscategory.create(name: c)
+  s.each do |i|
+    Statuscategory.find_by_name(c).statuses.create(name: s)
+  end
 end
 
   itemlist = {

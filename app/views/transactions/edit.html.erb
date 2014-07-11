@@ -18,9 +18,13 @@
     <h5><%= "Request message: #{@transaction.request.detail}" %></h5>  
     <%= form_for @transaction, url: {action: 'update'} do |f| %>
       <div class="form-group">
-        <%= f.label "Status" %>
-        <%= f.collection_select :status, Status.all, :id, :status_meaning, {default: @transaction.status, include_blank: @transaction.status.nil?} %>
+        <%= f.label "Status 1" %>
+        <%= f.collection_select :status1, Status.includes(:statuscategories).where("statuscategories.name LIKE ?", "%1%"), :id, :name, {default: @transaction.status1, include_blank: @transaction.status1.nil?} %>
       </div>  
+      <div class="form-group">
+        <%= f.label "Status 2" %>
+        <%= f.collection_select :status2, Status.includes(:statuscategories).where("statuscategories.name LIKE ?", "%2%"), :id, :name, {default: @transaction.status2, include_blank: @transaction.status2.nil?} %>
+      </div> 
       <div class="form-group">
         <%= f.label "Item ID used to fulfill" %>
         <%= f.number_field :item_id, min: 0 %>

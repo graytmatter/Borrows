@@ -12,14 +12,13 @@
 
 <div class="col-xs-12 box">  
   <%= form_tag inventories_path method: :post do %>
-    <%# Categorylist.all.select { |c| c.itemlists.pluck("inventory_list").include? true }.each do |n| %>
     <% Categorylist.includes(:itemlists).where(itemlists: { inventory_list: true }).each do |n| %>
       <div class="col-xs-4">
         <div class="form-group" style="font-size:75%">
           <h5> <%= n.name %> </h5>
             <% n.itemlists.each do |i| %>
-                <%= number_field_tag "transaction[][#{i}]", :quantity, min: 0, value: @transactionparams ? @transactionparams[i] : 0, class: "shrink_num_field" %>
-                <%= label_tag i.name %>
+                <%= number_field_tag "inventory[#{i.id}]", :quantity, min: 0, value: @inventory_params ? @inventory_params[i] : 0, class: "shrink_num_field" %>
+                <%= label_tag i.name, i.name %>
               </br>
             <% end %>
         </div>

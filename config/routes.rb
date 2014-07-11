@@ -35,6 +35,10 @@ GoogleTest::Application.routes.draw do
   get 'admin/categorylists/:id/edit', to: 'categorylists#edit', as: 'edit_categorylist'
   patch 'admin/categorylists/:id/edit', to: 'categorylists#update'
 
+  post 'admin/statuscategory/new', to: 'statuscategories#create', as: 'new_statuscategory'
+  get 'admin/statuscategory/:id/edit', to: 'statuscategories#edit', as: 'edit_statuscategory'
+  patch 'admin/statuscategory/:id/edit', to: 'statuscategories#update'
+
   get 'admin/inventories', to: 'inventories#index'
   get 'admin/transactions', to: 'transactions#index'
 

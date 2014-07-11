@@ -28,7 +28,12 @@ class InventoriesController < ApplicationController
     # above required because when new is re-rendered, it's actually the create action 
     
     inventory_params
-    
+    puts "INSPECT"
+    @inventory_params.each do |i, q|
+      puts i.inspect 
+      puts q.inspect 
+    end
+    puts "END"
     items_to_be_saved = []
     @inventory_params.each do |item, quantity|
       quantity = quantity.to_i
@@ -95,8 +100,10 @@ class InventoriesController < ApplicationController
   private
 
     def inventory_params
-      params.permit[:quantity]
-      @inventory_params = params.reject { |k, v| (v == "") || ( v == "0" ) || ( v.length > 2 ) }
+      #params.require(:inventory).permit(:itemlist_id, :quantity )
+      #params.permit(inventory: [{:itemlist_id => :quantity}] )
+      @inventory_params = params["inventory"]
+      @inventory_params = @inventory_params.reject { |k, v| (v == "") || ( v == "0" ) }
     end
 
     def inventory_update_params

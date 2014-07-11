@@ -6,26 +6,27 @@ class StatusesController < ApplicationController
   	redirect_to '/admin/statuses'
   end
 
-  def update
-  	@status = Status.find_by_id(params[:id])
-  	@status.update_attributes(status_params)
-  	redirect_to '/admin/statuses'
+  def edit
+    @status = Status.find_by_id(params[:id])
   end
 
-  def destroy_status
+  def update
   	@status = Status.find_by_id(params[:id])
-  	@status.update_attributes(status_meaning: "")
-  	redirect_to '/admin/statuses'
+  	if @status.update_attributes(status_params)
+  	  redirect_to '/admin/statuses'
+    else
+      render 'edit'
+    end
   end
 
   def index
-  	@all_status = Status.all
   	@status = Status.new
+  	@statuscategory = Statuscategory.new
   end
 
   private
 
   def status_params
-  	params.require(:status).permit(:status_meaning)
+  	params.require(:status).permit(:statuscategory_id, :name)
   end
 end
