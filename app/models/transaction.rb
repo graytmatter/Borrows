@@ -1,14 +1,15 @@
 class Transaction < ActiveRecord::Base
-	before_create :set_default_status1
+	before_validation :set_default_status1
 	belongs_to :request
+	has_many :inventories, :through => :bookings
 	accepts_nested_attributes_for :request
 
 	validates :request_id, presence: true
-	valdates :status1, presence: true
+	validates :status1, presence: true
 	validate :custom_validation
 
 	def custom_validation
-	    errors[:base] << "Please select at least one item" if self.name.blank? 
+	    errors[:base] << "Please select at least one item" if self.itemlist_id.blank? 
 	end
 
 	def save_spreadsheet

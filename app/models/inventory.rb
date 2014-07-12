@@ -1,5 +1,6 @@
 class Inventory < ActiveRecord::Base
 	belongs_to :signup
+  has_many :transactions, :through => :bookings
 
 	validates :signup_id, presence: true
   validate :custom_validation

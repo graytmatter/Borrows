@@ -7,15 +7,15 @@
 
 <p>Hi there!</p>
 
-<p><%= "One of our borrowers would like to borrow #{pluralize(@quantity.to_i,@item.downcase)} between #{@requestrecord.pickupdate.to_date} and #{@requestrecord.returndate.to_date}. Can you help them out?"%>
+<p>
+	<%= "One of our borrowers would like to borrow #{pluralize(@quantity,@item.downcase)} between #{@requestrecord.pickupdate.to_date} and #{@requestrecord.returndate.to_date}. Can you help them out?"%>
 
-	<%= "If so, let us know as well if you can lend more than 1 #{@item.downcase.pluralize}." if @quantity.to_i > 1 %></p>
+	<%= "If so, let us know as well if you can lend 1 or more #{@item.downcase.pluralize}." if @quantity > 1 %>
 
-<p><%= "Here's a personal note from the borrower: '#{@requestrecord.detail}' " if @requestrecord.detail.present? %>
+	<%= "Here's a personal note from the borrower: '#{@requestrecord.detail}' " if @requestrecord.detail.present? %>
+</p>
 
-<p>Once we hear back, we'll connect you with the borrower directly to coordinate further.</p>
-
-<p>Thanks again for being a great sharer!</p>
+<p>Once we hear back, we'll connect you with the borrower directly to coordinate further. Thanks again for being a great sharer!</p>
 
 <p>James</p>
 

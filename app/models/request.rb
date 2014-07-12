@@ -10,7 +10,9 @@ class Request < ActiveRecord::Base
   def custom_validation
     errors[:base] << "Please enter both a pick up date and a return date" if self.pickupdate.blank? || self.returndate.blank?
     if self.pickupdate.present? && self.returndate.present?
+      errors[:base] << "Please enter a pick up date and a return date on or after today" if (self.pickupdate.to_date < Date.today) || (self.returndate.to_date < Date.today)
       errors[:base] << "Please enter a return date that is on or after the pick up date" if self.pickupdate > self.returndate
+      errors[:base] << "Please submit requests with a maximum 2-week duration" if (self.returndate.to_date - self.pickupdate.to_date).to_i > 14
     end
   end
 

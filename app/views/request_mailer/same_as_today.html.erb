@@ -7,15 +7,16 @@
 
 <p>Hi there!</p>
 
-<p>We received your request for the following items:</p> 
+<p>We received your request for the following items:</p>
 <ul>
-	<% @requestrecord.transactions.each do |t| %>
-	<li><%= Itemlist.find_by_id(t.itemlist_id).name %>
+	<% @requestrecord.transactions.pluck(:itemlist_id).each do |itemlist_id| %>
+	<li><%= Itemlist.find_by_id(itemlist_id).name %></li>
+	<% end %>
 </ul>
 
-<p><%= "However, it looks like you indicated today, '#{Date.today}' as both the Pick Up and Return date for your request. Is that right? If so, just respond yes and we'll resume looking for your items. Just to set expectations, with same day requests, it may be difficult to get a response from a lender in time. If we hear back, we'll connect you with the borrower directly to coordinate further" %>
+<p><%= "However, we recorded your Pick Up Date as today, returning on #{@requestrecord.returndate.to_date}. Just wanted to set expectations that it's often very difficult for lenders to respond with a day's notice. We'll do what we can and provide updates as soon as we get them." %></p>
 
-<p>Thanks again for using Project Borrow!</p>
+<p>Best,</p>
 
 <p>James</p>
 
