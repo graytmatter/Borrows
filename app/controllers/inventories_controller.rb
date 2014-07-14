@@ -28,29 +28,21 @@ class InventoriesController < ApplicationController
     # above required because when new is re-rendered, it's actually the create action 
     
     inventory_params
-    items_to_be_saved = []
-    @inventory_params.each do |item, quantity|
-      quantity = quantity.to_i
-      quantity.times do
-        items_to_be_saved << ({:itemlist_id => item.to_i })
-      end
-    end
-
-    if items_to_be_saved.blank?
+    if @inventory_params.blank?
       @signup_parent.errors[:base] << "Please select at least one item to lend"
       render 'new'
     else
-      @signup_parent.inventories.create items_to_be_saved
+      @inventory_params.each do |itemlist_id, quantity|
+        quantity.to_i.times do
+          @signup_parent.inventories.create(itemlist_id: itemlist_id)
+        end
+      end
       flash[:success] = "Thank you so much! We'll be in touch when a borrower comes-a-knockin'!"
-      
-      puts "INSPECT"
-      puts items_to_be_saved.inspect 
-      puts "END"
-        # @signup_parent.inventories.each do |i|
-        #   i.save_spreadsheet
-        # end
-        InventoryMailer.upload_email(@signup_parent, items_to_be_saved).deliver
-
+      # @signup_parent.inventories.each do |i|
+      #   i.save_spreadsheet
+      # end
+      # InventoryMailer.upload_email(@signup_parent, items_to_be_saved).deliver
+      # soon inventorymailer won't be needed if i can automate the search and everything 
       redirect_to new_inventory_path
     end
   end
