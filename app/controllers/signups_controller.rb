@@ -7,14 +7,14 @@ class SignupsController < ApplicationController
 	def create
 		@signup = Signup.new(signup_params)
 
-		if Signup.exists?(email:@signup.email)
-			session[:signup_email] = @signup.email
+		if Signup.exists?(email:@signup.email.downcase)
+			session[:signup_email] = @signup.email.downcase
 			redirect_to action: 'edit'
 		else
 			if @signup.save
 				@signup.save_subscrip 
 				Subscribe.notification_email(@signup).deliver 
-				session[:signup_email] = @signup.email
+				session[:signup_email] = @signup.email.downcase
 				redirect_to action: 'edit'
 			else
 				render new_signup_path
