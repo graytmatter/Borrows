@@ -30,7 +30,34 @@ class RequestsController < ApplicationController
       render 'new'
     else
       @requestrecord = @signup_parent.requests.create(@requestparams)
-      if @requestrecord.save
+      if @requestrecord.pickupdate.to_date == Date.today
+        # 2) If it's a last minute request, I will handle it manually, to avoid pissing off too many lenders
+        RequestMailer.same_as_today(@requestrecord).deliver
+      else
+        @transactionparams.each do |itemlist_id, quantity|
+          matched_inventory_id = Inventory.where.not(signup_id: @requestrecord.signup.id).where(itemlist_id: itemlist_id).ids 
+          quantity.to_i.times do
+            transaction = @requestrecord.transactions.create(itemlist_id: itemlist_id) 
+            matched_inventory_id.each do |i|
+              transaction.inventories.create(inventory_id: i)
+            end
+          end
+        end
+        puts "inspect"
+        puts "1) just created #{@requestrecord.transactions.count} transactions"
+        @requestrecord.transactions.each do |t|
+          puts "as a transaction, I have the following inventories #{t.inventories.id}"
+        end
+        puts "end"
+      end
+    end
+  end
+
+=begin
+        # 2) Select ids of inventory items that don't belong to borrower and match the transaction items
+        matched_inventory_id = Inventory.where.not(signup_id: @requestrecord.signup.id).where(itemlist_id: itemlist_id).ids 
+       
+           if @requestrecord.save
         @transactionparams.each do |itemlist_id, quantity|
           # 1) Create X number of transactions and remember that transaction_ids that were created
           current_transactions = []
@@ -44,21 +71,6 @@ class RequestsController < ApplicationController
           else
             # 2) Select ids of inventory items that don't belong to borrower and match the transaction items
             matched_inventory_id = Inventory.where.not(signup_id: @requestrecord.signup.id).where(itemlist_id: itemlist_id).ids 
-            #matched_inventory_id = Inventory.where.not(signup_id: @requestrecord.signup.id)
-            puts "INSPECT"
-            puts matched_inventory_id.inspect
-            puts matched_inventory_id.count.inspect 
-            puts "END"
-
-            # 3) Narrow down to ids of inventory items where itemlist_id of inventory item matches itemlist_id of transaction
-            
-            matched_inventory_id.select { |id| Inventory.where(itemlist_id: itemlist_id) }
-            #matched_inventory_id = Inventory.where.not(signup_id: @requestrecord.signup.id)
-            puts "INSPECT"
-            puts matched_inventory_id.inspect
-            puts matched_inventory_id.count.inspect 
-            puts "END"
-
             # 4) Narrow down to ids of inventory items where date of current transaction and date of logged transaction do not overlap
 
             matched_inventory_id.select { |id| ( ((@requestrecord.pickupdate - Transaction.find_by_inventory_id(id).request.returndate) * (Transaction.find_by_inventory_id(id).request.pickupdate - @requestrecord.returndate)) < 0 ) }
@@ -90,7 +102,7 @@ class RequestsController < ApplicationController
       end
     end
   end
-
+=end
   def success
   end
 
