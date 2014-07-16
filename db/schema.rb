@@ -11,15 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140712065456) do
-
-  create_table "bookings", force: true do |t|
-    t.integer  "inventory_id"
-    t.integer  "transaction_id"
-    t.boolean  "booked"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
+ActiveRecord::Schema.define(version: 20140716003155) do
 
   create_table "categorylists", force: true do |t|
     t.string   "name"
@@ -101,9 +93,15 @@ ActiveRecord::Schema.define(version: 20140712065456) do
 
   add_index "statuses", ["name"], name: "index_statuses_on_name", unique: true
 
+  create_table "transaction_inventories", force: true do |t|
+    t.integer  "inventory_id"
+    t.integer  "transaction_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "transactions", force: true do |t|
     t.integer  "request_id"
-    t.text     "inventory_id"
     t.string   "name"
     t.integer  "status1"
     t.datetime "created_at"
@@ -112,7 +110,6 @@ ActiveRecord::Schema.define(version: 20140712065456) do
     t.integer  "status2"
   end
 
-  add_index "transactions", ["inventory_id"], name: "index_transactions_on_inventory_id"
   add_index "transactions", ["name"], name: "index_transactions_on_name"
   add_index "transactions", ["request_id"], name: "index_transactions_on_request_id"
 
