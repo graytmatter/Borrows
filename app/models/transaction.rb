@@ -1,7 +1,6 @@
 class Transaction < ActiveRecord::Base
 	before_validation :set_default_status1
 	belongs_to :request
-	has_many :inventories, :through => :bookings
 	accepts_nested_attributes_for :request
 
 	validates :request_id, presence: true
