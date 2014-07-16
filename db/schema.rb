@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140716003155) do
+ActiveRecord::Schema.define(version: 20140716003427) do
 
   create_table "categorylists", force: true do |t|
     t.string   "name"
@@ -92,13 +92,6 @@ ActiveRecord::Schema.define(version: 20140716003155) do
   end
 
   add_index "statuses", ["name"], name: "index_statuses_on_name", unique: true
-
-  create_table "transaction_inventories", force: true do |t|
-    t.integer  "inventory_id"
-    t.integer  "transaction_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "transactions", force: true do |t|
     t.integer  "request_id"
