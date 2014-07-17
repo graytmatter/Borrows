@@ -2,7 +2,7 @@ class Request < ActiveRecord::Base
   before_create :create_edit_id
   
   belongs_to :signup
-  has_many :transactions, dependent: :destroy
+  has_many :borrows, dependent: :destroy
 
   validates :signup_id, presence: true
   validate :custom_validation
@@ -36,7 +36,7 @@ class Request < ActiveRecord::Base
 # ActiveRecord::Base.record_timestamps = false
 # Request.where("items <> '' ").each do |r|
 #   r.items.each do |i|
-#     Transaction.create(request_id: r.id, itemlist_id: Itemlist.find_by_name(i).id, created_at: r.created_at)
+#     borrow.create(request_id: r.id, itemlist_id: Itemlist.find_by_name(i).id, created_at: r.created_at)
 #   end
 # end
 # ActiveRecord::Base.record_timestamps = true
@@ -44,7 +44,7 @@ class Request < ActiveRecord::Base
 # Check
 # secondtest = []
 # Request.where("items <> '' ").each do |r|
-#   if r.items.count == r.transactions.count
+#   if r.items.count == r.borrows.count
 #     secondtest << "OK"
 #   else 
 #     secondtest << "ERROR at #{r.id}"
@@ -67,7 +67,7 @@ class Request < ActiveRecord::Base
 # thirdtest
 
 # FOURTH
-# Transaction.where("itemlist_id is null").each do |t| 
+# borrow.where("itemlist_id is null").each do |t| 
 #   if Itemlist.find_by_name(t.name)
 #     t.update_attributes(itemlist_id: Itemlist.find_by_name(t.name).id)
 #   end
@@ -76,7 +76,7 @@ class Request < ActiveRecord::Base
 
 # Check 
 # fourthtest = []
-# Transaction.where("itemlist_id is not null").each do |t|
+# borrow.where("itemlist_id is not null").each do |t|
 #   if t.name == Itemlist.find_by_id(t.itemlist_id).name
 #     fourthtest << "OK"
 #   else
@@ -91,13 +91,13 @@ class Request < ActiveRecord::Base
 
 # FINAL CHECKS
 # Check that all Request does belong to a Signup (i.e., signup.email exists)
-# Check that all Transactions belong to a Request
-# Check that all Transactions have an Itemlist
-# Check that all Transactions have two statuses
+# Check that all borrows belong to a Request
+# Check that all borrows have an Itemlist
+# Check that all borrows have two statuses
 # Check that all Inventories have an Itemlist ID
 
 # Check that all Request have a signup_id field
-# Check that all Transactions has a itemlist_id field and a request_id field
+# Check that all borrows has a itemlist_id field and a request_id field
 
 # DELETE EXTRANEOUS COLUMNS YAY!""
 

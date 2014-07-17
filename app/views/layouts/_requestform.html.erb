@@ -18,7 +18,7 @@
           <div class="form-group" style="font-size:75%">
             <h5> <%= n.name %> </h5>
               <% n.itemlists.each do |i| %>
-                  <%= number_field_tag "transaction[][#{i.id}]", :quantity, min: 0, value: @transactionparams ? @transactionparams[i] : 0, class: "shrink_num_field" %>
+                  <%= number_field_tag "borrow[][#{i.id}]", :quantity, min: 0, value: @borrowparams ? @borrowparams[i] : 0, class: "shrink_num_field" %>
                   <%= label_tag i.name, i.name %>
                 </br>
               <% end %>

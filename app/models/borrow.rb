@@ -1,7 +1,10 @@
-class Transaction < ActiveRecord::Base
+class Borrow < ActiveRecord::Base
 	before_validation :set_default_status1
 	belongs_to :request
 	accepts_nested_attributes_for :request
+
+	has_many :invenborrows
+	has_many :inventories, through: :invenborrows
 
 	validates :request_id, presence: true
 	validates :status1, presence: true

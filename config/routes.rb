@@ -19,7 +19,7 @@ GoogleTest::Application.routes.draw do
   patch 'inventories/:id/edit', to: 'inventories#update', as: 'edit_inventory'
   patch 'inventories/:id/destroy_description', to: 'inventories#destroy_description', as: 'destroy_description'  
 
-  resources :transactions, only: [:edit, :update]
+  resources :borrows, only: [:edit, :update]
 
   get 'admin/statuses', to: 'statuses#index'
   post 'admin/statuses/new', to: 'statuses#create', as: 'new_status'
@@ -40,7 +40,7 @@ GoogleTest::Application.routes.draw do
   patch 'admin/statuscategory/:id/edit', to: 'statuscategories#update'
 
   get 'admin/inventories', to: 'inventories#index'
-  get 'admin/transactions', to: 'transactions#index'
+  get 'admin/borrows', to: 'borrows#index'
 
   get 'termsofservice', to: 'staticpages#terms', as: 'terms'
   get 'privacypolicy', to: 'staticpages#policy', as: 'policy'

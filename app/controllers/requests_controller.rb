@@ -25,66 +25,55 @@ class RequestsController < ApplicationController
     request_params
     @requestrecord = @signup_parent.requests.build
 
-    if @transactionparams.blank?
+    if @borrowparams.blank?
       @requestrecord.errors[:base] = "Please select at least one item"
       render 'new'
     else
       @requestrecord = @signup_parent.requests.create(@requestparams)
-      if @requestrecord.pickupdate.to_date == Date.today
-        # 2) If it's a last minute request, I will handle it manually, to avoid pissing off too many lenders
-        RequestMailer.same_as_today(@requestrecord).deliver
-      else
-        @transactionparams.each do |itemlist_id, quantity|
-          matched_inventory_id = Inventory.where.not(signup_id: @requestrecord.signup.id).where(itemlist_id: itemlist_id).ids 
-          quantity.to_i.times do
-            transaction = @requestrecord.transactions.create(itemlist_id: itemlist_id) 
-            matched_inventory_id.each do |i|
-              transaction.inventories.create(inventory_id: i)
-            end
-          end
+      @borrowparams.each do |itemlist_id, quantity|
+        matched_inventory_ids = Inventory.where.not(signup_id: @requestrecord.signup.id).where(itemlist_id: itemlist_id).ids 
+        quantity.to_i.times do
+          newborrow = @requestrecord.borrows.create(itemlist_id: itemlist_id) 
+          newborrow.inventory_ids += matched_inventory_ids
         end
-        puts "inspect"
-        puts "1) just created #{@requestrecord.transactions.count} transactions"
-        @requestrecord.transactions.each do |t|
-          puts "as a transaction, I have the following inventories #{t.inventories.id}"
-        end
-        puts "end"
       end
+      
+      render 'success'
     end
   end
 
 =begin
-        # 2) Select ids of inventory items that don't belong to borrower and match the transaction items
+        # 2) Select ids of inventory items that don't belong to borrower and match the borrow items
         matched_inventory_id = Inventory.where.not(signup_id: @requestrecord.signup.id).where(itemlist_id: itemlist_id).ids 
        
            if @requestrecord.save
-        @transactionparams.each do |itemlist_id, quantity|
-          # 1) Create X number of transactions and remember that transaction_ids that were created
-          current_transactions = []
+        @borrowparams.each do |itemlist_id, quantity|
+          # 1) Create X number of borrows and remember that borrow_ids that were created
+          current_borrows = []
           quantity.to_i.times do 
-            @requestrecord.transactions.create(itemlist_id: itemlist_id) 
-            current_transactions << Transaction.last.id 
+            @requestrecord.borrows.create(itemlist_id: itemlist_id) 
+            current_borrows << borrow.last.id 
           end
           if @requestrecord.pickupdate.to_date == Date.today
             # 2) If it's a last minute request, I will handle it manually, to avoid pissing off too many lenders
             RequestMailer.same_as_today(@requestrecord).deliver
           else
-            # 2) Select ids of inventory items that don't belong to borrower and match the transaction items
+            # 2) Select ids of inventory items that don't belong to borrower and match the borrow items
             matched_inventory_id = Inventory.where.not(signup_id: @requestrecord.signup.id).where(itemlist_id: itemlist_id).ids 
-            # 4) Narrow down to ids of inventory items where date of current transaction and date of logged transaction do not overlap
+            # 4) Narrow down to ids of inventory items where date of current borrow and date of logged borrow do not overlap
 
-            matched_inventory_id.select { |id| ( ((@requestrecord.pickupdate - Transaction.find_by_inventory_id(id).request.returndate) * (Transaction.find_by_inventory_id(id).request.pickupdate - @requestrecord.returndate)) < 0 ) }
+            matched_inventory_id.select { |id| ( ((@requestrecord.pickupdate - borrow.find_by_inventory_id(id).request.returndate) * (borrow.find_by_inventory_id(id).request.pickupdate - @requestrecord.returndate)) < 0 ) }
             puts "INSPECT"
             puts matched_inventory_id.inspect
             puts matched_inventory_id.count.inspect 
             puts "END"
-            #   (Transaction.find_by_inventory_id(id) == nil) 
+            #   (borrow.find_by_inventory_id(id) == nil) 
             #   || 
-            #   ( ((@requestrecord.pickupdate - Transaction.find_by_inventory_id(id).request.returndate) * (Transaction.find_by_inventory_id(id).request.pickupdate - @requestrecord.returndate)) < 0 )
+            #   ( ((@requestrecord.pickupdate - borrow.find_by_inventory_id(id).request.returndate) * (borrow.find_by_inventory_id(id).request.pickupdate - @requestrecord.returndate)) < 0 )
             # }
             # 4) For remaining available ids, temporarily block them out 
-            current_transactions.each do |transaction_id|
-              Transaction.find_by_id(transaction_id).update_attributes(inventory_id: matched_inventory_id)
+            current_borrows.each do |borrow_id|
+              borrow.find_by_id(borrow_id).update_attributes(inventory_id: matched_inventory_id)
             end
             # 5) Select the emails of those available inventory ids
             lender_array = Inventory.where(id: matched_inventory_id).joins(:signup).pluck("signups.email")
@@ -110,7 +99,7 @@ class RequestsController < ApplicationController
 
   def request_params
     @requestparams = params.require(:request).permit(:detail, :pickupdate, :returndate) 
-    @transactionparams = params["transaction"]
-    @transactionparams = @transactionparams.first.reject { |k, v| (v == "") || ( v == "0" ) }
+    @borrowparams = params["borrow"]
+    @borrowparams = @borrowparams.first.reject { |k, v| (v == "") || ( v == "0" ) }
   end
 end

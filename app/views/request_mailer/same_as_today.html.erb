@@ -9,7 +9,7 @@
 
 <p>We received your request for the following items:</p>
 <ul>
-	<% @requestrecord.transactions.pluck(:itemlist_id).each do |itemlist_id| %>
+	<% @requestrecord.borrows.pluck(:itemlist_id).each do |itemlist_id| %>
 	<li><%= Itemlist.find_by_id(itemlist_id).name %></li>
 	<% end %>
 </ul>

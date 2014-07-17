@@ -11,7 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140716003427) do
+ActiveRecord::Schema.define(version: 20140716171316) do
+
+  create_table "borrows", force: true do |t|
+    t.integer  "request_id"
+    t.string   "name"
+    t.integer  "status1"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "itemlist_id"
+    t.integer  "status2"
+  end
+
+  add_index "borrows", ["name"], name: "index_borrows_on_name"
+  add_index "borrows", ["request_id"], name: "index_borrows_on_request_id"
 
   create_table "categorylists", force: true do |t|
     t.string   "name"
@@ -20,6 +33,13 @@ ActiveRecord::Schema.define(version: 20140716003427) do
   end
 
   add_index "categorylists", ["name"], name: "index_categorylists_on_name", unique: true
+
+  create_table "invenborrows", force: true do |t|
+    t.integer  "borrow_id"
+    t.integer  "inventory_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "inventories", force: true do |t|
     t.string   "item_name"
@@ -92,18 +112,5 @@ ActiveRecord::Schema.define(version: 20140716003427) do
   end
 
   add_index "statuses", ["name"], name: "index_statuses_on_name", unique: true
-
-  create_table "transactions", force: true do |t|
-    t.integer  "request_id"
-    t.string   "name"
-    t.integer  "status1"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "itemlist_id"
-    t.integer  "status2"
-  end
-
-  add_index "transactions", ["name"], name: "index_transactions_on_name"
-  add_index "transactions", ["request_id"], name: "index_transactions_on_request_id"
 
 end

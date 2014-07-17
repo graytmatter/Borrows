@@ -19,9 +19,9 @@ status_codes = {
     "Complete - Settled Formally" #Follows Complete - Disputing, indicates that some settlement was reached that required legal action
   ],
 
-  #What was the primary reason where, had it not been the case, the transaction would have happened and the borrower would have used PB?
+  #What was the primary reason where, had it not been the case, the borrow would have happened and the borrower would have used PB?
 
-  #FC = False Cancel, with slight changes in circumstance, the transaction could have happend
+  #FC = False Cancel, with slight changes in circumstance, the borrow could have happend
   #TC = True Cancel, very likely that the borrower would have cancelled no matter what changes in circumstance
 
   "1 Did not use PB" => [

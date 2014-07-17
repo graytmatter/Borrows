@@ -1,6 +1,9 @@
 class Inventory < ActiveRecord::Base
 	belongs_to :signup
 
+  has_many :invenborrows
+  has_many :borrows, through: :invenborrows
+
 	validates :signup_id, presence: true
   validate :custom_validation
 
