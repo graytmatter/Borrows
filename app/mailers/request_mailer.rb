@@ -19,6 +19,10 @@ class RequestMailer < ActionMailer::Base
 
   def same_as_today(requestrecord)
     @requestrecord = requestrecord
-    mail(to: @requestrecord.signup.email, from: ENV['owner'], bcc: ENV['owner'], :subject => "Notice about your request") 
+    @requestlist = Hash.new
+    @requestrecord.borrows.each do |b|
+      @requestlist["#{Itemlist.find_by_id(b.id).name}"] = "#{Signup.where(id: Borrow.find_by_id(75).inventories.pluck("signup_id")).pluck("email")}"
+    end
+    mail(to: ENV['owner'], from: @requestrecord.signup.email, :subject => "ALERT: Same day request") 
   end
 end

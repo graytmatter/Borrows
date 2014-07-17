@@ -1,8 +1,26 @@
 class InventoriesController < ApplicationController
-  before_filter :authenticate, except: [:new, :create, :destroy]
+  before_filter :authenticate, except: [:new, :create, :destroy, :manage]
 
   def new
     @pagetitle = "What would you like to lend?"
+
+    if session[:signup_email].nil?
+      flash[:danger] = "Please enter your email to get started"
+      redirect_to root_path
+    else
+      @signup_parent = Signup.find_by_email(session[:signup_email].downcase)
+      if @signup_parent.tos != true || @signup_parent.streetone.blank? || @signup_parent.streettwo.blank? || @signup_parent.zipcode.blank?
+        flash[:danger] = "Almost there! We just need a little more info"
+        redirect_to edit_signup_path
+      else
+        @q = @signup_parent.inventories.ransack(params[:q])
+        @inventories = @q.result.includes(:signup)
+      end
+    end
+  end
+
+  def manage
+    @pagetitle = "Approve outstanding requests from borrowers"
 
     if session[:signup_email].nil?
       flash[:danger] = "Please enter your email to get started"

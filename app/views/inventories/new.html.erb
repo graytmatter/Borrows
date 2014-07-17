@@ -1,79 +1,28 @@
-  <% if @signup_parent.inventories.count > 0 %>
-
-    <div class="col-xs-12" style="padding-bottom:1%;">
-      <h4><%="Step 2 of 2: Lend away, #{@signup_parent.email}!"%></h4>
-      <h5 style="font-size:100%; font-style:italic"><%= link_to '(I want to borrow)', new_request_path, { style: 'color:#428bca'}%></h6>
-      <p style="font-style:italic;">Yayhay thanks for sharing stuff with our borrowers! In the table below, you'll be able to add a short description to the items if interested. If you'd like to share even more stuff, just complete the form below the table, and if you have something else you think would be cool to share, please <%= mail_to 'james@projectborrow.com', 'tell us', {style: 'color:#428bca'} %>.</p>
-    </div>
-    <%= render "layouts/flash" %>
-
-    <div class="table-responsive">
-      <table class="table table-condensed table-hover">
-        <thead>
-          <tr>
-            <th class="col-xs-3">Item</th>
-            <th class="col-xs-5">Description</th>
-            <th class="col-xs-3">Actions</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <% @inventories.each do |inventory| %>
-            <tr>
-              <td><%= Itemlist.find_by_id(inventory.itemlist_id).name %></td>
-              <td>
-                <% if inventory.description.blank? %>
-                  <%= form_for inventory, url: edit_inventory_path(inventory), method: :patch, :html => {:class => "form-inline", :autocomplete => "off"} do |f| %> 
-                    <div class="form-group col-xs-10" style="padding:1px;">
-                      <%= f.text_field :description, class: "form-control", placeholder: "Add a link or description" %>
-                    </div>
-                    <div class="form-group col-xs-2" style="padding:1px;">
-                      <%= f.submit "Add", class: "btn btn-default btn-default btn-block" %>
-                    </div>
-                  <% end %>
-                <% else %>
-                  <%= inventory.description %>
-                <% end %>
-              </td>
-              <td>
-                <% if inventory.description.present? %>
-                  <div class="col-xs-6" style="padding:1px;">
-                    <%= button_to 'Update', destroy_description_path(inventory), method: :patch, class: "btn btn-default btn-default btn-block" %>
-                  </div>
-                <% end %>
-                  <div class="col-xs-6" style="padding:1px;">
-                    <%= button_to 'Remove', inventory, method: :delete, class: "btn btn-default btn-default btn-block", data: { confirm: 'Once removed, borrowers will no longer be able to see you have this item. To remove an item temporarily (i.e., for a personal trip), please notify us via email' } %>
-                  </div>
-
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="col-xs-12" style="padding-bottom:1%;">
-      <h5><%="I'd also like to share..."%></h5>
-    </div>
-
-  	<%= render "layouts/inventoryform" %>
-    <!-- add a contact form in case they have anything else they'd like to share -->
+<div class="col-xs-12" style="padding-bottom:1%;">
+  <h4>
+    <% if @signup_parent.inventories.count > 0 %>
+      <%="Yay for sharing more, #{@signup_parent.email}!"%>
+    <% else %>
+      <%="Step 2 of 2: Lend away, #{@signup_parent.email}!"%>
+    <% end %>
+  </h4>
   
-  <% else %>  
+  <h5 style="font-size:100%; font-style:italic">
+    <% if @signup_parent.inventories.count > 0 %>
+      <%= link_to '(I want to manage requests from borrowers)', manage_inventory_path, { style: 'color:#428bca'}%>
+    <% end %>
+    <%= link_to '(I want to borrow)', new_request_path, { style: 'color:#428bca'}%>
+  </h5>
 
-    <div class="col-xs-12" style="padding-bottom:1%;">
-      <h4><%="Step 2 of 2: Lend away, #{@signup_parent.email}!"%></h4>
-      <h5 style="font-size:100%; font-style:italic"><%= link_to '(I want to borrow)', new_request_path, { style: 'color:#428bca'}%></h6>
-      <p style="font-style:italic;">First, you're awesome for being a lender. Thank you for being kind, generous, and... we could go on, but you get it. A few things to keep in mind:</p>
-      <ul style="font-style:italic;">
-        <li>Below are all the items borrowers are asking for, camping stuff is especially hot! If you have something else you think would be cool to share, please <%= mail_to 'james@projectborrow.com', 'tell us', {style: 'color:#428bca'} %>.</li>
-        <li>We value our lenders and want you to have a great experience, please reach out if you have any questions or concerns about the safety and care of your items, and feel free to review our <%= link_to "terms of service", terms_path, { style: "color:#428bca", target: "_blank" } %></li>
-      </ul>
-    </div> 
-    <%= render "layouts/flash" %>
+  <p style="font-style:italic;">First, you're awesome for being a lender. Thank you for being kind, generous, and... we could go on, but you get it. A few things to keep in mind:</p>
+  <ul style="font-style:italic;">
+    <li>Below are all the items borrowers are asking for, camping stuff is especially hot! If you have something else you think would be cool to share, please <%= mail_to 'james@projectborrow.com', 'tell us', {style: 'color:#428bca'} %>.</li>
+    <li>We value our lenders and want you to have a great experience, please reach out if you have any questions or concerns about the safety and care of your items, and feel free to review our <%= link_to "terms of service", terms_path, { style: "color:#428bca", target: "_blank" } %></li>
+  </ul>
+</div> 
+<%= render "layouts/flash" %>
 
-    <%= render "layouts/inventoryform" %>
-    <!-- add a contact form in case they have anything else they'd like to share -->
+<%= render "layouts/inventoryform" %>
+<!-- add a contact form in case they have anything else they'd like to share -->
 
-  <% end %>
-        
+    

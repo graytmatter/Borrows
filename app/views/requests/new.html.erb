@@ -1,6 +1,6 @@
   <div class="col-xs-12" style="padding-bottom:1%;">
     <h4><%="Step 2 of 2: Borrow away, #{@signup_parent.email}!"%></h4>
-    <h5 style="font-size:100%; font-style:italic"><%= link_to '(I want to lend)', new_inventory_path, { style: 'color:#428bca'}%></h5>
+    <h5 style="font-size:100%; font-style:italic"><%= link_to '(I want to lend)', @signup_parent.inventories.count > 0 ? manage_inventory_path : new_inventory_path, { style: 'color:#428bca'}%></h5>
     <p style="font-style:italic;">Woohoo, now you get to tell us what you need! A few things to keep in mind:</p>
     <ul style="font-style:italic;">
     <li><b>Request size:</b> When you submit, we'll send an email to the lender(s) with the item(s) and connect you if they accept your request. Large requests are likely to be fulfilled by multiple lenders in different locations</li>

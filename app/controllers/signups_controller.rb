@@ -45,7 +45,11 @@ class SignupsController < ApplicationController
 		if params[:borrow] 
 			redirect_to new_request_path
 		else
-			redirect_to new_inventory_path
+			if @signup_parent.inventories.count > 0
+				redirect_to manage_inventory_path
+			else
+				redirect_to new_inventory_path
+			end
 		end
 	end
 

@@ -18,7 +18,8 @@ GoogleTest::Application.routes.draw do
   resources :inventories, only: [:new, :create, :destroy]
   patch 'inventories/:id/edit', to: 'inventories#update', as: 'edit_inventory'
   patch 'inventories/:id/destroy_description', to: 'inventories#destroy_description', as: 'destroy_description'  
-
+  get 'inventories/manage', to: 'inventories#manage', as: 'manage_inventory'
+  
   resources :borrows, only: [:edit, :update]
 
   get 'admin/statuses', to: 'statuses#index'

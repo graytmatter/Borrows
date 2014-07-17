@@ -1,0 +1,31 @@
+Same day request
+
+Email:
+<%= @requestrecord.signup.email %>
+
+Item and email of users who have it (may be overlapping already, the list of users is not filtered, same as what appears on user mgmt page)
+
+<% @requestlist.each do |item, emails| %>
+	<%= item %>
+	<% emails.each do |email| %>
+	    <%= email %>
+	end
+	<br>
+end
+
+Additional details:
+<%= @requestrecord.detail %>
+
+Pickup date:
+<%= @requestrecord.pickupdate %>
+
+Return date:
+<%= @requestrecord.returndate %>
+
+Neighborhood
+<%= @requestrecord.signup.streetone %>
+<%= @requestrecord.signup.streettwo %>
+<%= @requestrecord.signup.zipcode %>
+
+Heard
+<%= @requestrecord.signup.heard %>
