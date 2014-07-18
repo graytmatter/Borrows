@@ -40,15 +40,18 @@ class InventoriesController < ApplicationController
   def accept 
     inventory_id = params[:inventory_id].to_i
     borrow_id = params[:borrow_id].to_i
+    @requestrecord = Borrow.find_by_id(borrow_id).request
     Borrow.find_by_id(borrow_id).update_attributes(status1: Status.find_by_name("Connected").id)
     Invenborrow.where(borrow_id: borrow_id).where(inventory_id: inventory_id).update_all(status: "Accepted")
     Invenborrow.where(borrow_id: borrow_id).where.not(inventory_id: inventory_id).update_all(status: "Declined")
-    Invenborrow.where(inventory_id: inventory_id).where.not(borrow_id: borrow_id).update_all(status: "Declined") #if dates overlap
-    RequestMailer.connect_email(borrow_id, inventory_id).deliver
+    Invenborrow.where(inventory_id: inventory_id).where.not(borrow_id: borrow_id).all.each do |invenborrow|
+      invenborrow.update_attributes(status: "Declined") if ( (@requestrecord.pickupdate - Borrow.find_by_id(invenborrow.id).request.returndate) * (Borrow.find_by_id(invenborrow.id).request.returndate - @requestrecord.returndate) > 0 ) 
+    end
+    RequestMailer.connect_email(borrow_id, inventory_id, @request_record).deliver
     
     if Invenborrow.where(borrow_id: borrow_id).all? {|invenborrow| invenborrow.status == "Declined" }
       Borrow.find_by_id(borrow_id).update_attributes(status1: Status.where("name LIKE ?", "%not available%").first.id)
-      RequestMailer.not_found(borrow_id).deliver
+      RequestMailer.not_found(borrow_id, @requestrecord).deliver
     end
     
     redirect_to manage_inventory_path
