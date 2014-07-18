@@ -8,14 +8,21 @@
 <p>Hi there!</p>
 
 <p>
-	<%= "One of our borrowers would like to borrow #{pluralize(@quantity,@item.downcase)} between #{@requestrecord.pickupdate.to_date} and #{@requestrecord.returndate.to_date}. Can you help them out?"%>
+	<%= "Connecting the two of you so you can make sharing magic happen!"%>
 
-	<%= "If so, let us know as well if you can lend 1 or more #{@item.downcase.pluralize}." if @quantity > 1 %>
-
-	<%= "Here's a personal note from the borrower: '#{@requestrecord.detail}' " if @requestrecord.detail.present? %>
+	<%= "Lender: #{@lender_email}" %>
+	<%= "Borrower: #{@requestrecord.signup.email}" %>
+	<%= "Item: #{@item}" %>
+	<%= "Pick Up Date: #{@requestrecord.pickupdate.to_date}" %>
+	<%= "Return Date: #{@requestrecord.returndate.to_date}" %>
 </p>
 
-<p>Once we hear back, we'll connect you with the borrower directly to coordinate further. Thanks again for being a great sharer!</p>
+<p>Just some reminders on the process:<p>
+	<ul>
+		<li><%= "Borrowers: For some Internet fame, snap a pic of yourself and the #{@item} in action, we may put it on our homepage!" %></li>
+		<li><%= "Borrowers: If you cannot coordinate a time to get the #{@item}, let me know ASAP so I can try to find a replacement."%>
+		<li>We recommend both parties check the items to avoid issues with liability. Please respect and care for the items of others!</li>
+	</ul>
 
 <p>James</p>
 

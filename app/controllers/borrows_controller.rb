@@ -3,7 +3,7 @@ class BorrowsController < ApplicationController
   
   def index
     @q = Borrow.ransack(params[:q])
-    @borrows = @q.result.includes(:request => :signup)
+    @borrows = @q.result.includes(:request => :signup, :invenborrow => :inventory)
   end
 
   def edit

@@ -12,8 +12,9 @@ status_codes = {
 
   "1 Did use PB" => [
     "Searching", #Default status, assumes that PB will help
-    "In progress", #Follows Searching 
-    "Complete - OK", #Follows In Progress, indicates everything went well
+    "Connected", #Automatically set if a connection is made between borrower and lender
+    "In progress", #Follows In Progress, automatically set on the Pick Up Date of Connected borrows, I have to manually adjust if one party informs me otherwise  
+    "Complete - OK", #Follows In Progress, automatically set on the Return Date, I have to manually adjust if one party tells me otherwise
     "Complete - Disputing", #Follow In Progress, something went wrong
     "Complete - Settled Informally", #Follows Complete - Disputing, indicates that some settlement was reached mediated by PB at most
     "Complete - Settled Formally" #Follows Complete - Disputing, indicates that some settlement was reached that required legal action
@@ -25,18 +26,17 @@ status_codes = {
   #TC = True Cancel, very likely that the borrower would have cancelled no matter what changes in circumstance
 
   "1 Did not use PB" => [
-    "FC - No response from borrower",
-    "FC - No response from lender",
-    "FC - Borrower forgot last minute", #E.g., borrower did not pick up at scheduled time, and didn't change the time
-    "FC - Lender forgot last minute", #E.g., lender forgot to make item available at scheduled time, and didn't change the time
-    "FC - Scheduling conflict",
-    "FC - Time period too long",
-    "FC - Out of area",
-    "FC - Inventory not available",
-    "FC - Inventory not suitable", #E.g., specifications not met
-    "FC - Too inconvenient (time/money cost)",
+    "FC - No response from borrower", #I have to manually set, e.g., if lender tells me
+    "FC - No response from lender; Inventory not available", #Automatically set if all the statuses are still nil at the end of an X day period or if the Pick Up Date comes and goes
+    "FC - Borrower forgot last minute", #Manual set if one party informs me, E.g., borrower did not pick up at scheduled time, and didn't change the time
+    "FC - Lender forgot last minute", #Manual set if one party informs me, E.g., lender forgot to make item available at scheduled time, and didn't change the time
+    "FC - Scheduling conflict", #Manual set if one party informs me, 
+    "FC - Out of area", #Will build an auto check for this, but still manual set if someone tries to sneak it 
+    "FC - Inventory not suitable", #Manual set if one party informs me, E.g., specifications not met
+    "FC - Too inconvenient (time/money cost)", #Manual set if one party informs me, 
     "FC - Found sale",
 
+    # Eventually this section should be auto-set
     "TC - Occasion for use cancelled",
     "TC - Item not actually needed", #E.g., consumer education, water filters not needed for car camping
     "TC - Actually needs item frequently" #E.g., buying makes more sense
@@ -44,7 +44,7 @@ status_codes = {
 
 #Second column, more info for Complete - Settled what settlement was reached or if PB was not used what borrower did instead
 
-  "2 Did use PB" => [
+  "2 Did use PB" => [ #these are all manually set because they are about disputes
     "Borrower paid to replace lost item",
     "Project Borrow paid to replace lost item",
     
@@ -57,13 +57,13 @@ status_codes = {
     "Lender said no big deal to damage"
   ],
 
-  "2 Did not use PB" => [
-    "Borrowed from friend/family",
-    "Borrowed from neighbor",
-    "Rented elsewhere",
-    "Bought online",
-    "Bought in-store",
-    "Found suitable alternative"
+  "2 Did not use PB" => [ #these are all manually set
+    "Borrow from friend/family",
+    "Borrow from neighbor",
+    "Rent elsewhere",
+    "Buy online",
+    "Buy in-store",
+    "Use good-enough alternative"
   ]
 }
 

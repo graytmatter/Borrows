@@ -40,13 +40,17 @@ class InventoriesController < ApplicationController
   def accept 
     inventory_id = params[:inventory_id].to_i
     borrow_id = params[:borrow_id].to_i
+    Borrow.find_by_id(borrow_id).update_attributes(status1: Status.find_by_name("Connected").id)
     Invenborrow.where(borrow_id: borrow_id).where(inventory_id: inventory_id).update_all(status: "Accepted")
     Invenborrow.where(borrow_id: borrow_id).where.not(inventory_id: inventory_id).update_all(status: "Declined")
     Invenborrow.where(inventory_id: inventory_id).where.not(borrow_id: borrow_id).update_all(status: "Declined") #if dates overlap
-    #trigger connect email
-    # if Invenborrow.where(id: borrow_id).all has a status of Rejected
-    #   #notify borrower that no lenders accepted
-    # end
+    RequestMailer.connect_email(borrow_id, inventory_id).deliver
+    
+    if Invenborrow.where(borrow_id: borrow_id).all? {|invenborrow| invenborrow.status == "Declined" }
+      Borrow.find_by_id(borrow_id).update_attributes(status1: Status.where("name LIKE ?", "%not available%").first.id)
+      RequestMailer.not_found(borrow_id).deliver
+    end
+    
     redirect_to manage_inventory_path
   end
 
@@ -56,12 +60,13 @@ class InventoriesController < ApplicationController
     inventory_id = params[:inventory_id].to_i
     borrow_id = params[:borrow_id].to_i
     Invenborrow.where(borrow_id: borrow_id).where(inventory_id: inventory_id).update_all(status: "Declined")
-    #trigger connect email
-    # if Invenborrow.where(id: borrow_id).all has a status of Rejected
-    #   #notify borrower that no lenders accepted
-    # end
+    
+    if Invenborrow.where(borrow_id: borrow_id).all? {|invenborrow| invenborrow.status == "Declined" }
+      Borrow.find_by_id(borrow_id).update_attributes(status1: Status.where("name LIKE ?", "%not available%").first.id)
+      RequestMailer.not_found(borrow_id).deliver
+    end
+    
     redirect_to manage_inventory_path
-
   end
 
   def create
