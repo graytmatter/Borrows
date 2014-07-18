@@ -1,5 +1,5 @@
 class InventoriesController < ApplicationController
-  before_filter :authenticate, except: [:new, :create, :destroy, :manage]
+  before_filter :authenticate, except: [:new, :create, :destroy, :manage, :accept]
 
   def new
     @pagetitle = "What would you like to lend?"
@@ -37,6 +37,33 @@ class InventoriesController < ApplicationController
     end
   end
 
+  def accept 
+    inventory_id = params[:inventory_id].to_i
+    borrow_id = params[:borrow_id].to_i
+    Invenborrow.where(borrow_id: borrow_id).where(inventory_id: inventory_id).update_all(status: "Accepted")
+    Invenborrow.where(borrow_id: borrow_id).where.not(inventory_id: inventory_id).update_all(status: "Declined")
+    Invenborrow.where(inventory_id: inventory_id).where.not(borrow_id: borrow_id).update_all(status: "Declined") #if dates overlap
+    #trigger connect email
+    # if Invenborrow.where(id: borrow_id).all has a status of Rejected
+    #   #notify borrower that no lenders accepted
+    # end
+    redirect_to manage_inventory_path
+  end
+
+  def decline 
+  #not as many deletes, because we're assuming that you're declining one borrow, not necessarily anything for that date range or from that user, though these could be more advanced options
+  #along that same vein you could easily have accept all for a specific item, or for a specific user's request
+    inventory_id = params[:inventory_id].to_i
+    borrow_id = params[:borrow_id].to_i
+    Invenborrow.where(borrow_id: borrow_id).where(inventory_id: inventory_id).update_all(status: "Declined")
+    #trigger connect email
+    # if Invenborrow.where(id: borrow_id).all has a status of Rejected
+    #   #notify borrower that no lenders accepted
+    # end
+    redirect_to manage_inventory_path
+
+  end
+
   def create
     @pagetitle = "What would you like to lend?"
 
@@ -71,7 +98,7 @@ class InventoriesController < ApplicationController
     if request.referer.include? 'admin'
       redirect_to :action => 'index'
     else
-      redirect_to :action => 'new'
+      redirect_to :action => 'manage'
     end
   end
 
@@ -80,29 +107,27 @@ class InventoriesController < ApplicationController
     @inventories = @q.result.includes(:signup)
   end
 
-  def destroy_description
-    @inventory = Inventory.find(params[:id])
-    @inventory.update_attributes(description: "")
-    if request.referer.include? 'admin'
-      redirect_to :action => 'index'
-    else
-      redirect_to :action => 'new'
-    end
-  end
+  # def destroy_description
+  #   @inventory = Inventory.find(params[:id])
+  #   @inventory.update_attributes(description: "")
+  #   if request.referer.include? 'admin'
+  #     redirect_to :action => 'index'
+  #   else
+  #     redirect_to :action => 'manage'
+  #   end
+  # end
 
-  def destroy
-    @destroyed = Inventory.find(params[:id])
-    Inventory.find(params[:id]).destroy
-    if request.referer.include? 'admin'
-      redirect_to :action => 'index'
-    else
-      @signup_parent = Signup.find_by_email(session[:signup_email].downcase)
-      InventoryMailer.delete_email(@signup_parent, @destroyed).deliver
-      redirect_to :action => 'new'
-    end
-
-    #Note currently these changes are not affecting spreadsheet!
-  end
+  # def destroy
+  #   @destroyed = Inventory.find(params[:id])
+  #   Inventory.find(params[:id]).destroy
+  #   if request.referer.include? 'admin'
+  #     redirect_to :action => 'index'
+  #   else
+  #     @signup_parent = Signup.find_by_email(session[:signup_email].downcase)
+  #     InventoryMailer.delete_email(@signup_parent, @destroyed).deliver
+  #     redirect_to :action => 'manage'
+  #   end
+  # end
 
   private
 

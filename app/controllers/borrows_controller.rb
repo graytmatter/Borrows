@@ -2,7 +2,7 @@ class BorrowsController < ApplicationController
   before_filter :authenticate
   
   def index
-    @q = borrow.ransack(params[:q])
+    @q = Borrow.ransack(params[:q])
     @borrows = @q.result.includes(:request => :signup)
   end
 

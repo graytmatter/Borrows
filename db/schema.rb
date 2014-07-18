@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140716171316) do
+ActiveRecord::Schema.define(version: 20140718005952) do
 
   create_table "borrows", force: true do |t|
     t.integer  "request_id"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 20140716171316) do
     t.integer  "inventory_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "status"
   end
 
   create_table "inventories", force: true do |t|
