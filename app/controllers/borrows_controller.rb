@@ -13,6 +13,9 @@ class BorrowsController < ApplicationController
   def update
   	@borrow = Borrow.find(params[:id])
   	if @borrow.update_attributes(borrow_params)
+      if Status.where(statuscategory_id: Statuscategory.where("name LIKE?", "%1 Did not use PB%")).pluck("id").include? (params[:status1])
+        Invenborrow.find_by_borrow_id(params[:id]).destroy
+      end  
   		flash[:success] = "Update successful"
   		redirect_to '/admin/borrows'
   	else

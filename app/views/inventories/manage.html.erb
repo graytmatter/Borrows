@@ -50,11 +50,12 @@
               <ul>
                 <% inventory.borrows.each do |borrow| %>
                   <% if Invenborrow.where(borrow_id: borrow.id).where(inventory_id: inventory.id).present? %>
-                  <% case Invenborrow.where(borrow_id: borrow.id).where(inventory_id: inventory.id).first.accepted %>
-                    <% when true %>
-                      <li><%= "Thanks for accepting the request from #{borrow.request.signup.email} from #{borrow.request.pickupdate.to_date} to #{borrow.request.returndate.to_date}. We have sent an email connecting you with the borrower." %></li>
-                    <% when nil %>
-                      <li><%= "#{link_to 'Accept', lender_accept_path(inventory_id: inventory.id, borrow_id: borrow.id), method: :patch}, #{link_to 'Decline', lender_decline_path(inventory_id: inventory.id, borrow_id: borrow.id), method: :patch}. Requested by #{borrow.request.signup.email} from #{borrow.request.pickupdate.to_date} to #{borrow.request.returndate.to_date}. #{borrow.request.detail}".html_safe %></li>
+                    <% case Invenborrow.where(borrow_id: borrow.id).where(inventory_id: inventory.id).first.accepted %>
+                      <% when true %>
+                        <li><%= "Thanks for accepting the request from #{borrow.request.signup.email} from #{borrow.request.pickupdate.to_date} to #{borrow.request.returndate.to_date}. We have sent an email connecting you with the borrower." %></li>
+                      <% when nil %>
+                        <li><%= "#{link_to 'Accept', lender_accept_path(inventory_id: inventory.id, borrow_id: borrow.id), method: :patch}, #{link_to 'Decline', lender_decline_path(inventory_id: inventory.id, borrow_id: borrow.id), method: :patch}. Requested by #{borrow.request.signup.email} from #{borrow.request.pickupdate.to_date} to #{borrow.request.returndate.to_date}. #{borrow.request.detail}".html_safe %></li>
+                      <% end %>
                   <% else %>
                   <% end %>
                 <% end %>

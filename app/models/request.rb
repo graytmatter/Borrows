@@ -14,7 +14,7 @@ class Request < ActiveRecord::Base
     if self.pickupdate.present? && self.returndate.present?
       errors[:base] << "Please enter a pick up date and a return date on or after today" if (self.pickupdate.to_date < Date.today) || (self.returndate.to_date < Date.today)
       errors[:base] << "Please enter a return date that is on or after the pick up date" if self.pickupdate > self.returndate
-      errors[:base] << "Please submit requests with a maximum 2-week duration" if (self.returndate.to_date - self.pickupdate.to_date).to_i > 14
+      errors[:base] << "Please submit requests with a maximum 2-week duration, we don't have enough lenders at this time to offer long term borrows" if (self.returndate.to_date - self.pickupdate.to_date).to_i > 14
     end
   end
 

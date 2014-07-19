@@ -37,12 +37,17 @@ class RequestsController < ApplicationController
           newborrow = @requestrecord.borrows.create(itemlist_id: itemlist_id) 
           matched_inventory_ids.each do |inventory_id|
             #check if inventory_id has already had an accepted request with conflicting dates, if so, do not associate it because the lender can't lend it out anyways
-            Inventory.find_by_id(10).invenborrows.select { |invenborrow| invenborrow.accepted == true}.each do |accepted_invenborrow|
-              if accepted_invenborrow.do_dates_overlap(@requestrecord) == "yes"
-                newborrow.update_attributes(status: Status.find_by_name("not available").id)
-              else # if it's "no" or on the "edge"
-                newborrow.inventory_ids += inventory_id
+            if Inventory.find_by_id(inventory_id).invenborrows.select { |invenborrow| invenborrow.accepted == true}.present?
+              Inventory.find_by_id(inventory_id).invenborrows.select { |invenborrow| invenborrow.accepted == true}.each do |accepted_invenborrow|
+                if accepted_invenborrow.do_dates_overlap(@requestrecord) == "yes"
+                  #do not create an invenborrow first off, and update status of this borrow to not available
+                  newborrow.update_attributes(status: Status.find_by_name("not available").id)
+                else # if it's "no" or on the "edge"
+                  newborrow.inventory_ids += inventory_id
+                end
               end
+            else
+              newborrow.inventory_ids += inventory_id
             end
           end
         end

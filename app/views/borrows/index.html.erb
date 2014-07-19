@@ -84,7 +84,11 @@
           <td><%= borrow.request.pickupdate.to_date %></td>
           <td><%= borrow.request.returndate.to_date %></td>
           <td>
-            <%= link_to 'Update', edit_borrow_path(borrow) %> <!--update status and inventory_id, but everything can be udpated. DO NOT REMOVE, remove is handled by a specific status code -->
+            <% if borrow.status1 == Status.find_by_name("Searching").id %>
+              <!-- Updates not allowed until system has made a connection or until searching expires, this last part hasn't been built yet -->
+            <% else %>
+              <%= link_to 'Update', edit_borrow_path(borrow) %> <!--update status and inventory_id, but everything can be udpated. DO NOT REMOVE, remove is handled by a specific status code -->
+            <% end %>
           </td>
         </tr>
       <% end %>
