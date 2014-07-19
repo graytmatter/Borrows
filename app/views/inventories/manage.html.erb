@@ -49,12 +49,13 @@
          
               <ul>
                 <% inventory.borrows.each do |borrow| %>
-                  <% case Invenborrow.where(borrow_id: borrow.id).where(inventory_id: inventory.id).first.status %>
-                  <% when "Accepted" %>
-                    <li><%= "Thanks for accepting the request from #{borrow.request.signup.email} from #{borrow.request.pickupdate.to_date} to #{borrow.request.returndate.to_date}. We have sent an email connecting you with the borrower." %></li>
-                  <% when "Declined" %>
-                  <% when nil %>
-                    <li><%= "#{link_to 'Accept', lender_accept_path(inventory_id: inventory.id, borrow_id: borrow.id), method: :patch}, #{link_to 'Decline', lender_decline_path(inventory_id: inventory.id, borrow_id: borrow.id), method: :patch}. Requested by #{borrow.request.signup.email} from #{borrow.request.pickupdate.to_date} to #{borrow.request.returndate.to_date}. #{borrow.request.detail}".html_safe %></li>
+                  <% if Invenborrow.where(borrow_id: borrow.id).where(inventory_id: inventory.id).present? %>
+                  <% case Invenborrow.where(borrow_id: borrow.id).where(inventory_id: inventory.id).first.accepted %>
+                    <% when true %>
+                      <li><%= "Thanks for accepting the request from #{borrow.request.signup.email} from #{borrow.request.pickupdate.to_date} to #{borrow.request.returndate.to_date}. We have sent an email connecting you with the borrower." %></li>
+                    <% when nil %>
+                      <li><%= "#{link_to 'Accept', lender_accept_path(inventory_id: inventory.id, borrow_id: borrow.id), method: :patch}, #{link_to 'Decline', lender_decline_path(inventory_id: inventory.id, borrow_id: borrow.id), method: :patch}. Requested by #{borrow.request.signup.email} from #{borrow.request.pickupdate.to_date} to #{borrow.request.returndate.to_date}. #{borrow.request.detail}".html_safe %></li>
+                  <% else %>
                   <% end %>
                 <% end %>
               </ul>
@@ -65,7 +66,7 @@
             <!-- Another theoretically good thing would be to mark as in use for a specific period of time, where user enters the period of time, and then this simulates sending a request that's automatically accepted for that period of time, or i can add more attributes to the inventory item itself, but that might be hard because it might be unavailable for multiple periods of time -->
             <%#= button_to 'Update description', destroy_description_path(inventory), method: :patch, class: "btn btn-default btn-default btn-block" if inventory.description.present? %>
             <%#= button_to 'Decline all', '#', class: "btn btn-default btn-default btn-block" if inventory.borrows.count > 0 %>
-            <%#= button_to 'Remove item', inventory, method: :delete, class: "btn btn-default btn-default btn-block", data: { confirm: 'Once removed, borrowers will no longer be able to see you have this item. To remove an item temporarily (i.e., for a personal trip), please notify us via email' } %>
+            <%#= button_to 'Remove item', inventory, method: :delete, class: "btn btn-default btn-default btn-block", data: { confirm: 'Once removed, borrowers will no longer be able to see you have this item. To remove an item temporarily (i.e., for a personal trip), please notify us via email' } %> <!--also important is i'd have to say what happens to any open requests or accepted requests on an item that becomes removed -->
           <!-- </td> -->
         </tr>
       <% end %>

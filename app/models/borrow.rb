@@ -1,5 +1,5 @@
 class Borrow < ActiveRecord::Base
-	before_validation :set_default_status1
+	before_validation :set_default_status1, on: :create
 	belongs_to :request
 	accepts_nested_attributes_for :request
 

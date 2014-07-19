@@ -9,12 +9,13 @@
 
 <p><%= "We did our best to find a #{@item} for you, but unfortunately our lenders have not responded affirmatively in time. I hope you will continue to think of Project Borrow in the future. Please also note, if you requested multiple #{@item.pluralize}, this email is meant to reflect the status of one of these items only."%></p>
 
-<p>If you have a moment, as I'm interested in studying this space, I'd like to know what other options you will or plan to pursue, you can just bold or select a letter and let me know.</p>
+<p>If you have a moment, as I'm interested in studying this space, I'd like to know what other options you will or plan to pursue, you can just bold or select a number and reply to this email.</p>
 
-<ul>
+<ol>
 	<% Status.where(statuscategory_id: Statuscategory.find_by_name("2 Did not use PB").id).all.each do |status| %>
-	<li><%= status %></li>
-<ul>
+		<li><%= status.name %></li>
+	<% end %>
+</ol>
 
 <p>Best,</p>
 

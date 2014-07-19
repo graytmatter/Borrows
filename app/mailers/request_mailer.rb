@@ -12,7 +12,7 @@ class RequestMailer < ActionMailer::Base
     @requestrecord = requestrecord
     @item = Itemlist.find_by_id(Borrow.find_by_id(borrow_id).itemlist_id).name
     @lender_email = Inventory.find_by_id(inventory_id).signup.email
-    mail(to: @requestrecord.signup.email, cc: @lender_email, from: ENV['owner'], :subject => "[Project Borrow]: Connect for #{@item} exchange!") 
+    mail(to: @requestrecord.signup.email, cc: @lender_email, from: ENV['owner'], :subject => "[Project Borrow]: #{@item} exchange!") 
   end
 
   def same_as_today(requestrecord)

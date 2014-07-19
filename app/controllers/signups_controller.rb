@@ -13,7 +13,7 @@ class SignupsController < ApplicationController
 		else
 			if @signup.save
 				@signup.save_subscrip 
-				Subscribe.notification_email(@signup).deliver 
+				Subscribe.notification_email(@signup).deliver if Rails.env == "production"
 				session[:signup_email] = @signup.email.downcase
 				redirect_to action: 'edit'
 			else

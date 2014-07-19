@@ -1,4 +1,6 @@
 class Inventory < ActiveRecord::Base
+  include Dateoverlap
+  
 	belongs_to :signup
 
   has_many :invenborrows

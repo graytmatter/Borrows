@@ -39,6 +39,7 @@ status_codes = {
     # Eventually this section should be auto-set
     "TC - Occasion for use cancelled",
     "TC - Item not actually needed", #E.g., consumer education, water filters not needed for car camping
+    "TC - Mistaken request", #E.g., didn't even mean to submit
     "TC - Actually needs item frequently" #E.g., buying makes more sense
   ],
 

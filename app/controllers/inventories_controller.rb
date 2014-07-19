@@ -1,4 +1,5 @@
 class InventoriesController < ApplicationController
+
   before_filter :authenticate, except: [:new, :create, :destroy, :manage, :accept]
 
   def new
@@ -42,14 +43,14 @@ class InventoriesController < ApplicationController
     borrow_id = params[:borrow_id].to_i
     @requestrecord = Borrow.find_by_id(borrow_id).request
     Borrow.find_by_id(borrow_id).update_attributes(status1: Status.find_by_name("Connected").id)
-    Invenborrow.where(borrow_id: borrow_id).where(inventory_id: inventory_id).update_all(status: "Accepted")
-    Invenborrow.where(borrow_id: borrow_id).where.not(inventory_id: inventory_id).update_all(status: "Declined")
+    Invenborrow.where(borrow_id: borrow_id).where(inventory_id: inventory_id).update_all(accepted: true)
+    Invenborrow.where(borrow_id: borrow_id).where.not(inventory_id: inventory_id).destroy_all
     Invenborrow.where(inventory_id: inventory_id).where.not(borrow_id: borrow_id).all.each do |invenborrow|
-      invenborrow.update_attributes(status: "Declined") if ( (@requestrecord.pickupdate - Borrow.find_by_id(invenborrow.id).request.returndate) * (Borrow.find_by_id(invenborrow.id).request.returndate - @requestrecord.returndate) > 0 ) 
+      invenborrow.destroy if @requestrecord.do_dates_overlap(Borrow.find_by_id(invenborrow.id).request) == "yes"
     end
-    RequestMailer.connect_email(borrow_id, inventory_id, @request_record).deliver
+    RequestMailer.connect_email(borrow_id, inventory_id, @requestrecord).deliver
     
-    if Invenborrow.where(borrow_id: borrow_id).all? {|invenborrow| invenborrow.status == "Declined" }
+    if Invenborrow.where(borrow_id: borrow_id).where(accepted: true).count == 0 
       Borrow.find_by_id(borrow_id).update_attributes(status1: Status.where("name LIKE ?", "%not available%").first.id)
       RequestMailer.not_found(borrow_id, @requestrecord).deliver
     end
@@ -62,11 +63,12 @@ class InventoriesController < ApplicationController
   #along that same vein you could easily have accept all for a specific item, or for a specific user's request
     inventory_id = params[:inventory_id].to_i
     borrow_id = params[:borrow_id].to_i
-    Invenborrow.where(borrow_id: borrow_id).where(inventory_id: inventory_id).update_all(status: "Declined")
+    @requestrecord = Borrow.find_by_id(borrow_id).request
+    Invenborrow.where(borrow_id: borrow_id).where(inventory_id: inventory_id).destroy
     
-    if Invenborrow.where(borrow_id: borrow_id).all? {|invenborrow| invenborrow.status == "Declined" }
+    if Invenborrow.where(borrow_id: borrow_id).where(accepted: true).count == 0 
       Borrow.find_by_id(borrow_id).update_attributes(status1: Status.where("name LIKE ?", "%not available%").first.id)
-      RequestMailer.not_found(borrow_id).deliver
+      RequestMailer.not_found(borrow_id, @requestrecord).deliver
     end
     
     redirect_to manage_inventory_path
@@ -115,27 +117,27 @@ class InventoriesController < ApplicationController
     @inventories = @q.result.includes(:signup)
   end
 
-  # def destroy_description
-  #   @inventory = Inventory.find(params[:id])
-  #   @inventory.update_attributes(description: "")
-  #   if request.referer.include? 'admin'
-  #     redirect_to :action => 'index'
-  #   else
-  #     redirect_to :action => 'manage'
-  #   end
-  # end
+  def destroy_description
+    @inventory = Inventory.find(params[:id])
+    @inventory.update_attributes(description: "")
+    if request.referer.include? 'admin'
+      redirect_to :action => 'index'
+    else
+      redirect_to :action => 'manage'
+    end
+  end
 
-  # def destroy
-  #   @destroyed = Inventory.find(params[:id])
-  #   Inventory.find(params[:id]).destroy
-  #   if request.referer.include? 'admin'
-  #     redirect_to :action => 'index'
-  #   else
-  #     @signup_parent = Signup.find_by_email(session[:signup_email].downcase)
-  #     InventoryMailer.delete_email(@signup_parent, @destroyed).deliver
-  #     redirect_to :action => 'manage'
-  #   end
-  # end
+  def destroy
+    @destroyed = Inventory.find(params[:id])
+    Inventory.find(params[:id]).destroy
+    # if request.referer.include? 'admin'
+      redirect_to :action => 'index'
+    # else
+    #   @signup_parent = Signup.find_by_email(session[:signup_email].downcase)
+    #   InventoryMailer.delete_email(@signup_parent, @destroyed).deliver
+    #   redirect_to :action => 'manage'
+    # end
+  end
 
   private
 

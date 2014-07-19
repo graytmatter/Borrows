@@ -1,4 +1,6 @@
 class Request < ActiveRecord::Base
+  include Dateoverlap
+  
   before_create :create_edit_id
   
   belongs_to :signup

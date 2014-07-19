@@ -32,9 +32,19 @@ class RequestsController < ApplicationController
       @requestrecord = @signup_parent.requests.create(@requestparams)
       @borrowparams.each do |itemlist_id, quantity|
         matched_inventory_ids = Inventory.where.not(signup_id: @requestrecord.signup.id).where(itemlist_id: itemlist_id).ids 
+        # if someone's request exceeds inventory, you still want to create the borrows, but for the excess it doesn't matter at the moment because people will hopefully just decline them
         quantity.to_i.times do
           newborrow = @requestrecord.borrows.create(itemlist_id: itemlist_id) 
-          newborrow.inventory_ids += matched_inventory_ids
+          matched_inventory_ids.each do |inventory_id|
+            #check if inventory_id has already had an accepted request with conflicting dates, if so, do not associate it because the lender can't lend it out anyways
+            Inventory.find_by_id(10).invenborrows.select { |invenborrow| invenborrow.accepted == true}.each do |accepted_invenborrow|
+              if accepted_invenborrow.do_dates_overlap(@requestrecord) == "yes"
+                newborrow.update_attributes(status: Status.find_by_name("not available").id)
+              else # if it's "no" or on the "edge"
+                newborrow.inventory_ids += inventory_id
+              end
+            end
+          end
         end
       RequestMailer.same_as_today(@requestrecord).deliver if @requestrecord.pickupdate.to_date == Date.today
       end
@@ -42,6 +52,7 @@ class RequestsController < ApplicationController
       render 'success'
     end
   end
+
 
   def success
   end

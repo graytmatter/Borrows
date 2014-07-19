@@ -13,23 +13,22 @@
 
   <div class="col-xs-12 box">
     <h4>Now editing</h4>
-    <h5><%= "Item: #{@borrow.name}" %></h5>
+    <h5><%= "Item: #{Itemlist.find_by_id(@borrow.itemlist_id).name}" %></h5>
     <h5><%= "Signup email: #{@borrow.request.signup.email}" %> </h5>
     <h5><%= "Request message: #{@borrow.request.detail}" %></h5>  
     <%= form_for @borrow, url: {action: 'update'} do |f| %>
       <div class="form-group">
         <%= f.label "Status 1" %>
-        <%= f.collection_select :status1, Status.includes(:statuscategories).where("statuscategories.name LIKE ?", "%1%"), :id, :name, {default: @borrow.status1, include_blank: @borrow.status1.nil?} %>
+        <%= f.collection_select :status1, Status.where(statuscategory_id: Statuscategory.where("name LIKE ?", "%1%").ids), :id, :name, {default: Status.find_by_id(@borrow.status1).name } %>
       </div>  
       <div class="form-group">
         <%= f.label "Status 2" %>
-        <%= f.collection_select :status2, Status.includes(:statuscategories).where("statuscategories.name LIKE ?", "%2%"), :id, :name, {default: @borrow.status2, include_blank: @borrow.status2.nil?} %>
+        <%= f.collection_select :status2, Status.where(statuscategory_id: Statuscategory.where("name LIKE ?", "%2%").ids), :id, :name, {default: Status.find_by_id(@borrow.status2), include_blank: @borrow.status2.nil?} %>
       </div> 
-      <div class="form-group">
-        <%= f.label "Item ID used to fulfill" %>
-        <%= f.number_field :item_id, min: 0 %>
-      </div> 
-
+      <!-- <div class="form-group">
+        <%#= f.label "Item used to fulfill" %>
+        <%#= f.number_field :item_id, min: 0 %>
+      </div>  -->
       <%= f.fields_for :request do |r| %>
         <div class="form-group">
           <%= r.label "Request pickup date" %>

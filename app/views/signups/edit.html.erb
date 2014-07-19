@@ -20,7 +20,11 @@
         <%= button_to "Woohoo! Ready to borrow!", new_request_path, method: "get", class: "btn btn-primary btn-large btn-block" %>
       </div>
       <div class="col-xs-6">
-        <%= button_to "Yayhay! Ready to lend!", new_inventory_path,  method: "get", class: "btn btn-warning btn-large btn-block" %>
+        <% if @signup_parent.inventories.present? %>
+          <%= button_to "Yayhay! Ready to lend!", manage_inventory_path,  method: "get", class: "btn btn-warning btn-large btn-block" %>
+        <% else %>
+          <%= button_to "Yayhay! Ready to lend!", manage_inventory_path,  method: "get", class: "btn btn-warning btn-large btn-block" %>
+        <% end %>
       </div>
     </div>
   <% end %>

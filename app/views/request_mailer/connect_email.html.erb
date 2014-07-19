@@ -7,15 +7,14 @@
 
 <p>Hi there!</p>
 
-<p>
-	<%= "Connecting the two of you so you can make sharing magic happen!"%>
-
-	<%= "Lender: #{@lender_email}" %>
-	<%= "Borrower: #{@requestrecord.signup.email}" %>
-	<%= "Item: #{@item}" %>
-	<%= "Pick Up Date: #{@requestrecord.pickupdate.to_date}" %>
-	<%= "Return Date: #{@requestrecord.returndate.to_date}" %>
-</p>
+<p><%= "Connecting the two of you so you can make sharing magic happen!"%></p>
+	<ul>
+	<li><%= "<b>Lender:</b> #{@lender_email}".html_safe %></li>
+	<li><%= "<b>Borrower:</b> #{@requestrecord.signup.email}".html_safe %></li>
+	<li><%= "<b>Item:</b> #{@item}".html_safe %></li>
+	<li><%= "<b>Pick Up Date:</b> #{@requestrecord.pickupdate.to_date}".html_safe %></li>
+	<li><%= "<b>Return Date:</b> #{@requestrecord.returndate.to_date}".html_safe %></li>
+	</ul>
 
 <p>Just some reminders on the process:<p>
 	<ul>

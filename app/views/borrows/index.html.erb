@@ -4,24 +4,22 @@
   <%= search_form_for @q, url: url_for(controller: 'borrows', action: 'index')  do |f| %>
     <div class="form group">
       <%= f.label :status1_eq %>
-      <%= f.collection_select :status1_eq, Statuscategory.where("name LIKE ?", "%1%"), :id, :name, {default: @q.status1, include_blank: @q.status1.nil?} %>
-
+      <%= f.select :status1_eq, Status.where(id: Borrow.all.pluck("status1").uniq).pluck("name"), {default: @q.status1, include_blank: @q.status1.nil?} %>
     </div>
     <div class="form group">
       <%= f.label :status2_eq %>
-      <%= f.collection_select :status2_eq, Statuscategory.where("name LIKE ?", "%2%"), :id, :name, {default: @q.status2, include_blank: @q.status2.nil?} %>
-
+      <%= f.select :status2_eq, Status.where(id: Borrow.all.pluck("status2").uniq).pluck("name"), {default: @q.status2, include_blank: @q.status2.nil?} %>
     </div>
     <div class="form group">
-      <%= f.label :invenborrow_inventory_id_cont %>
-      <%= f.search_field :invenborrow_inventory_id_cont %>
+      <%#= f.label :invenborrow_inventory_id_cont %>
+      <%#= f.search_field :invenborrow_inventory_id_cont %>
     </div>
     <div class="form group">
       <%= f.label "Item" %>
-      <%= f.select :itemlist_id_eq, Borrow.all.pluck(:itemlist_id).uniq, :include_blank => true %>
+      <%= f.select :itemlist_id_eq, Itemlist.where(id: Borrow.all.pluck(:itemlist_id).uniq).pluck("name"), :include_blank => true %>
     </div>
     <div class="form group">
-      <%= f.label :request_signup_email_cont %>
+      <%= f.label :request_signup_email_cont, "Borrower email contains" %>
       <%= f.search_field :request_signup_email_cont %>
     </div>
     <div class="form group">
@@ -46,12 +44,15 @@
   <table class="table table-condensed table-hover">
     <thead>
       <tr>
-        <th><%= sort_link(@q, :id, "Transac ID") %></th>
+        <th><%= sort_link(@q, :id, "Borrow ID") %></th>
         <th><%= sort_link(@q, :created_at, "Created at") %></th>
+        <th><%= sort_link(@q, :itemlist_id, "Item") %></th>
         <th><%= sort_link(@q, :status1, "Status 1") %></th>
         <th><%= sort_link(@q, :status2, "Status 2") %></th>
-        <th><%#= sort_link(@q, :inventory_id, "Inventory ID") %></th>
-        <th><%= sort_link(@q, :itemlist_id, "Item") %></th>
+        <th>
+          <%#= sort_link(@q, :inventory_id, "Inventory ID") %>
+          Lender Email  
+        </th>
         <th><%= sort_link(@q, 'requests.signups.email', "Borrower Email") %></th>
         <th><%= sort_link(@q, 'requests.pickupdate', "Pickup date") %></th>
         <th><%= sort_link(@q, 'requests.returndate', "Return date") %></th>
@@ -65,15 +66,20 @@
         <tr>
           <td><%= borrow.id %></td>
           <td><%= borrow.created_at.to_date %></td>
-          <td><%#= Status.find_by_id(borrow.status1).name %></td>
-          <td><%#= Status.find_by_id(borrow.status2).name %></td>
-          <td><%#= borrow.item_id %></td>
-          <!-- ^^ should be something like 
-          if Invenborrow.where(borrow_id: borrow.id).where(status: "Accepted").any? 
-            Inventory.find_by_id(Invenborrow.find_by_borrow_id(borrow.id).inventory_id).signup.email
-          end
-          -->
-          <td><%= borrow.name %></td>
+          <td><%= Itemlist.find_by_id(borrow.itemlist_id).name %></td>
+          <td><%= Status.find_by_id(borrow.status1).name %></td>
+          <td>
+            <% if borrow.status2.present? %>
+              <%= Status.find_by_id(borrow.status2).name %>
+            <% else %>
+            <% end %>  
+          </td>
+          <td>
+            <% if Invenborrow.where(borrow_id: borrow.id).where(accepted: true).present? %>
+              <%= Inventory.find_by_id(Invenborrow.where(borrow_id: borrow.id).where(accepted: true).first.inventory_id).signup.email %> 
+            <% else %>
+            <% end %>
+          </td>
           <td><%= borrow.request.signup.email %></td>
           <td><%= borrow.request.pickupdate.to_date %></td>
           <td><%= borrow.request.returndate.to_date %></td>

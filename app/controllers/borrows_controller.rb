@@ -7,11 +7,11 @@ class BorrowsController < ApplicationController
   end
 
   def edit
-  	@borrow = borrow.find(params[:id])
+  	@borrow = Borrow.find(params[:id])
   end
 
   def update
-  	@borrow = borrow.find(params[:id])
+  	@borrow = Borrow.find(params[:id])
   	if @borrow.update_attributes(borrow_params)
   		flash[:success] = "Update successful"
   		redirect_to '/admin/borrows'
@@ -23,7 +23,7 @@ class BorrowsController < ApplicationController
   private
 
   def borrow_params
-  	params.require(:borrow).permit(:status1, :status2, :item_id, request_attributes: [:id, :pickupdate, :returndate]) 
+  	params.require(:borrow).permit(:status1, :status2, :itemlist_id, request_attributes: [:id, :pickupdate, :returndate]) 
   end
 
 end
