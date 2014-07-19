@@ -40,21 +40,26 @@ class InventoriesController < ApplicationController
 
   def accept 
     inventory_id = params[:inventory_id].to_i
-    borrow_id = params[:borrow_id].to_i
-    @requestrecord = Borrow.find_by_id(borrow_id).request
-    Borrow.find_by_id(borrow_id).update_attributes(status1: Status.find_by_name("Connected").id)
-    Invenborrow.where(borrow_id: borrow_id).where(inventory_id: inventory_id).update_all(accepted: true)
-    Invenborrow.where(borrow_id: borrow_id).where.not(inventory_id: inventory_id).destroy_all
-    Invenborrow.where(inventory_id: inventory_id).where.not(borrow_id: borrow_id).all.each do |invenborrow|
-      invenborrow.destroy if @requestrecord.do_dates_overlap(Borrow.find_by_id(invenborrow.id).request) == "yes"
-    end
-    RequestMailer.connect_email(borrow_id, inventory_id, @requestrecord).deliver
+    itemlist_id = params[:itemlist_id].to_i
+    request_id = params[:request_id].to_i
+
+    accepted = Borrow.where({ itemlist_id: itemlist_id, request_id: request_id, inventory_id: inventory_id }) 
+    accepted.update_attributes(status1: Status.find_by_name("Connected").id)
+    RequestMailer.connect_email(accepted)
+
+    no_longer_needed = Borrow.where({ itemlist_id: itemlist_id, request_id: request_id }).where.not(inventory_id: inventory_id)
+    no_longer_needed.each { |b| b.update_attributes(status1: Status.find_by_name("Borrower already got it").id) }
     
-    if Invenborrow.where(borrow_id: borrow_id).where(accepted: true).count == 0 
-      Borrow.find_by_id(borrow_id).update_attributes(status1: Status.where("name LIKE ?", "%not available%").first.id)
-      RequestMailer.not_found(borrow_id, @requestrecord).deliver
+    may_no_longer_be_available = Borrow.where({ itemlist_id: itemlist_id, inventory_id: inventory_id }).where.not(request_id: request_id)
+    may_no_longer_be_available.each do |borrow|
+      if borrow.request.do_dates_overlap(accepted.request) == "yes"
+        borrow.update_attributes(status1: Status.find_by_name("Lender already gave it").id) 
+        #Whenever something is cancelled, check if the borrower has no other options, and if so, send them a not found email
+        if Borrow.where({ request_id: borrow.request.id, itemlist_id: itemlist_id }).select { |not_cancelled_borrow| Status.where(statuscategory_id: Statuscategory.find_by_name("1 - Did use PB")).include? not_cancelled_borrow.status1 }.count == 0
+          RequestMailer.not_found(Borrow.find_by_id(borrow)).deliver
+        end
+      end
     end
-    
     redirect_to manage_inventory_path
   end
 
@@ -62,13 +67,14 @@ class InventoriesController < ApplicationController
   #not as many deletes, because we're assuming that you're declining one borrow, not necessarily anything for that date range or from that user, though these could be more advanced options
   #along that same vein you could easily have accept all for a specific item, or for a specific user's request
     inventory_id = params[:inventory_id].to_i
-    borrow_id = params[:borrow_id].to_i
-    @requestrecord = Borrow.find_by_id(borrow_id).request
-    Invenborrow.where(borrow_id: borrow_id).where(inventory_id: inventory_id).destroy
-    
-    if Invenborrow.where(borrow_id: borrow_id).where(accepted: true).count == 0 
-      Borrow.find_by_id(borrow_id).update_attributes(status1: Status.where("name LIKE ?", "%not available%").first.id)
-      RequestMailer.not_found(borrow_id, @requestrecord).deliver
+    itemlist_id = params[:itemlist_id].to_i
+    request_id = params[:request_id].to_i
+
+    declined = Borrow.where({ itemlist_id: itemlist_id, request_id: request_id, inventory_id: inventory_id }) 
+    declined.update_attributes(status1: Status.find_by_name("Lender declined").id)
+
+    if Borrow.where({ request_id: request_id, itemlist_id: itemlist_id }).select { |not_cancelled_borrow| Status.where(statuscategory_id: Statuscategory.find_by_name("1 - Did use PB")).include? not_cancelled_borrow.status1 }.count == 0
+        RequestMailer.not_found(Borrow.find_by_id(borrow)).deliver
     end
     
     redirect_to manage_inventory_path

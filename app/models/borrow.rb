@@ -1,5 +1,5 @@
 class Borrow < ActiveRecord::Base
-	before_validation :set_default_status1, on: :create
+
 	belongs_to :request
 	accepts_nested_attributes_for :request
 
@@ -41,10 +41,4 @@ class Borrow < ActiveRecord::Base
 	    ws[row, 11] = ((self.request.returndate - self.request.pickupdate)/60/60/24).round(1)
 	    ws.save
   	end 
-
-  	private
-
-  	def set_default_status1
-      self.status1 = Status.find_by_name("Searching").id
-    end
 end

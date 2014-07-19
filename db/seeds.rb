@@ -27,7 +27,7 @@ status_codes = {
 
   "1 Did not use PB" => [
     "FC - No response from borrower", #I have to manually set, e.g., if lender tells me
-    "FC - No response from lender; Inventory not available", #Automatically set if all the statuses are still nil at the end of an X day period or if the Pick Up Date comes and goes
+    "FC - No response from lender", #Manual set or Auto set if the end of the pick up date comes up 
     "FC - Borrower forgot last minute", #Manual set if one party informs me, E.g., borrower did not pick up at scheduled time, and didn't change the time
     "FC - Lender forgot last minute", #Manual set if one party informs me, E.g., lender forgot to make item available at scheduled time, and didn't change the time
     "FC - Scheduling conflict", #Manual set if one party informs me, 
@@ -36,10 +36,13 @@ status_codes = {
     "FC - Too inconvenient (time/money cost)", #Manual set if one party informs me, 
     "FC - Found sale",
 
-    # Eventually this section should be auto-set
+    # Eventually this section should be all auto-set
     "TC - Occasion for use cancelled",
     "TC - Item not actually needed", #E.g., consumer education, water filters not needed for car camping
-    "TC - Mistaken request", #E.g., didn't even mean to submit
+    "TC - Mistaken or trial request", #E.g., didn't even mean to submit
+    "TC - Borrower already got it", #Auto-set E.g., borrow already connected with lender
+    "TC - Lender declined", #Auto-set E.g., lender cancels
+    "TC - Lender already gave it", #Auto-set E.g., lender already accepted someone else's request for a conflicitng time
     "TC - Actually needs item frequently" #E.g., buying makes more sense
   ],
 

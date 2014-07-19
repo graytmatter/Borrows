@@ -32,25 +32,23 @@ class RequestsController < ApplicationController
       @requestrecord = @signup_parent.requests.create(@requestparams)
       @borrowparams.each do |itemlist_id, quantity|
         matched_inventory_ids = Inventory.where.not(signup_id: @requestrecord.signup.id).where(itemlist_id: itemlist_id).ids 
-        # if someone's request exceeds inventory, you still want to create the borrows, but for the excess it doesn't matter at the moment because people will hopefully just decline them
         quantity.to_i.times do
-          newborrow = @requestrecord.borrows.create(itemlist_id: itemlist_id) 
           matched_inventory_ids.each do |inventory_id|
-            #check if inventory_id has already had an accepted request with conflicting dates, if so, do not associate it because the lender can't lend it out anyways
-            if Inventory.find_by_id(inventory_id).invenborrows.select { |invenborrow| invenborrow.accepted == true}.present?
-              Inventory.find_by_id(inventory_id).invenborrows.select { |invenborrow| invenborrow.accepted == true}.each do |accepted_invenborrow|
-                if accepted_invenborrow.do_dates_overlap(@requestrecord) == "yes"
-                  #do not create an invenborrow first off, and update status of this borrow to not available
-                  newborrow.update_attributes(status: Status.find_by_name("not available").id)
-                else # if it's "no" or on the "edge"
-                  newborrow.inventory_ids += inventory_id
+            # If there exists borrows with that same inventory id that is using PB, then check for date conflicts. Then if date conflicts, create the record with a default status of "Another borrower has it"
+            if Borrow.find_by_inventory_id(inventory_id).select { |borrow| Status.where(statuscategory_id: Statuscategory.find_by_name("1 Did use PB")).pluck("id").include? borrow.status1 }
+              Borrow.find_by_inventory_id(inventory_id).select { |borrow| Status.where(statuscategory_id: Statuscategory.find_by_name("1 Did use PB")).pluck("id").include? borrow.status1 }.each do |borrow|
+                if borrow.do_dates_overlap(@requestrecord) == "yes"
+                  newborrow = @requestrecord.borrows.create(itemlist_id: itemlist_id, inventory_id: inventory_id, status1: Status.find_by_name("TC - Another Borrower has it").id)
+                else
+                  newborrow = @requestrecord.borrows.create(itemlist_id: itemlist_id, inventory_id: inventory_id, status1: Status.find_by_name("Searching").id)
                 end
               end
             else
-              newborrow.inventory_ids += inventory_id
+              newborrow = @requestrecord.borrows.create(itemlist_id: itemlist_id, inventory_id: inventory_id, status1: Status.find_by_name("Searching").id)
             end
           end
         end
+      end
       RequestMailer.same_as_today(@requestrecord).deliver if @requestrecord.pickupdate.to_date == Date.today
       end
       

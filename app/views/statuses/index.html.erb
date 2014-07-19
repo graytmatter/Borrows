@@ -38,6 +38,7 @@
 
 <div class="col-xs-6 box">
   <h4>Create New Categories</h4>
+  <h5 style="font-style:italic">Warning, category names are hardcoded</h5>
   <%= form_for @statuscategory, url: new_statuscategory_path, method: :post, :html => {:autocomplete => "off"} do |f| %>
     <div class="form-group">
       <%= f.label "Category name" %>
