@@ -11,7 +11,7 @@ status_codes = {
 #First column: Did borrower use or not use Project Borrow?
 
   "1 Did use PB" => [
-    "Searching", #Default status, assumes that PB will help
+    "Checking", #Default status, assumes that PB will help
     "Connected", #Automatically set if a connection is made between borrower and lender
     "In progress", #Follows In Progress, automatically set on the Pick Up Date of Connected borrows, I have to manually adjust if one party informs me otherwise  
     "Complete - OK", #Follows In Progress, automatically set on the Return Date, I have to manually adjust if one party tells me otherwise

@@ -39,24 +39,26 @@ class InventoriesController < ApplicationController
   end
 
   def accept 
-    inventory_id = params[:inventory_id].to_i
-    itemlist_id = params[:itemlist_id].to_i
-    request_id = params[:request_id].to_i
-
-    accepted = Borrow.where({ itemlist_id: itemlist_id, request_id: request_id, inventory_id: inventory_id }) 
+    accepted = Borrow.find_by_id(params[:id])
     accepted.update_attributes(status1: Status.find_by_name("Connected").id)
-    RequestMailer.connect_email(accepted)
+    RequestMailer.connect_email(accepted).deliver
 
+# accepted = Borrow.where({ itemlist_id: itemlist_id, request_id: request_id, inventory_id: inventory_id })
+
+    inventory_id = accepted.inventory_id
+    itemlist_id = accepted.itemlist_id
+    request_id = accepted.request_id
+    
     no_longer_needed = Borrow.where({ itemlist_id: itemlist_id, request_id: request_id }).where.not(inventory_id: inventory_id)
     no_longer_needed.each { |b| b.update_attributes(status1: Status.find_by_name("Borrower already got it").id) }
     
     may_no_longer_be_available = Borrow.where({ itemlist_id: itemlist_id, inventory_id: inventory_id }).where.not(request_id: request_id)
     may_no_longer_be_available.each do |borrow|
       if borrow.request.do_dates_overlap(accepted.request) == "yes"
-        borrow.update_attributes(status1: Status.find_by_name("Lender already gave it").id) 
+        borrow.update_attributes(status1: Status.find_by_name("TC - Lender already gave it").id) 
         #Whenever something is cancelled, check if the borrower has no other options, and if so, send them a not found email
         if Borrow.where({ request_id: borrow.request.id, itemlist_id: itemlist_id }).select { |not_cancelled_borrow| Status.where(statuscategory_id: Statuscategory.find_by_name("1 - Did use PB")).include? not_cancelled_borrow.status1 }.count == 0
-          RequestMailer.not_found(Borrow.find_by_id(borrow)).deliver
+          RequestMailer.not_found(accepted).deliver
         end
       end
     end
@@ -66,15 +68,15 @@ class InventoriesController < ApplicationController
   def decline 
   #not as many deletes, because we're assuming that you're declining one borrow, not necessarily anything for that date range or from that user, though these could be more advanced options
   #along that same vein you could easily have accept all for a specific item, or for a specific user's request
-    inventory_id = params[:inventory_id].to_i
-    itemlist_id = params[:itemlist_id].to_i
-    request_id = params[:request_id].to_i
+    declined = Borrow.find_by_id(params[:id])
+    declined.update_attributes(status1: 21)
 
-    declined = Borrow.where({ itemlist_id: itemlist_id, request_id: request_id, inventory_id: inventory_id }) 
-    declined.update_attributes(status1: Status.find_by_name("Lender declined").id)
+    inventory_id = declined.inventory_id
+    itemlist_id = declined.itemlist_id
+    request_id = declined.request_id
 
     if Borrow.where({ request_id: request_id, itemlist_id: itemlist_id }).select { |not_cancelled_borrow| Status.where(statuscategory_id: Statuscategory.find_by_name("1 - Did use PB")).include? not_cancelled_borrow.status1 }.count == 0
-        RequestMailer.not_found(Borrow.find_by_id(borrow)).deliver
+        RequestMailer.not_found(declined).deliver
     end
     
     redirect_to manage_inventory_path

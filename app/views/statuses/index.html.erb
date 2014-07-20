@@ -1,9 +1,10 @@
 <% Statuscategory.all.each do |c| %>
   <div class="col-xs-12">
-    <h4><%= link_to "#{c.name}", edit_statuscategory_path(c) %></h4>
+    <h4><%= link_to "ID: #{c.id}, Name: #{c.name}", edit_statuscategory_path(c) %></h4>
     <table class="table table-condensed table-hover">
         <thead>
           <tr>
+            <th>Status ID</th>
             <th>Status</th>
             <th>Action</th>
             <th colspan="5"></th>
@@ -13,6 +14,7 @@
         <tbody>
           <% c.statuses.each do |s| %>
             <tr>
+              <td><%= s.id %></td>
               <td><%= s.name %></td>
               <td><%= link_to "Update", edit_status_path(s) %></td>
             </tr>
@@ -38,7 +40,6 @@
 
 <div class="col-xs-6 box">
   <h4>Create New Categories</h4>
-  <h5 style="font-style:italic">Warning, category names are hardcoded</h5>
   <%= form_for @statuscategory, url: new_statuscategory_path, method: :post, :html => {:autocomplete => "off"} do |f| %>
     <div class="form-group">
       <%= f.label "Category name" %>

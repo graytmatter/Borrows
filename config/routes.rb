@@ -19,8 +19,8 @@ GoogleTest::Application.routes.draw do
   patch 'inventories/:id/edit', to: 'inventories#update', as: 'edit_inventory'
   patch 'inventories/:id/destroy_description', to: 'inventories#destroy_description', as: 'destroy_description'  
   get 'inventories/manage', to: 'inventories#manage', as: 'manage_inventory'
-  patch 'inventories/:inventory_id/:borrow_id/accept', to: 'inventories#accept', as: 'lender_accept'
-  patch 'inventories/:inventory_id/:borrow_id/decline', to: 'inventories#decline', as: 'lender_decline'
+  patch 'inventories/:id/accept', to: 'inventories#accept', as: 'lender_accept'
+  patch 'inventories/:id/decline', to: 'inventories#decline', as: 'lender_decline'
 
   resources :borrows, only: [:edit, :update]
 

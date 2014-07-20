@@ -11,8 +11,8 @@
       <%= f.select :status2_eq, Status.where(id: Borrow.all.pluck("status2").uniq).pluck("name"), {default: @q.status2, include_blank: @q.status2.nil?} %>
     </div>
     <div class="form group">
-      <%#= f.label :invenborrow_inventory_id_cont %>
-      <%#= f.search_field :invenborrow_inventory_id_cont %>
+      <%= f.label :inventory_id_cont, "Lender email" %>
+      <%= f.select :inventory_id, Signup.includes(:inventories).where("inventories.id =? ", (Inventory.where(id: Borrow.all.pluck("inventory_id").uniq).ids)).references(:inventories).first.email, {default: @q.inventory_id, include_blank: @q.inventory_id.nil?} %>
     </div>
     <div class="form group">
       <%= f.label "Item" %>
@@ -49,10 +49,7 @@
         <th><%= sort_link(@q, :itemlist_id, "Item") %></th>
         <th><%= sort_link(@q, :status1, "Status 1") %></th>
         <th><%= sort_link(@q, :status2, "Status 2") %></th>
-        <th>
-          <%#= sort_link(@q, :inventory_id, "Inventory ID") %>
-          Lender Email  
-        </th>
+        <th><%= sort_link(@q, :inventory_id, "Lender Email") %></th>
         <th><%= sort_link(@q, 'requests.signups.email', "Borrower Email") %></th>
         <th><%= sort_link(@q, 'requests.pickupdate', "Pickup date") %></th>
         <th><%= sort_link(@q, 'requests.returndate', "Return date") %></th>
@@ -74,17 +71,12 @@
             <% else %>
             <% end %>  
           </td>
-          <td>
-            <% if Invenborrow.where(borrow_id: borrow.id).where(accepted: true).present? %>
-              <%= Inventory.find_by_id(Invenborrow.where(borrow_id: borrow.id).where(accepted: true).first.inventory_id).signup.email %> 
-            <% else %>
-            <% end %>
-          </td>
+          <td><%= Inventory.find_by_id(borrow.inventory_id).signup.email %></td>
           <td><%= borrow.request.signup.email %></td>
           <td><%= borrow.request.pickupdate.to_date %></td>
           <td><%= borrow.request.returndate.to_date %></td>
           <td>
-            <% if borrow.status1 == Status.find_by_name("Searching").id %>
+            <% if borrow.status1 == 1 %>
               <!-- Updates not allowed until system has made a connection or until searching expires, this last part hasn't been built yet -->
             <% else %>
               <%= link_to 'Update', edit_borrow_path(borrow) %> <!--update status and inventory_id, but everything can be udpated. DO NOT REMOVE, remove is handled by a specific status code -->
