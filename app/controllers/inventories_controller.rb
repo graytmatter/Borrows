@@ -106,7 +106,7 @@ class InventoriesController < ApplicationController
       # end
       # InventoryMailer.upload_email(@signup_parent, items_to_be_saved).deliver
       # soon inventorymailer won't be needed if i can automate the search and everything 
-      redirect_to new_inventory_path
+      redirect_to manage_inventory_path
     end
   end
 

@@ -1,9 +1,11 @@
 <div class="col-xs-12" style="padding-bottom:1%;">
   <h4>
-    <% if request.referer.include? 'manage' %>
-      <%="Lend away, #{@signup_parent.email}!"%>
-    <% else %>
-      <%="Step 2 of 2: Lend away, #{@signup_parent.email}!"%>
+    <% if Rails.env != "test" %>
+      <% if request.referer.include? 'manage' %>
+        <%="Lend away, #{@signup_parent.email}!"%>
+      <% else %>
+        <%="Step 2 of 2: Lend away, #{@signup_parent.email}!"%>
+      <% end %>
     <% end %>
   </h4>
 
@@ -52,9 +54,9 @@
                   <% Borrow.where(inventory_id: inventory.id).each do |borrow| %>
                     <% case borrow.status1 %>
                     <% when 2 %>
-                      <li><%= "Thanks for accepting the request from #{borrow.request.signup.email} from #{borrow.request.pickupdate.to_date} to #{borrow.request.returndate.to_date}. We have sent an email connecting you with the borrower." %></li>
+                      <li id="connected"><%= "Thanks for accepting the request from #{borrow.request.signup.email} from #{borrow.request.pickupdate.to_date} to #{borrow.request.returndate.to_date}. We have sent an email connecting you with the borrower." %></li>
                     <% when 1 %>
-                      <li><%= "#{link_to 'Accept', lender_accept_path(borrow), method: :patch}, #{link_to 'Decline', lender_decline_path(borrow), method: :patch}. Requested by #{borrow.request.signup.email} from #{borrow.request.pickupdate.to_date} to #{borrow.request.returndate.to_date}. #{borrow.request.detail}".html_safe %></li>
+                      <li id="manage"><%= "#{link_to 'Accept', lender_accept_path(borrow), method: :patch}, #{link_to 'Decline', lender_decline_path(borrow), method: :patch}. Requested by #{borrow.request.signup.email} from #{borrow.request.pickupdate.to_date} to #{borrow.request.returndate.to_date}. #{borrow.request.detail}".html_safe %></li>
                     <% else %>
                     <% end %>
                   <% end %>

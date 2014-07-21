@@ -14,12 +14,12 @@
     <%= form_for @signup, :html => {:autocomplete => "off"} do |f| %>
       <div class="col-xs-9">
         <div class="form-group">
-          <%= f.text_field :email, class: "form-control", placeholder: "Enter your email to get started" %>
+          <%= f.text_field :email, class: "form-control", id: "signup_email1", placeholder: "Enter your email to get started" %>
         </div>
       </div>
 
       <div class="col-xs-3">
-        <%= f.submit "Go!", class: "btn btn-success btn-large btn-block"%>
+        <%= f.submit "Go!", class: "btn btn-success btn-large btn-block", id: "signup1" %>
       </div>
     <% end %>
   </div>

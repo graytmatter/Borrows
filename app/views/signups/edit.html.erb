@@ -17,13 +17,13 @@
 
     <div class="col-xs-12 box">
       <div class="col-xs-6">
-        <%= button_to "Woohoo! Ready to borrow!", new_request_path, method: "get", class: "btn btn-primary btn-large btn-block" %>
+        <%= button_to "Woohoo! Ready to borrow!", new_request_path, method: "get", class: "btn btn-primary btn-large btn-block", id: "borrow" %>
       </div>
       <div class="col-xs-6">
         <% if @signup_parent.inventories.present? %>
-          <%= button_to "Yayhay! Ready to lend!", manage_inventory_path,  method: "get", class: "btn btn-warning btn-large btn-block" %>
+          <%= button_to "Yayhay! Ready to lend!", manage_inventory_path,  method: "get", class: "btn btn-warning btn-large btn-block", id: "lend" %>
         <% else %>
-          <%= button_to "Yayhay! Ready to lend!", manage_inventory_path,  method: "get", class: "btn btn-warning btn-large btn-block" %>
+          <%= button_to "Yayhay! Ready to lend!", new_inventory_path,  method: "get", class: "btn btn-warning btn-large btn-block", id: "lend" %>
         <% end %>
       </div>
     </div>
