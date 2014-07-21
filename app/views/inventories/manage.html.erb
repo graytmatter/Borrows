@@ -56,7 +56,7 @@
                     <% when 2 %>
                       <li id="connected"><%= "Thanks for accepting the request from #{borrow.request.signup.email} from #{borrow.request.pickupdate.to_date} to #{borrow.request.returndate.to_date}. We have sent an email connecting you with the borrower." %></li>
                     <% when 1 %>
-                      <li id="manage"><%= "#{link_to 'Accept', lender_accept_path(borrow), method: :patch}, #{link_to 'Decline', lender_decline_path(borrow), method: :patch}. Requested by #{borrow.request.signup.email} from #{borrow.request.pickupdate.to_date} to #{borrow.request.returndate.to_date}. #{borrow.request.detail}".html_safe %></li>
+                      <li id="manage"><%= "#{link_to 'Accept', lender_accept_path(borrow), method: :patch, id: "accept"}, #{link_to 'Decline', lender_decline_path(borrow), method: :patch, id: "decline"}. Requested by #{borrow.request.signup.email} from #{borrow.request.pickupdate.to_date} to #{borrow.request.returndate.to_date}. #{borrow.request.detail}".html_safe %></li>
                     <% else %>
                     <% end %>
                   <% end %>
