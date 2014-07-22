@@ -19,6 +19,20 @@ class ApplicationController < ActionController::Base
       # need to add path to rake /usr/bin/rake, etc.
   end
 
+  def decline_process(borrow_in_question, status1_input)
+    inventory_id = borrow_in_question.inventory_id 
+    itemlist_id = borrow_in_question.itemlist_id 
+    request_id = borrow_in_question.request_id 
+
+    if Borrow.where({ itemlist_id: itemlist_id, request_id: request_id }).where.not(id: borrow_in_question.id).where(status1: 1).present?
+      borrow_in_question.destroy
+    else
+      Borrow.where({ itemlist_id: itemlist_id, request_id: request_id }).where.not(id: borrow_in_question.id).destroy_all
+      borrow_in_question.update_attributes(status1: status1_input, inventory_id: nil)
+      RequestMailer.not_found(borrow_in_question, itemlist_id).deliver 
+    end
+  end
+
   
   # def itemlist
   #     @itemlist = {

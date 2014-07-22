@@ -53,7 +53,7 @@ class RequestsController < ApplicationController
                       RequestMailer.not_found(not_available_borrow, itemlist_id).deliver
                     end
                   else
-                    if Borrow.where({ itemlist_id: itemlist_id }).where.not(request_id: @requestrecord.id).select { |b| b.request.do_dates_overlap(@requestrecord) == "yes" }.select { |b| b.request.signup.email != @requestrecord.signup.email }.select { |b| b.where(status1: 2) }.present?
+                    if Borrow.where({ itemlist_id: itemlist_id }).where.not(request_id: @requestrecord.id).select { |b| b.request.do_dates_overlap(@requestrecord) == "yes" }.select { |b| b.request.signup.email != @requestrecord.signup.email }.select { |b| b.status1 == 2 }.present?
                       if index == 0
                         not_available_borrow = create_borrow(@requestrecord, itemlist_id, nil, "not available")
                         RequestMailer.not_found(not_available_borrow, itemlist_id).deliver

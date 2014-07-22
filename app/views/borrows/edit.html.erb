@@ -25,6 +25,11 @@
         <%= f.label "Status 2" %>
         <%= f.collection_select :status2, Status.where(statuscategory_id: Statuscategory.where("name LIKE ?", "%2%").ids), :id, :name, {default: Status.find_by_id(@borrow.status2), include_blank: true} %>
       </div> 
+      <div class="form-group">
+        <%= f.label "Lender Email" %>
+        <!-- also not working -->
+        <%#= f.collection_select :inventory_id, Status.where(statuscategory_id: Statuscategory.where("name LIKE ?", "%2%").ids), :id, :name, {default: Status.find_by_id(@borrow.status2), include_blank: true} %>
+      </div> 
       <%= f.fields_for :request do |r| %>
         <div class="form-group">
           <%= r.label "Request pickup date" %>

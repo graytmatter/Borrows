@@ -127,7 +127,7 @@ describe "how requests should flow" do
 
 			before do
 				login("jamesdd9302@yahoo.com", "lend")
-				click_link 'decline'
+				click_link 'decline 1'
 			end
 
 			it "should affect records" do
@@ -138,7 +138,7 @@ describe "how requests should flow" do
 				# 5- borrow_lender_declined_total, 
 				# 6- borrow_other_did_not_use_total
 				# 7- borrow_not_available_total
-				record_test(1, 2, 1, 0, 1, 0, 0)
+				record_test(1, 1, 1, 0, 0, 0, 0)
 			end
 
 			it "should affect emails" do
@@ -156,7 +156,7 @@ describe "how requests should flow" do
 
 				before do
 					login("jdong8@gmail.com", "lend")
-					click_link 'decline'
+					click_link 'decline 1'
 				end
 
 				it "should affect Requests and Borrows" do
@@ -210,7 +210,7 @@ describe "how requests should flow" do
 						manage_test("jdong8@gmail.com", 0, 0)
 					end
 
-					describe "E) start same dates same user test, new request" do
+					describe "E) same dates same user test, new request" do
 
 						before do
 							login("anavarada@gmail.com", "borrow", 1, "January", "2", "January", "6")
@@ -236,6 +236,360 @@ describe "how requests should flow" do
 							#(lender_email, manage_count, connected_count)
 							manage_test("jamesdd9302@yahoo.com", 1, 0)
 							manage_test("jdong8@gmail.com", 0, 0)
+						end
+
+						describe "F) same dates diff user test (first user didn't get item), new request" do
+
+							before do
+								login("ngomenclature@gmail.com", "borrow", 1, "January", "3", "January", "6")
+							end
+
+							it "should affect Requests and Borrows" do
+								# 1- request_total, 
+								# 2- borrow_total, 
+								# 3- borrow_checking_total, 
+								# 4- borrow_connected_total, 
+								# 5- borrow_lender_declined_total, 
+								# 6- borrow_other_did_not_use_total
+								# 7- borrow_not_available_total
+								record_test(3, 4, 3, 0, 0, 0, 1)
+							end
+
+							it "should affect emails" do
+								#(total_count, subject: blank)
+								email_test(2)
+							end
+
+							it "should affect management options for lenders" do 
+								#(lender_email, manage_count, connected_count)
+								manage_test("jamesdd9302@yahoo.com", 2, 0)
+								manage_test("jdong8@gmail.com", 1, 0)
+							end
+
+							describe "G) test consequences of accept" do
+
+								before do
+									login("jamesdd9302@yahoo.com", "lend")
+									click_link 'accept 1'
+								end
+
+								it "should affect Requests and Borrows" do
+									# 1- request_total, 
+									# 2- borrow_total, 
+									# 3- borrow_checking_total, 
+									# 4- borrow_connected_total, 
+									# 5- borrow_lender_declined_total, 
+									# 6- borrow_other_did_not_use_total
+									# 7- borrow_not_available_total
+									record_test(3, 3, 1, 1, 0, 0, 1)
+								end
+
+								it "should affect emails" do
+									#(total_count, subject: blank)
+									email_test(3, "connect")
+								end
+
+								it "should affect management options for lenders" do 
+									#(lender_email, manage_count, connected_count)
+									manage_test("jamesdd9302@yahoo.com", 0, 1)
+									manage_test("jdong8@gmail.com", 1, 0)
+								end
+
+								describe "H) setup, accept last borrow" do
+
+									before do
+										login("jdong8@gmail.com", "lend")
+										click_link 'accept 1'
+									end
+
+									it "should affect Requests and Borrows" do
+										# 1- request_total, 
+										# 2- borrow_total, 
+										# 3- borrow_checking_total, 
+										# 4- borrow_connected_total, 
+										# 5- borrow_lender_declined_total, 
+										# 6- borrow_other_did_not_use_total
+										# 7- borrow_not_available_total
+										record_test(3, 3, 0, 2, 0, 0, 1)
+									end
+
+									it "should affect emails" do
+										#(total_count, subject: blank)
+										email_test(4, "connect")
+									end
+
+									it "should affect management options for lenders" do 
+										#(lender_email, manage_count, connected_count)
+										manage_test("jamesdd9302@yahoo.com", 0, 1)
+										manage_test("jdong8@gmail.com", 0, 1)
+									end
+
+									describe "I) test same dates, diff user, but first borrower did get it" do
+
+										before do
+											login("dancingknives@yahoo.com", "borrow", 1, "January", "4", "January", "5")
+										end
+
+										it "should affect Requests and Borrows" do
+											# 1- request_total, 
+											# 2- borrow_total, 
+											# 3- borrow_checking_total, 
+											# 4- borrow_connected_total, 
+											# 5- borrow_lender_declined_total, 
+											# 6- borrow_other_did_not_use_total
+											# 7- borrow_not_available_total
+											record_test(4, 4, 0, 2, 0, 0, 2)
+										end
+
+										it "should affect emails" do
+											#(total_count, subject: blank)
+											email_test(5, "not found")
+										end
+
+										it "should affect management options for lenders" do 
+											#(lender_email, manage_count, connected_count)
+											manage_test("jamesdd9302@yahoo.com", 0, 1)
+											manage_test("jdong8@gmail.com", 0, 1)
+										end
+
+										describe "J) test update connected status to did not use" do
+
+											before do
+												Borrow.first.update_attributes(status1: 8)
+											end
+
+											it "should affect Requests and Borrows" do
+												# 1- request_total, 
+												# 2- borrow_total, 
+												# 3- borrow_checking_total, 
+												# 4- borrow_connected_total, 
+												# 5- borrow_lender_declined_total, 
+												# 6- borrow_other_did_not_use_total
+												# 7- borrow_not_available_total
+												record_test(4, 4, 0, 1, 0, 1, 2)
+											end
+
+											it "should affect emails" do
+												#(total_count, subject: blank)
+												email_test(5)
+											end
+
+											it "should affect management options for lenders" do 
+												#(lender_email, manage_count, connected_count)
+												manage_test("jamesdd9302@yahoo.com", 0, 0)
+												manage_test("jdong8@gmail.com", 0, 1)
+											end
+
+											describe "K) diff dates diff user (edge date)" do
+
+												before do
+													login("borrowsapp@gmail.com", "borrow", 1, "January", "6", "January", "15")
+												end
+
+												it "should affect Requests and Borrows" do
+													# 1- request_total, 
+													# 2- borrow_total, 
+													# 3- borrow_checking_total, 
+													# 4- borrow_connected_total, 
+													# 5- borrow_lender_declined_total, 
+													# 6- borrow_other_did_not_use_total
+													# 7- borrow_not_available_total
+													record_test(5, 6, 2, 1, 0, 1, 2)
+												end
+
+												it "should affect emails" do
+													#(total_count, subject: blank)
+													email_test(5)
+												end
+
+												it "should affect management options for lenders" do 
+													#(lender_email, manage_count, connected_count)
+													manage_test("jamesdd9302@yahoo.com", 1, 0)
+													manage_test("jdong8@gmail.com", 1, 1)
+												end
+
+												describe "L) diff dates same user" do
+
+													before do
+														login("anavarada@gmail.com", "borrow", 1, "January", "18", "January", "20")
+													end
+
+													it "should affect Requests and Borrows" do
+														# 1- request_total, 
+														# 2- borrow_total, 
+														# 3- borrow_checking_total, 
+														# 4- borrow_connected_total, 
+														# 5- borrow_lender_declined_total, 
+														# 6- borrow_other_did_not_use_total
+														# 7- borrow_not_available_total
+														record_test(6, 8, 4, 1, 0, 1, 2)
+													end
+
+													it "should affect emails" do
+														#(total_count, subject: blank)
+														email_test(5)
+													end
+
+													it "should affect management options for lenders" do 
+														#(lender_email, manage_count, connected_count)
+														manage_test("jamesdd9302@yahoo.com", 2, 0)
+														manage_test("jdong8@gmail.com", 2, 1)
+													end
+
+													describe "M) more than one item requested, exactly same as supply, diff dates assumed" do
+
+														before do
+															login("dancingknives@yahoo.com", "borrow", 2, "January", "25", "January", "30")
+														end
+
+														it "should affect Requests and Borrows" do
+															# 1- request_total, 
+															# 2- borrow_total, 
+															# 3- borrow_checking_total, 
+															# 4- borrow_connected_total, 
+															# 5- borrow_lender_declined_total, 
+															# 6- borrow_other_did_not_use_total
+															# 7- borrow_not_available_total
+															record_test(7, 12, 8, 1, 0, 1, 2)
+														end
+
+														it "should affect emails" do
+															#(total_count, subject: blank)
+															email_test(5)
+														end
+
+														it "should affect management options for lenders" do 
+															#(lender_email, manage_count, connected_count)
+															manage_test("jamesdd9302@yahoo.com", 4, 0)
+															manage_test("jdong8@gmail.com", 4, 1)
+														end
+
+														describe "N) jamesdd9302 declines one of the 2 tents requested" do
+
+															before do
+																login("jamesdd9302@yahoo.com", "lend")
+																click_link "decline 3"
+															end
+
+															it "should affect Requests and Borrows" do
+																# 1- request_total, 
+																# 2- borrow_total, 
+																# 3- borrow_checking_total, 
+																# 4- borrow_connected_total, 
+																# 5- borrow_lender_declined_total, 
+																# 6- borrow_other_did_not_use_total
+																# 7- borrow_not_available_total
+																record_test(7, 11, 7, 1, 0, 1, 2)
+															end
+
+															it "should affect emails" do
+																#(total_count, subject: blank)
+																email_test(5)
+															end
+
+															it "should affect management options for lenders" do 
+																#(lender_email, manage_count, connected_count)
+																manage_test("jamesdd9302@yahoo.com", 3, 0)
+																manage_test("jdong8@gmail.com", 4, 1)
+															end
+
+															describe "O) jamesdd9302 declines 2nd of the 2 tents requested" do
+
+																before do
+																	login("jamesdd9302@yahoo.com", "lend")
+																	click_link "decline 4"
+																end
+
+																it "should affect Requests and Borrows" do
+																	# 1- request_total, 
+																	# 2- borrow_total, 
+																	# 3- borrow_checking_total, 
+																	# 4- borrow_connected_total, 
+																	# 5- borrow_lender_declined_total, 
+																	# 6- borrow_other_did_not_use_total
+																	# 7- borrow_not_available_total
+																	record_test(7, 10, 6, 1, 0, 1, 2)
+																end
+
+																it "should affect emails" do
+																	#(total_count, subject: blank)
+																	email_test(5)
+																end
+
+																it "should affect management options for lenders" do 
+																	#(lender_email, manage_count, connected_count)
+																	manage_test("jamesdd9302@yahoo.com", 2, 0)
+																	manage_test("jdong8@gmail.com", 4, 1)
+																end
+
+																describe "P) jdong8 also declines 2nd of the 2 tents requested" do
+
+																	before do
+																		login("jdong8@gmail.com", "lend")
+																		click_link "decline 4"
+																	end
+
+																	it "should affect Requests and Borrows" do
+																		# 1- request_total, 
+																		# 2- borrow_total, 
+																		# 3- borrow_checking_total, 
+																		# 4- borrow_connected_total, 
+																		# 5- borrow_lender_declined_total, 
+																		# 6- borrow_other_did_not_use_total
+																		# 7- borrow_not_available_total
+																		record_test(7, 10, 5, 1, 1, 1, 2)
+																	end
+
+																	it "should affect emails" do
+																		#(total_count, subject: blank)
+																		email_test(6, "not found")
+																	end
+
+																	it "should affect management options for lenders" do 
+																		#(lender_email, manage_count, connected_count)
+																		manage_test("jamesdd9302@yahoo.com", 2, 0)
+																		manage_test("jdong8@gmail.com", 3, 1)
+																	end
+
+																	describe "Q) request more than 1 item, exceeding supply" do
+
+																		before do
+																			login("dancingknives@yahoo.com", "borrow", 3, "February", "1", "February", "2")
+																		end
+
+																		it "should affect Requests and Borrows" do
+																			# 1- request_total, 
+																			# 2- borrow_total, 
+																			# 3- borrow_checking_total, 
+																			# 4- borrow_connected_total, 
+																			# 5- borrow_lender_declined_total, 
+																			# 6- borrow_other_did_not_use_total
+																			# 7- borrow_not_available_total
+																			record_test(8, 15, 9, 1, 1, 1, 3)
+																		end
+
+																		it "should affect emails" do
+																			#(total_count, subject: blank)
+																			email_test(7, "not found")
+																		end
+
+																		it "should affect management options for lenders" do 
+																			#(lender_email, manage_count, connected_count)
+																			manage_test("jamesdd9302@yahoo.com", 4, 0)
+																			manage_test("jdong8@gmail.com", 5, 1)
+																		end
+																	end
+
+																end
+															end
+														end
+													end
+												end
+											end
+										end
+									end
+								end
+							end
 						end
 					end
 				end
