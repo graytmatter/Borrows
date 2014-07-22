@@ -156,7 +156,7 @@ describe "how requests should flow" do
 
 				before do
 					login("jdong8@gmail.com", "lend")
-					click_link 'decline 1'
+					click_link 'decline 2'
 				end
 
 				it "should affect Requests and Borrows" do
@@ -270,7 +270,7 @@ describe "how requests should flow" do
 
 								before do
 									login("jamesdd9302@yahoo.com", "lend")
-									click_link 'accept 1'
+									click_link 'accept 2'
 								end
 
 								it "should affect Requests and Borrows" do
@@ -299,7 +299,7 @@ describe "how requests should flow" do
 
 									before do
 										login("jdong8@gmail.com", "lend")
-										click_link 'accept 1'
+										click_link 'accept 5'
 									end
 
 									it "should affect Requests and Borrows" do
@@ -468,7 +468,7 @@ describe "how requests should flow" do
 
 															before do
 																login("jamesdd9302@yahoo.com", "lend")
-																click_link "decline 3"
+																click_link "decline 11"
 															end
 
 															it "should affect Requests and Borrows" do
@@ -497,7 +497,7 @@ describe "how requests should flow" do
 
 																before do
 																	login("jamesdd9302@yahoo.com", "lend")
-																	click_link "decline 4"
+																	click_link "decline 13"
 																end
 
 																it "should affect Requests and Borrows" do
@@ -526,7 +526,8 @@ describe "how requests should flow" do
 
 																	before do
 																		login("jdong8@gmail.com", "lend")
-																		click_link "decline 4"
+																		# save_and_open_page
+																		click_link "decline 14"
 																	end
 
 																	it "should affect Requests and Borrows" do
@@ -578,8 +579,127 @@ describe "how requests should flow" do
 																			manage_test("jamesdd9302@yahoo.com", 4, 0)
 																			manage_test("jdong8@gmail.com", 5, 1)
 																		end
-																	end
 
+																		describe "R) jamesdd9302 declines 1 of 2 available requests" do
+
+																			before do
+																				login("jamesdd9302@yahoo.com", "lend")
+																				click_link "decline 16"
+																			end
+
+																			it "should affect Requests and Borrows" do
+																				# 1- request_total, 
+																				# 2- borrow_total, 
+																				# 3- borrow_checking_total, 
+																				# 4- borrow_connected_total, 
+																				# 5- borrow_lender_declined_total, 
+																				# 6- borrow_other_did_not_use_total
+																				# 7- borrow_not_available_total
+																				record_test(8, 14, 8, 1, 1, 1, 3)
+																			end
+
+																			it "should affect emails" do
+																				#(total_count, subject: blank)
+																				email_test(7)
+																			end
+
+																			it "should affect management options for lenders" do 
+																				#(lender_email, manage_count, connected_count)
+																				manage_test("jamesdd9302@yahoo.com", 3, 0)
+																				manage_test("jdong8@gmail.com", 5, 1)
+																			end
+
+																			describe "S) jdong8 declines 1 of 2 available requests" do
+
+																				before do
+																					login("jdong8@gmail.com", "lend")
+																					click_link "decline 17"
+																				end
+
+																				it "should affect Requests and Borrows" do
+																					# 1- request_total, 
+																					# 2- borrow_total, 
+																					# 3- borrow_checking_total, 
+																					# 4- borrow_connected_total, 
+																					# 5- borrow_lender_declined_total, 
+																					# 6- borrow_other_did_not_use_total
+																					# 7- borrow_not_available_total
+																					record_test(8, 14, 7, 1, 2, 1, 3)
+																				end
+
+																				it "should affect emails" do
+																					#(total_count, subject: blank)
+																					email_test(7)
+																				end
+
+																				it "should affect management options for lenders" do 
+																					#(lender_email, manage_count, connected_count)
+																					manage_test("jamesdd9302@yahoo.com", 3, 0)
+																					manage_test("jdong8@gmail.com", 4, 1)
+																				end
+
+																				describe "T) jamesdd9302 declines 2 of 2 available requests" do
+
+																					before do
+																						login("jamesdd9302@yahoo.com", "lend")
+																						click_link "decline 18"
+																					end
+
+																					it "should affect Requests and Borrows" do
+																						# 1- request_total, 
+																						# 2- borrow_total, 
+																						# 3- borrow_checking_total, 
+																						# 4- borrow_connected_total, 
+																						# 5- borrow_lender_declined_total, 
+																						# 6- borrow_other_did_not_use_total
+																						# 7- borrow_not_available_total
+																						record_test(8, 13, 6, 1, 2, 1, 3)
+																					end
+
+																					it "should affect emails" do
+																						#(total_count, subject: blank)
+																						email_test(8, "not found")
+																					end
+
+																					it "should affect management options for lenders" do 
+																						#(lender_email, manage_count, connected_count)
+																						manage_test("jamesdd9302@yahoo.com", 2, 0)
+																						manage_test("jdong8@gmail.com", 4, 1)
+																					end
+
+																					describe "U) jdong declines 2 of 2 available requests" do
+
+																						before do
+																							login("jdong8@gmail.com", "lend")
+																							click_link "decline 19"
+																						end
+
+																						it "should affect Requests and Borrows" do
+																							# 1- request_total, 
+																							# 2- borrow_total, 
+																							# 3- borrow_checking_total, 
+																							# 4- borrow_connected_total, 
+																							# 5- borrow_lender_declined_total, 
+																							# 6- borrow_other_did_not_use_total
+																							# 7- borrow_not_available_total
+																							record_test(8, 13, 5, 1, 3, 1, 3)
+																						end
+
+																						it "should affect emails" do
+																							#(total_count, subject: blank)
+																							email_test(9, "not found")
+																						end
+
+																						it "should affect management options for lenders" do 
+																							#(lender_email, manage_count, connected_count)
+																							manage_test("jamesdd9302@yahoo.com", 2, 0)
+																							manage_test("jdong8@gmail.com", 3, 1)
+																						end
+																					end
+																				end
+																			end
+																		end
+																	end
 																end
 															end
 														end

@@ -46,6 +46,7 @@
     <thead>
       <tr>
         <th><%= sort_link(@q, :id, "Borrow ID") %></th>
+        <th>Multiple</th>
         <th><%= sort_link(@q, :created_at, "Created at") %></th>
         <th><%= sort_link(@q, :itemlist_id, "Item") %></th>
         <th><%= sort_link(@q, :status1, "Status 1") %></th>
@@ -63,6 +64,7 @@
       <% @borrows.each do |borrow| %>
         <tr>
           <td><%= borrow.id %></td>
+          <td><%= borrow.multiple %></td>
           <td><%= borrow.created_at.to_date %></td>
           <td><%= Itemlist.find_by_id(borrow.itemlist_id).name %></td>
           <td><%= Status.find_by_id(borrow.status1).name %></td>
