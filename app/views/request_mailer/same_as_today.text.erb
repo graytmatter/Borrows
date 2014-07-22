@@ -3,15 +3,13 @@ Same day request
 Email:
 <%= @requestrecord.signup.email %>
 
-Item and email of users who have it (may be overlapping already, the list of users is not filtered, same as what appears on user mgmt page)
-
-<% @requestlist.each do |item, emails| %>
-	<%= item %>
-	<% emails.each do |email| %>
-	    <%= email %>
-	end
-	<br>
-end
+Item and email of lenders, doesn't account for duplication, just spits out what's on borrow index page:
+<% @requestlist.each do |index, item_hash| %>
+	<%= index %>:
+	<% item_hash.each do |item, email| %>
+		<%= item %>, <%= email %> 
+	<% end %>   
+<% end %>
 
 Additional details:
 <%= @requestrecord.detail %>

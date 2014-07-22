@@ -695,6 +695,64 @@ describe "how requests should flow" do
 																							manage_test("jamesdd9302@yahoo.com", 2, 0)
 																							manage_test("jdong8@gmail.com", 3, 1)
 																						end
+
+																						describe "V) same user makes a request" do
+
+																							before do
+																								login("jamesdd9302@yahoo.com", "borrow", 2, "February", "10", "February", "15")
+																							end
+
+																							it "should affect Requests and Borrows" do
+																								# 1- request_total, 
+																								# 2- borrow_total, 
+																								# 3- borrow_checking_total, 
+																								# 4- borrow_connected_total, 
+																								# 5- borrow_lender_declined_total, 
+																								# 6- borrow_other_did_not_use_total
+																								# 7- borrow_not_available_total
+																								record_test(9, 15, 6, 1, 3, 1, 4)
+																							end
+
+																							it "should affect emails" do
+																								#(total_count, subject: blank)
+																								email_test(10, "not found")
+																							end
+
+																							it "should affect management options for lenders" do 
+																								#(lender_email, manage_count, connected_count)
+																								manage_test("jamesdd9302@yahoo.com", 2, 0)
+																								manage_test("jdong8@gmail.com", 4, 1)
+																							end
+
+																							describe "W) same day request" do
+
+																								before do
+																									login("dancingknives@yahoo.com", "borrow", 2, Date::MONTHNAMES[Date.today.month], "#{Date.today.day}", Date::MONTHNAMES[Date.today.month], "#{Date.today.day + 2}")
+																								end
+
+																								it "should affect Requests and Borrows" do
+																									# 1- request_total, 
+																									# 2- borrow_total, 
+																									# 3- borrow_checking_total, 
+																									# 4- borrow_connected_total, 
+																									# 5- borrow_lender_declined_total, 
+																									# 6- borrow_other_did_not_use_total
+																									# 7- borrow_not_available_total
+																									record_test(10, 19, 10, 1, 3, 1, 4)
+																								end
+
+																								it "should affect emails" do
+																									#(total_count, subject: blank)
+																									email_test(11, "same day")
+																								end
+
+																								it "should affect management options for lenders" do 
+																									#(lender_email, manage_count, connected_count)
+																									manage_test("jamesdd9302@yahoo.com", 4, 0)
+																									manage_test("jdong8@gmail.com", 6, 1)
+																								end
+																							end
+																						end
 																					end
 																				end
 																			end

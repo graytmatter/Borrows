@@ -116,6 +116,9 @@ class RequestsController < ApplicationController
       else
         render 'new'
       end
+      if @requestrecord.pickupdate = Date.today
+        RequestMailer.same_as_today(@requestrecord).deliver
+      end
     end
     render 'success'
   end
