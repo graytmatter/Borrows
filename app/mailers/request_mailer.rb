@@ -2,11 +2,11 @@ class RequestMailer < ActionMailer::Base
 
   # Passed params need to be re-assigned to variables so that they can be read in the mailer views
     
-  def not_found(not_found_borrow)
+  def not_found(not_found_borrow, itemlist_id)
     @borrower_email = not_found_borrow.request.signup.email
     @pickupdate = not_found_borrow.request.pickupdate.to_date
     @returndate = not_found_borrow.request.returndate.to_date
-    @item = Itemlist.find_by_id(not_found_borrow.itemlist_id).name
+    @item = Itemlist.find_by_id(itemlist_id).name
     mail(to: @borrower_email, from: ENV['owner'], :subject => "[Project Borrow]: Could not find #{@item}") 
   end
 

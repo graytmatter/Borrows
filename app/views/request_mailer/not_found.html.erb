@@ -12,7 +12,7 @@
 <p>If you have a moment, as I'm interested in studying this space, I'd like to know what other options you will or plan to pursue, you can just bold or select a number and reply to this email.</p>
 
 <ol>
-	<% Status.where(statuscategory_id: Statuscategory.find_by_name("2 Did not use PB").id).all.each do |status| %>
+	<% Status.where(statuscategory_id: 4).all.each do |status| %>
 		<li><%= status.name %></li>
 	<% end %>
 </ol>

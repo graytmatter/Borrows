@@ -1,5 +1,6 @@
 class Inventory < ActiveRecord::Base
   include Dateoverlap
+  include Notfound
   
 	belongs_to :signup
 

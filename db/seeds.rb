@@ -40,9 +40,8 @@ status_codes = {
     "TC - Occasion for use cancelled",
     "TC - Item not actually needed", #E.g., consumer education, water filters not needed for car camping
     "TC - Mistaken or trial request", #E.g., didn't even mean to submit
-    "TC - Borrower already got it", #Auto-set E.g., borrow already connected with lender
+    "TC - Not available", #Auto-set E.g., borrow already connected with lender
     "TC - Lender declined", #Auto-set E.g., lender cancels
-    "TC - Lender already gave it", #Auto-set E.g., lender already accepted someone else's request for a conflicitng time
     "TC - Actually needs item frequently" #E.g., buying makes more sense
   ],
 

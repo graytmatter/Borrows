@@ -72,7 +72,7 @@
             <% else %>
             <% end %>  
           </td>
-          <td><%= Inventory.find_by_id(borrow.inventory_id).signup.email %></td>
+          <td><%= borrow.inventory_id.present? ? Inventory.find_by_id(borrow.inventory_id).signup.email : "N/A" %></td>
           <td><%= borrow.request.signup.email %></td>
           <td><%= borrow.request.pickupdate.to_date %></td>
           <td><%= borrow.request.returndate.to_date %></td>

@@ -1,6 +1,6 @@
 class InventoriesController < ApplicationController
 
-  before_filter :authenticate, except: [:new, :create, :destroy, :manage, :accept]
+  before_filter :authenticate, except: [:new, :create, :destroy, :manage, :accept, :decline, :create_borrow]
 
   def new
     @pagetitle = "What would you like to lend?"
@@ -18,68 +18,6 @@ class InventoriesController < ApplicationController
         @inventories = @q.result.includes(:signup)
       end
     end
-  end
-
-  def manage
-    @pagetitle = "Approve outstanding requests from borrowers"
-
-    if session[:signup_email].nil?
-      flash[:danger] = "Please enter your email to get started"
-      redirect_to root_path
-    else
-      @signup_parent = Signup.find_by_email(session[:signup_email].downcase)
-      if @signup_parent.tos != true || @signup_parent.streetone.blank? || @signup_parent.streettwo.blank? || @signup_parent.zipcode.blank?
-        flash[:danger] = "Almost there! We just need a little more info"
-        redirect_to edit_signup_path
-      else
-        @q = @signup_parent.inventories.ransack(params[:q])
-        @inventories = @q.result.includes(:signup)
-      end
-    end
-  end
-
-  def accept 
-    accepted = Borrow.find_by_id(params[:id])
-    accepted.update_attributes(status1: Status.find_by_name("Connected").id)
-    RequestMailer.connect_email(accepted).deliver
-
-# accepted = Borrow.where({ itemlist_id: itemlist_id, request_id: request_id, inventory_id: inventory_id })
-
-    inventory_id = accepted.inventory_id
-    itemlist_id = accepted.itemlist_id
-    request_id = accepted.request_id
-    
-    no_longer_needed = Borrow.where({ itemlist_id: itemlist_id, request_id: request_id }).where.not(inventory_id: inventory_id)
-    no_longer_needed.each { |b| b.update_attributes(status1: Status.find_by_name("Borrower already got it").id) }
-    
-    may_no_longer_be_available = Borrow.where({ itemlist_id: itemlist_id, inventory_id: inventory_id }).where.not(request_id: request_id)
-    may_no_longer_be_available.each do |borrow|
-      if borrow.request.do_dates_overlap(accepted.request) == "yes"
-        borrow.update_attributes(status1: Status.find_by_name("TC - Lender already gave it").id) 
-        #Whenever something is cancelled, check if the borrower has no other options, and if so, send them a not found email
-        if Borrow.where({ request_id: borrow.request.id, itemlist_id: itemlist_id }).select { |not_cancelled_borrow| Status.where(statuscategory_id: Statuscategory.find_by_name("1 - Did use PB")).include? not_cancelled_borrow.status1 }.count == 0
-          RequestMailer.not_found(accepted).deliver
-        end
-      end
-    end
-    redirect_to manage_inventory_path
-  end
-
-  def decline 
-  #not as many deletes, because we're assuming that you're declining one borrow, not necessarily anything for that date range or from that user, though these could be more advanced options
-  #along that same vein you could easily have accept all for a specific item, or for a specific user's request
-    declined = Borrow.find_by_id(params[:id])
-    declined.update_attributes(status1: 21)
-
-    inventory_id = declined.inventory_id
-    itemlist_id = declined.itemlist_id
-    request_id = declined.request_id
-
-    if Borrow.where({ request_id: request_id, itemlist_id: itemlist_id }).select { |not_cancelled_borrow| Status.where(statuscategory_id: Statuscategory.find_by_name("1 - Did use PB")).include? not_cancelled_borrow.status1 }.count == 0
-        RequestMailer.not_found(declined).deliver
-    end
-    
-    redirect_to manage_inventory_path
   end
 
   def create
@@ -145,6 +83,72 @@ class InventoriesController < ApplicationController
     #   InventoryMailer.delete_email(@signup_parent, @destroyed).deliver
     #   redirect_to :action => 'manage'
     # end
+  end
+
+  def manage
+    @pagetitle = "Approve outstanding requests from borrowers"
+
+    if session[:signup_email].nil?
+      flash[:danger] = "Please enter your email to get started"
+      redirect_to root_path
+    else
+      @signup_parent = Signup.find_by_email(session[:signup_email].downcase)
+      if @signup_parent.tos != true || @signup_parent.streetone.blank? || @signup_parent.streettwo.blank? || @signup_parent.zipcode.blank?
+        flash[:danger] = "Almost there! We just need a little more info"
+        redirect_to edit_signup_path
+      else
+        @q = @signup_parent.inventories.ransack(params[:q])
+        @inventories = @q.result.includes(:signup)
+      end
+    end
+  end
+
+  def decline 
+  #not as many deletes, because we're assuming that you're declining one borrow, not necessarily anything for that date range or from that user, though these could be more advanced options
+  #along that same vein you could easily have accept all for a specific item, or for a specific user's request
+    declined = Borrow.find_by_id(params[:id])
+    
+    inventory_id = declined.inventory_id 
+    itemlist_id = declined.itemlist_id 
+    request_id = declined.request_id 
+
+    if Borrow.where({ itemlist_id: itemlist_id, request_id: request_id }).where.not(id: declined.id).select { |b| b.status1 == 1}.present?
+      declined.update_attributes(status1: 21)
+    else
+      Borrow.where({ itemlist_id: itemlist_id, request_id: request_id }).where.not(id: declined.id).destroy_all
+      declined.update_attributes(status1: 21, inventory_id: nil)
+      RequestMailer.not_found(declined, itemlist_id).deliver 
+    end
+    
+    redirect_to manage_inventory_path
+  end
+
+  def accept 
+    accepted = Borrow.find_by_id(params[:id])
+    accepted.update_attributes(status1: 2)
+    RequestMailer.connect_email(accepted).deliver
+
+    inventory_id = accepted.inventory_id
+    itemlist_id = accepted.itemlist_id
+    request_id = accepted.request_id
+
+    #delete items that the borrower no longer needs
+    Borrow.where({ itemlist_id: itemlist_id, request_id: request_id }).where.not(inventory_id: inventory_id).destroy_all
+
+    #some things no longer available
+    no_longer_available = Borrow.where({ itemlist_id: itemlist_id, inventory_id: inventory_id}).where.not(request_id: request_id).update_all(status1: 20)
+    no_longer_available.each do |borrow|
+      borrow.not_found_email_check
+      if Borrow.where({itemlist_id:itemlist_id, request_id:request_id}).where.not(inventory_id: inventory_id).where(status1 == 1).present?
+        borrow.destroy
+      else
+        borrow.update_attributes(inventory_id: nil)
+        Borrow.where({itemlist_id:itemlist_id, request_id:request_id}).where.not(inventory_id: inventory_id).destroy_all
+        RequestMailer.not_found(borrow, borrow.itemlist_id).deliver 
+      end
+    end
+
+    redirect_to manage_inventory_path
   end
 
   private

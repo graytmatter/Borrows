@@ -18,12 +18,22 @@ class RequestsController < ApplicationController
     
   end
 
+  def create_borrow(requestrecord, itemlist_id, inventory_id, status)
+    case status
+      when "checking"
+        status_id = 1
+      when "not available"
+        status_id = 20
+    end
+    newborrow = requestrecord.borrows.create(itemlist_id: itemlist_id, inventory_id: inventory_id, status1: status_id )
+  end
+
   def create
     @pagetitle = "What would you like to borrow?"
 
     @signup_parent = Signup.find_by_email(session[:signup_email].downcase)
     request_params
-    @requestrecord = @signup_parent.requests.build
+    # @requestrecord = @signup_parent.requests.build
 
     if @borrowparams.blank?
       @requestrecord.errors[:base] = "Please select at least one item"
@@ -33,21 +43,30 @@ class RequestsController < ApplicationController
         @borrowparams.each do |itemlist_id, quantity|
           matched_inventory_ids = Inventory.where.not(signup_id: @requestrecord.signup.id).where(itemlist_id: itemlist_id).ids 
           quantity.to_i.times do
-            matched_inventory_ids.each do |inventory_id|
+            matched_inventory_ids.each_with_index do |inventory_id, index|
               # If there exists borrows with that same inventory id and request id, i.e., the borrower requests multiple of same thing, then create the record with a default status of where lender already gave it out
-              if Borrow.where({ inventory_id:inventory_id, request_id: @requestrecord.id }).present?
-                newborrow = @requestrecord.borrows.create(itemlist_id: itemlist_id, inventory_id: inventory_id, status1: 22)
-                if Borrow.where({ request_id: @requestrecord.id, itemlist_id: itemlist_id }).select { |not_cancelled_borrow| Status.where(statuscategory_id: 1).include? not_cancelled_borrow.status1 }.count == 0
-                  RequestMailer.not_found(newborrow).deliver
+              if Borrow.where({ itemlist_id: itemlist_id }).where.not(request_id: @requestrecord.id).present? 
+                if Borrow.where({ itemlist_id: itemlist_id }).where.not(request_id: @requestrecord.id).select { |b| b.request.do_dates_overlap(@requestrecord) == "yes" }.present?
+                  if Borrow.where({ itemlist_id: itemlist_id }).where.not(request_id: @requestrecord.id).select { |b| b.request.do_dates_overlap(@requestrecord) == "yes" }.select { |b| b.request.signup.email.downcase == @requestrecord.signup.email.downcase }.present?
+                    if index == 0
+                      not_available_borrow = create_borrow(@requestrecord, itemlist_id, nil, "not available")
+                      RequestMailer.not_found(not_available_borrow, itemlist_id).deliver
+                    end
+                  else
+                    if Borrow.where({ itemlist_id: itemlist_id }).where.not(request_id: @requestrecord.id).select { |b| b.request.do_dates_overlap(@requestrecord) == "yes" }.select { |b| b.request.signup.email != @requestrecord.signup.email }.select { |b| b.where(status1: 2) }.present?
+                      if index == 0
+                        not_available_borrow = create_borrow(@requestrecord, itemlist_id, nil, "not available")
+                        RequestMailer.not_found(not_available_borrow, itemlist_id).deliver
+                      end
+                    else
+                      create_borrow(@requestrecord, itemlist_id, inventory_id, "checking")
+                    end
+                  end
+                else
+                  create_borrow(@requestrecord, itemlist_id, inventory_id, "checking")
                 end
-              # If there exists borrows with that same inventory id and different request id (someone else borrowed it) AND that someone else is already using PB, AND dates overlap, then mark the item as not available
-              # elsif 
-              #   if Borrow.where({ inventory_id:inventory_id, request_id: @requestrecord.id }).where(status1: Status.where(statuscategory_id:1)).select { |b| b.request.do_dates_overlap(Request.last) == "yes" }.present?
-              #   newborrow = @requestrecord.borrows.create(itemlist_id: itemlist_id, inventory_id: inventory_id, status1: 22)
-              # end
-                
               else
-                newborrow = @requestrecord.borrows.create(itemlist_id: itemlist_id, inventory_id: inventory_id, status1: 1)
+                create_borrow(@requestrecord, itemlist_id, inventory_id, "checking")
               end
             end
           end
@@ -55,12 +74,9 @@ class RequestsController < ApplicationController
       else
         render 'new'
       end
-      RequestMailer.same_as_today(@requestrecord).deliver if @requestrecord.pickupdate.to_date == Date.today
     end
-      
     render 'success'
   end
-
 
   def success
   end
