@@ -1,12 +1,7 @@
 class Inventory < ActiveRecord::Base
   include Dateoverlap
-  include Notfound
   
 	belongs_to :signup
-
-  has_many :invenborrows
-  has_many :borrows, through: :invenborrows
-
 	validates :signup_id, presence: true
   validate :custom_validation
 

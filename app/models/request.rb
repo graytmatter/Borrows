@@ -1,6 +1,5 @@
 class Request < ActiveRecord::Base
   include Dateoverlap
-  include Notfound
   
   before_create :create_edit_id
   

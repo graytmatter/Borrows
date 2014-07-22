@@ -3,9 +3,6 @@ class Borrow < ActiveRecord::Base
 	belongs_to :request
 	accepts_nested_attributes_for :request
 
-	has_many :invenborrows
-	has_many :inventories, through: :invenborrows
-
 	validates :request_id, presence: true
 	validates :status1, presence: true
 	validate :custom_validation
