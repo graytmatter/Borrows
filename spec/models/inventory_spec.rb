@@ -9,7 +9,7 @@ describe Inventory do
     subject { @inventory }
 
   	it { should respond_to(:signup_id) }
-  	it { should respond_to(:item_name) }
+  	it { should respond_to(:itemlist_id) }
   	it { should respond_to(:description) }
 
   	it { should be_valid }
@@ -20,7 +20,7 @@ describe Inventory do
     end
 
     describe "item_name invalid tests" do
-      before { @inventory.item_name = "" }
+      before { @inventory.itemlist_id = "" }
       it { should_not be_valid }
     end
 

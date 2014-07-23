@@ -1,7 +1,7 @@
 FactoryGirl.define do
 	factory :request do |f|
 		f.pickupdate { DateTime.now  }
-		f.returndate { (rand(10)+1).from_now }
+		f.returndate { DateTime.now + rand(10) }
 		f.signup_id { rand(0..1000000000) }
 		f.detail { "random" }
 	end

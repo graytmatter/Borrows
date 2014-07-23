@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "Borrows" do
+describe Borrow do
 
   	before do
    		@borrow = FactoryGirl.create(:borrow)

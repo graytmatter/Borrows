@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140722064330) do
+ActiveRecord::Schema.define(version: 20140723181033) do
 
   create_table "borrows", force: true do |t|
     t.integer  "request_id"
@@ -85,7 +85,7 @@ ActiveRecord::Schema.define(version: 20140722064330) do
     t.string   "heard"
     t.string   "streetone"
     t.string   "streettwo"
-    t.string   "zipcode"
+    t.integer  "zipcode",    limit: 255
     t.boolean  "tos"
   end
 

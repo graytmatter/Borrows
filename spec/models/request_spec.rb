@@ -23,23 +23,65 @@ describe Request do
     end
 
     describe "dates invalid tests" do
-      #pickup date after return date
-      before do 
-        @request.pickupdate = DateTime.new(2014, 6, 3)
-        @request.returndate = DateTime.new(2014, 5, 2)
+
+      describe "pickup date after return date" do
+        before do 
+          @request.pickupdate = DateTime.now + 5
+          @request.returndate = DateTime.now + 2
+        end
+
+        it { should_not be_valid }
       end
 
-      it { should_not be_valid }
+      describe "blank dates" do
+        before do 
+          @request.pickupdate = nil
+          @request.returndate = nil 
+        end
+
+        it { should_not be_valid }
+      end
+
+      describe "before today" do
+        before do 
+          @request.pickupdate = DateTime.now - 1
+          @request.returndate = DateTime.now
+        end
+
+        it { should_not be_valid }
+      end
+
+      describe "too many days" do
+        before do 
+          @request.pickupdate = DateTime.now + 1
+          @request.returndate = DateTime.now + 16
+        end
+
+        it { should_not be_valid }
+      end
+
     end
 
     describe "dates valid test" do
-      #same day
-      before do 
-        @request.pickupdate = DateTime.new(2014, 6, 3)
-        @request.returndate = @request.pickupdate
+
+      describe "same day" do
+        before do 
+          @request.pickupdate = DateTime.now
+          @request.returndate = DateTime.now
+        end
+
+        it { should be_valid }
       end
 
-      it { should be_valid }
+      describe "exactly 14 days" do
+        before do 
+          @request.pickupdate = DateTime.now + 1
+          @request.returndate = DateTime.now + 15
+        end
+
+        it { should be_valid }
+      end
+
     end
 end
 

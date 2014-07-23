@@ -25,6 +25,7 @@ describe Signup do
       addresses.each do |invalid_address|
         before { @signup.email = invalid_address }
         it { should_not be_valid }
+      end
     end
 
     describe "email valid tests" do 
@@ -35,69 +36,66 @@ describe Signup do
    			it { should be_valid }
   		end
     end
-  end
 
-  describe "mimic update action" do
-
-    before do
-      @signup = FactoryGirl.create(:signup)
+    describe "email downcasing" do 
+      before do
+        @new_signup = Signup.create(email: "HOLYCRAP_perS@Gmail.com", streetone: "Post", streettwo: "Taylor", zipcode: 94109, tos: true)
+      end
+      
+      it "should be downcased and valid" do
+        @new_signup.email.should eq("holycrap_pers@gmail.com") 
+        @new_signup.should be_valid
+      end
     end
 
-    it { should respond_to(:email) }
-    it { should respond_to(:streetone) }
-    it { should respond_to(:streettwo) }
-    it { should respond_to(:zipcode) }
-    it { should respond_to(:heard) }
-    it { should respond_to(:tos) }
-    
-    it { should be_valid }
+    describe "mimic update action" do
 
-    describe "cross streets invalid tests" do
-      before { @signup.streetone = " " }
-      it { should_not be_valid }
+      before do
+        @signup.update_attributes(streetone: "Post", streettwo: "Taylor", zipcode: 94109, tos: true)
+      end
 
-      before { @signup.streettwo = " " } 
-      it { should_not be_valid }
+      it { should respond_to(:email) }
+      it { should respond_to(:streetone) }
+      it { should respond_to(:streettwo) }
+      it { should respond_to(:zipcode) }
+      it { should respond_to(:heard) }
+      it { should respond_to(:tos) }
       
-      before { @signup.streetone = "Post" }
-      before { @signup.streetone = @signup.streettwo }
-      it { should_not be_valid }
-    end
-
-    describe "zipcode invalid tests" do
-      before { @signup.zipcode = " " }
-      it { should_not be_valid }
-      
-      before { @signup.zipcode = "asdfd" }
-      it { should_not be_valid }
-      
-      before { @signup.zipcode = "123" }
-      it { should_not be_valid }
-      
-      before { @signup.zipcode = "-123asdf" }
-      it { should_not be_valid }
-      
-      before { @signup.zipcode = "-12345" }
-      it { should_not be_valid }
-      
-      before { @signup.zipcode = "-1234" }
-      it { should_not be_valid }
-    end
-
-    describe "zipcode valid tests" do
-      #testing trim function to remove excessive spacing
-      before { @signup.zipcode = " 94109 " }
       it { should be_valid }
-    end
 
-    describe "tos invalid tests" do
-      before { @signup.tos = "" }
-      it { should_not be_valid }
+      describe "cross streets invalid tests" do
+        before { @signup.streetone = " " }
+        it { should_not be_valid }
 
-      before { @signup.tos = false }
-      it { should_not be_valid }
+        before { @signup.streettwo = " " } 
+        it { should_not be_valid }
+        
+        before { @signup.streetone = "Post" }
+        before { @signup.streetone = @signup.streettwo }
+        it { should_not be_valid }
+      end
+
+      describe "zipcode invalid tests" do
+        before { @signup.zipcode = nil}
+        it { should_not be_valid }
+        
+        before { @signup.zipcode = 123 }
+        it { should_not be_valid }
+        
+        before { @signup.zipcode = -123 }
+        it { should_not be_valid }
+        
+        before { @signup.zipcode = 123456 }
+        it { should_not be_valid }
+      end
+
+      describe "tos invalid tests" do
+        before { @signup.tos = "" }
+        it { should_not be_valid }
+
+        before { @signup.tos = false }
+        it { should_not be_valid }
+      end
     end
   end
-end
-
 end

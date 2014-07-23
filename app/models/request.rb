@@ -89,7 +89,7 @@ class Request < ActiveRecord::Base
 # fourthtest
 
 # FIFTH
-# Signup.all.each { |s| s.update_attributes(email: s.email.downcase) }
+# Signup.all.each { |s| s.update_attributes(email: s.email.downcase, zipcode: s.zipcode.to_i) }
 
 # FINAL CHECKS
 # Check that all Request does belong to a Signup (i.e., signup.email exists)
