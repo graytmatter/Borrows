@@ -24,9 +24,9 @@ class RequestMailer < ActionMailer::Base
     @requestlist = Hash.new
     @requestrecord.borrows.each_with_index do |b, index|
       if Rails.env == "test" #can't explain why, in test the Inventory object appears to not be associated with the Signup object, since it throws a no method error on signup, which is even weirder because the no method error says Nil Class for inventory, but the Inventory is obviously there
-        @requestlist["#{index}"] = {"#{Itemlist.find_by_id(b.itemlist_id).name}" => "#{Inventory.find_by_id(b.inventory_id)}"}
+        @requestlist[index] = { Itemlist.find_by_id(b.itemlist_id).name => Inventory.find_by_id(b.inventory_id) }
       else
-        @requestlist["#{index}"] = {"#{Itemlist.find_by_id(b.itemlist_id).name}" => "#{Inventory.find_by_id(b.inventory_id).signup.email}"}
+        @requestlist[index] = { Itemlist.find_by_id(b.itemlist_id).name => Inventory.find_by_id(b.inventory_id).signup.email }
       end
     end
     mail(to: ENV['owner'], from: @requestrecord.signup.email, :subject => "ALERT: Same day request") 

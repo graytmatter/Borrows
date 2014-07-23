@@ -100,6 +100,7 @@ class RequestsController < ApplicationController
             times_to_create(quantity.to_i, matched_inventory_ids, itemlist_id) 
           end
         end
+        #right now the same day email sends even if all the borrows already are N/A, ideally this would only send if i need to ping the borrowers because items are indeed available
         if @requestrecord.pickupdate = Date.today
           if Rails.env == "test"
             RequestMailer.same_as_today(@requestrecord).deliver
