@@ -3,8 +3,8 @@
 FactoryGirl.define do
   factory :borrow do
     request_id { rand(0..1000000000) }
-    item_id { rand(0..1000000000) }
-    name { "item name" }
-    status { rand(0..5) } 
+    itemlist_id { rand(0..1000000000) }
+    status1 { rand(0..5) }
+    multiple { rand(0..5) } 
   end
 end
