@@ -12,8 +12,14 @@ class SignupsController < ApplicationController
 			redirect_to action: 'edit'
 		else
 			if @signup.save
-				@signup.save_subscrip 
-				Subscribe.notification_email(@signup).deliver if Rails.env == "production"
+				new_email = @signup.email
+				if Rails.env == "test"
+					SignupMailer.notification_email(@signup).deliver if Rails.env != "development"
+					@signup.save_subscrip 
+				else
+					Subscribe.new.async.perform(@signup)
+					Mailing.new.async.perform(@signup)
+				end
 				session[:signup_email] = @signup.email.downcase
 				redirect_to action: 'edit'
 			else
