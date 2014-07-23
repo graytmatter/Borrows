@@ -1,25 +1,39 @@
 require 'faker'
 
 FactoryGirl.define do
-	factory :signup do |f|
-		f.email { Faker::Internet.email }
-		# f.heard { "random" }
-		# f.streetone { "Post" }
-		# f.streettwo { "Taylor" }
-		# f.zipcode { "94109" }
-		# f.tos { true }
+	factory :signup_email, class: Signup do 
+		email { Faker::Internet.email }
+		# heard { "random" }
+		# streetone { "Post" }
+		# streettwo { "Taylor" }
+		# zipcode { "94109" }
+		# tos { true }
 	end
-end
-	
-FactoryGirl.define do
-	factory :invalid_signup, parent: :signup do |f|
-		f.email { nil }
-	end
-end
 
-FactoryGirl.define do
-	factory :repeat_signup, parent: :signup do |f|
-		f.email { "jdong8@gmail.com" }
+	factory :signup_full, class: Signup do 
+		email { Faker::Internet.email }
+		heard { "random" }
+		streetone { "Post" }
+		streettwo { "Taylor" }
+		zipcode { 94109 }
+		tos { true }
+	end
+
+	factory :invalid_signup_email, class: Signup do 
+		email { nil }
+	end
+
+	factory :invalid_signup_full, class: Signup do
+		email { Faker::Internet.email }
+		heard { "" }
+		streetone { "" }
+		streettwo { "" }
+		zipcode { nil }
+		tos { nil }
+	end
+
+	factory :repeat_signup, class: Signup do
+		email { "jdong8@gmail.com" }
 	end
 end
 	

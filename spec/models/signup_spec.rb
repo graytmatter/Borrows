@@ -8,7 +8,7 @@ describe Signup do
   describe "mimic create action" do
 
   	before do
-   		@signup = FactoryGirl.build(:signup)
+   		@signup = FactoryGirl.build(:signup_email)
   	end
 
   	it { should respond_to(:email) }

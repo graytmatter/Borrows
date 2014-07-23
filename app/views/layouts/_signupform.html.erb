@@ -1,6 +1,6 @@
 <% if @signup_parent.errors.any? %>
       <div class="alert alert-danger">
-        <p>Please correct the following error(s) so that we can locate lenders and borrowers closer to you:</p>
+        <p>Please correct the following error(s):</p>
         <ul>
         <% @signup_parent.errors.full_messages.each do |message| %>
           <li><%= message %></li>
@@ -11,7 +11,7 @@
     <%= render 'layouts/flash' %>
 
     <div class="col-xs-12 box">
-      <%= form_for @signup_parent, url: {action: 'update'}, :html => {:class => "form-inline", :autocomplete => "off"} do |f| %>
+      <%= form_for @signup_parent, url: {action: 'update'}, :html => {:class => "form-inline", :id => 'edit_signup_form', :autocomplete => "off"} do |f| %>
         
         <div class="form-group col-xs-6">
           <%= f.label :email, "Confirm your email"%>
@@ -23,33 +23,33 @@
           <%= f.text_field :heard, class: "form-control", placeholder: "Who do we need to thank?" %>
         </div>
         
-        <div class="form-group col-xs-4">
+        <div class="form-group col-xs-4" id="streetone">
           <%= f.label :streetone, "Cross street 1" %>
           <%= f.text_field :streetone, class: "form-control" %>
         </div>
 
-        <div class="form-group col-xs-4">
+        <div class="form-group col-xs-4" id="streettwo">
           <%= f.label :streettwo, "Cross street 2" %>
           <%= f.text_field :streettwo, class: "form-control" %>
         </div>
 
-        <div class="form-group col-xs-4">
+        <div class="form-group col-xs-4" id="zipcode">
           <%= f.label :zipcode, "Zipcode"%>
           <%= f.text_field :zipcode, class: "form-control"%>
         </div>
 
-        <div class="form-group col-xs-12", style="padding-top:2%">
+        <div class="form-group col-xs-12", id="tos", style="padding-top:2%">
           <%= f.check_box :tos %>
           <%= f.label :tos, "I have read and agree to the #{link_to 'Terms of Service', terms_path, { style: "color:#428bca", target: "_blank" }}.".html_safe %>
         </div>
 
         <div class="col-xs-12", style="padding-top:3%">
           <div class="col-xs-6">
-            <%= f.submit "Woohoo! Ready to borrow!", name: "borrow", class: "btn btn-primary btn-large btn-block" %>
+            <%= f.submit "Woohoo! Ready to borrow!", name: "borrow", class: "btn btn-primary btn-large btn-block", id: 'borrow' %>
           </div>
 
           <div class="col-xs-6">
-            <%= f.submit "Yayhay! Ready to lend!", name: "lend", class: "btn btn-warning btn-large btn-block col-xs-6" %>
+            <%= f.submit "Yayhay! Ready to lend!", name: "lend", class: "btn btn-warning btn-large btn-block col-xs-6", id: 'lend' %>
           </div>
         </div>
       

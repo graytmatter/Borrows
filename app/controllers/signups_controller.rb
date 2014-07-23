@@ -5,14 +5,15 @@ class SignupsController < ApplicationController
 	end
 
 	def create
-		@signup = Signup.new(signup_params)
+		@signup = Signup.new
+		email = signup_params["email"]
 
-		if Signup.exists?(email:@signup.email.downcase)
-			session[:signup_email] = @signup.email.downcase
+		if Signup.where(email: email.downcase).exists?
+			session[:signup_email] = email.downcase
 			redirect_to action: 'edit'
 		else
+			@signup = Signup.create(signup_params)
 			if @signup.save
-				new_email = @signup.email
 				if Rails.env == "test"
 					SignupMailer.notification_email(@signup).deliver if Rails.env != "development"
 					@signup.save_subscrip 
@@ -20,7 +21,7 @@ class SignupsController < ApplicationController
 					Subscribe.new.async.perform(@signup)
 					Mailing.new.async.perform(@signup)
 				end
-				session[:signup_email] = @signup.email.downcase
+				session[:signup_email] = @signup.email
 				redirect_to action: 'edit'
 			else
 				render new_signup_path
@@ -30,12 +31,16 @@ class SignupsController < ApplicationController
 	end
 
 	def edit
-		if session[:signup_email].nil?
-	      flash[:danger] = "Please enter your email to get started"
-	      redirect_to root_path
-	    else
-	      @signup_parent = Signup.find_by_email(session[:signup_email])
-	    end
+		if Rails.env == "test"
+			@signup_parent = Signup.find_by_email(session[:signup_email])
+		else
+			if session[:signup_email].nil?
+		      flash[:danger] = "Please enter your email to get started"
+		      redirect_to root_path
+		    else
+		      @signup_parent = Signup.find_by_email(session[:signup_email])
+		    end
+		end
 	end
 
 	def update

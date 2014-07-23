@@ -19,7 +19,7 @@ group :development do
 end
 
 group :development, :test do
-	gem 'rspec-rails', '2.13.1' #test framework
+	gem 'rspec-rails', '~> 2.14.0.rc1' #was '2.13.1' update needed beacuse otherwise assertion methods 'assert_form' didnt' work
 	gem 'factory_girl_rails'
 end
 
