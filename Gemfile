@@ -10,7 +10,7 @@ gem 'figaro' #creates the config/application.yml file ignored by Git
 gem 'gibbon' #mailchimp API API
 gem 'newrelic_rpm' #tracking and pinging from newrelic
 gem 'ransack' #sortable links on inventory (user and admin) and request pages (admin)
-gem 'whenever', :require => false #executes cron jobs, sending reminders on pickup/returndates
+gem 'sucker_punch', '~> 1.0' #for background jobs
 
 # Use sqlite3 as the database for Active Record
 group :development do

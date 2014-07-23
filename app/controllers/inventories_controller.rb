@@ -103,6 +103,27 @@ class InventoriesController < ApplicationController
     end
   end
 
+  def decline_process(borrow_in_question, status1_input)
+    inventory_id = borrow_in_question.inventory_id 
+    itemlist_id = borrow_in_question.itemlist_id 
+    request_id = borrow_in_question.request_id 
+    multiple = borrow_in_question.multiple
+
+    if Borrow.where({ itemlist_id: itemlist_id, request_id: request_id, multiple: multiple}).where.not(id: borrow_in_question.id).where(status1: 1).present?
+      borrow_in_question.destroy 
+      #select { |b| b.request.pickupdate != borrow_in_question.request.pickupdate && b.request.returndate != borrow_in_question.request.returndate }
+    else
+      Borrow.where({ itemlist_id: itemlist_id, request_id: request_id, multiple: multiple}).where.not(id: borrow_in_question.id).destroy_all
+      borrow_in_question.update_attributes(status1: status1_input, inventory_id: nil)
+      if Rails.env == "test"
+        RequestMailer.not_found(borrow_in_question, itemlist_id).deliver
+      else
+        Notfound.new.async.perform(borrow_in_question, itemlist_id)
+      end  
+
+    end
+  end
+
   def decline
   #not as many deletes, because we're assuming that you're declining one borrow, not necessarily anything for that date range or from that user, though these could be more advanced options
   #along that same vein you could easily have accept all for a specific item, or for a specific user's request
@@ -116,7 +137,11 @@ class InventoriesController < ApplicationController
   def accept 
     accepted = Borrow.find_by_id(params[:id])
     accepted.update_attributes(status1: 2)
-    RequestMailer.connect_email(accepted).deliver
+    if Rails.env == "test"
+      RequestMailer.connect_email(accepted).deliver
+    else
+      Connect.new.async.perform(accepted)
+    end 
 
     inventory_id = accepted.inventory_id
     itemlist_id = accepted.itemlist_id

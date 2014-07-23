@@ -5,6 +5,7 @@ require 'rspec/rails'
 require 'rspec/autorun'
 require 'capybara/rspec'
 require 'capybara/rails'
+require 'sucker_punch/testing/inline' #converts all async to sync for testing purposes
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -44,4 +45,23 @@ RSpec.configure do |config|
   config.include Capybara::DSL
   config.include RSpec::Rails::ViewRendering
   config.render_views
+
+  #this section is for Sucker Punch gem, but didn't work, Database Cleaner through uninitialized, so it looks like I'm not having the problem Brandon is thinking
+
+  # config.before(:each) do
+  #   DatabaseCleaner.strategy = :transaction
+  # end
+
+  # # Clean up all jobs specs with truncation
+  # config.before(:each, job: true) do
+  #   DatabaseCleaner.strategy = :truncation
+  # end
+
+  # config.before(:each) do
+  #   DatabaseCleaner.start
+  # end
+
+  # config.after(:each) do
+  #   DatabaseCleaner.clean
+  # end
 end

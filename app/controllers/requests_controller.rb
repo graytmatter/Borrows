@@ -28,6 +28,47 @@ class RequestsController < ApplicationController
     newborrow = requestrecord.borrows.create(itemlist_id: itemlist_id, multiple: multiple, inventory_id: inventory_id, status1: status_id )
   end
 
+  def times_to_create(quantity, matched_inventory_ids, itemlist_id)
+    multiple_counter = 1
+    quantity.times do
+      matched_inventory_ids.each_with_index do |inventory_id, index|
+        # If there exists borrows with that same inventory id and request id, i.e., the borrower requests multiple of same thing, then create the record with a default status of where lender already gave it out
+        if Borrow.where({ itemlist_id: itemlist_id }).where.not(request_id: @requestrecord.id).present? 
+          if Borrow.where({ itemlist_id: itemlist_id }).where.not(request_id: @requestrecord.id).select { |b| b.request.do_dates_overlap(@requestrecord) == "yes" }.present?
+            if Borrow.where({ itemlist_id: itemlist_id }).where.not(request_id: @requestrecord.id).select { |b| b.request.do_dates_overlap(@requestrecord) == "yes" }.select { |b| b.request.signup.email.downcase == @requestrecord.signup.email.downcase }.present?
+              if index == 0
+                not_available_borrow = create_borrow(@requestrecord, itemlist_id, multiple_counter, nil, "not available")
+                if Rails.env == "test"
+                  RequestMailer.not_found(not_available_borrow, itemlist_id).deliver
+                else
+                  Notfound.new.async.perform(not_available_borrow, itemlist_id)
+                end     
+              end
+            else
+              if Borrow.where({ itemlist_id: itemlist_id }).where.not(request_id: @requestrecord.id).select { |b| b.request.do_dates_overlap(@requestrecord) == "yes" }.select { |b| b.request.signup.email != @requestrecord.signup.email }.select { |b| b.status1 == 2 }.present?
+                if index == 0
+                  not_available_borrow = create_borrow(@requestrecord, itemlist_id, multiple_counter, nil, "not available")
+                  if Rails.env == "test"
+                    RequestMailer.not_found(not_available_borrow, itemlist_id).deliver
+                  else
+                    Notfound.new.async.perform(not_available_borrow, itemlist_id)
+                  end  
+                end
+              else
+                create_borrow(@requestrecord, itemlist_id, multiple_counter, inventory_id, "checking")
+              end
+            end
+          else
+            create_borrow(@requestrecord, itemlist_id, multiple_counter, inventory_id, "checking")
+          end
+        else
+          create_borrow(@requestrecord, itemlist_id, multiple_counter, inventory_id, "checking")
+        end
+      end
+    multiple_counter += 1
+    end
+  end
+
   def create
     @pagetitle = "What would you like to borrow?"
 
@@ -48,76 +89,27 @@ class RequestsController < ApplicationController
             difference.times do 
               not_available_borrow = create_borrow(@requestrecord, itemlist_id, multiple_counter+quantity.to_i, nil, "not available")
               multiple_counter += 1
-              RequestMailer.not_found(not_available_borrow, itemlist_id).deliver
+              if Rails.env == "test"
+                RequestMailer.not_found(not_available_borrow, itemlist_id).deliver
+              else
+                Notfound.new.async.perform(not_available_borrow, itemlist_id)
+              end  
             end
-            multiple_counter = 1
-            matched_inventory_ids.count.times do
-              matched_inventory_ids.each_with_index do |inventory_id, index|
-                # If there exists borrows with that same inventory id and request id, i.e., the borrower requests multiple of same thing, then create the record with a default status of where lender already gave it out
-                if Borrow.where({ itemlist_id: itemlist_id }).where.not(request_id: @requestrecord.id).present? 
-                  if Borrow.where({ itemlist_id: itemlist_id }).where.not(request_id: @requestrecord.id).select { |b| b.request.do_dates_overlap(@requestrecord) == "yes" }.present?
-                    if Borrow.where({ itemlist_id: itemlist_id }).where.not(request_id: @requestrecord.id).select { |b| b.request.do_dates_overlap(@requestrecord) == "yes" }.select { |b| b.request.signup.email.downcase == @requestrecord.signup.email.downcase }.present?
-                      if index == 0
-                        not_available_borrow = create_borrow(@requestrecord, itemlist_id, multiple_counter, nil, "not available")
-                        RequestMailer.not_found(not_available_borrow, itemlist_id).deliver
-                      end
-                    else
-                      if Borrow.where({ itemlist_id: itemlist_id }).where.not(request_id: @requestrecord.id).select { |b| b.request.do_dates_overlap(@requestrecord) == "yes" }.select { |b| b.request.signup.email != @requestrecord.signup.email }.select { |b| b.status1 == 2 }.present?
-                        if index == 0
-                          not_available_borrow = create_borrow(@requestrecord, itemlist_id, multiple_counter, nil, "not available")
-                          RequestMailer.not_found(not_available_borrow, itemlist_id).deliver
-                        end
-                      else
-                        create_borrow(@requestrecord, itemlist_id, multiple_counter, inventory_id, "checking")
-                      end
-                    end
-                  else
-                    create_borrow(@requestrecord, itemlist_id, multiple_counter, inventory_id, "checking")
-                  end
-                else
-                  create_borrow(@requestrecord, itemlist_id, multiple_counter, inventory_id, "checking")
-                end
-              end
-            multiple_counter += 1
-            end
+            times_to_create(matched_inventory_ids.count, matched_inventory_ids, itemlist_id)
           else
-            multiple_counter = 1
-            quantity.to_i.times do
-              matched_inventory_ids.each_with_index do |inventory_id, index|
-                # If there exists borrows with that same inventory id and request id, i.e., the borrower requests multiple of same thing, then create the record with a default status of where lender already gave it out
-                if Borrow.where({ itemlist_id: itemlist_id }).where.not(request_id: @requestrecord.id).present? 
-                  if Borrow.where({ itemlist_id: itemlist_id }).where.not(request_id: @requestrecord.id).select { |b| b.request.do_dates_overlap(@requestrecord) == "yes" }.present?
-                    if Borrow.where({ itemlist_id: itemlist_id }).where.not(request_id: @requestrecord.id).select { |b| b.request.do_dates_overlap(@requestrecord) == "yes" }.select { |b| b.request.signup.email.downcase == @requestrecord.signup.email.downcase }.present?
-                      if index == 0
-                        not_available_borrow = create_borrow(@requestrecord, itemlist_id, multiple_counter, nil, "not available")
-                        RequestMailer.not_found(not_available_borrow, itemlist_id).deliver
-                      end
-                    else
-                      if Borrow.where({ itemlist_id: itemlist_id }).where.not(request_id: @requestrecord.id).select { |b| b.request.do_dates_overlap(@requestrecord) == "yes" }.select { |b| b.request.signup.email != @requestrecord.signup.email }.select { |b| b.status1 == 2 }.present?
-                        if index == 0
-                          not_available_borrow = create_borrow(@requestrecord, itemlist_id, multiple_counter, nil, "not available")
-                          RequestMailer.not_found(not_available_borrow, itemlist_id).deliver
-                        end
-                      else
-                        create_borrow(@requestrecord, itemlist_id, multiple_counter, inventory_id, "checking")
-                      end
-                    end
-                  else
-                    create_borrow(@requestrecord, itemlist_id, multiple_counter, inventory_id, "checking")
-                  end
-                else
-                  create_borrow(@requestrecord, itemlist_id, multiple_counter, inventory_id, "checking")
-                end
-              end
-            multiple_counter += 1
-            end
+            times_to_create(quantity.to_i, matched_inventory_ids, itemlist_id) 
+          end
+        end
+        if @requestrecord.pickupdate = Date.today
+          if Rails.env == "test"
+            RequestMailer.same_as_today(@requestrecord).deliver
+          else
+            Sameday.new.async.perform(@requestrecord)
+            #throws errors because it appears the object is not being passed. in the mailer view, all the attributes like name or email are throwing no method errors for nil class
           end
         end
       else
         render 'new'
-      end
-      if @requestrecord.pickupdate = Date.today
-        RequestMailer.same_as_today(@requestrecord).deliver
       end
     end
     render 'success'
