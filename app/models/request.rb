@@ -6,8 +6,8 @@ class Request < ActiveRecord::Base
   belongs_to :signup
   has_many :borrows, dependent: :destroy
 
-  validates :signup_id, presence: true
-  validate :custom_validation
+  # validates :signup_id, presence: true
+  # validate :custom_validation
 
   def custom_validation
     errors[:base] << "Please enter both a pick up date and a return date" if self.pickupdate.blank? || self.returndate.blank?
@@ -22,6 +22,7 @@ class Request < ActiveRecord::Base
 
 # FIRST
 # Request.where("heard <> ''").each { |request| puts request.signup.update_attributes(heard: request.heard) }
+
 
 # Check
 # firsttest = Array.new
@@ -54,8 +55,8 @@ class Request < ActiveRecord::Base
 # end
 # secondtest
 
-# THIRD
-# Request.where("signup_id is null").each { |r| r.update_attributes(signup_id: Signup.find_by_email(r.email).id) }
+# THIRD DONE
+# Request.where("signup_id is null").each { |r| r.update_attributes(signup_id: Signup.where(email: r.email).first.id) }
 
 # Check
 # thirdtest = Array.new
@@ -88,7 +89,7 @@ class Request < ActiveRecord::Base
 
 # fourthtest
 
-# FIFTH
+# FIFTH DONE
 # Signup.all.each { |s| s.update_attributes(email: s.email.downcase, zipcode: s.zipcode.to_i) }
 
 # FINAL CHECKS
@@ -103,6 +104,21 @@ class Request < ActiveRecord::Base
 
 # DELETE EXTRANEOUS COLUMNS YAY!""
 
+# REALITY:
+
+# 1)  Signup.all.each { |s| s.update_attributes(email: s.email.downcase) }
+# 2)  Signup.where("zipcode IS NOT NULL").each { |s| s.update_attributes(zipcode: s.zipcode.to_i) }
+# 3)  Request.where("email IS NOT NULL").each { |r| r.update_attributes(email: r.email.downcase) }
+# 4)  ActiveRecord::Base.record_timestamps = false
+
+# Request.where("email is not null").select { |r| Signup.where(email: r.email).present? == false }.each { |r| Signup.create(email: r.email, heard: r.heard) } 
+# ActiveRecord::Base.record_timestamps = true
+
+# 5) Request.where("email is not null").select { |r| Signup.where(email: r.email).present? == true }.each { |r| r.update_attributes(signup_id: Signup.where(email: r.email)) } 
+
+# 6) Request.where("signup_id is null").select { |r| Signup.where(email: r.email).present? == true }.each { |r| r.update_attributes(signup_id: Signup.where(email: r.email)) } 
+
+# CHECKED by: 
 =begin
   def update_spreadsheet
     connection = GoogleDrive.login(ENV['g_username'], ENV['g_password'])
