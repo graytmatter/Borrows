@@ -9,7 +9,7 @@
 
 <p><%= "We did our best to find a #{@item} for you from #{@pickupdate} to #{@returndate}, but unfortunately our lenders are either all out, have declined the request, or have not responded in time. I hope you will continue to think of Project Borrow in the future. Please also note, if you requested multiple #{@item.pluralize}, this email is meant to reflect the status of one of these items only."%></p>
 
-<p>If you have a moment, as I'm interested in studying this space, I'd like to know what other options you will or plan to pursue, you can just bold or select a number and reply to this email.</p>
+<p>If you have a moment, as I try to improve this service, I'd like to know what other options you will or plan to pursue, you can just bold or select a number and reply to this email.</p>
 
 <ol>
 	<% Status.where(statuscategory_id: 4).all.each do |status| %>

@@ -62,7 +62,6 @@ describe "how inventory upload and descriptions should work" do
 				before do
 					fill_in 'inventory_description_1', :with => "An awesome tent!"
 					click_button 'add description 1'
-					save_and_open_page
 				end
 
 				it "should update inventory" do

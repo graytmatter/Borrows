@@ -7,15 +7,17 @@
     <% end %>
   </h4>
   
-  <h5 style="font-size:100%; font-style:italic">
+  <h5 style="font-size:90%; font-style:italic">
+    Click to 
     <% if @signup_parent.inventories.count > 0 %>
-      <%= link_to '(I want to manage requests from borrowers)', manage_inventory_path, { style: 'color:#428bca'}%>
+      <%= link_to 'manage borrower requests', manage_inventory_path, { style: 'color:#428bca'}%>
+      or to
     <% end %>
-    <%= link_to '(I want to borrow)', new_request_path, { style: 'color:#428bca'}%>
+    <%= link_to 'borrow something', new_request_path, { style: 'color:#428bca'}%>
   </h5>
 
-  <p style="font-style:italic;">First, you're awesome for being a lender. Thank you for being kind, generous, and... we could go on, but you get it. A few things to keep in mind:</p>
-  <ul style="font-style:italic;">
+  <p>Thank you for being kind, generous, and making someone's day! Please keep in mind:</p>
+  <ul style="font-size:90%">
     <li>Below are all the items borrowers are asking for, camping stuff is especially hot! If you have something else you think would be cool to share, please <%= mail_to 'james@projectborrow.com', 'tell us', {style: 'color:#428bca'} %>.</li>
     <li>We value our lenders and want you to have a great experience, please reach out if you have any questions or concerns about the safety and care of your items, and feel free to review our <%= link_to "terms of service", terms_path, { style: "color:#428bca", target: "_blank" } %></li>
   </ul>

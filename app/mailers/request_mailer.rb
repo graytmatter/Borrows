@@ -4,18 +4,19 @@ class RequestMailer < ActionMailer::Base
     
   def not_found(not_found_borrow, itemlist_id)
     @borrower_email = not_found_borrow.request.signup.email
-    @pickupdate = not_found_borrow.request.pickupdate.to_date
-    @returndate = not_found_borrow.request.returndate.to_date
+    @pickupdate = not_found_borrow.request.pickupdate.strftime("%B %-d")
+    @returndate = not_found_borrow.request.returndate.strftime("%B %-d")
     @item = Itemlist.find_by_id(itemlist_id).name
     mail(to: @borrower_email, from: ENV['owner'], :subject => "[Project Borrow]: Could not find #{@item}") 
   end
 
   def connect_email(accepted_borrow)
     @borrower_email = accepted_borrow.request.signup.email
-    @pickupdate = accepted_borrow.request.pickupdate.to_date
-    @returndate = accepted_borrow.request.returndate.to_date
+    @pickupdate = accepted_borrow.request.pickupdate.strftime("%B %-d")
+    @returndate = accepted_borrow.request.returndate.strftime("%B %-d")
     @item = Itemlist.find_by_id(accepted_borrow.itemlist_id).name
     @lender_email = Inventory.find_by_id(accepted_borrow.inventory_id).signup.email
+    @item_description = Inventory.find_by_id(accepted_borrow.inventory_id).description
     mail(to: @borrower_email, cc: @lender_email, from: ENV['owner'], :subject => "[Project Borrow]: #{@item} exchange!") 
   end
 

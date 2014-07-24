@@ -12,6 +12,7 @@
 	<li><%= "<b>Lender:</b> #{@lender_email}".html_safe %></li>
 	<li><%= "<b>Borrower:</b> #{@borrower_email}".html_safe %></li>
 	<li><%= "<b>Item:</b> #{@item}".html_safe %></li>
+	<%= "<li><b>Item description from lender:</b> #{@description}</li>".html_safe if @description.present? %>
 	<li><%= "<b>Pick Up Date:</b> #{@pickupdate}".html_safe %></li>
 	<li><%= "<b>Return Date:</b> #{@returndate}".html_safe %></li>
 	</ul>
