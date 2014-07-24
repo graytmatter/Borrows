@@ -1,5 +1,5 @@
-class RemoveTosFromRequests < ActiveRecord::Migration
-  def change
-  	remove_column :requests, :tos
-  end
-end
+# class RemoveTosFromRequests < ActiveRecord::Migration
+#   def change
+#   	remove_column :requests, :tos
+#   end
+# end
