@@ -20,17 +20,17 @@ class Request < ActiveRecord::Base
 
 # HAVE TO GO IN THIS ORDER! Also before doing anything, have to make sure Itemlists/ Categorylists  are fully updated with next rev 
 
-# FIRST
-# Request.where("heard <> ''").each { |request| puts request.signup.update_attributes(heard: request.heard) }
+# FIRST 
+# Request.where("heard <> ''").each { |request| request.signup.update_attributes(heard: request.heard) }
 
 
 # Check
 # firsttest = Array.new
 # Request.where("heard <> ''").each do |r|
 #   if r.heard == r.signup.heard
-#     arraytest << "OK"
+#     firsttest << "OK"
 #     else
-#       arraytest << "ERROR at #{r.id}"
+#       firsttest << "ERROR at #{r.id}"
 #     end
 #   end
 # firsttest
@@ -58,9 +58,9 @@ class Request < ActiveRecord::Base
 # THIRD DONE
 # Request.where("signup_id is null").each { |r| r.update_attributes(signup_id: Signup.where(email: r.email).first.id) }
 
-# Check
+# Check DONE
 # thirdtest = Array.new
-# Request.where("email <> ''").each do |r|
+# Request.where("signup_id is not null").where("email is not null").each do |r|
 #   if r.email == r.signup.email
 #     thirdtest << "OK"
 #     else
@@ -93,7 +93,9 @@ class Request < ActiveRecord::Base
 # Signup.all.each { |s| s.update_attributes(email: s.email.downcase, zipcode: s.zipcode.to_i) }
 
 # FINAL CHECKS
-# Check that all Request does belong to a Signup (i.e., signup.email exists)
+# Check that all Request does belong to a Signup (i.e., signup.email exists) DONE!
+# Check that all Signups have lower case emails
+
 # Check that all borrows belong to a Request
 # Check that all borrows have an Itemlist
 # Check that all borrows have two statuses
@@ -106,7 +108,9 @@ class Request < ActiveRecord::Base
 
 # REALITY:
 
-# 1)  Signup.all.each { |s| s.update_attributes(email: s.email.downcase) }
+# 1)  Signup.all.each do |s|
+#    s.update_attributes(email: s.email.downcase) 
+#  end
 # 2)  Signup.where("zipcode IS NOT NULL").each { |s| s.update_attributes(zipcode: s.zipcode.to_i) }
 # 3)  Request.where("email IS NOT NULL").each { |r| r.update_attributes(email: r.email.downcase) }
 # 4)  ActiveRecord::Base.record_timestamps = false
@@ -114,9 +118,11 @@ class Request < ActiveRecord::Base
 # Request.where("email is not null").select { |r| Signup.where(email: r.email).present? == false }.each { |r| Signup.create(email: r.email, heard: r.heard) } 
 # ActiveRecord::Base.record_timestamps = true
 
-# 5) Request.where("email is not null").select { |r| Signup.where(email: r.email).present? == true }.each { |r| r.update_attributes(signup_id: Signup.where(email: r.email)) } 
+# 5) Request.where("email is not null").select { |r| Signup.where(email: r.email).present? == true }.each { |r| r.update_attributes(signup_id: Signup.where(email: r.email).first.id) } 
 
-# 6) Request.where("signup_id is null").select { |r| Signup.where(email: r.email).present? == true }.each { |r| r.update_attributes(signup_id: Signup.where(email: r.email)) } 
+# 6) Request.where("signup_id is null").select { |r| Signup.where(email: r.email).present? == true }.each do |r| 
+#   r.update_attributes(signup_id: Signup.where(email: r.email).first.id) 
+#   end
 
 # CHECKED by: 
 =begin
