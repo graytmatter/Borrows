@@ -1,5 +1,5 @@
 class ChangeColumnZipcode < ActiveRecord::Migration
   def change
-  	change_column :signups, :zipcode, :integer
+  	execute 'ALTER TABLE signups ALTER zipcode TYPE integer USING zipcode::int;'
   end
 end
