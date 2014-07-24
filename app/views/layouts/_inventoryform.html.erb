@@ -1,6 +1,6 @@
 
 <% if @signup_parent.errors.any? %>
-  <div class="alert alert-danger">
+  <div class="alert alert-danger", id="error">
     <p>Please correct the following error(s):</p>
     <ul>
     <% @signup_parent.errors.full_messages.each do |message| %>
@@ -10,7 +10,7 @@
   </div>
 <% end %>
 
-<div class="col-xs-12 box">  
+<div class="col-xs-12 box", id="new_inventory">  
   <%= form_tag inventories_path method: :post do %>
     <% Categorylist.includes(:itemlists).where(itemlists: { inventory_list: true }).each do |n| %>
       <div class="col-xs-4">
@@ -26,7 +26,7 @@
     <% end %>
 
     <div class="form-group col-xs-12">
-      <%= submit_tag "Go!", class: "btn btn-warning btn-large btn-block", data: { disable_with: 'Upload in progress, take a breather =)'} %>
+      <%= submit_tag "Go!", class: "btn btn-warning btn-large btn-block", id: "submit_lend", data: { disable_with: 'Upload in progress, take a breather =)'} %>
     </div>
   
   <% end %>

@@ -74,13 +74,14 @@ class RequestsController < ApplicationController
 
     @signup_parent = Signup.find_by_email(session[:signup_email].downcase)
     request_params
-    # @requestrecord = @signup_parent.requests.build
+    @requestrecord = @signup_parent.requests.build
 
     if @borrowparams.blank?
       @requestrecord.errors[:base] = "Please select at least one item"
       render 'new'
     else
-      if @requestrecord = @signup_parent.requests.create(@requestparams)
+      @requestrecord = @signup_parent.requests.create(@requestparams)
+      if @requestrecord.id.present?
         @borrowparams.each do |itemlist_id, quantity|
           matched_inventory_ids = Inventory.where.not(signup_id: @requestrecord.signup.id).where(itemlist_id: itemlist_id).ids 
           if quantity.to_i > matched_inventory_ids.count
@@ -109,11 +110,11 @@ class RequestsController < ApplicationController
             #throws errors because it appears the object is not being passed. in the mailer view, all the attributes like name or email are throwing no method errors for nil class
           end
         end
+        render 'success'
       else
         render 'new'
       end
     end
-    render 'success'
   end
 
   def success

@@ -45,32 +45,13 @@ describe "how requests should flow" do
 	before do 
 		@newcategory = Categorylist.create(name: "Camping")
 		@newcategory.itemlists.create(name: "2-Person tent", request_list: true)
-		# status_codes = {
-		#   "1 Did use PB" => [
-		#     "Checking", #1
-		#     "Connected", #2
-		#     "In progress", #3
-		#     "Complete" #4
-		#   ],
-		#   "1 Did not use PB" => [
-		#     "FC - Generic", #5
-		#     "TC - Not available", #6
-		#     "TC - Lender declined" #7
-		#   ]
-		# }
-		# status_codes.each do |c, s|
-		#   Statuscategory.create(name: c)
-		#   s.each do |s|
-		#     Statuscategory.find_by_name(c).statuses.create(name: s)
-		#   end
-		# end
 
-		@signup_dd = Signup.create(email:"jamesdd9302@yahoo.com", streetone: "Post", streettwo: "Taylor", zipcode: "94109", tos: true)
-		@signup_jdong = Signup.create(email:"jdong8@gmail.com", streetone: "Post", streettwo: "Taylor", zipcode: "94109", tos: true)
-		@signup_ana = Signup.create(email: "anavarada@gmail.com", streetone: "Post", streettwo: "Taylor", zipcode: "94109", tos: true)
-		@signup_ngo = Signup.create(email: "ngomenclature@gmail.com", streetone: "Post", streettwo: "Taylor", zipcode: "94109", tos: true)
-		@signup_dance = Signup.create(email: "dancingknives@yahoo.com", streetone: "Post", streettwo: "Taylor", zipcode: "94109", tos: true)
-		@signup_borrows = Signup.create(email: "borrowsapp@gmail.com", streetone: "Post", streettwo: "Taylor", zipcode: "94109", tos: true)
+		@signup_dd = Signup.create(email:"jamesdd9302@yahoo.com", streetone: "Post", streettwo: "Taylor", zipcode: 94109, tos: true)
+		@signup_jdong = Signup.create(email:"jdong8@gmail.com", streetone: "Post", streettwo: "Taylor", zipcode: 94109, tos: true)
+		@signup_ana = Signup.create(email: "anavarada@gmail.com", streetone: "Post", streettwo: "Taylor", zipcode: 94109, tos: true)
+		@signup_ngo = Signup.create(email: "ngomenclature@gmail.com", streetone: "Post", streettwo: "Taylor", zipcode: 94109, tos: true)
+		@signup_dance = Signup.create(email: "dancingknives@yahoo.com", streetone: "Post", streettwo: "Taylor", zipcode: 94109, tos: true)
+		@signup_borrows = Signup.create(email: "borrowsapp@gmail.com", streetone: "Post", streettwo: "Taylor", zipcode: 94109, tos: true)
 
 		@signup_dd.inventories.create(itemlist_id: 1)
 		@signup_jdong.inventories.create(itemlist_id: 1)

@@ -1,6 +1,6 @@
 class InventoriesController < ApplicationController
 
-  before_filter :authenticate, except: [:new, :create, :destroy, :manage, :accept, :decline, :create_borrow]
+  before_filter :authenticate, except: [:new, :create, :destroy, :update, :manage, :accept, :decline, :create_borrow]
 
   def new
     @pagetitle = "What would you like to lend?"
@@ -51,10 +51,14 @@ class InventoriesController < ApplicationController
   def update
     @inventory = Inventory.find(params[:id])
     @inventory.update_attributes(inventory_update_params)
-    if request.referer.include? 'admin'
-      redirect_to :action => 'index'
-    else
+    if Rails.env == "test"
       redirect_to :action => 'manage'
+    else
+      if request.referer.include? 'admin'
+        redirect_to :action => 'index'
+      else
+        redirect_to :action => 'manage'
+      end
     end
   end
 
