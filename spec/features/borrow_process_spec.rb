@@ -392,7 +392,7 @@ describe "how requests should flow" do
 												describe "L) diff dates same user" do
 
 													before do
-														login("anavarada@gmail.com", "borrow", 1, "January", "18", "January", "20")
+														login("anavarada@gmail.com", "borrow", 1, "January", "14", "January", "20")
 													end
 
 													it "should affect Requests and Borrows" do
@@ -731,6 +731,103 @@ describe "how requests should flow" do
 																									#(lender_email, manage_count, connected_count)
 																									manage_test("jamesdd9302@yahoo.com", 4, 0)
 																									manage_test("jdong8@gmail.com", 6, 1)
+																								end
+
+																								describe "X) past requests should not appear whether they still checking or already connected" do
+
+																									before do
+																										expired_no_accept = Request.new(signup_id: Signup.find_by_email("anavarada@gmail.com").id, pickupdate: Date.today - 10, returndate: Date.today + 2)
+																										expired_no_accept.save(:validate => false)
+																										Borrow.create(itemlist_id: 1, inventory_id:1, multiple:1, status1: 1, request_id: Request.last.id)
+
+																										expired_connected = Request.new(signup_id: Signup.find_by_email("dancingknives@yahoo.com").id, pickupdate: Date.today - 10, returndate: Date.today + 2)
+																										expired_connected.save(:validate => false)
+																										Borrow.create(itemlist_id: 1, inventory_id:2, multiple:1, status1: 2, request_id: Request.last.id)
+																									end
+
+																									it "should affect Requests and Borrows" do
+																										# 1- request_total, 
+																										# 2- borrow_total, 
+																										# 3- borrow_checking_total, 
+																										# 4- borrow_connected_total, 
+																										# 5- borrow_lender_declined_total, 
+																										# 6- borrow_other_did_not_use_total
+																										# 7- borrow_not_available_total
+																										record_test(12, 21, 11, 2, 3, 1, 4)
+																									end
+
+																									it "should affect emails" do
+																										#(total_count, subject: blank)
+																										email_test(11)
+																									end
+
+																									it "should affect management options for lenders" do 
+																										#(lender_email, manage_count, connected_count)
+																										manage_test("jamesdd9302@yahoo.com", 4, 0)
+																										manage_test("jdong8@gmail.com", 6, 1)
+																									end
+
+																									describe "Y) accept when dates don't overlap: invenotry should NOT become not available" do
+
+																										before do
+																											login("jdong8@gmail.com", "lend")
+																											click_link ("accept 12")
+																										end
+
+																										it "should affect Requests and Borrows" do
+																											# 1- request_total, 
+																											# 2- borrow_total, 
+																											# 3- borrow_checking_total, 
+																											# 4- borrow_connected_total, 
+																											# 5- borrow_lender_declined_total, 
+																											# 6- borrow_other_did_not_use_total
+																											# 7- borrow_not_available_total
+																											record_test(12, 21, 10, 3, 3, 1, 4)
+																											#from now on connected/ checking will always be one up than sum of options because of past time records that won't show on page
+																										end
+
+																										it "should affect emails" do
+																											#(total_count, subject: blank)
+																											email_test(12, "connected")
+																										end
+
+																										it "should affect management options for lenders" do 
+																											#(lender_email, manage_count, connected_count)
+																											manage_test("jamesdd9302@yahoo.com", 4, 0)
+																											manage_test("jdong8@gmail.com", 5, 2)
+																										end
+
+																										describe "Z) accept when dates do overlap: invenotry (requested by other lender, same has been tested to death) should become not available" do
+
+																											before do
+																												login("jamesdd9302@yahoo.com", "lend")
+																												click_link ("accept 9")
+																											end
+
+																											it "should affect Requests and Borrows" do
+																												# 1- request_total, 
+																												# 2- borrow_total, 
+																												# 3- borrow_checking_total, 
+																												# 4- borrow_connected_total, 
+																												# 5- borrow_lender_declined_total, 
+																												# 6- borrow_other_did_not_use_total
+																												# 7- borrow_not_available_total
+																												record_test(12, 19, 7, 4, 3, 1, 4)
+																												#from now on connected/ checking will always be one up than sum of options because of past time records that won't show on page
+																											end
+
+																											it "should affect emails" do
+																												#(total_count, subject: blank)
+																												email_test(13, "connected")
+																											end
+
+																											it "should affect management options for lenders" do 
+																												#(lender_email, manage_count, connected_count)
+																												manage_test("jamesdd9302@yahoo.com", 2, 1)
+																												manage_test("jdong8@gmail.com", 4, 2)
+																											end
+																										end
+																									end
 																								end
 																							end
 																						end

@@ -155,8 +155,7 @@ class InventoriesController < ApplicationController
     Borrow.where({ itemlist_id: itemlist_id, request_id: request_id }).where.not(inventory_id: inventory_id).destroy_all
 
     #some things no longer available
-    no_longer_available = Borrow.where({ itemlist_id: itemlist_id, inventory_id: inventory_id}).where.not(request_id: request_id).all
-    no_longer_available.each do |no_longer_available|
+    no_longer_available = Borrow.where({ itemlist_id: itemlist_id, inventory_id: inventory_id}).where.not(request_id: request_id).select { |b| b.request.do_dates_overlap(Request.find(request_id)) == "yes"}.each do |no_longer_available|
       decline_process(no_longer_available, 20)
     end
 
