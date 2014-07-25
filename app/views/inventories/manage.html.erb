@@ -52,16 +52,18 @@
           <td>
          
               <ul>
-                <% if Borrow.find_by_inventory_id(inventory.id).present? && Borrow.find_by_inventory_id(inventory.id).request.pickupdate.present? && Borrow.find_by_inventory_id(inventory.id).request.returndate.present? %>
+                <% if Borrow.find_by_inventory_id(inventory.id).present? %>
                   <% Borrow.where(inventory_id: inventory.id).each do |borrow| %>
-                    <% if Date.today > borrow.request.pickupdate %>
-                    <% else %>
-                      <% case borrow.status1 %>
-                      <% when 2 %>
-                        <li id="connected" style="font-size:90%"><%= "You've accepted a request from #{borrow.request.signup.email} from #{borrow.request.pickupdate.strftime("%B %-d")} to #{borrow.request.returndate.strftime("%-d")}. We've emailed both of you with details" %></li>
-                      <% when 1 %>
-                        <li id="manage" style="font-size:90%"><%= "#{link_to 'ACCEPT', lender_accept_path(borrow), method: :patch, id: "accept #{borrow.id}", style: "color:green;"} or #{link_to 'DECLINE', lender_decline_path(borrow), method: :patch, id: "decline #{borrow.id}", style: "color:gray"} &mdash; Requested by #{borrow.request.signup.email} from #{borrow.request.pickupdate.strftime("%B %-d")} to #{borrow.request.returndate.strftime("%-d")}. #{borrow.request.detail}".html_safe %></li>
+                    <% if borrow.request.pickupdate.present? && borrow.request.returndate.present? %> 
+                      <% if Date.today > borrow.request.pickupdate %>
                       <% else %>
+                        <% case borrow.status1 %>
+                        <% when 2 %>
+                          <li id="connected" style="font-size:90%"><%= "You've accepted a request from #{borrow.request.signup.email} from #{borrow.request.pickupdate.strftime("%B %-d")} to #{borrow.request.returndate.strftime("%-d")}. We've emailed both of you with details" %></li>
+                        <% when 1 %>
+                          <li id="manage" style="font-size:90%"><%= "#{link_to 'ACCEPT', lender_accept_path(borrow), method: :patch, id: "accept #{borrow.id}", style: "color:green;"} or #{link_to 'DECLINE', lender_decline_path(borrow), method: :patch, id: "decline #{borrow.id}", style: "color:gray"} &mdash; Requested by #{borrow.request.signup.email} from #{borrow.request.pickupdate.strftime("%B %-d")} to #{borrow.request.returndate.strftime("%-d")}. #{borrow.request.detail}".html_safe %></li>
+                        <% else %>
+                        <% end %>
                       <% end %>
                     <% end %>
                   <% end %>
