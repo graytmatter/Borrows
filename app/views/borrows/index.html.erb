@@ -66,8 +66,8 @@
           <td><%= borrow.id %></td>
           <td><%= borrow.multiple %></td>
           <td><%= borrow.created_at.present? ? borrow.created_at.to_date : "N/A" %></td>
-          <td><%= Itemlist.find_by_id(borrow.itemlist_id).name %></td>
-          <td><%= Status.find_by_id(borrow.status1).name %></td>
+          <td><%= Itemlist.find_by_id(borrow.itemlist_id).name.present? ? Itemlist.find_by_id(borrow.itemlist_id).name : "N/A"%></td>
+          <td><%= Status.find_by_id(borrow.status1).name.present? ? Status.find_by_id(borrow.status1).name : "N/A" %></td>
           <td><%= borrow.status2.present? ? Status.find_by_id(borrow.status2).name : "N/A" %></td>
           <td><%= borrow.inventory_id.present? ? Inventory.find_by_id(borrow.inventory_id).signup.email : "N/A" %></td>
           <td><%= borrow.request.signup.email %></td>
