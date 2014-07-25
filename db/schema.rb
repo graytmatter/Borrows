@@ -11,11 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140723181033) do
+ActiveRecord::Schema.define(version: 20140725193027) do
 
   create_table "borrows", force: true do |t|
     t.integer  "request_id"
-    t.string   "name"
     t.integer  "status1"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -25,7 +24,6 @@ ActiveRecord::Schema.define(version: 20140723181033) do
     t.integer  "multiple"
   end
 
-  add_index "borrows", ["name"], name: "index_borrows_on_name"
   add_index "borrows", ["request_id"], name: "index_borrows_on_request_id"
 
   create_table "categorylists", force: true do |t|
@@ -37,7 +35,6 @@ ActiveRecord::Schema.define(version: 20140723181033) do
   add_index "categorylists", ["name"], name: "index_categorylists_on_name", unique: true
 
   create_table "inventories", force: true do |t|
-    t.string   "item_name"
     t.integer  "signup_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -45,7 +42,6 @@ ActiveRecord::Schema.define(version: 20140723181033) do
     t.integer  "itemlist_id"
   end
 
-  add_index "inventories", ["item_name"], name: "index_inventories_on_item_name"
   add_index "inventories", ["signup_id"], name: "index_inventories_on_signup_id"
 
   create_table "itemlists", force: true do |t|
@@ -60,14 +56,10 @@ ActiveRecord::Schema.define(version: 20140723181033) do
   add_index "itemlists", ["name"], name: "index_itemlists_on_name", unique: true
 
   create_table "requests", force: true do |t|
-    t.string   "name"
-    t.string   "email"
-    t.text     "items",      limit: 255
     t.text     "detail",     limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "edit_id"
-    t.string   "heard"
     t.datetime "pickupdate"
     t.datetime "returndate"
     t.integer  "signup_id"
