@@ -34,7 +34,7 @@
     <tbody>
       <% @inventories.each do |inventory| %>
         <tr>
-          <td><%= Itemlist.find_by_id(inventory.itemlist_id).name %></td>
+          <td><%= Itemlist.find_by_id(inventory.itemlist_id).present? ? Itemlist.find_by_id(inventory.itemlist_id).name : "Error" %></td>
           <td>
             <% if inventory.description.blank? %>
               <%= form_for inventory, url: edit_inventory_path(inventory), method: :patch, :html => {:class => "form-inline", :autocomplete => "off"} do |f| %> 
@@ -52,7 +52,7 @@
           <td>
          
               <ul>
-                <% if Borrow.find_by_inventory_id(inventory.id).present? %>
+                <% if Borrow.find_by_inventory_id(inventory.id).present? && Borrow.find_by_inventory_id(inventory.id).request.pickupdate.present? && Borrow.find_by_inventory_id(inventory.id).request.returndate.present? %>
                   <% Borrow.where(inventory_id: inventory.id).each do |borrow| %>
                     <% if Date.today > borrow.request.pickupdate %>
                     <% else %>
