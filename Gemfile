@@ -9,7 +9,7 @@ gem 'google_drive'
 gem 'figaro' #creates the config/application.yml file ignored by Git
 gem 'gibbon' #mailchimp API API
 gem 'newrelic_rpm' #tracking and pinging from newrelic
-gem 'ransack' #sortable links on inventory (user and admin) and request pages (admin)
+gem 'ransack', github: 'activerecord-hackery/ransack', branch: 'rails-4.1' #sortable links on inventory (user and admin) and request pages (admin)
 gem 'sucker_punch', '~> 1.0' #for background jobs
 gem 'fist_of_fury', '~> 0.2.0' #to allow sucker punch to do recurring jobs
 
