@@ -4,8 +4,8 @@ class Signup < ActiveRecord::Base
     
     before_save :downcase_email
 
-    # validate :create_validation, on: :create
-    # validate :update_validation, on: :update
+    validate :create_validation, on: :create
+    validate :update_validation, on: :update
 
     def create_validation
         errors[:base] << "Please enter a valid email address to continue" if self.email.blank? || (( /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i =~ self.email) == nil) 
