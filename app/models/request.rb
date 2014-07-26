@@ -18,58 +18,10 @@ class Request < ActiveRecord::Base
     end
   end
 
-# HAVE TO GO IN THIS ORDER! Also before doing anything, have to make sure Itemlists/ Categorylists  are fully updated with next rev 
-
-# FIRST
-# Request.where("heard <> ''").each { |request| puts request.signup.update_attributes(heard: request.heard) }
-
-# Check
-# firsttest = Array.new
-# Request.where("heard <> ''").each do |r|
-#   if r.heard == r.signup.heard
-#     arraytest << "OK"
-#     else
-#       arraytest << "ERROR at #{r.id}"
-#     end
-#   end
-# firsttest
-
-# SECOND
-# ActiveRecord::Base.record_timestamps = false
-# Request.where("items <> '' ").each do |r|
-#   r.items.each do |i|
-#     borrow.create(request_id: r.id, itemlist_id: Itemlist.find_by_name(i).id, created_at: r.created_at)
-#   end
-# end
-# ActiveRecord::Base.record_timestamps = true
-
-# Check
-# secondtest = []
-# Request.where("items <> '' ").each do |r|
-#   if r.items.count == r.borrows.count
-#     secondtest << "OK"
-#   else 
-#     secondtest << "ERROR at #{r.id}"
-#   end
-# end
-# secondtest
-
-# THIRD
-# Request.where("signup_id is null").each { |r| r.update_attributes(signup_id: Signup.find_by_email(r.email).id) }
-
-# Check
-# thirdtest = Array.new
-# Request.where("email <> ''").each do |r|
-#   if r.email == r.signup.email
-#     thirdtest << "OK"
-#     else
-#       thirdtest << "ERROR at #{r.id}"
-#     end
-#   end
-# thirdtest
+# need a lot of manual adding, roughly 100 requests may only have 1 borrow when they should have several
 
 # FOURTH
-# borrow.where("itemlist_id is null").each do |t| 
+# Borrow.where("itemlist_id is null").each do |t| 
 #   if Itemlist.find_by_name(t.name)
 #     t.update_attributes(itemlist_id: Itemlist.find_by_name(t.name).id)
 #   end
@@ -78,7 +30,7 @@ class Request < ActiveRecord::Base
 
 # Check 
 # fourthtest = []
-# borrow.where("itemlist_id is not null").each do |t|
+# Borrow.where("itemlist_id is not null").each do |t|
 #   if t.name == Itemlist.find_by_id(t.itemlist_id).name
 #     fourthtest << "OK"
 #   else
@@ -88,17 +40,20 @@ class Request < ActiveRecord::Base
 
 # fourthtest
 
-# FIFTH
-# Signup.all.each { |s| s.update_attributes(email: s.email.downcase, zipcode: s.zipcode.to_i) }
+
+# Inventory.where("itemlist_id is null").each do |i|
+#   if Itemlist.find_by_name(i.item_name).present?
+#     i.update_attributes(itemlist_id: Itemlist.find_by_name(i.item_name).id)
+#   end
+# end
 
 # FINAL CHECKS
-# Check that all Request does belong to a Signup (i.e., signup.email exists)
+
 # Check that all borrows belong to a Request
 # Check that all borrows have an Itemlist
 # Check that all borrows have two statuses
 # Check that all Inventories have an Itemlist ID
 
-# Check that all Request have a signup_id field
 # Check that all borrows has a itemlist_id field and a request_id field
 
 # DELETE EXTRANEOUS COLUMNS YAY!""

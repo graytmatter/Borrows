@@ -16,7 +16,7 @@
     <%= link_to 'borrow something', new_request_path, { style: 'color:#428bca'}%>
   </h5>
 
-  <p>In the table below, you'll be able to add a description to the items you've listed, and accept or decline requests from borrowers (just click the word!). If you accept, we'll connect you with the borrower via email to make further arrangements. <i>Note: any duplication in requests is purposeful (e.g., a borrower might request multiple items).</i></p>
+  <p>In the table below, you'll be able to add a description to the items you've listed (could also help you keep track of who has what), and accept or decline requests from borrowers (just click the word!). If you accept, we'll connect you with the borrower via email to make further arrangements. <i>Note: any duplication in requests is purposeful (e.g., a borrower might request multiple items).</i></p>
 </div>
 <%= render "layouts/flash" %>
 
@@ -34,12 +34,12 @@
     <tbody>
       <% @inventories.each do |inventory| %>
         <tr>
-          <td><%= Itemlist.find_by_id(inventory.itemlist_id).name %></td>
+          <td><%= Itemlist.find_by_id(inventory.itemlist_id).present? ? Itemlist.find_by_id(inventory.itemlist_id).name : "Error" %></td>
           <td>
             <% if inventory.description.blank? %>
               <%= form_for inventory, url: edit_inventory_path(inventory), method: :patch, :html => {:class => "form-inline", :autocomplete => "off"} do |f| %> 
                 <div class="form-group col-xs-10" style="padding:1px;">
-                  <%= f.text_field :description, class: "form-control", id: "inventory_description_#{inventory.id}", placeholder: "Add a link or description to help borrowers and also to help us keep track of the specific item you are lending" %>
+                  <%= f.text_field :description, class: "form-control", id: "inventory_description_#{inventory.id}", placeholder: "Add a link or description" %>
                 </div>
                 <div class="form-group col-xs-2" style="padding:1px;">
                   <%= f.submit "Add", class: "btn btn-default btn-default btn-block", id: "add description #{inventory.id}"%>
@@ -54,12 +54,17 @@
               <ul>
                 <% if Borrow.find_by_inventory_id(inventory.id).present? %>
                   <% Borrow.where(inventory_id: inventory.id).each do |borrow| %>
-                    <% case borrow.status1 %>
-                    <% when 2 %>
-                      <li id="connected" style="font-size:90%"><%= "Wonderful! We have emailed both you & #{borrow.request.signup.email} with details" %></li>
-                    <% when 1 %>
-                      <li id="manage" style="font-size:90%"><%= "#{link_to 'ACCEPT', lender_accept_path(borrow), method: :patch, id: "accept #{borrow.id}", style: "color:green;"} or #{link_to 'DECLINE', lender_decline_path(borrow), method: :patch, id: "decline #{borrow.id}", style: "color:gray"} &mdash; Requested by #{borrow.request.signup.email} from #{borrow.request.pickupdate.strftime("%B %-d")} to #{borrow.request.returndate.strftime("%-d")}. #{borrow.request.detail}".html_safe %></li>
-                    <% else %>
+                    <% if borrow.request.pickupdate.present? && borrow.request.returndate.present? %> 
+                      <% if Date.today > borrow.request.pickupdate %>
+                      <% else %>
+                        <% case borrow.status1 %>
+                        <% when 2 %>
+                          <li id="connected" style="font-size:90%"><%= "You've accepted a request from #{borrow.request.signup.email} from #{borrow.request.pickupdate.strftime("%B %-d")} to #{borrow.request.returndate.strftime("%B %-d")}. We've emailed both of you with details" %></li>
+                        <% when 1 %>
+                          <li id="manage" style="font-size:90%"><%= "#{link_to 'ACCEPT', lender_accept_path(borrow), method: :patch, id: "accept #{borrow.id}", style: "color:green;"} or #{link_to 'DECLINE', lender_decline_path(borrow), method: :patch, id: "decline #{borrow.id}", style: "color:gray"} &mdash; Requested by #{borrow.request.signup.email} from #{borrow.request.pickupdate.strftime("%B %-d")} to #{borrow.request.returndate.strftime("%B %-d")}. #{borrow.request.detail}".html_safe %></li>
+                        <% else %>
+                        <% end %>
+                      <% end %>
                     <% end %>
                   <% end %>
                 <% end %>

@@ -65,19 +65,14 @@
         <tr>
           <td><%= borrow.id %></td>
           <td><%= borrow.multiple %></td>
-          <td><%= borrow.created_at.to_date %></td>
-          <td><%= Itemlist.find_by_id(borrow.itemlist_id).name %></td>
-          <td><%= Status.find_by_id(borrow.status1).name %></td>
-          <td>
-            <% if borrow.status2.present? %>
-              <%= Status.find_by_id(borrow.status2).name %>
-            <% else %>
-            <% end %>  
-          </td>
+          <td><%= borrow.created_at.present? ? borrow.created_at.to_date : "N/A" %></td>
+          <td><%= Itemlist.find_by_id(borrow.itemlist_id).present? ? Itemlist.find_by_id(borrow.itemlist_id).name : "N/A"%></td>
+          <td><%= Status.find_by_id(borrow.status1).present? ? Status.find_by_id(borrow.status1).name : "N/A" %></td>
+          <td><%= ( borrow.status2.present? && Status.find_by_id(borrow.status2).present? ) ? Status.find_by_id(borrow.status2).name : "N/A" %></td>
           <td><%= borrow.inventory_id.present? ? Inventory.find_by_id(borrow.inventory_id).signup.email : "N/A" %></td>
           <td><%= borrow.request.signup.email %></td>
-          <td><%= borrow.request.pickupdate.to_date %></td>
-          <td><%= borrow.request.returndate.to_date %></td>
+          <td><%= borrow.request.pickupdate.present? ? borrow.request.pickupdate.to_date : "N/A" %></td>
+          <td><%= borrow.request.returndate.present? ? borrow.request.returndate.to_date : "N/A" %></td>
           <td>
             <% if borrow.status1 == 1 %>
               <!-- Updates not allowed until system has made a connection or until searching expires, this last part hasn't been built yet -->
