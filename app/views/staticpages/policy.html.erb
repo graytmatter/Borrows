@@ -1,3 +1,8 @@
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Project Borrow Privacy Policy">
+<meta name="robots" content="noodp">
+</head>
 <div class="col-xs-12">
   <p style="font-style:italic;">Hello there<%= ", #{session[:signup_email]}" if session[:signup_email].present? %>! Here lives our illustrious privacy policy (<%= link_to "click here", terms_path, {style: 'color:#428bca'} %> if you're looking for our terms of service). We know there's a lot of lawyer-speak, but as we're people, too, we try to follow the Golden Rule, and respect your information as we would want our own to be. (Heck, that's very true since we use Project Borrow ourselves!) If you have any questions, please <%= mail_to 'james@projectborrow.com', 'email us', {style: 'color:#428bca'} %>.</p>
   <hr>
