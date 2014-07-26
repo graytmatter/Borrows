@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140725193027) do
+ActiveRecord::Schema.define(version: 20140726181911) do
 
   create_table "borrows", force: true do |t|
     t.integer  "request_id"
@@ -33,6 +33,18 @@ ActiveRecord::Schema.define(version: 20140725193027) do
   end
 
   add_index "categorylists", ["name"], name: "index_categorylists_on_name", unique: true
+
+  create_table "geographies", force: true do |t|
+    t.integer  "zipcode"
+    t.string   "county"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "city"
+  end
+
+  add_index "geographies", ["city"], name: "index_geographies_on_city"
+  add_index "geographies", ["county"], name: "index_geographies_on_county"
+  add_index "geographies", ["zipcode"], name: "index_geographies_on_zipcode"
 
   create_table "inventories", force: true do |t|
     t.integer  "signup_id"

@@ -36,6 +36,10 @@
       <%= f.search_field :request_returndate_lteq %>
     </div>
     <div class="form group">
+      <%= f.label :request_signup_zipcode_eq, "County is" %>
+      <%= f.collection_select :request_signup_zipcode_eq, Geography.all, :zipcode, :county, :include_blank => true %>
+    </div>
+    <div class="form group">
       <%= f.submit %>
     </div>
   <% end %>
@@ -55,6 +59,10 @@
         <th><%= sort_link(@q, 'requests.signups.email', "Borrower Email") %></th>
         <th><%= sort_link(@q, 'requests.pickupdate', "Pickup date") %></th>
         <th><%= sort_link(@q, 'requests.returndate', "Return date") %></th>
+        <th>
+          <%#= sort_link(@q, 'requests.signups.zipcode', 'County') %>
+          <%= sort_link(Geography.all, 'County') %>
+        </th>
         <th>Action</th>
         <th colspan="5"></th>
       </tr>
@@ -73,6 +81,7 @@
           <td><%= borrow.request.signup.email %></td>
           <td><%= borrow.request.pickupdate.present? ? borrow.request.pickupdate.to_date : "N/A" %></td>
           <td><%= borrow.request.returndate.present? ? borrow.request.returndate.to_date : "N/A" %></td>
+          <td><%= Geography.find_by_zipcode(borrow.request.signup.zipcode).county %></td>
           <td>
             <% if borrow.status1 == 1 %>
               <!-- Updates not allowed until system has made a connection or until searching expires, this last part hasn't been built yet -->
