@@ -7,7 +7,9 @@
 
 <p>Hi there,</p>
 
-<p><%= "We did our best to find a #{@item} for you from #{@pickupdate} to #{@returndate}, but unfortunately our lenders are either all out, have declined the request, or have not responded in time. I hope you will continue to think of Project Borrow in the future. Please also note, if you requested multiple #{@item.pluralize}, this email is meant to reflect the status of one of these items only."%></p>
+<p><%= "We did out best, but we could not find an available <b>#{@item.downcase.pluralize} from lenders in #{@county} from #{@pickupdate} to #{@returndate}</b>. I hope you will continue to think of Project Borrow in the future.".html_safe %></p>
+
+<p><%="<b>Please note:</b> if you requested multiple #{@item.downcase.pluralize}, this email is meant to reflect the status of one of these items only. For example, if you wanted 2 tents, only 1 may be unavailable so far, expect to hear back on the other one separately.".html_safe %></p>
 
 <p>If you have a moment, as I try to improve this service, I'd like to know what other options you will or plan to pursue, you can just bold or select a number and reply to this email.</p>
 

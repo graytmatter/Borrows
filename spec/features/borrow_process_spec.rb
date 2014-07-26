@@ -10,10 +10,10 @@ describe "how requests should flow" do
 
 		if choice == "borrow"
 			fill_in 'borrow__1', :with => quantity
-			select '2015', :from => 'request_pickupdate_1i'
+			select "#{Time.now.year+1}", :from => 'request_pickupdate_1i'
 			select pickup_month, :from => 'request_pickupdate_2i'
 			select pickup_date, :from => 'request_pickupdate_3i'
-			select '2015', :from => 'request_returndate_1i'
+			select "#{Time.now.year+1}", :from => 'request_returndate_1i'
 			select return_month, :from => 'request_returndate_2i'
 			select return_date, :from => 'request_returndate_3i'
 			click_button 'submit_request'
@@ -45,6 +45,8 @@ describe "how requests should flow" do
 	before do 
 		@newcategory = Categorylist.create(name: "Camping")
 		@newcategory.itemlists.create(name: "2-Person tent", request_list: true)
+		Geography.create(zipcode:94109, city:"San Francisco", county:"San Francisco")
+		Geography.create(zipcode:99999, city:"Fake", county:"Fake")
 
 		@signup_dd = Signup.create(email:"jamesdd9302@yahoo.com", streetone: "Post", streettwo: "Taylor", zipcode: 94109, tos: true)
 		@signup_jdong = Signup.create(email:"jdong8@gmail.com", streetone: "Post", streettwo: "Taylor", zipcode: 94109, tos: true)
@@ -52,13 +54,14 @@ describe "how requests should flow" do
 		@signup_ngo = Signup.create(email: "ngomenclature@gmail.com", streetone: "Post", streettwo: "Taylor", zipcode: 94109, tos: true)
 		@signup_dance = Signup.create(email: "dancingknives@yahoo.com", streetone: "Post", streettwo: "Taylor", zipcode: 94109, tos: true)
 		@signup_borrows = Signup.create(email: "borrowsapp@gmail.com", streetone: "Post", streettwo: "Taylor", zipcode: 94109, tos: true)
+		@signup_outofarea = Signup.create(email: "jamesdong.photo@gmail.com", streetone: "Post", streettwo: "Taylor", zipcode: 99999, tos: true)
 
 		@signup_dd.inventories.create(itemlist_id: 1)
 		@signup_jdong.inventories.create(itemlist_id: 1)
 	end
 		
 	it "should have 2 inventories and 2 signups to start" do
-		Signup.count.should == 6
+		Signup.count.should == 7
 		Inventory.count.should == 2
 	end
 
@@ -943,5 +946,35 @@ describe "how requests should flow" do
 				end
 			end
 		end
+	end
+
+	describe "out of area request" do
+
+		before do
+			login("jamesdong.photo@gmail.com", "borrow", 1, "April", "1", "April", "5")
+		end
+
+		it "should affect records" do
+			# 1- request_total, 
+			# 2- borrow_total, 
+			# 3- borrow_checking_total, 
+			# 4- borrow_connected_total, 
+			# 5- borrow_lender_declined_total, 
+			# 6- borrow_other_did_not_use_total
+			# 7- borrow_not_available_total
+			record_test(1, 1, 0, 0, 0, 0, 1)
+		end
+
+		it "should affect emails" do
+			#(count, subject: blank)
+			email_test(1, "not found")
+		end
+
+		it "should affect management options for lenders" do 
+			#(lender_email, manage_count, connected_count)
+			manage_test("jamesdd9302@yahoo.com", 0, 0)
+			manage_test("jdong8@gmail.com", 0, 0)
+		end
+
 	end
 end

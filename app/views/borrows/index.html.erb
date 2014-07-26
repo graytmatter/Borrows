@@ -60,8 +60,7 @@
         <th><%= sort_link(@q, 'requests.pickupdate', "Pickup date") %></th>
         <th><%= sort_link(@q, 'requests.returndate', "Return date") %></th>
         <th>
-          <%#= sort_link(@q, 'requests.signups.zipcode', 'County') %>
-          <%= sort_link(Geography.all, 'County') %>
+          <%= sort_link(@q, 'requests.signups.zipcode', 'County') %>
         </th>
         <th>Action</th>
         <th colspan="5"></th>

@@ -6,7 +6,8 @@ class RequestMailer < ActionMailer::Base
     @borrower_email = not_found_borrow.request.signup.email
     @pickupdate = not_found_borrow.request.pickupdate.strftime("%B %-d")
     @returndate = not_found_borrow.request.returndate.strftime("%B %-d")
-    @item = Itemlist.find_by_id(itemlist_id).name
+    @item = Itemlist.find_by_id(itemlist_id).name.downcase
+    @county = Geography.find_by_zipcode(not_found_borrow.request.signup.zipcode).county
     mail(to: @borrower_email, from: ENV['owner'], :subject => "[Project Borrow]: Could not find #{@item}") 
   end
 
@@ -15,7 +16,7 @@ class RequestMailer < ActionMailer::Base
     @pickupdate = repeat_borrow.request.pickupdate.strftime("%B %-d")
     @returndate = repeat_borrow.request.returndate.strftime("%B %-d")
     @createdat = repeat_borrow.request.created_at.strftime("%B %-d")
-    @item = Itemlist.find_by_id(itemlist_id).name
+    @item = Itemlist.find_by_id(itemlist_id).name.downcase
     mail(to: @borrower_email, from: ENV['owner'], :subject => "[Project Borrow]: You've already requested #{@item}") 
   end
 
@@ -23,7 +24,7 @@ class RequestMailer < ActionMailer::Base
     @borrower_email = accepted_borrow.request.signup.email
     @pickupdate = accepted_borrow.request.pickupdate.strftime("%B %-d")
     @returndate = accepted_borrow.request.returndate.strftime("%B %-d")
-    @item = Itemlist.find_by_id(accepted_borrow.itemlist_id).name
+    @item = Itemlist.find_by_id(accepted_borrow.itemlist_id).name.downcase
     @lender_email = Inventory.find_by_id(accepted_borrow.inventory_id).signup.email
     @item_description = Inventory.find_by_id(accepted_borrow.inventory_id).description
     mail(to: @borrower_email, cc: @lender_email, from: ENV['owner'], :subject => "[Project Borrow]: #{@item} exchange!") 

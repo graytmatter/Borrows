@@ -5,6 +5,7 @@ describe "how request submission should work" do
 	before do 
 		@newcategory = Categorylist.create(name: "Camping")
 		@newcategory.itemlists.create(name: "2-Person tent", request_list: true)
+		Geography.create(zipcode:94109, city:"San Francisco", county:"San Francisco")
 
 		@signup = Signup.create(email:"jamesdd9302@yahoo.com", streetone: "Post", streettwo: "Taylor", zipcode: 94109, tos: true)
 		@signup.inventories.create(itemlist_id: 1)
