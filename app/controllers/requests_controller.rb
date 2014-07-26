@@ -43,7 +43,8 @@ class RequestsController < ApplicationController
                   RequestMailer.repeat_borrow(repeat_borrow, itemlist_id).deliver
                 else
                   Repeatborrow.new.async.perform(repeat_borrow, itemlist_id)
-                end     
+                end  
+                break   
               end
             else
               if Borrow.where({ itemlist_id: itemlist_id }).where.not(request_id: @requestrecord.id).select { |b| b.request.do_dates_overlap(@requestrecord) == "yes" }.select { |b| b.request.signup.email != @requestrecord.signup.email }.select { |b| ([2,3].include? b.status1) == false }.present? 
@@ -54,7 +55,8 @@ class RequestsController < ApplicationController
                       RequestMailer.not_found(not_available_borrow, itemlist_id).deliver
                     else
                       Notfound.new.async.perform(not_available_borrow, itemlist_id)
-                    end  
+                    end
+                    break  
                   end
                 else
                   create_borrow(@requestrecord, itemlist_id, multiple_counter, inventory_id, "checking")
@@ -67,6 +69,7 @@ class RequestsController < ApplicationController
                   else
                     Notfound.new.async.perform(not_available_borrow, itemlist_id)
                   end  
+                  break
                 end
               end
             end
