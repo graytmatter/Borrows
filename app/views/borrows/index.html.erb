@@ -80,7 +80,7 @@
           <td><%= borrow.request.signup.email %></td>
           <td><%= borrow.request.pickupdate.present? ? borrow.request.pickupdate.to_date : "N/A" %></td>
           <td><%= borrow.request.returndate.present? ? borrow.request.returndate.to_date : "N/A" %></td>
-          <td><%= Geography.find_by_zipcode(borrow.request.signup.zipcode).county %></td>
+          <td><%= Geography.find_by_zipcode(borrow.request.signup.zipcode).present? ? Geography.find_by_zipcode(borrow.request.signup.zipcode).county : "N/A" %></td>
           <td>
             <% if borrow.status1 == 1 %>
               <!-- Updates not allowed until system has made a connection or until searching expires, this last part hasn't been built yet -->
