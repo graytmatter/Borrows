@@ -37,12 +37,12 @@ class RequestsController < ApplicationController
           if Borrow.where({ itemlist_id: itemlist_id }).where.not(request_id: @requestrecord.id).select { |b| b.request.do_dates_overlap(@requestrecord) == "yes" }.present?
             if Borrow.where({ itemlist_id: itemlist_id }).where.not(request_id: @requestrecord.id).select { |b| b.request.do_dates_overlap(@requestrecord) == "yes" }.select { |b| b.request.signup.email.downcase == @requestrecord.signup.email.downcase }.present?
               if index == 0
-                not_available_borrow = create_borrow(@requestrecord, itemlist_id, multiple_counter, nil, "not available")
-                # repeat_borrow = Borrow.where({ itemlist_id: itemlist_id }).where.not(request_id: @requestrecord.id).select { |b| b.request.do_dates_overlap(@requestrecord) == "yes" }.select { |b| b.request.signup.email.downcase == @requestrecord.signup.email.downcase }.first
+                # not_available_borrow = create_borrow(@requestrecord, itemlist_id, multiple_counter, nil, "not available")
+                repeat_borrow = Borrow.where({ itemlist_id: itemlist_id }).where.not(request_id: @requestrecord.id).select { |b| b.request.do_dates_overlap(@requestrecord) == "yes" }.select { |b| b.request.signup.email.downcase == @requestrecord.signup.email.downcase }.first
                 if Rails.env == "test"
-                  RequestMailer.repeat_borrow(not_available_borrow, itemlist_id).deliver
+                  RequestMailer.repeat_borrow(repeat_borrow, itemlist_id).deliver
                 else
-                  Repeatborrow.new.async.perform(not_available_borrow, itemlist_id)
+                  Repeatborrow.new.async.perform(repeat_borrow, itemlist_id)
                 end     
               end
             else

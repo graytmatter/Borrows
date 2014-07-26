@@ -205,12 +205,12 @@ describe "how requests should flow" do
 							# 5- borrow_lender_declined_total, 
 							# 6- borrow_other_did_not_use_total
 							# 7- borrow_not_available_total
-							record_test(2, 2, 1, 0, 0, 0, 1)
+							record_test(2, 1, 1, 0, 0, 0, 0)
 						end
 
 						it "should affect emails" do
 							#(total_count, subject: blank)
-							email_test(2, "not found")
+							email_test(2, "repeat borrow")
 						end
 
 						it "should affect management options for lenders" do 
@@ -233,7 +233,7 @@ describe "how requests should flow" do
 								# 5- borrow_lender_declined_total, 
 								# 6- borrow_other_did_not_use_total
 								# 7- borrow_not_available_total
-								record_test(3, 4, 3, 0, 0, 0, 1)
+								record_test(3, 3, 3, 0, 0, 0, 0)
 							end
 
 							it "should affect emails" do
@@ -262,7 +262,7 @@ describe "how requests should flow" do
 									# 5- borrow_lender_declined_total, 
 									# 6- borrow_other_did_not_use_total
 									# 7- borrow_not_available_total
-									record_test(3, 3, 1, 1, 0, 0, 1)
+									record_test(3, 2, 1, 1, 0, 0, 0)
 								end
 
 								it "should affect emails" do
@@ -280,7 +280,7 @@ describe "how requests should flow" do
 
 									before do
 										login("jdong8@gmail.com", "lend")
-										click_link 'accept 5'
+										click_link 'accept 4'
 									end
 
 									it "should affect Requests and Borrows" do
@@ -291,7 +291,7 @@ describe "how requests should flow" do
 										# 5- borrow_lender_declined_total, 
 										# 6- borrow_other_did_not_use_total
 										# 7- borrow_not_available_total
-										record_test(3, 3, 0, 2, 0, 0, 1)
+										record_test(3, 2, 0, 2, 0, 0, 0)
 									end
 
 									it "should affect emails" do
@@ -319,7 +319,7 @@ describe "how requests should flow" do
 											# 5- borrow_lender_declined_total, 
 											# 6- borrow_other_did_not_use_total
 											# 7- borrow_not_available_total
-											record_test(4, 4, 0, 2, 0, 0, 2)
+											record_test(4, 3, 0, 2, 0, 0, 1)
 										end
 
 										it "should affect emails" do
@@ -347,7 +347,7 @@ describe "how requests should flow" do
 												# 5- borrow_lender_declined_total, 
 												# 6- borrow_other_did_not_use_total
 												# 7- borrow_not_available_total
-												record_test(4, 4, 0, 1, 0, 1, 2)
+												record_test(4, 3, 0, 1, 0, 1, 1)
 											end
 
 											it "should affect emails" do
@@ -375,7 +375,7 @@ describe "how requests should flow" do
 													# 5- borrow_lender_declined_total, 
 													# 6- borrow_other_did_not_use_total
 													# 7- borrow_not_available_total
-													record_test(5, 6, 2, 1, 0, 1, 2)
+													record_test(5, 5, 2, 1, 0, 1, 1)
 												end
 
 												it "should affect emails" do
@@ -403,7 +403,7 @@ describe "how requests should flow" do
 														# 5- borrow_lender_declined_total, 
 														# 6- borrow_other_did_not_use_total
 														# 7- borrow_not_available_total
-														record_test(6, 8, 4, 1, 0, 1, 2)
+														record_test(6, 7, 4, 1, 0, 1, 1)
 													end
 
 													it "should affect emails" do
@@ -431,7 +431,7 @@ describe "how requests should flow" do
 															# 5- borrow_lender_declined_total, 
 															# 6- borrow_other_did_not_use_total
 															# 7- borrow_not_available_total
-															record_test(7, 12, 8, 1, 0, 1, 2)
+															record_test(7, 11, 8, 1, 0, 1, 1)
 														end
 
 														it "should affect emails" do
@@ -449,7 +449,7 @@ describe "how requests should flow" do
 
 															before do
 																login("jamesdd9302@yahoo.com", "lend")
-																click_link "decline 11"
+																click_link "decline 10"
 															end
 
 															it "should affect Requests and Borrows" do
@@ -460,7 +460,7 @@ describe "how requests should flow" do
 																# 5- borrow_lender_declined_total, 
 																# 6- borrow_other_did_not_use_total
 																# 7- borrow_not_available_total
-																record_test(7, 11, 7, 1, 0, 1, 2)
+																record_test(7, 10, 7, 1, 0, 1, 1)
 															end
 
 															it "should affect emails" do
@@ -478,7 +478,7 @@ describe "how requests should flow" do
 
 																before do
 																	login("jamesdd9302@yahoo.com", "lend")
-																	click_link "decline 13"
+																	click_link "decline 12"
 																end
 
 																it "should affect Requests and Borrows" do
@@ -489,7 +489,7 @@ describe "how requests should flow" do
 																	# 5- borrow_lender_declined_total, 
 																	# 6- borrow_other_did_not_use_total
 																	# 7- borrow_not_available_total
-																	record_test(7, 10, 6, 1, 0, 1, 2)
+																	record_test(7, 9, 6, 1, 0, 1, 1)
 																end
 
 																it "should affect emails" do
@@ -508,7 +508,7 @@ describe "how requests should flow" do
 																	before do
 																		login("jdong8@gmail.com", "lend")
 																		# save_and_open_page
-																		click_link "decline 14"
+																		click_link "decline 13"
 																	end
 
 																	it "should affect Requests and Borrows" do
@@ -519,7 +519,7 @@ describe "how requests should flow" do
 																		# 5- borrow_lender_declined_total, 
 																		# 6- borrow_other_did_not_use_total
 																		# 7- borrow_not_available_total
-																		record_test(7, 10, 5, 1, 1, 1, 2)
+																		record_test(7, 9, 5, 1, 1, 1, 1)
 																	end
 
 																	it "should affect emails" do
@@ -547,7 +547,7 @@ describe "how requests should flow" do
 																			# 5- borrow_lender_declined_total, 
 																			# 6- borrow_other_did_not_use_total
 																			# 7- borrow_not_available_total
-																			record_test(8, 15, 9, 1, 1, 1, 3)
+																			record_test(8, 14, 9, 1, 1, 1, 2)
 																		end
 
 																		it "should affect emails" do
@@ -565,7 +565,7 @@ describe "how requests should flow" do
 
 																			before do
 																				login("jamesdd9302@yahoo.com", "lend")
-																				click_link "decline 16"
+																				click_link "decline 15"
 																			end
 
 																			it "should affect Requests and Borrows" do
@@ -576,7 +576,7 @@ describe "how requests should flow" do
 																				# 5- borrow_lender_declined_total, 
 																				# 6- borrow_other_did_not_use_total
 																				# 7- borrow_not_available_total
-																				record_test(8, 14, 8, 1, 1, 1, 3)
+																				record_test(8, 13, 8, 1, 1, 1, 2)
 																			end
 
 																			it "should affect emails" do
@@ -594,7 +594,7 @@ describe "how requests should flow" do
 
 																				before do
 																					login("jdong8@gmail.com", "lend")
-																					click_link "decline 17"
+																					click_link "decline 16"
 																				end
 
 																				it "should affect Requests and Borrows" do
@@ -605,7 +605,7 @@ describe "how requests should flow" do
 																					# 5- borrow_lender_declined_total, 
 																					# 6- borrow_other_did_not_use_total
 																					# 7- borrow_not_available_total
-																					record_test(8, 14, 7, 1, 2, 1, 3)
+																					record_test(8, 13, 7, 1, 2, 1, 2)
 																				end
 
 																				it "should affect emails" do
@@ -623,7 +623,7 @@ describe "how requests should flow" do
 
 																					before do
 																						login("jamesdd9302@yahoo.com", "lend")
-																						click_link "decline 18"
+																						click_link "decline 17"
 																					end
 
 																					it "should affect Requests and Borrows" do
@@ -634,7 +634,7 @@ describe "how requests should flow" do
 																						# 5- borrow_lender_declined_total, 
 																						# 6- borrow_other_did_not_use_total
 																						# 7- borrow_not_available_total
-																						record_test(8, 13, 6, 1, 2, 1, 3)
+																						record_test(8, 12, 6, 1, 2, 1, 2)
 																					end
 
 																					it "should affect emails" do
@@ -652,7 +652,7 @@ describe "how requests should flow" do
 
 																						before do
 																							login("jdong8@gmail.com", "lend")
-																							click_link "decline 19"
+																							click_link "decline 18"
 																						end
 
 																						it "should affect Requests and Borrows" do
@@ -663,7 +663,7 @@ describe "how requests should flow" do
 																							# 5- borrow_lender_declined_total, 
 																							# 6- borrow_other_did_not_use_total
 																							# 7- borrow_not_available_total
-																							record_test(8, 13, 5, 1, 3, 1, 3)
+																							record_test(8, 12, 5, 1, 3, 1, 2)
 																						end
 
 																						it "should affect emails" do
@@ -691,7 +691,7 @@ describe "how requests should flow" do
 																								# 5- borrow_lender_declined_total, 
 																								# 6- borrow_other_did_not_use_total
 																								# 7- borrow_not_available_total
-																								record_test(9, 15, 6, 1, 3, 1, 4)
+																								record_test(9, 14, 6, 1, 3, 1, 3)
 																							end
 
 																							it "should affect emails" do
@@ -719,7 +719,7 @@ describe "how requests should flow" do
 																									# 5- borrow_lender_declined_total, 
 																									# 6- borrow_other_did_not_use_total
 																									# 7- borrow_not_available_total
-																									record_test(10, 19, 10, 1, 3, 1, 4)
+																									record_test(10, 18, 10, 1, 3, 1, 3)
 																								end
 
 																								it "should affect emails" do
@@ -753,7 +753,7 @@ describe "how requests should flow" do
 																										# 5- borrow_lender_declined_total, 
 																										# 6- borrow_other_did_not_use_total
 																										# 7- borrow_not_available_total
-																										record_test(12, 21, 11, 2, 3, 1, 4)
+																										record_test(12, 20, 11, 2, 3, 1, 3)
 																									end
 
 																									it "should affect emails" do
@@ -771,7 +771,7 @@ describe "how requests should flow" do
 
 																										before do
 																											login("jdong8@gmail.com", "lend")
-																											click_link ("accept 12")
+																											click_link ("accept 11")
 																										end
 
 																										it "should affect Requests and Borrows" do
@@ -782,7 +782,7 @@ describe "how requests should flow" do
 																											# 5- borrow_lender_declined_total, 
 																											# 6- borrow_other_did_not_use_total
 																											# 7- borrow_not_available_total
-																											record_test(12, 21, 10, 3, 3, 1, 4)
+																											record_test(12, 20, 10, 3, 3, 1, 3)
 																											#from now on connected/ checking will always be one up than sum of options because of past time records that won't show on page
 																										end
 
@@ -801,7 +801,7 @@ describe "how requests should flow" do
 
 																											before do
 																												login("jamesdd9302@yahoo.com", "lend")
-																												click_link ("accept 9")
+																												click_link ("accept 8")
 																											end
 
 																											it "should affect Requests and Borrows" do
@@ -812,7 +812,7 @@ describe "how requests should flow" do
 																												# 5- borrow_lender_declined_total, 
 																												# 6- borrow_other_did_not_use_total
 																												# 7- borrow_not_available_total
-																												record_test(12, 19, 7, 4, 3, 1, 4)
+																												record_test(12, 18, 7, 4, 3, 1, 3)
 																												#from now on connected/ checking will always be one up than sum of options because of past time records that won't show on page
 																											end
 
@@ -832,7 +832,7 @@ describe "how requests should flow" do
 																												before do
 																													login("anavarada@gmail.com", "borrow", 2, "February", "12", "February", "17")
 																													login("jdong8@gmail.com", "lend")
-																													click_link "accept 29"
+																													click_link "accept 28"
 																												end
 
 																												it "should affect Requests and Borrows" do
@@ -843,7 +843,7 @@ describe "how requests should flow" do
 																													# 5- borrow_lender_declined_total, 
 																													# 6- borrow_other_did_not_use_total
 																													# 7- borrow_not_available_total
-																													record_test(13, 22, 8, 5, 3, 1, 5)
+																													record_test(13, 21, 8, 5, 3, 1, 4)
 																													#from now on connected/ checking will always be one up than sum of options because of past time records that won't show on page
 																												end
 
@@ -872,7 +872,7 @@ describe "how requests should flow" do
 																														# 5- borrow_lender_declined_total, 
 																														# 6- borrow_other_did_not_use_total
 																														# 7- borrow_not_available_total
-																														record_test(14, 24, 10, 5, 3, 1, 5)
+																														record_test(14, 23, 10, 5, 3, 1, 4)
 																														#from now on connected/ checking will always be one up than sum of options because of past time records that won't show on page
 																													end
 
@@ -901,7 +901,7 @@ describe "how requests should flow" do
 																															# 5- borrow_lender_declined_total, 
 																															# 6- borrow_other_did_not_use_total
 																															# 7- borrow_not_available_total
-																															record_test(15, 28, 14, 5, 3, 1, 5)
+																															record_test(15, 27, 14, 5, 3, 1, 4)
 																															#from now on connected/ checking will always be one up than sum of options because of past time records that won't show on page
 																														end
 
