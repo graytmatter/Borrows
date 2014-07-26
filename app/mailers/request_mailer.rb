@@ -10,6 +10,15 @@ class RequestMailer < ActionMailer::Base
     mail(to: @borrower_email, from: ENV['owner'], :subject => "[Project Borrow]: Could not find #{@item}") 
   end
 
+  def repeat_borrow(repeat_borrow, itemlist_id)
+    @borrower_email = repeat_borrow.request.signup.email
+    @pickupdate = repeat_borrow.request.pickupdate.strftime("%B %-d")
+    @returndate = repeat_borrow.request.returndate.strftime("%B %-d")
+    @createdat = repeat_borrow.request.created_at.strftime("%B %-d")
+    @item = Itemlist.find_by_id(itemlist_id).name
+    mail(to: @borrower_email, from: ENV['owner'], :subject => "[Project Borrow]: You've already requested #{@item}") 
+  end
+
   def connect_email(accepted_borrow)
     @borrower_email = accepted_borrow.request.signup.email
     @pickupdate = accepted_borrow.request.pickupdate.strftime("%B %-d")

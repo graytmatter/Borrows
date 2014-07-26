@@ -826,6 +826,98 @@ describe "how requests should flow" do
 																												manage_test("jamesdd9302@yahoo.com", 2, 1)
 																												manage_test("jdong8@gmail.com", 4, 2)
 																											end
+
+																											describe "AA) test that when borrower requests multiple things an accept on one of them by a lender doesn't negate the fact that the other is checking for all lenders" do
+
+																												before do
+																													login("anavarada@gmail.com", "borrow", 2, "February", "12", "February", "17")
+																													login("jdong8@gmail.com", "lend")
+																													click_link "accept 29"
+																												end
+
+																												it "should affect Requests and Borrows" do
+																													# 1- request_total, 
+																													# 2- borrow_total, 
+																													# 3- borrow_checking_total, 
+																													# 4- borrow_connected_total, 
+																													# 5- borrow_lender_declined_total, 
+																													# 6- borrow_other_did_not_use_total
+																													# 7- borrow_not_available_total
+																													record_test(13, 22, 8, 5, 3, 1, 5)
+																													#from now on connected/ checking will always be one up than sum of options because of past time records that won't show on page
+																												end
+
+																												it "should affect emails" do
+																													#(total_count, subject: blank)
+																													email_test(14, "connected")
+																												end
+
+																												it "should affect management options for lenders" do 
+																													#(lender_email, manage_count, connected_count)
+																													manage_test("jamesdd9302@yahoo.com", 3, 1)
+																													manage_test("jdong8@gmail.com", 4, 3)
+																												end
+
+																												describe "AB) test that when borrower requests sth, as long as one item has not been accepted where borrowers are differnet, the sth is still created, IN WHICH one of the invenotry items are in use" do
+
+																													before do
+																														login("borrowsapp@gmail.com", "borrow", 2, "February", "14", "February", "18")
+																													end
+
+																													it "should affect Requests and Borrows" do
+																														# 1- request_total, 
+																														# 2- borrow_total, 
+																														# 3- borrow_checking_total, 
+																														# 4- borrow_connected_total, 
+																														# 5- borrow_lender_declined_total, 
+																														# 6- borrow_other_did_not_use_total
+																														# 7- borrow_not_available_total
+																														record_test(14, 24, 10, 5, 3, 1, 5)
+																														#from now on connected/ checking will always be one up than sum of options because of past time records that won't show on page
+																													end
+
+																													it "should affect emails" do
+																														#(total_count, subject: blank)
+																														email_test(14)
+																													end
+
+																													it "should affect management options for lenders" do 
+																														#(lender_email, manage_count, connected_count)
+																														manage_test("jamesdd9302@yahoo.com", 5, 1)
+																														manage_test("jdong8@gmail.com", 4, 3)
+																													end
+
+																													describe "AC) flip of AB, now test that the inventory in question is not being used" do
+
+																														before do
+																															login("anavarada@gmail.com", "borrow", 2, Date::MONTHNAMES[Date.today.month], "#{Date.today.day + 1}", Date::MONTHNAMES[Date.today.month], "#{Date.today.day + 3}")
+																														end
+
+																														it "should affect Requests and Borrows" do
+																															# 1- request_total, 
+																															# 2- borrow_total, 
+																															# 3- borrow_checking_total, 
+																															# 4- borrow_connected_total, 
+																															# 5- borrow_lender_declined_total, 
+																															# 6- borrow_other_did_not_use_total
+																															# 7- borrow_not_available_total
+																															record_test(15, 28, 14, 5, 3, 1, 5)
+																															#from now on connected/ checking will always be one up than sum of options because of past time records that won't show on page
+																														end
+
+																														it "should affect emails" do
+																															#(total_count, subject: blank)
+																															email_test(14)
+																														end
+
+																														it "should affect management options for lenders" do 
+																															#(lender_email, manage_count, connected_count)
+																															manage_test("jamesdd9302@yahoo.com", 7, 1)
+																															manage_test("jdong8@gmail.com", 6, 3)
+																														end
+																													end
+																												end
+																											end
 																										end
 																									end
 																								end
