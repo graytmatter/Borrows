@@ -46,7 +46,12 @@ class SignupsController < ApplicationController
 	def update
 		@signup_parent = Signup.find_by_email(session[:signup_email])
 		if @signup_parent.update_attributes(signup_params)
-			redirect_button
+			if Geography.find_by_zipcode(@signup_parent.zipcode).present?
+				redirect_button
+			else
+				flash[:info] = "We're building one community at a time and right now we are not in your area... yet. But now that we have your information, we'll let you know as soon as we get there! In the meantime please spread the word about Project Borrow. The faster we get other folks near you, the quicker we'll be able to expand our service!"
+				redirect_to root_path
+			end
 		else
 			render "edit"
 		end	
