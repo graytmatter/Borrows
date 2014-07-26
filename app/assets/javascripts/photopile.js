@@ -12,8 +12,8 @@ var photopile = (function() {
     //---------------------------------------------------------------------------------------------
 
     // Thumbnails
-    var numLayers         = 15;          // number of layers in the pile (max zindex)
-    var thumbOverlap      = 100;         // overlap amount (px)
+    var numLayers         = 12;          // number of layers in the pile (max zindex)
+    var thumbOverlap      = 150;         // overlap amount (px)
     var thumbRotation     = 45;         // maximum rotation (deg)
     var thumbBorderWidth  = 2;          // border width (px)
     var thumbBorderColor  = 'white';    // border color
