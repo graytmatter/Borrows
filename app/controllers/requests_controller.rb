@@ -108,9 +108,17 @@ class RequestsController < ApplicationController
                 Notfound.new.async.perform(not_available_borrow, itemlist_id)
               end  
             end
-            times_to_create(matched_inventory_ids.count, matched_inventory_ids, itemlist_id)
+            if Rails.env == "test"
+              times_to_create(matched_inventory_ids.count, matched_inventory_ids, itemlist_id)
+            else
+              Times_to_create.new.async.perform(matched_inventory_ids.count, matched_inventory_ids, itemlist_id)
+            end
           else
-            times_to_create(quantity.to_i, matched_inventory_ids, itemlist_id) 
+            if Rails.env == "test"
+              times_to_create(quantity.to_i, matched_inventory_ids, itemlist_id) 
+            else
+              Times_to_create.new.async.perform(quantity.to_i, matched_inventory_ids, itemlist_id)
+            end
           end
         end
         #right now the same day email sends even if all the borrows already are N/A, ideally this would only send if i need to ping the borrowers because items are indeed available
