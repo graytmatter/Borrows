@@ -1,7 +1,7 @@
 module Dateoverlap
 
   def do_dates_overlap(second_record)
-    test = ((self.pickupdate - second_record.returndate) * (second_record.pickupdate - self.returndate)).to_i
+    test = ((self.pickupdate - second_record.returndate) * (second_record.pickupdate - self.returndate)).to_i if self.pickupdate.present? && self.returndate.present?
     if test > 0
       return "yes"
     elsif test == 0
