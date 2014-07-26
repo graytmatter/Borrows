@@ -12,7 +12,7 @@ var photopile = (function() {
     //---------------------------------------------------------------------------------------------
 
     // Thumbnails
-    var numLayers         = 10;          // number of layers in the pile (max zindex)
+    var numLayers         = 15;          // number of layers in the pile (max zindex)
     var thumbOverlap      = 100;         // overlap amount (px)
     var thumbRotation     = 45;         // maximum rotation (deg)
     var thumbBorderWidth  = 2;          // border width (px)
