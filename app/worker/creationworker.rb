@@ -1,7 +1,6 @@
-class Timestocreate
-	include SuckerPunch::Job
-
-	def perform(quantity, matched_inventory_ids, itemlist_id)
+class CreationWorker
+  include SuckerPunch::Worker
+  def perform(quantity, matched_inventory_ids, itemlist_id)
 		ActiveRecord::Base.connection_pool.with_connection do 
 			multiple_counter = 1
 		    quantity.times do

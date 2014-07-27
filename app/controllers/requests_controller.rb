@@ -111,13 +111,13 @@ class RequestsController < ApplicationController
             if Rails.env == "test"
               times_to_create(matched_inventory_ids.count, matched_inventory_ids, itemlist_id)
             else
-              Times_to_create.new.async.perform(matched_inventory_ids.count, matched_inventory_ids, itemlist_id)
+              SuckerPunch::Queue[:creation_queue].async.perform(matched_inventory_ids.count, matched_inventory_ids, itemlist_id)
             end
           else
             if Rails.env == "test"
               times_to_create(quantity.to_i, matched_inventory_ids, itemlist_id) 
             else
-              Times_to_create.new.async.perform(quantity.to_i, matched_inventory_ids, itemlist_id)
+              SuckerPunch::Queue[:creation_queue].async.perform(quantity.to_i, matched_inventory_ids, itemlist_id)
             end
           end
         end
