@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html> 
+<head> 
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" /> 
+</head> 
+<body style:"color: black;"> 
+
+<p>Hi there!</p>
+
+<p><%= "Oh how the time flies; #{borrower_email} hope you had a great time! Just wanted to connect you again with #{lender_email} for the return of:"%></p>
+	<ul>
+	<li><%= "<b>Item:</b> #{@item}".html_safe %></li>
+	<%= "<li><b>Item description from lender:</b> #{@description}</li>".html_safe if @description.present? %>
+	</ul>
+
+<p>Also, if for either of you this is your first experience with Project Borrow, I'd love to hear how your experience was and how we could further improve this service! The surveys below are 10 questions or less and should take no more than 1 minute.<p>
+	<ul>
+		<li><%= "<b>Borrower survey:</b> #{link_to 'Click here', 'https://docs.google.com/forms/d/116rkhbOiafYI82lBesl-3v9LB1iIYah2rv_D8Y_rz4Q/viewform?usp=send_form' }".html_safe %></li>
+		<li><%= "<b>Lender survey:</b> #{link_to 'Click here', 'https://docs.google.com/forms/d/17znNQgaU7HaJEqxoHgzo16yEMy4DDH8gr4OEG1tlUEU/viewform?usp=send_form' }".html_safe %></li>
+	</ul>
+
+<p>Thank you, hope you'll use Project Borrow again!</p>
+
+<p>James</p>
+
+<p><a href="http://www.projectborrow.com/?utm_source=james%40projectborrow&utm_medium=email&utm_campaign=email%20signature">Click here</a> to borrow something. Please feel free to share with your friends!</p>
+
+</body> 
+</html>

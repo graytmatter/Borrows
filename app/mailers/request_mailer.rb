@@ -42,4 +42,11 @@ class RequestMailer < ActionMailer::Base
     end
     mail(to: ENV['owner'], from: @requestrecord.signup.email, :subject => "ALERT: Same day request") 
   end
+
+  def return_reminder(borrow_in_question)
+    @item = Itemlist.find_by_id(borrow_in_question.itemlist_id).name
+    @item_description = Inventory.find_by_id(borrow_in_question.inventory_id).description
+    @borrower_email = borrow_in_question.request.signup.email
+    @lender_email = Inventory.find_by_id(borrow_in_question.inventory_id).signup.email
+    mail(to: @borrower_email, cc: @lender_email, from: ENV['owner'], :subject => "[Project Borrow]: Reminder to return #{@item}")
 end
