@@ -1,4 +1,4 @@
-class Timestocreate
+class Times_to_create
 	include SuckerPunch::Job
 
 	def perform(quantity, matched_inventory_ids, itemlist_id)
