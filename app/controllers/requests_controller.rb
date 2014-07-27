@@ -97,35 +97,7 @@ class RequestsController < ApplicationController
     else
       @requestrecord = @signup_parent.requests.create(@requestparams)
       if @requestrecord.id.present?
-        @borrowparams.each do |itemlist_id, quantity|
-          matched_inventory_ids = Array.new
-          # Inventory.where.not(signup_id: @requestrecord.signup.id).where(itemlist_id: itemlist_id).select { |i| Geography.find_by_zipcode(i.signup.zipcode).county == Geography.find_by_zipcode(@requestrecord.signup.zipcode).county }.each { |i| matched_inventory_ids << i.id }
-
-          Inventory.where.not(signup_id: @requestrecord.signup.id).where(itemlist_id: itemlist_id).each do |i|
-            if Geography.find_by_zipcode(i.signup.zipcode).present? && Geography.find_by_zipcode(@requestrecord.signup.zipcode).present?
-              if Geography.find_by_zipcode(i.signup.zipcode).county == Geography.find_by_zipcode(@requestrecord.signup.zipcode).county
-                matched_inventory_ids << i.id
-              end
-            end
-          end
-
-          if quantity.to_i > matched_inventory_ids.count
-            difference = quantity.to_i - matched_inventory_ids.count
-            multiple_counter = 0
-            difference.times do 
-              not_available_borrow = create_borrow(@requestrecord, itemlist_id, multiple_counter+quantity.to_i, nil, "not available")
-              multiple_counter += 1
-              if Rails.env == "test"
-                RequestMailer.not_found(not_available_borrow, itemlist_id).deliver
-              else
-                Notfound.new.async.perform(not_available_borrow, itemlist_id)
-              end  
-            end
-            times_to_create(matched_inventory_ids.count, matched_inventory_ids, itemlist_id)
-          else
-            times_to_create(quantity.to_i, matched_inventory_ids, itemlist_id) 
-          end
-        end
+        Times_to_create.new.async.perform(@requestrecord.id, @borrowparams)
         #right now the same day email sends even if all the borrows already are N/A, ideally this would only send if i need to ping the borrowers because items are indeed available
         if @requestrecord.pickupdate == Date.today
           if Rails.env == "test"
