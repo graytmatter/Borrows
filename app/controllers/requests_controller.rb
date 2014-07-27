@@ -32,6 +32,7 @@ class RequestsController < ApplicationController
     @requestrecord = Request.find_by_id(requestrecord_id)
     borrowparams.each do |itemlist_id, quantity|
       matched_inventory_ids = Array.new
+      
       Inventory.where.not(signup_id: @requestrecord.signup.id).where(itemlist_id: itemlist_id).each do |i|
         if Geography.find_by_zipcode(i.signup.zipcode).present? && Geography.find_by_zipcode(@requestrecord.signup.zipcode).present?
           if Geography.find_by_zipcode(i.signup.zipcode).county == Geography.find_by_zipcode(@requestrecord.signup.zipcode).county
@@ -39,7 +40,7 @@ class RequestsController < ApplicationController
           end
         end
       end
-      
+
       if quantity.to_i > matched_inventory_ids.count
         difference = quantity.to_i - matched_inventory_ids.count
         multiple_counter = 0
