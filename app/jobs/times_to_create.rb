@@ -1,16 +1,16 @@
 class Times_to_create
 	include SuckerPunch::Job
 
-	def perform(@requestrecord_id, @borrowparams)
+	def perform(requestrecord_id, borrowparams)
 		ActiveRecord::Base.connection_pool.with_connection do 
-			@requestrecord = Request.find_by_id(@requestrecord.id)
-			@borrowparams.each do |itemlist_id, quantity|
+			@requestrecord = Request.find_by_id(requestrecord_id)
+			borrowparams.each do |itemlist_id, quantity|
 	          matched_inventory_ids = Inventory.where.not(signup_id: @requestrecord.signup.id).where(itemlist_id: itemlist_id).ids 
 	          if quantity.to_i > matched_inventory_ids.count
 	            difference = quantity.to_i - matched_inventory_ids.count
 	            multiple_counter = 0
 	            difference.times do 
-	              not_available_borrow = create_borrow(@requestrecord, itemlist_id, multiple_counter+quantity.to_i, nil, "not available")
+	              not_available_borrow = @requestrecord.borrows.create(itemlist_id: itemlist_id, multiple: multiple_counter, inventory_id: nil, status1: 20)
 	              multiple_counter += 1
 	              if Rails.env == "test"
 	                RequestMailer.not_found(not_available_borrow, itemlist_id).deliver
@@ -26,7 +26,6 @@ class Times_to_create
 	                    if Borrow.where({ itemlist_id: itemlist_id }).where.not(request_id: @requestrecord.id).select { |b| b.request.do_dates_overlap(@requestrecord) == "yes" }.present?
 	                      if Borrow.where({ itemlist_id: itemlist_id }).where.not(request_id: @requestrecord.id).select { |b| b.request.do_dates_overlap(@requestrecord) == "yes" }.select { |b| b.request.signup.email.downcase == @requestrecord.signup.email.downcase }.present?
 	                        if index == 0
-	                          # not_available_borrow = create_borrow(@requestrecord, itemlist_id, multiple_counter, nil, "not available")
 	                          repeat_borrow = Borrow.where({ itemlist_id: itemlist_id }).where.not(request_id: @requestrecord.id).select { |b| b.request.do_dates_overlap(@requestrecord) == "yes" }.select { |b| b.request.signup.email.downcase == @requestrecord.signup.email.downcase }.first
 	                          if Rails.env == "test"
 	                            RequestMailer.repeat_borrow(repeat_borrow, itemlist_id).deliver
@@ -38,7 +37,7 @@ class Times_to_create
 	                        if Borrow.where({ itemlist_id: itemlist_id }).where.not(request_id: @requestrecord.id).select { |b| b.request.do_dates_overlap(@requestrecord) == "yes" }.select { |b| b.request.signup.email != @requestrecord.signup.email }.select { |b| ([2,3].include? b.status1) == false }.present? 
 	                          if Borrow.where({ itemlist_id: itemlist_id }).where.not(request_id: @requestrecord.id).select { |b| b.request.do_dates_overlap(@requestrecord) == "yes" }.select { |b| ([2,3].include? b.status1) == true}.select { |b| b.inventory_id == inventory_id }.present?
 	                            if index == 0
-	                              not_available_borrow = create_borrow(@requestrecord, itemlist_id, multiple_counter, nil, "not available")
+	                              not_available_borrow = @requestrecord.borrows.create(itemlist_id: itemlist_id, multiple: multiple_counter, inventory_id: nil, status1: 20)
 	                              if Rails.env == "test"
 	                                RequestMailer.not_found(not_available_borrow, itemlist_id).deliver
 	                              else
@@ -46,11 +45,11 @@ class Times_to_create
 	                              end  
 	                            end
 	                          else
-	                            create_borrow(@requestrecord, itemlist_id, multiple_counter, inventory_id, "checking")
+	                            new_borrow = @requestrecord.borrows.create(itemlist_id: itemlist_id, multiple: multiple_counter, inventory_id: inventory_id, status1: 1)
 	                          end
 	                        else
 	                          if index == 0
-	                            not_available_borrow = create_borrow(@requestrecord, itemlist_id, multiple_counter, nil, "not available")
+	                            not_available_borrow = @requestrecord.borrows.create(itemlist_id: itemlist_id, multiple: multiple, inventory_id: nil, status1: 20)
 	                            if Rails.env == "test"
 	                              RequestMailer.not_found(not_available_borrow, itemlist_id).deliver
 	                            else
@@ -60,10 +59,10 @@ class Times_to_create
 	                        end
 	                      end
 	                    else
-	                      create_borrow(@requestrecord, itemlist_id, multiple_counter, inventory_id, "checking")
+	                      new_borrow = @requestrecord.borrows.create(itemlist_id: itemlist_id, multiple: multiple_counter, inventory_id: inventory_id, status1: 1)
 	                    end
 	                  else
-	                    create_borrow(@requestrecord, itemlist_id, multiple_counter, inventory_id, "checking")
+	                    new_borrow = @requestrecord.borrows.create(itemlist_id: itemlist_id, multiple: multiple_counter, inventory_id: inventory_id, status1: 1)
 	                  end
 	                end
 	              multiple_counter += 1
@@ -77,7 +76,6 @@ class Times_to_create
 	                  if Borrow.where({ itemlist_id: itemlist_id }).where.not(request_id: @requestrecord.id).select { |b| b.request.do_dates_overlap(@requestrecord) == "yes" }.present?
 	                    if Borrow.where({ itemlist_id: itemlist_id }).where.not(request_id: @requestrecord.id).select { |b| b.request.do_dates_overlap(@requestrecord) == "yes" }.select { |b| b.request.signup.email.downcase == @requestrecord.signup.email.downcase }.present?
 	                      if index == 0
-	                        # not_available_borrow = create_borrow(@requestrecord, itemlist_id, multiple_counter, nil, "not available")
 	                        repeat_borrow = Borrow.where({ itemlist_id: itemlist_id }).where.not(request_id: @requestrecord.id).select { |b| b.request.do_dates_overlap(@requestrecord) == "yes" }.select { |b| b.request.signup.email.downcase == @requestrecord.signup.email.downcase }.first
 	                        if Rails.env == "test"
 	                          RequestMailer.repeat_borrow(repeat_borrow, itemlist_id).deliver
@@ -89,7 +87,7 @@ class Times_to_create
 	                      if Borrow.where({ itemlist_id: itemlist_id }).where.not(request_id: @requestrecord.id).select { |b| b.request.do_dates_overlap(@requestrecord) == "yes" }.select { |b| b.request.signup.email != @requestrecord.signup.email }.select { |b| ([2,3].include? b.status1) == false }.present? 
 	                        if Borrow.where({ itemlist_id: itemlist_id }).where.not(request_id: @requestrecord.id).select { |b| b.request.do_dates_overlap(@requestrecord) == "yes" }.select { |b| ([2,3].include? b.status1) == true}.select { |b| b.inventory_id == inventory_id }.present?
 	                          if index == 0
-	                            not_available_borrow = create_borrow(@requestrecord, itemlist_id, multiple_counter, nil, "not available")
+	                            not_available_borrow = @requestrecord.borrows.create(itemlist_id: itemlist_id, multiple: multiple_counter, inventory_id: nil, status1: 20)
 	                            if Rails.env == "test"
 	                              RequestMailer.not_found(not_available_borrow, itemlist_id).deliver
 	                            else
@@ -97,11 +95,11 @@ class Times_to_create
 	                            end  
 	                          end
 	                        else
-	                          create_borrow(@requestrecord, itemlist_id, multiple_counter, inventory_id, "checking")
+	                          new_borrow = @requestrecord.borrows.create(itemlist_id: itemlist_id, multiple: multiple_counter, inventory_id: inventory_id, status1: 1)
 	                        end
 	                      else
 	                        if index == 0
-	                          not_available_borrow = create_borrow(@requestrecord, itemlist_id, multiple_counter, nil, "not available")
+	                          not_available_borrow = @requestrecord.borrows.create(itemlist_id: itemlist_id, multiple: multiple_counter, inventory_id: nil, status1: 20)
 	                          if Rails.env == "test"
 	                            RequestMailer.not_found(not_available_borrow, itemlist_id).deliver
 	                          else
@@ -111,10 +109,10 @@ class Times_to_create
 	                      end
 	                    end
 	                  else
-	                    create_borrow(@requestrecord, itemlist_id, multiple_counter, inventory_id, "checking")
+	                    new_borrow = @requestrecord.borrows.create(itemlist_id: itemlist_id, multiple: multiple_counter, inventory_id: inventory_id, status1: 1)
 	                  end
 	                else
-	                  create_borrow(@requestrecord, itemlist_id, multiple_counter, inventory_id, "checking")
+	                  new_borrow = @requestrecord.borrows.create(itemlist_id: itemlist_id, multiple: multiple_counter, inventory_id: inventory_id, status1: 1)
 	                end
 	              end
 	            multiple_counter += 1
