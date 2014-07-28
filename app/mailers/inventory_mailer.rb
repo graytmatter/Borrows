@@ -6,4 +6,5 @@ class InventoryMailer < ActionMailer::Base
     Inventory.where(signup_id: lender_id).select { |i| Borrow.where(inventory_id: i.id).select { |b| b.status1 == 1}.count > 0 }.each { |i| @items_outstanding << Itemlist.find_by_id(i.itemlist_id).name }
     # mail(to: @lender_email, from: ENV['owner'], :subject => "[Project Borrow]: Neighbors want to borrow your stuff!")
     mail(to: ENV['owner'], from: ENV['owner'], :subject => "[Project Borrow]: Neighbors want to borrow your stuff!")
+	end
 end
