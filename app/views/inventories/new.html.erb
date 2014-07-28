@@ -12,62 +12,6 @@
       <%="Step 2 of 2: Lend away, #{@signup_parent.email}!"%>
     <% end %>
   </h4>
-
-  <% if @signup_parent.inventories.count > 0 %>
-
-    <div class="col-xs-12" style="padding-bottom:1%;">
-      <h4><%="Step 2 of 2: Lend away, #{@signup_parent.email}!"%></h4>
-      <h5 style="font-size:100%; font-style:italic"><%= link_to '(I want to borrow)', new_request_path, { style: 'color:#428bca'}%></h6>
-      <p style="font-style:italic;">Yayhay thanks for sharing stuff with our borrowers! In the table below, you'll be able to make changes to the items that you're currently sharing. If you'd like to share even more stuff, just complete the form below the table!</p>
-    </div>
-
-    <div class="table-responsive">
-      <table class="table table-condensed table-hover">
-        <thead>
-          <tr>
-            <th><%= sort_link(@q, :item_name, "Item") %></th>
-            <!-- <th>Description</th> -->
-            <th colspan="5"></th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <% @inventories.each do |inventory| %>
-            <tr>
-              <td><%= inventory.item_name %></td>
-              <!-- <td>
-                <%# if inventory.description.blank? %>
-                  <%#= form_for inventory, url: {action: 'update'}, :html => {:class => "form-inline"} do |f| %> 
-                    <div class="form-group col-xs-9">
-                      <%#= f.text_field :description, class: "form-control", placeholder: "Add a link or description for borrowers to see" %>
-                    </div>
-                    <div class="form-group col-xs-3">
-                      <%#= f.submit "Update", class: "btn btn-default btn-large btn-block" %>
-                    </div>
-                  <%# end %>
-                <%# else %>
-                  <%= inventory.description %>
-                <%# end %>
-              </td> -->
-              <td>
-                <%# if inventory.description.present? %>
-                  <%#= button_to %>
-                  <!-- need this button to, 1) ideal solution: "reactivate" form with the description so that users can edit what they've put in, 2) hacky solution: delete the description entirely so that users will have to re-enter it in the form that renders once description is blank again -->
-                <%# end %>
-                <%= button_to 'Remove', inventory, method: :delete, class: "btn btn-default btn-large btn-block", data: { confirm: 'Once removed, borrowers will no longer be able to see you have this item. To remove an item temporarily (i.e., for a personal trip), please notify us via email' } %>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="col-xs-12" style="padding-bottom:1%;">
-      <h5><%="I'd also like to share..."%></h5>
-    </div>
-
-  	<%= render "layouts/inventoryform" %>
-    <!-- add a contact form in case they have anything else they'd like to share -->
   
   <h5 style="font-size:90%; font-style:italic">
     Click to 
@@ -89,4 +33,5 @@
 <%= render "layouts/inventoryform" %>
 <!-- add a contact form in case they have anything else they'd like to share -->
 
+    
     
