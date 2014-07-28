@@ -50,5 +50,6 @@ class RequestMailer < ActionMailer::Base
     @lender_email = Inventory.find_by_id(borrow_in_question.inventory_id).signup.email
     # mail(to: @borrower_email, cc: @lender_email, from: ENV['owner'], :subject => "[Project Borrow]: Reminder to return #{@item}")
     mail(to: ENV['owner'], from: ENV['owner'], :subject => "[Project Borrow]: Reminder to return #{@item}")
+  end
 end
 

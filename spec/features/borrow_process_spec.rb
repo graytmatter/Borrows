@@ -58,6 +58,9 @@ describe "how requests should flow" do
 
 		@signup_dd.inventories.create(itemlist_id: 1)
 		@signup_jdong.inventories.create(itemlist_id: 1)
+
+		@todays_date = Date.today
+		@futures_date = Date.today+5
 	end
 		
 	it "should have 2 inventories and 2 signups to start" do
@@ -711,7 +714,7 @@ describe "how requests should flow" do
 																							describe "W) same day request" do
 
 																								before do
-																									login("dancingknives@yahoo.com", "borrow", 2, Date::MONTHNAMES[Date.today.month], "#{Date.today.day}", Date::MONTHNAMES[Date.today.month], "#{Date.today.day + 2}")
+																									login("dancingknives@yahoo.com", "borrow", 2, Date::MONTHNAMES[@todays_date.month], @todays_date.day, Date::MONTHNAMES[(@todays_date+2).month], (@todays_date+2).day)
 																								end
 
 																								it "should affect Requests and Borrows" do
@@ -893,7 +896,7 @@ describe "how requests should flow" do
 																													describe "AC) flip of AB, now test that the inventory in question is not being used" do
 
 																														before do
-																															login("anavarada@gmail.com", "borrow", 2, Date::MONTHNAMES[Date.today.month], "#{Date.today.day + 1}", Date::MONTHNAMES[Date.today.month], "#{Date.today.day + 3}")
+																															login("anavarada@gmail.com", "borrow", 2, Date::MONTHNAMES[@todays_date.month], (@todays_date +1).day, Date::MONTHNAMES[@todays_date.month], (@todays_date +3).day)
 																														end
 
 																														it "should affect Requests and Borrows" do

@@ -9,6 +9,8 @@ describe "how request submission should work" do
 
 		@signup = Signup.create(email:"jamesdd9302@yahoo.com", streetone: "Post", streettwo: "Taylor", zipcode: 94109, tos: true)
 		@signup.inventories.create(itemlist_id: 1)
+		@todays_date = Date.today
+		@futures_date = Date.today+5
 	end
 		
 	it "should have 0 requests and 1 signups to start" do
@@ -63,12 +65,12 @@ describe "how request submission should work" do
 
 		describe "D) submit date, but not item" do
 			before do
-				select '2015', :from => 'request_pickupdate_1i'
-				select Date::MONTHNAMES[Date.today.month], :from => 'request_pickupdate_2i'
-				select Date.today.day, :from => 'request_pickupdate_3i'
-				select '2015', :from => 'request_returndate_1i'
-				select Date::MONTHNAMES[Date.today.month], :from => 'request_returndate_2i'
-				select Date.today.day + 5, :from => 'request_returndate_3i'
+				select "#{Time.now.year+1}", :from => 'request_pickupdate_1i'
+				select Date::MONTHNAMES[@todays_date.month], :from => 'request_pickupdate_2i'
+				select @todays_date.day, :from => 'request_pickupdate_3i'
+				select "#{Time.now.year+1}", :from => 'request_returndate_1i'
+				select Date::MONTHNAMES[@futures_date.month], :from => 'request_returndate_2i'
+				select @futures_date.day, :from => 'request_returndate_3i'
 				click_button 'submit_request'
 			end
 
@@ -86,12 +88,13 @@ describe "how request submission should work" do
 
 			before do
 				fill_in 'borrow__1', :with => 2
+
 				select '2015', :from => 'request_pickupdate_1i'
-				select Date::MONTHNAMES[Date.today.month], :from => 'request_pickupdate_2i'
-				select Date.today.day, :from => 'request_pickupdate_3i'
+				select Date::MONTHNAMES[@todays_date.month], :from => 'request_pickupdate_2i'
+				select @todays_date.day, :from => 'request_pickupdate_3i'
 				select '2015', :from => 'request_returndate_1i'
-				select Date::MONTHNAMES[Date.today.month], :from => 'request_returndate_2i'
-				select Date.today.day + 5, :from => 'request_returndate_3i'
+				select Date::MONTHNAMES[@futures_date.month], :from => 'request_returndate_2i'
+				select @futures_date.day, :from => 'request_returndate_3i'
 				click_button 'submit_request'
 			end
 
