@@ -849,7 +849,7 @@ describe "how requests should flow" do
 																													# 5- borrow_lender_declined_total, 
 																													# 6- borrow_other_did_not_use_total
 																													# 7- borrow_not_available_total
-																													record_test(13, 21, 8, 5, 3, 1, 4)
+																													record_test(13, 20, 7, 5, 3, 1, 4)
 																													#from now on connected/ checking will always be one up than sum of options because of past time records that won't show on page
 																												end
 
@@ -861,7 +861,7 @@ describe "how requests should flow" do
 																												it "should affect management options for lenders" do 
 																													#(lender_email, manage_count, connected_count)
 																													manage_test("jamesdd9302@yahoo.com", 3, 1)
-																													manage_test("jdong8@gmail.com", 4, 3)
+																													manage_test("jdong8@gmail.com", 3, 3)
 																												end
 
 																												describe "AB) test that when borrower requests sth, as long as one item has not been accepted where borrowers are differnet, the sth is still created, IN WHICH one of the invenotry items are in use" do
@@ -878,7 +878,7 @@ describe "how requests should flow" do
 																														# 5- borrow_lender_declined_total, 
 																														# 6- borrow_other_did_not_use_total
 																														# 7- borrow_not_available_total
-																														record_test(14, 23, 10, 5, 3, 1, 4)
+																														record_test(14, 22, 9, 5, 3, 1, 4)
 																														#from now on connected/ checking will always be one up than sum of options because of past time records that won't show on page
 																													end
 
@@ -890,13 +890,13 @@ describe "how requests should flow" do
 																													it "should affect management options for lenders" do 
 																														#(lender_email, manage_count, connected_count)
 																														manage_test("jamesdd9302@yahoo.com", 5, 1)
-																														manage_test("jdong8@gmail.com", 4, 3)
+																														manage_test("jdong8@gmail.com", 3, 3)
 																													end
 
 																													describe "AC) flip of AB, now test that the inventory in question is not being used" do
 
 																														before do
-																															login("anavarada@gmail.com", "borrow", 2, Date::MONTHNAMES[@todays_date.month], (@todays_date +1).day, Date::MONTHNAMES[@todays_date.month], (@todays_date +3).day)
+																															login("anavarada@gmail.com", "borrow", 2, Date::MONTHNAMES[(@todays_date+31).month], (@todays_date +31).day, Date::MONTHNAMES[(@todays_date +33).month], (@todays_date +33).day)
 																														end
 
 																														it "should affect Requests and Borrows" do
@@ -907,7 +907,7 @@ describe "how requests should flow" do
 																															# 5- borrow_lender_declined_total, 
 																															# 6- borrow_other_did_not_use_total
 																															# 7- borrow_not_available_total
-																															record_test(15, 27, 14, 5, 3, 1, 4)
+																															record_test(15, 26, 13, 5, 3, 1, 4)
 																															#from now on connected/ checking will always be one up than sum of options because of past time records that won't show on page
 																														end
 
@@ -919,7 +919,7 @@ describe "how requests should flow" do
 																														it "should affect management options for lenders" do 
 																															#(lender_email, manage_count, connected_count)
 																															manage_test("jamesdd9302@yahoo.com", 7, 1)
-																															manage_test("jdong8@gmail.com", 6, 3)
+																															manage_test("jdong8@gmail.com", 5, 3)
 																														end
 																													end
 																												end
