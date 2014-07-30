@@ -38,7 +38,7 @@
     <div class="form group">
       <%= f.label :request_signup_zipcode_eq, "County is" %>
       <%= f.select :request_signup_zipcode_eq, options_for_select(
-      Request.where(id: Borrow.all.pluck("request_id")).pluck("signup_id").collect { |s| [Geography.find_by_zipcode(Signup.find(s).zipcode).county, Signup.find(s).zipcode] }), include_blank: true %>
+      Signup.where(id: Request.where(id: Borrow.all.pluck("request_id")).pluck("signup_id")).where("zipcode is not null").select { |s| Geography.find_by_zipcode(s.zipcode).present? }.collect { |s| [Geography.find_by_zipcode(s.zipcode).county, s.zipcode] }), include_blank: true %>
     </div>
     <div class="form group">
       <%= f.submit %>
