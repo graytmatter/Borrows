@@ -22,10 +22,14 @@ class RequestMailer < ActionMailer::Base
 
   def connect_email(accepted_borrow)
     @borrower_email = accepted_borrow.request.signup.email
+    @borrower_streetone = accepted_borrow.request.signup.streetone.capitalize
+    @borrower_streettwo = accepted_borrow.request.signup.streettwo.capitalize
     @pickupdate = accepted_borrow.request.pickupdate.strftime("%B %-d")
     @returndate = accepted_borrow.request.returndate.strftime("%B %-d")
     @item = Itemlist.find_by_id(accepted_borrow.itemlist_id).name.downcase
     @lender_email = Inventory.find_by_id(accepted_borrow.inventory_id).signup.email
+    @lender_streetone = Inventory.find_by_id(accepted_borrow.inventory_id).signup.streetone.capitalize
+    @lender_streettwo = Inventory.find_by_id(accepted_borrow.inventory_id).signup.streettwo.capitalize
     @item_description = Inventory.find_by_id(accepted_borrow.inventory_id).description
     mail(to: @borrower_email, cc: @lender_email, from: ENV['owner'], :subject => "[Project Borrow]: #{@item} exchange!") 
   end
