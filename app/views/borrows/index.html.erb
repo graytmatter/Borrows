@@ -11,9 +11,8 @@
       <%= f.collection_select :status2_eq, Status.where(statuscategory_id: [3,4]).select { |s| Borrow.all.pluck("status2").include? s.id }, :id, :name, include_blank: true %>
     </div>
     <div class="form group">
-      <%= f.label :inventory_id_eq, "Lender email" %>
-      <%= f.select :inventory_id_eq, options_for_select(
-      Borrow.select { |b| b.inventory_id.present? }.collect { |b| [Inventory.find_by_id(b.inventory_id).signup.email, b.inventory_id] }), include_blank: true %>
+      <%= f.label :inventory_id_eq_any, "Lender email" %>
+      <%= f.select :inventory_id_eq_any, options_for_select(@inventory_id_collection) include_blank: true %>
     </div>
     <div class="form group">
       <%= f.label "Item" %>

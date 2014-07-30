@@ -4,6 +4,25 @@ class BorrowsController < ApplicationController
   def index
     @q = Borrow.ransack(params[:q])
     @borrows = @q.result.includes(:request => :signup)
+
+    @inventory_id_collection = Array.new
+    Borrow.select { |b| b.inventory_id.present? }.each do |b|
+      if @inventory_id_collection.select{ |c| c.first == "#{Inventory.find_by_id(b.inventory_id).signup.email}" }.present?
+        @inventory_id_collection.select{ |c| c.first == "#{Inventory.find_by_id(b.inventory_id).signup.email}"}.first.second.push(b.inventory_id)
+      else
+        @inventory_id_collection << ["#{Inventory.find_by_id(b.inventory_id).signup.email}", [b.inventory_id]]
+      end
+    end
+
+    # @inventory_id_collection = Hash.new
+    # Borrow.select { |b| b.inventory_id.present? }.each do |b|
+    #   if @inventory_id_collection.has_key?("#{Inventory.find_by_id(b.inventory_id).signup.email}")
+    #     @inventory_id_collection["#{Inventory.find_by_id(b.inventory_id).signup.email}"] << b.inventory_id
+    #   else
+    #     @inventory_id_collection["#{Inventory.find_by_id(b.inventory_id).signup.email}"] = Array.new
+    #     @inventory_id_collection["#{Inventory.find_by_id(b.inventory_id).signup.email}"] << b.inventory_id
+    #   end
+    # end
   end
 
   def edit
