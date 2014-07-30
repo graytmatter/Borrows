@@ -4,6 +4,8 @@
     <%= f.collection_select :itemlist_id_eq, Itemlist.select { |i| Inventory.find_by_itemlist_id(i.id)}.sort, :id, :name, include_blank: true %>
     <%= f.label :signup_email_cont %>
     <%= f.search_field :signup_email_cont %>
+    <%= f.label :available_eq, "Available?" %>
+    <%= f.select :available_eq, [['yes', true], ['no', false]], include_blank: true %>
     <%= f.submit %>
   <% end %>
 </div>
@@ -15,6 +17,7 @@
         <th><%= sort_link(@q, 'signups.email', "Email") %></th>
         <th>Item</th>
         <th>Description</th>
+        <th>Available</th>
         <th>Action</th>
         <th colspan="5"></th>
       </tr>
@@ -39,6 +42,7 @@
               <%= inventory.description %>
             <% end %>
           </td>
+          <td><%= inventory.available %>
           <td>
             <% if inventory.description.present? %>
               <div class="col-xs-6" style="padding:1px; ">

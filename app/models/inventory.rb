@@ -3,6 +3,7 @@ class Inventory < ActiveRecord::Base
   
 	belongs_to :signup
 	validates :signup_id, presence: true
+  validates_inclusion_of :available, :in => [true, false]
   validate :custom_validation
 
   def custom_validation

@@ -35,7 +35,7 @@ class InventoriesController < ApplicationController
     else
       @inventory_params.each do |itemlist_id, quantity|
         quantity.to_i.times do
-          @signup_parent.inventories.create(itemlist_id: itemlist_id)
+          @signup_parent.inventories.create(itemlist_id: itemlist_id, available: true)
         end
       end
       flash[:success] = "Thank you so much! We'll be in touch when a borrower comes-a-knockin'!"
@@ -78,8 +78,8 @@ class InventoriesController < ApplicationController
   end
 
   def destroy
-    @destroyed = Inventory.find(params[:id])
-    Inventory.find(params[:id]).destroy
+    @removed = Inventory.find(params[:id])
+    @removed.update_attributes(available: false)
     # if request.referer.include? 'admin'
       redirect_to :action => 'index'
     # else

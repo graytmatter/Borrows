@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140726181911) do
+ActiveRecord::Schema.define(version: 20140730205513) do
 
   create_table "borrows", force: true do |t|
     t.integer  "request_id"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 20140726181911) do
     t.datetime "updated_at"
     t.text     "description", limit: 255
     t.integer  "itemlist_id"
+    t.boolean  "available"
   end
 
   add_index "inventories", ["signup_id"], name: "index_inventories_on_signup_id"
