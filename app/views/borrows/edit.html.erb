@@ -19,16 +19,16 @@
     <%= form_for @borrow, url: {action: 'update'} do |f| %>
       <div class="form-group">
         <%= f.label "Status 1" %>
-        <%= f.collection_select :status1, Status.where(statuscategory_id:[1,3]).all, :id, :name, {default: Status.find_by_id(@borrow.status1).name } %>
+        <%= f.collection_select :status1, Status.where(statuscategory_id:[1,2]).all, :id, :name, {default: Status.find_by_id(@borrow.status1).name } %>
       </div>  
       <div class="form-group">
         <%= f.label "Status 2" %>
-        <%= f.collection_select :status2, Status.where(statuscategory_id:[2,4]).all, :id, :name, {default: Status.find_by_id(@borrow.status2).name, include_blank: true} %>
+        <%= f.collection_select :status2, Status.where(statuscategory_id:[3,4]).all, :id, :name, {default: @borrow.status2.present? ? Status.find_by_id(@borrow.status2).name : "", include_blank: true} %>
       </div> 
       <div class="form-group">
         <%= f.label "Lender Email" %>
-        <!-- also not working -->
-        <%#= f.collection_select :inventory_id, Status.where(statuscategory_id: Statuscategory.where("name LIKE ?", "%2%").ids), :id, :name, {default: Status.find_by_id(@borrow.status2).name, include_blank: true} %>
+        <%= f.select :inventory_id, options_for_select(Inventory.where(itemlist_id: @borrow.itemlist_id).collect { |i| ["#{i.signup.email} + #{i.description}", i.id] }), {include_blank: true} %>
+        <!-- couldn't get default to work for above --> 
       </div> 
       <%= f.fields_for :request do |r| %>
         <div class="form-group">

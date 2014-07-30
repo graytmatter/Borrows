@@ -23,6 +23,7 @@ class BorrowsController < ApplicationController
     #     @inventory_id_collection["#{Inventory.find_by_id(b.inventory_id).signup.email}"] << b.inventory_id
     #   end
     # end
+
   end
 
   def edit
@@ -43,7 +44,7 @@ class BorrowsController < ApplicationController
   private
 
   def borrow_params
-  	params.require(:borrow).permit(:status1, :status2, :itemlist_id, request_attributes: [:id, :pickupdate, :returndate]) 
+  	params.require(:borrow).permit(:status1, :status2, :inventory_id, request_attributes: [:id, :pickupdate, :returndate]) 
   end
 
 end
