@@ -96,8 +96,7 @@
           <td>
             <ul>
             <!-- next step, define time period of unavailability, but then what happens if a user has multiple time periods to define at once? best way to achieve latter woudl probably be to submit a self-use request -->
-              <% if borrow.request.pickupdate.present? && borrow.request.returndate.present? %> 
-                <% if Borrow.where(inventory_id: inventory.id).select { |b| (b.request.pickupdate > Date.today) || b.request.returndate > Date.today }.count == 0 %>
+                <% if Borrow.where(inventory_id: inventory.id).select { |b| (b.request.pickupdate.present?) && (b.request.returndate.present?) && ((b.request.pickupdate > Date.today) || (b.request.returndate > Date.today)) }.count == 0 %>
                   <li>
                     <%= link_to "#{inventory.available == true ? 'UNAVAILABLE' : 'AVAILABLE'}", toggle_available_path(inventory), method: :patch, id: "toggle_#{inventory.id}" %>
                   </li>
@@ -105,7 +104,6 @@
                     <%= link_to 'REMOVE', inventory, method: :delete, id: "remove_#{inventory.id}", data: { confirm: "Are you sure this item is no longer up for sharing?" } %>
                   </li>
                 <% end %>
-              <% end %>
             </ul>
           </td>
         </tr>
