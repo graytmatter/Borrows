@@ -2,7 +2,7 @@ class Return
 	include SuckerPunch::Job
 	include FistOfFury::Recurrent
 
-	recurs { daily }
+	recurs { daily.hour_of_day(5) }
 
 	def perform
 		ActiveRecord::Base.connection_pool.with_connection do 
