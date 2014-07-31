@@ -57,5 +57,10 @@ class RequestMailer < ActionMailer::Base
     # mail(to: @borrower_email, cc: @lender_email, from: ENV['owner'], :subject => "[Project Borrow]: Reminder to return #{@item}")
     mail(to: ENV['owner'], from: ENV['owner'], :subject => "[Project Borrow]: Reminder to return #{@item}")
   end
+
+  def inprogress_test(borrow_in_question)
+    @id = borrow_in_question.id
+    mail(to: ENV['owner'], from: ENV['owner'], :subject => "[Project Borrow]: Set borrow #{@id} to be in progress")
+  end 
 end
 
