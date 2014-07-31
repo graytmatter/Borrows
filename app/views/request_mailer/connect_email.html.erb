@@ -9,9 +9,8 @@
 
 <p><%= "Connecting the two of you so you can make sharing magic happen!"%></p>
 	<ul>
-	<li><%= "<b>Lender:</b> #{@lender_email}, located at #{@lender_streetone} and #{@lender_streettwo}".html_safe %></li>
-	<li><%= "<b>Borrower:</b> #{@borrower_email}, located at #{@borrower_streetone} and #{@borrower_streettwo}".html_safe %></li>
-	<li>Both of you are in the same county</li>
+	<li><%= "<b>Lender:</b> #{@lender_email}, located at #{@lender_streetone} and #{@lender_streettwo} in #{@lender_city}".html_safe %></li>
+	<li><%= "<b>Borrower:</b> #{@borrower_email}, located at #{@borrower_streetone} and #{@borrower_streettwo} in #{@borrower_city}".html_safe %></li>
 	<li><%= "<b>Item:</b> #{@item.capitalize}".html_safe %></li>
 	<%= "<li><b>Item description from lender:</b> #{@description}</li>".html_safe if @description.present? %>
 	<li><%= "<b>Pick Up Date:</b> #{@pickupdate}".html_safe %></li>

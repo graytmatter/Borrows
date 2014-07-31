@@ -45,6 +45,7 @@ describe "how requests should flow" do
 	before do 
 		@newcategory = Categorylist.create(name: "Camping")
 		@newcategory.itemlists.create(name: "2-Person tent", request_list: true)
+
 		Geography.create(zipcode:94109, city:"San Francisco", county:"San Francisco")
 		Geography.create(zipcode:99999, city:"Fake", county:"Fake")
 
@@ -56,8 +57,8 @@ describe "how requests should flow" do
 		@signup_borrows = Signup.create(email: "borrowsapp@gmail.com", streetone: "Post", streettwo: "Taylor", zipcode: 94109, tos: true)
 		@signup_outofarea = Signup.create(email: "jamesdong.photo@gmail.com", streetone: "Post", streettwo: "Taylor", zipcode: 99999, tos: true)
 
-		@signup_dd.inventories.create(itemlist_id: 1)
-		@signup_jdong.inventories.create(itemlist_id: 1)
+		@signup_dd.inventories.create(itemlist_id: 1, available: true)
+		@signup_jdong.inventories.create(itemlist_id: 1, available: true)
 
 		@todays_date = Date.today
 		@futures_date = Date.today+5
@@ -971,6 +972,50 @@ describe "how requests should flow" do
 		it "should affect emails" do
 			#(count, subject: blank)
 			email_test(1, "not found")
+		end
+
+		it "should affect management options for lenders" do 
+			#(lender_email, manage_count, connected_count)
+			manage_test("jamesdd9302@yahoo.com", 0, 0)
+			manage_test("jdong8@gmail.com", 0, 0)
+		end
+
+	end
+
+	describe "out of area request" do
+
+		before do
+			@newcategory.itemlists.create(name: "3-Person tent", request_list: true)
+			@newcategory.itemlists.create(name: "4-Person tent", request_list: true)
+
+			@signup_jdong.inventories.create(itemlist_id: 2, available: nil)
+			@signup_jdong.inventories.create(itemlist_id: 3, available: false)
+			login("jamesdong.photo@gmail.com", "borrow")
+			fill_in 'borrow__2', :with => 1
+			fill_in 'borrow__3', :with => 1
+			select @todays_date.year, :from => 'request_pickupdate_1i'
+			select Date::MONTHNAMES[@todays_date.month], :from => 'request_pickupdate_2i'
+			select @todays_date.day, :from => 'request_pickupdate_3i'
+			select @futures_date.year, :from => 'request_returndate_1i'
+			select Date::MONTHNAMES[@futures_date.month], :from => 'request_returndate_2i'
+			select @futures_date.day, :from => 'request_returndate_3i'
+			click_button 'submit_request'
+		end
+
+		it "should affect records" do
+			# 1- request_total, 
+			# 2- borrow_total, 
+			# 3- borrow_checking_total, 
+			# 4- borrow_connected_total, 
+			# 5- borrow_lender_declined_total, 
+			# 6- borrow_other_did_not_use_total
+			# 7- borrow_not_available_total
+			record_test(1, 2, 0, 0, 0, 0, 2)
+		end
+
+		it "should affect emails" do
+			#(count, subject: blank)
+			email_test(2, "not found")
 		end
 
 		it "should affect management options for lenders" do 

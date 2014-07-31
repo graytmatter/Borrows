@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "how inventory upload and descriptions should work" do
+describe "how inventory upload should work" do
 
 	before do 
 		@newcategory = Categorylist.create(name: "Camping")
@@ -55,23 +55,6 @@ describe "how inventory upload and descriptions should work" do
 			it "should render management page with opportunity to write descriptions" do
 				page.assert_selector("#inventory_description_1")
 				page.assert_selector("#inventory_description_2")
-			end
-
-			describe "D) write a description in 1" do
-
-				before do
-					fill_in 'inventory_description_1', :with => "An awesome tent!"
-					click_button 'add description 1'
-				end
-
-				it "should update inventory" do
-					Inventory.first.description.should == "An awesome tent!"
-				end
-
-				# it "now page should have option to remove" do
-					# this doesn't exist at the moment because I couldn't figure out how to make it pretty
-				# end
-
 			end
 		end
 	end

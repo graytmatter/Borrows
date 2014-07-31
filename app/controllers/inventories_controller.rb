@@ -1,6 +1,6 @@
 class InventoriesController < ApplicationController
 
-  before_filter :authenticate, except: [:new, :create, :destroy, :update, :manage, :accept, :decline, :create_borrow]
+  before_filter :authenticate, except: [:new, :create, :destroy, :toggle, :destroy_description, :update, :manage, :accept, :decline, :create_borrow]
 
   def new
     @pagetitle = "What would you like to lend?"
@@ -63,7 +63,7 @@ class InventoriesController < ApplicationController
   end
 
   def index
-    @q = Inventory.ransack(params[:q])
+    @q = Inventory.where("available is not null").all.ransack(params[:q])
     @inventories = @q.result.includes(:signup)
   end
 
@@ -77,16 +77,29 @@ class InventoriesController < ApplicationController
     end
   end
 
-  def destroy
-    @removed = Inventory.find(params[:id])
-    @removed.update_attributes(available: false)
-    # if request.referer.include? 'admin'
+  def toggle
+    toggled = Inventory.find(params[:id])
+    if toggled.available == true
+      toggled.update_attributes(available: false)
+      # Borrow.where(inventory_id: toggled.id).select { |b| b.status1 == 1 && b.request.pickupdate > Date.today }
+    elsif toggled.available == false
+      toggled.update_attributes(available: true)
+    end
+    if request.referer.include? 'admin'
       redirect_to :action => 'index'
-    # else
-    #   @signup_parent = Signup.find_by_email(session[:signup_email].downcase)
-    #   InventoryMailer.delete_email(@signup_parent, @destroyed).deliver
-    #   redirect_to :action => 'manage'
-    # end
+    else
+      redirect_to :action => 'manage'
+    end
+  end
+
+  def destroy
+    removed = Inventory.find(params[:id])
+    removed.update_attributes(available: nil)
+    if request.referer.include? 'admin'
+      redirect_to :action => 'index'
+    else
+      redirect_to :action => 'manage'
+    end
   end
 
   def manage
@@ -101,7 +114,7 @@ class InventoriesController < ApplicationController
         flash[:danger] = "Almost there! We just need a little more info"
         redirect_to edit_signup_path
       else
-        @q = @signup_parent.inventories.ransack(params[:q])
+        @q = @signup_parent.inventories.where("available is not null").ransack(params[:q])
         @inventories = @q.result.includes(:signup)
       end
     end
