@@ -2,7 +2,7 @@ class Recurring
 	include SuckerPunch::Job
 	include FistOfFury::Recurrent
 
-	recurs { minutely }
+	recurs { daily }
 
 	def perform
 		ActiveRecord::Base.connection_pool.with_connection do 
