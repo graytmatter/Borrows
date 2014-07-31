@@ -79,6 +79,8 @@
                       <% if Date.today > borrow.request.pickupdate %>
                       <% else %>
                         <% case borrow.status1 %>
+                        <% when 3 %>
+                          <li id="connected" style="font-size:90%"><%= "You've accepted a request from #{borrow.request.signup.email} from #{borrow.request.pickupdate.strftime("%B %-d")} to #{borrow.request.returndate.strftime("%B %-d")}. We've emailed both of you with details" %></li>
                         <% when 2 %>
                           <li id="connected" style="font-size:90%"><%= "You've accepted a request from #{borrow.request.signup.email} from #{borrow.request.pickupdate.strftime("%B %-d")} to #{borrow.request.returndate.strftime("%B %-d")}. We've emailed both of you with details" %></li>
                         <% when 1 %>
