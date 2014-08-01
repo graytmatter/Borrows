@@ -4,5 +4,6 @@ if defined?(Rails::Server)
     Inprogress.recurs { minutely }
     Return.recurs { minutely }
     Noresponse.recurs { minutely }
+    Outstanding.recurs { daily }
   end
 end
