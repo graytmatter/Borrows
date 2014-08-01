@@ -1,4 +1,4 @@
-class Outstanding
+class Inprogress
 	include SuckerPunch::Job
 	include FistOfFury::Recurrent
 

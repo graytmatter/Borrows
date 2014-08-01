@@ -1,4 +1,4 @@
-class Outstanding
+class Noresponse
 	include SuckerPunch::Job
 	include FistOfFury::Recurrent
 
