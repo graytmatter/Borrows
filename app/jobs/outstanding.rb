@@ -1,8 +1,8 @@
 class Outstanding
 	include SuckerPunch::Job
-	include FistOfFury::Recurrent
+	# include FistOfFury::Recurrent
 
-	recurs { daily.hour_of_day(15) }
+	# recurs { daily.hour_of_day(15) }
 
 	def perform
 		ActiveRecord::Base.connection_pool.with_connection do 
