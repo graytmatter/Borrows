@@ -36,16 +36,17 @@ class InventoriesController < ApplicationController
       @inventory_params.each do |itemlist_id, quantity|
         quantity.to_i.times do
 
-          #new code to be tested
-          #add test for not the same zipcode
           @new_inventory = @signup_parent.inventories.create(itemlist_id: itemlist_id, available: true)
-          # if Borrow.where(status1:1, itemlist_id: itemlist_id).select { |b| Geography.find_by_zipcode(b.request.signup.zipcode).county == Geography.find_by_zipcode(@new_inventory.signup.zipcode).county}.count > 0
-          #   Borrow.where(status1:1, itemlist_id:itemlist_id).select { |b| Geography.find_by_zipcode(b.request.signup.zipcode).county == Geography.find_by_zipcode(@new_inventory.signup.zipcode).county}.pluck("request_id").uniq.each do |r|
-          #     Borrow.where(request_id: r, itemlist_id: itemlist_id, status1: 1).pluck("multiple").uniq.each do |m|
-          #       Request.find_by_id(r).borrows.create(itemlist_id: itemlist_id, multiple: m, status1: 1, inventory_id: @new_inventory.id)
-          #     end
-          #   end
-          # end
+          if Borrow.where(status1:1, itemlist_id: itemlist_id).select { |b| Geography.find_by_zipcode(b.request.signup.zipcode).county == Geography.find_by_zipcode(@new_inventory.signup.zipcode).county}.count > 0
+            existing_request = Array.new
+            Borrow.where(status1:1, itemlist_id:itemlist_id).select { |b| Geography.find_by_zipcode(b.request.signup.zipcode).county == Geography.find_by_zipcode(@new_inventory.signup.zipcode).county}.each { |b| existing_request << b.request_id }
+            existing_request.uniq!
+            existing_request.each do |r|
+              Borrow.where(request_id: r, itemlist_id: itemlist_id, status1: 1).pluck("multiple").uniq.each do |m|
+                Request.find_by_id(r).borrows.create(itemlist_id: itemlist_id, multiple: m, status1: 1, inventory_id: @new_inventory.id)
+              end
+            end
+          end
         end
       end
       flash[:success] = "Thank you so much! We'll be in touch when a borrower comes-a-knockin'!"
