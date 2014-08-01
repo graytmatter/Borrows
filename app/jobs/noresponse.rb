@@ -10,7 +10,7 @@ class Noresponse
 			# Auto set status to N/A if borrows are still outstanding on their pickup date
 			Borrow.where(status1: 1).select { |b| b.request.pickupdate.to_date == Date.today}.each do |b|
 				# b.update_attributes(status1 == 20)
-				RequestMailer.not_found(b, b.itemlist_id).deliver
+				RequestMailer.not_found_test(b, b.itemlist_id).deliver
 			end
 
 		end
