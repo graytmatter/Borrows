@@ -1,6 +1,6 @@
 class Inprogress
 	include SuckerPunch::Job
-	include FistOfFury::Recurrent
+	# include FistOfFury::Recurrent
 
 	# recurs { daily.hour_of_day(23) }
 
