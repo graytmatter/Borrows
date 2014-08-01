@@ -740,16 +740,20 @@ describe "how requests should flow" do
 																									manage_test("jdong8@gmail.com", 6, 1)
 																								end
 
-																								describe "X) past requests should not appear whether they still checking or already connected" do
+																								describe "X) past requests should not appear if the status was did not use PB or used but complete, but should appear if it is in progress" do
 
 																									before do
-																										expired_no_accept = Request.new(signup_id: Signup.find_by_email("anavarada@gmail.com").id, pickupdate: Date.today - 10, returndate: Date.today + 2)
-																										expired_no_accept.save(:validate => false)
-																										Borrow.create(itemlist_id: 1, inventory_id:1, multiple:1, status1: 1, request_id: Request.last.id)
+																										past_didnotuse = Request.new(signup_id: Signup.find_by_email("anavarada@gmail.com").id, pickupdate: Date.today - 10, returndate: Date.today + 2)
+																										past_didnotuse.save(:validate => false)
+																										Borrow.create(itemlist_id: 1, inventory_id:1, multiple:1, status1: 8, request_id: Request.last.id)
 
-																										expired_connected = Request.new(signup_id: Signup.find_by_email("dancingknives@yahoo.com").id, pickupdate: Date.today - 10, returndate: Date.today + 2)
-																										expired_connected.save(:validate => false)
-																										Borrow.create(itemlist_id: 1, inventory_id:2, multiple:1, status1: 2, request_id: Request.last.id)
+																										past_inprogress = Request.new(signup_id: Signup.find_by_email("dancingknives@yahoo.com").id, pickupdate: Date.today - 10, returndate: Date.today + 2)
+																										past_inprogress.save(:validate => false)
+																										Borrow.create(itemlist_id: 1, inventory_id:2, multiple:1, status1: 3, request_id: Request.last.id)
+
+																										past_complete = Request.new(signup_id: Signup.find_by_email("dancingknives@yahoo.com").id, pickupdate: Date.today - 20, returndate: Date.today - 18)
+																										past_inprogress.save(:validate => false)
+																										Borrow.create(itemlist_id: 1, inventory_id:2, multiple:1, status1: 4, request_id: Request.last.id)
 																									end
 
 																									it "should affect Requests and Borrows" do
@@ -771,7 +775,7 @@ describe "how requests should flow" do
 																									it "should affect management options for lenders" do 
 																										#(lender_email, manage_count, connected_count)
 																										manage_test("jamesdd9302@yahoo.com", 4, 0)
-																										manage_test("jdong8@gmail.com", 6, 1)
+																										manage_test("jdong8@gmail.com", 6, 2)
 																									end
 
 																									describe "Y) accept when dates don't overlap: invenotry should NOT become not available" do
@@ -982,7 +986,7 @@ describe "how requests should flow" do
 
 	end
 
-	describe "out of area request" do
+	describe "requesting unavailable items" do
 
 		before do
 			@newcategory.itemlists.create(name: "3-Person tent", request_list: true)
@@ -1024,5 +1028,101 @@ describe "how requests should flow" do
 			manage_test("jdong8@gmail.com", 0, 0)
 		end
 
+	end
+
+	describe "later on lender adds an item earlier requested - setting the stage" do
+
+		before do
+			login("jamesdong.photo@gmail.com", "borrow", 2, "April", "1", "April", "5")
+		end
+
+		it "should affect records" do
+			# 1- request_total, 
+			# 2- borrow_total, 
+			# 3- borrow_checking_total, 
+			# 4- borrow_connected_total, 
+			# 5- borrow_lender_declined_total, 
+			# 6- borrow_other_did_not_use_total
+			# 7- borrow_not_available_total
+			record_test(1, 8, 8, 0, 0, 0, 0)
+		end
+
+		it "should affect emails" do
+			#(count, subject: blank)
+			email_test(0)
+		end
+
+		it "should affect management options for lenders" do 
+			#(lender_email, manage_count, connected_count)
+			manage_test("jamesdd9302@yahoo.com", 4, 0)
+			manage_test("jdong8@gmail.com", 4, 0)
+			manage_test("anavarada@gmail.com", 0, 0)
+		end
+
+		describe "- actual test same zipcode" do
+			
+			before do
+				login("anavarada@gmail.com", "lend")
+				fill_in 'inventory_1', :with => 1
+				click_button 'submit_lend'
+			end
+
+			it "should affect records" do
+				# 1- request_total, 
+				# 2- borrow_total, 
+				# 3- borrow_checking_total, 
+				# 4- borrow_connected_total, 
+				# 5- borrow_lender_declined_total, 
+				# 6- borrow_other_did_not_use_total
+				# 7- borrow_not_available_total
+				record_test(1, 12, 12, 0, 0, 0, 0)
+			end
+
+			it "should affect emails" do
+				#(count, subject: blank)
+				email_test(0)
+			end
+
+			it "should affect management options for lenders" do 
+				#(lender_email, manage_count, connected_count)
+				manage_test("jamesdd9302@yahoo.com", 4, 0)
+				manage_test("jdong8@gmail.com", 4, 0)
+				manage_test("anavarada@gmail.com", 4, 0)
+			end
+
+			describe "- actual test diff zipcode" do
+			
+				before do
+					@signup_outofarea = Signup.create(email: "jamesdong.photo@gmail.com", streetone: "Post", streettwo: "Taylor", zipcode: 99999, tos: true)
+					login("jamesdong.photo@gmail.com", "lend")
+					fill_in 'inventory_1', :with => 1
+					click_button 'submit_lend'
+				end
+
+				it "should affect records" do
+					# 1- request_total, 
+					# 2- borrow_total, 
+					# 3- borrow_checking_total, 
+					# 4- borrow_connected_total, 
+					# 5- borrow_lender_declined_total, 
+					# 6- borrow_other_did_not_use_total
+					# 7- borrow_not_available_total
+					record_test(1, 12, 12, 0, 0, 0, 0)
+				end
+
+				it "should affect emails" do
+					#(count, subject: blank)
+					email_test(0)
+				end
+
+				it "should affect management options for lenders" do 
+					#(lender_email, manage_count, connected_count)
+					manage_test("jamesdd9302@yahoo.com", 4, 0)
+					manage_test("jdong8@gmail.com", 4, 0)
+					manage_test("anavarada@gmail.com", 4, 0)
+					manage_test("jamesdong.photo@gmail.com", 0, 0)
+				end
+			end
+		end
 	end
 end
