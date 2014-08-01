@@ -9,9 +9,7 @@ class Inprogress
 
 			# # Auto set status to in progress from connected
 			#Borrow.where(status1: 2).select { |b| b.request.pickupdate == Date.today }.each { |b| b.update_attributes(status1 == 3 ) }
-			Borrow.where(status1: 2).select { |b| b.request.pickupdate.to_date == Date.today }.each do |b|
-				RequestMailer.inprogress_test(b).deliver
-			end 
+			Borrow.where(status1: 2).select { |b| b.request.pickupdate.to_date == Date.today }.each { |b| RequestMailer.inprogress_test(b).deliver }
 		end
 	end
 end
