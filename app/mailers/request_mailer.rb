@@ -17,7 +17,7 @@ class RequestMailer < ActionMailer::Base
     @returndate = not_found_borrow.request.returndate.strftime("%B %-d")
     @item = Itemlist.find_by_id(itemlist_id).name.downcase
     @county = Geography.find_by_zipcode(not_found_borrow.request.signup.zipcode).county
-    mail(to: ENV['owner'], from: ENV['owner'], :subject => "[Project Borrow]: Could not find #{@item}") 
+    mail(to: "jdong8@gmail.com", from: ENV['owner'], :subject => "[Project Borrow]: Could not find #{@item}") 
   end
 
   def repeat_borrow(repeat_borrow, itemlist_id)
@@ -64,12 +64,12 @@ class RequestMailer < ActionMailer::Base
     @borrower_email = borrow_in_question.request.signup.email
     @lender_email = Inventory.find_by_id(borrow_in_question.inventory_id).signup.email
     # mail(to: @borrower_email, cc: @lender_email, from: ENV['owner'], :subject => "[Project Borrow]: Reminder to return #{@item}")
-    mail(to: ENV['owner'], from: ENV['owner'], :subject => "[Project Borrow]: Reminder to return #{@item}")
+    mail(to: "jdong8@gmail.com", from: ENV['owner'], :subject => "[Project Borrow]: Reminder to return #{@item}")
   end
 
   def inprogress_test(b)
     @id = b.id
-    mail(to: ENV['owner'], from: ENV['owner'], :subject => "[Project Borrow]: Set borrow #{@id} to be in progress")
+    mail(to: "jdong8@gmail.com", from: ENV['owner'], :subject => "[Project Borrow]: Set borrow #{@id} to be in progress")
   end 
 end
 
