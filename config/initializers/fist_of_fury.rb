@@ -4,6 +4,6 @@ if defined?(Rails::Server)
     Inprogress.recurs { daily.hour_of_day(23) }
     Return.recurs { daily.hour_of_day(5) }
     Noresponse.recurs { daily.hour_of_day(23) }
-    Outstanding.recurs { daily.hour_of_day(17) }
+    # Outstanding.recurs { daily.hour_of_day(17) }
   end
 end
