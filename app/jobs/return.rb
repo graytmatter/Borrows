@@ -9,8 +9,8 @@ class Return
 
 			# Auto set status to complete and connect borrowers/lenders for return
 			Borrow.where(status1: 3).select { |b| b.request.returndate.to_date == Date.today }.each do |b| 
-				# b.update_attributes(status1 == 4 ) 
 				RequestMailer.return_reminder(b).deliver
+				b.update_attributes(status1: 4 ) 
 			end
 
 		end
