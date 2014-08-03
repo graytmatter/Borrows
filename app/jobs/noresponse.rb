@@ -9,7 +9,7 @@ class Noresponse
 
 			# Auto set status to N/A if borrows are still outstanding on their pickup date
 			Borrow.where(status1: 1).select { |b| b.request.pickupdate.to_date == Date.today}.each do |b|
-				b.decline_process_test(b, 9)
+				decline_process_test(b, 9)
 			end
 
 		end
