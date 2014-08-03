@@ -1,6 +1,7 @@
 class Noresponse
 	include SuckerPunch::Job
 	include FistOfFury::Recurrent
+	include Declining
 
 	# recurs { daily.hour_of_day(23)}
 
