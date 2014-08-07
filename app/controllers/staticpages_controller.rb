@@ -21,8 +21,6 @@ class StaticpagesController < ApplicationController
 
 
 		@total_requests = Request.count
-			@avg_borrow_per_request = Borrow.count / Request.count
-
 				request_with_dates = Request.where("created_at is not null").where("pickupdate is not null").where("returndate is not null") 
 			@same_day_requests = request_with_dates.select { |r| r.created_at.to_date == r.pickupdate.to_date }.count
 			@three_day_advance_requests = request_with_dates.select { |r| 3 >= (r.pickupdate.to_date - r.created_at.to_date).to_i && r.created_at.to_date != r.pickupdate.to_date }.count
@@ -45,6 +43,12 @@ class StaticpagesController < ApplicationController
 					sum_of_request_time += (r.returndate.to_date - r.pickupdate.to_date).to_i
 				end
 			@avg_borrow_length = sum_of_request_time / request_with_dates.count
+
+			@single_borrow_request = Request.select { |r| r.borrows.count == 1 }.count
+			@three_borrow_request = Request.select { |r| (r.borrows.count > 1) && (r.borrows.count <= 3) }.count
+			@six_borrow_request = Request.select { |r| (r.borrows.count > 3) && (r.borrows.count <= 6) }.count
+			@more_ten_borrow_request = Request.select { |r| r.borrows.count >= 10 }.count
+			@avg_borrow_per_request = Borrow.count / Request.count
 
 
 		@total_borrows = Borrow.count
