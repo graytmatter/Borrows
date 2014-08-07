@@ -8,7 +8,7 @@ class Times_to_create
 				
 	          matched_inventory_ids = Array.new
       
-		      Inventory.where.not(signup_id: @requestrecord.signup.id).where(itemlist_id: itemlist_id).each do |i|
+		      Inventory.where.not(signup_id: @requestrecord.signup.id).where(itemlist_id: itemlist_id, available: true).each do |i|
 		        if Geography.find_by_zipcode(i.signup.zipcode).present? && Geography.find_by_zipcode(@requestrecord.signup.zipcode).present?
 		          if Geography.find_by_zipcode(i.signup.zipcode).county == Geography.find_by_zipcode(@requestrecord.signup.zipcode).county
 		            matched_inventory_ids << i.id

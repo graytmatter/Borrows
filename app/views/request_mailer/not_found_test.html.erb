@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html> 
+<head> 
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" /> 
+</head> 
+<body style:"color: black;"> 
+
+<p>Hi there,</p>
+
+<p><%= "We did out best, but we could not find an available <b>#{@item.downcase} from lenders in #{@county} county from #{@pickupdate} to #{@returndate}</b>. I hope you will continue to think of Project Borrow in the future.".html_safe %></p>
+
+<p><%="<b>Please note:</b> if you requested multiple #{@item.downcase.pluralize}, this email is meant to reflect the status of one of these items only. For example, if you wanted 2 tents, only 1 may be unavailable so far, expect to hear back on the other one separately.".html_safe %></p>
+
+<p>If you have a moment, as I try to improve this service, I'd like to know what other options you will or plan to pursue, you can just bold or select a number and reply to this email.</p>
+
+<ol>
+	<% Status.where(statuscategory_id: 4).all.each do |status| %>
+		<li><%= status.name %></li>
+	<% end %>
+</ol>
+
+<p>Best,</p>
+
+<p>James</p>
+
+<p><a href="http://www.projectborrow.com/?utm_source=james%40projectborrow&utm_medium=email&utm_campaign=email%20signature">Click here</a> to borrow something. Please feel free to share with your friends!</p>
+
+</body> 
+</html>

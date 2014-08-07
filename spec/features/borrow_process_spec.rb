@@ -44,7 +44,8 @@ describe "how requests should flow" do
 
 	before do 
 		@newcategory = Categorylist.create(name: "Camping")
-		@newcategory.itemlists.create(name: "2-Person tent", request_list: true)
+		@newcategory.itemlists.create(name: "2-Person tent", request_list: true, inventory_list: true)
+
 		Geography.create(zipcode:94109, city:"San Francisco", county:"San Francisco")
 		Geography.create(zipcode:99999, city:"Fake", county:"Fake")
 
@@ -56,8 +57,8 @@ describe "how requests should flow" do
 		@signup_borrows = Signup.create(email: "borrowsapp@gmail.com", streetone: "Post", streettwo: "Taylor", zipcode: 94109, tos: true)
 		@signup_outofarea = Signup.create(email: "jamesdong.photo@gmail.com", streetone: "Post", streettwo: "Taylor", zipcode: 99999, tos: true)
 
-		@signup_dd.inventories.create(itemlist_id: 1)
-		@signup_jdong.inventories.create(itemlist_id: 1)
+		@signup_dd.inventories.create(itemlist_id: 1, available: true)
+		@signup_jdong.inventories.create(itemlist_id: 1, available: true)
 
 		@todays_date = Date.today
 		@futures_date = Date.today+5
@@ -739,18 +740,22 @@ describe "how requests should flow" do
 																									manage_test("jdong8@gmail.com", 6, 1)
 																								end
 
-																								describe "X) past requests should not appear whether they still checking or already connected" do
+																								describe "X) past requests should not appear if the status was did not use PB or used but complete, but should appear if it is in progress" do
 
 																									before do
-																										expired_no_accept = Request.new(signup_id: Signup.find_by_email("anavarada@gmail.com").id, pickupdate: Date.today - 10, returndate: Date.today + 2)
-																										expired_no_accept.save(:validate => false)
-																										Borrow.create(itemlist_id: 1, inventory_id:1, multiple:1, status1: 1, request_id: Request.last.id)
-
-																										expired_connected = Request.new(signup_id: Signup.find_by_email("dancingknives@yahoo.com").id, pickupdate: Date.today - 10, returndate: Date.today + 2)
-																										expired_connected.save(:validate => false)
-																										Borrow.create(itemlist_id: 1, inventory_id:2, multiple:1, status1: 2, request_id: Request.last.id)
+																										past_didnotuse = Request.new(signup_id: Signup.find_by_email("anavarada@gmail.com").id, pickupdate: Date.today - 10, returndate: Date.today + 2)
+																										past_didnotuse.save(:validate => false)
+																										Borrow.create(itemlist_id: 1, inventory_id:1, multiple:1, status1: 8, request_id: Request.last.id)
+																								
+																										past_inprogress = Request.new(signup_id: Signup.find_by_email("ngomenclature@gmail.com").id, pickupdate: Date.today - 10, returndate: Date.today + 2)
+																										past_inprogress.save(:validate => false)
+																										Borrow.create(itemlist_id: 1, inventory_id:2, multiple:1, status1: 3, request_id: Request.last.id)
+																								
+																										past_complete = Request.new(signup_id: Signup.find_by_email("dancingknives@yahoo.com").id, pickupdate: Date.today - 20, returndate: Date.today - 18)
+																										past_complete.save(:validate => false)
+																										Borrow.create(itemlist_id: 1, inventory_id:2, multiple:1, status1: 4, request_id: Request.last.id)
 																									end
-
+																								
 																									it "should affect Requests and Borrows" do
 																										# 1- request_total, 
 																										# 2- borrow_total, 
@@ -759,7 +764,9 @@ describe "how requests should flow" do
 																										# 5- borrow_lender_declined_total, 
 																										# 6- borrow_other_did_not_use_total
 																										# 7- borrow_not_available_total
-																										record_test(12, 20, 11, 2, 3, 1, 3)
+																										record_test(13, 21, 10, 1, 3, 2, 3)
+																										Borrow.where(status1: 3).count.should == 1
+																										Borrow.where(status1: 4).count.should == 1
 																									end
 
 																									it "should affect emails" do
@@ -771,6 +778,9 @@ describe "how requests should flow" do
 																										#(lender_email, manage_count, connected_count)
 																										manage_test("jamesdd9302@yahoo.com", 4, 0)
 																										manage_test("jdong8@gmail.com", 6, 1)
+
+																										login("jdong8@gmail.com", "lend")
+																										page.assert_selector("#in_progress", :count => 1)
 																									end
 
 																									describe "Y) accept when dates don't overlap: invenotry should NOT become not available" do
@@ -788,8 +798,8 @@ describe "how requests should flow" do
 																											# 5- borrow_lender_declined_total, 
 																											# 6- borrow_other_did_not_use_total
 																											# 7- borrow_not_available_total
-																											record_test(12, 20, 10, 3, 3, 1, 3)
-																											#from now on connected/ checking will always be one up than sum of options because of past time records that won't show on page
+																											record_test(13, 21, 9, 2, 3, 2, 3)
+																											#and checking total = 2 + sum of others, due to past complete not on here 
 																										end
 
 																										it "should affect emails" do
@@ -818,8 +828,8 @@ describe "how requests should flow" do
 																												# 5- borrow_lender_declined_total, 
 																												# 6- borrow_other_did_not_use_total
 																												# 7- borrow_not_available_total
-																												record_test(12, 18, 7, 4, 3, 1, 3)
-																												#from now on connected/ checking will always be one up than sum of options because of past time records that won't show on page
+																												record_test(13, 19, 6, 3, 3, 2, 3)
+																												#and checking total = 2 + sum of others, due to past complete not on here
 																											end
 
 																											it "should affect emails" do
@@ -838,7 +848,7 @@ describe "how requests should flow" do
 																												before do
 																													login("anavarada@gmail.com", "borrow", 2, "February", "12", "February", "17")
 																													login("jdong8@gmail.com", "lend")
-																													click_link "accept 28"
+																													click_link "accept #{Borrow.last.id}"
 																												end
 
 																												it "should affect Requests and Borrows" do
@@ -849,22 +859,23 @@ describe "how requests should flow" do
 																													# 5- borrow_lender_declined_total, 
 																													# 6- borrow_other_did_not_use_total
 																													# 7- borrow_not_available_total
-																													record_test(13, 21, 8, 5, 3, 1, 4)
-																													#from now on connected/ checking will always be one up than sum of options because of past time records that won't show on page
+																													record_test(14, 21, 6, 4, 3, 2, 4)
+																													#and checking total = 2 + sum of others, due to past complete not on here
 																												end
 
 																												it "should affect emails" do
 																													#(total_count, subject: blank)
-																													email_test(14, "connected")
+																													email_test(15, "connected")
+																													#not available ALSO sent
 																												end
 
 																												it "should affect management options for lenders" do 
 																													#(lender_email, manage_count, connected_count)
 																													manage_test("jamesdd9302@yahoo.com", 3, 1)
-																													manage_test("jdong8@gmail.com", 4, 3)
+																													manage_test("jdong8@gmail.com", 3, 3)
 																												end
 
-																												describe "AB) test that when borrower requests sth, as long as one item has not been accepted where borrowers are differnet, the sth is still created, IN WHICH one of the invenotry items are in use" do
+																												describe "AB) test that when borrower requests sth, as long as one item has not been accepted where borrowers are differnet, the sth is still created, but doens't show for jdong who can't provide availability" do
 
 																													before do
 																														login("borrowsapp@gmail.com", "borrow", 2, "February", "14", "February", "18")
@@ -878,25 +889,25 @@ describe "how requests should flow" do
 																														# 5- borrow_lender_declined_total, 
 																														# 6- borrow_other_did_not_use_total
 																														# 7- borrow_not_available_total
-																														record_test(14, 23, 10, 5, 3, 1, 4)
-																														#from now on connected/ checking will always be one up than sum of options because of past time records that won't show on page
+																														record_test(15, 23, 8, 4, 3, 2, 4)
+																														#and checking total = 2 + sum of others, due to past complete not on here
 																													end
 
 																													it "should affect emails" do
 																														#(total_count, subject: blank)
-																														email_test(14)
+																														email_test(15)
 																													end
 
 																													it "should affect management options for lenders" do 
 																														#(lender_email, manage_count, connected_count)
 																														manage_test("jamesdd9302@yahoo.com", 5, 1)
-																														manage_test("jdong8@gmail.com", 4, 3)
+																													 manage_test("jdong8@gmail.com", 3, 3)
 																													end
 
-																													describe "AC) flip of AB, now test that the inventory in question is not being used" do
+																													describe "AC) flip of AB, now test that the inventory in question is not being used, so should just add borrows as usual" do
 
 																														before do
-																															login("anavarada@gmail.com", "borrow", 2, Date::MONTHNAMES[@todays_date.month], (@todays_date +1).day, Date::MONTHNAMES[@todays_date.month], (@todays_date +3).day)
+																															login("anavarada@gmail.com", "borrow", 2, Date::MONTHNAMES[(@todays_date+31).month], (@todays_date +31).day, Date::MONTHNAMES[(@todays_date +33).month], (@todays_date +33).day)
 																														end
 
 																														it "should affect Requests and Borrows" do
@@ -907,19 +918,19 @@ describe "how requests should flow" do
 																															# 5- borrow_lender_declined_total, 
 																															# 6- borrow_other_did_not_use_total
 																															# 7- borrow_not_available_total
-																															record_test(15, 27, 14, 5, 3, 1, 4)
-																															#from now on connected/ checking will always be one up than sum of options because of past time records that won't show on page
+																															record_test(16, 27, 12, 4, 3, 2, 4)
+																															#and checking total = 2 + sum of others, due to past complete not on here
 																														end
 
 																														it "should affect emails" do
 																															#(total_count, subject: blank)
-																															email_test(14)
+																															email_test(15)
 																														end
 
 																														it "should affect management options for lenders" do 
 																															#(lender_email, manage_count, connected_count)
 																															manage_test("jamesdd9302@yahoo.com", 7, 1)
-																															manage_test("jdong8@gmail.com", 6, 3)
+																													  manage_test("jdong8@gmail.com", 5, 3)
 																														end
 																													end
 																												end
@@ -979,5 +990,144 @@ describe "how requests should flow" do
 			manage_test("jdong8@gmail.com", 0, 0)
 		end
 
+	end
+
+	describe "requesting unavailable items" do
+
+		before do
+			@newcategory.itemlists.create(name: "3-Person tent", request_list: true)
+			@newcategory.itemlists.create(name: "4-Person tent", request_list: true)
+
+			@signup_jdong.inventories.create(itemlist_id: 2, available: nil)
+			@signup_jdong.inventories.create(itemlist_id: 3, available: false)
+			login("jamesdong.photo@gmail.com", "borrow")
+			fill_in 'borrow__2', :with => 1
+			fill_in 'borrow__3', :with => 1
+			select @todays_date.year, :from => 'request_pickupdate_1i'
+			select Date::MONTHNAMES[@todays_date.month], :from => 'request_pickupdate_2i'
+			select @todays_date.day, :from => 'request_pickupdate_3i'
+			select @futures_date.year, :from => 'request_returndate_1i'
+			select Date::MONTHNAMES[@futures_date.month], :from => 'request_returndate_2i'
+			select @futures_date.day, :from => 'request_returndate_3i'
+			click_button 'submit_request'
+		end
+
+		it "should affect records" do
+			# 1- request_total, 
+			# 2- borrow_total, 
+			# 3- borrow_checking_total, 
+			# 4- borrow_connected_total, 
+			# 5- borrow_lender_declined_total, 
+			# 6- borrow_other_did_not_use_total
+			# 7- borrow_not_available_total
+			record_test(1, 2, 0, 0, 0, 0, 2)
+		end
+
+		it "should affect emails" do
+			#(count, subject: blank)
+			email_test(2, "not found")
+		end
+
+		it "should affect management options for lenders" do 
+			#(lender_email, manage_count, connected_count)
+			manage_test("jamesdd9302@yahoo.com", 0, 0)
+			manage_test("jdong8@gmail.com", 0, 0)
+		end
+
+	end
+
+	describe "later on lender adds an item earlier requested - setting the stage" do
+
+		before do
+			login("ngomenclature@gmail.com", "borrow", 2, "April", "1", "April", "5")
+		end
+
+		it "should affect records" do
+			# 1- request_total, 
+			# 2- borrow_total, 
+			# 3- borrow_checking_total, 
+			# 4- borrow_connected_total, 
+			# 5- borrow_lender_declined_total, 
+			# 6- borrow_other_did_not_use_total
+			# 7- borrow_not_available_total
+			record_test(1, 4, 4, 0, 0, 0, 0)
+		end
+
+		it "should affect emails" do
+			#(count, subject: blank)
+			email_test(0)
+		end
+
+		it "should affect management options for lenders" do 
+			#(lender_email, manage_count, connected_count)
+			manage_test("jamesdd9302@yahoo.com", 2, 0)
+			manage_test("jdong8@gmail.com", 2, 0)
+			manage_test("anavarada@gmail.com", 0, 0)
+		end
+
+		describe "- actual test same zipcode" do
+			
+			before do
+				login("anavarada@gmail.com", "lend")
+				fill_in 'inventory_1', :with => 1
+				click_button 'submit_lend'
+			end
+
+			it "should affect records" do
+				# 1- request_total, 
+				# 2- borrow_total, 
+				# 3- borrow_checking_total, 
+				# 4- borrow_connected_total, 
+				# 5- borrow_lender_declined_total, 
+				# 6- borrow_other_did_not_use_total
+				# 7- borrow_not_available_total
+				record_test(1, 6, 6, 0, 0, 0, 0)
+			end
+
+			it "should affect emails" do
+				#(count, subject: blank)
+				email_test(0)
+			end
+
+			it "should affect management options for lenders" do 
+				#(lender_email, manage_count, connected_count)
+				manage_test("jamesdd9302@yahoo.com", 2, 0)
+				manage_test("jdong8@gmail.com", 2, 0)
+				manage_test("anavarada@gmail.com", 2, 0)
+			end
+
+			describe "- actual test diff zipcode" do
+			
+				before do
+					login("jamesdong.photo@gmail.com", "lend")
+					fill_in 'inventory_1', :with => 1
+					click_button 'submit_lend'
+				end
+
+				it "should affect records" do
+					# 1- request_total, 
+					# 2- borrow_total, 
+					# 3- borrow_checking_total, 
+					# 4- borrow_connected_total, 
+					# 5- borrow_lender_declined_total, 
+					# 6- borrow_other_did_not_use_total
+					# 7- borrow_not_available_total
+					record_test(1, 6, 6, 0, 0, 0, 0)
+				end
+
+				it "should affect emails" do
+					#(count, subject: blank)
+					email_test(0)
+				end
+
+				it "should affect management options for lenders" do 
+					#(lender_email, manage_count, connected_count)
+					manage_test("jamesdd9302@yahoo.com", 2, 0)
+					manage_test("jdong8@gmail.com", 2, 0)
+					manage_test("anavarada@gmail.com", 2, 0)
+					manage_test("jamesdong.photo@gmail.com", 0, 0)
+				end
+			end
+		end
 	end
 end

@@ -21,6 +21,7 @@ GoogleTest::Application.routes.draw do
   get 'inventories/manage', to: 'inventories#manage', as: 'manage_inventory'
   patch 'inventories/:id/accept', to: 'inventories#accept', as: 'lender_accept'
   patch 'inventories/:id/decline', to: 'inventories#decline', as: 'lender_decline'
+  patch 'inventories/:id/toggle_availability', to: 'inventories#toggle', as: 'toggle_available'
 
   resources :borrows, only: [:edit, :update]
 
@@ -47,6 +48,7 @@ GoogleTest::Application.routes.draw do
 
   get 'termsofservice', to: 'staticpages#terms', as: 'terms'
   get 'privacypolicy', to: 'staticpages#policy', as: 'policy'
+  get 'admin/metrics', to: 'staticpages#metrics', as: 'metrics'
 
     # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

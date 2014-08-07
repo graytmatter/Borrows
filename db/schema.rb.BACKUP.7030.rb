@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20140806215843) do
 
   create_table "agreements", force: true do |t|
@@ -19,6 +19,10 @@ ActiveRecord::Schema.define(version: 20140806215843) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.date     "date"
+  end
+=======
+ActiveRecord::Schema.define(version: 20140730205513) do
+>>>>>>> 42d5ca8a45f42b513bca333d1720170858b6d3f7
 
   create_table "borrows", force: true do |t|
     t.integer  "request_id"

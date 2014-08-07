@@ -7,22 +7,26 @@
 <div class="col-xs-12" style="padding-bottom:1%;">
   <h4>
     <% if Rails.env != "test" %>
-      <% if request.referer.include? 'manage' %>
         <%="Lend away, #{@signup_parent.email}!"%>
-      <% else %>
-        <%="Step 2 of 2: Lend away, #{@signup_parent.email}!"%>
-      <% end %>
     <% end %>
   </h4>
 
   <h5 style="font-size:90%; font-style:italic">
     Click to 
-    <%= link_to 'lend more stuff', new_inventory_path, { style: 'color:#428bca; display: inline-block', class: "btn-inline"}%>
+    <%= link_to "lend more stuff", new_inventory_path, { style: 'color:#428bca; display: inline-block', class: "btn-inline"}%>
     or to
     <%= link_to 'borrow something', new_request_path, { style: 'color:#428bca'}%>
   </h5>
 
-  <p>In the table below, you'll be able to add a description to the items you've listed (could also help you keep track of who has what), and accept or decline requests from borrowers (just click the word!). If you accept, we'll connect you with the borrower via email to make further arrangements. <i>Note: any duplication in requests is purposeful (e.g., a borrower might request multiple items).</i></p>
+  <p>In the table below, you'll be able to manage your items:</p>
+
+  <ul>
+    <li><b>Column 1:</b> cool thanks for sharing this!
+    <li><b>Column 2:</b> add or change links or descriptions to help you keep track of who has what</li>
+    <li><b>Column 3:</b> click ACCEPT or DECLINE to manage requests; if you accept, we'll connect you via email with the borrower. If you have more than one outstanding request for one item, choose whomever!
+    <li><b>Column 4:</b> click REMOVE to delete an item; click UNAVAILABLE to mark it temporarily unavailable (e.g., if you're going away). When you return, please click AVAILABLE so our borrowers can see it again! Note, you can only do this after clearing your outstanding requests</li>
+  </ul>
+
 </div>
 <%= render "layouts/flash" %>
 
@@ -33,14 +37,20 @@
         <th class="col-xs-2">Item</th>
         <th class="col-xs-4">Description</th>
         <th class="col-xs-6">Requests</th>
-        <!-- <th class="col-xs-1">Actions</th> -->
+        <th class="col-xs-1">Actions</th>
       </tr>
     </thead>
 
     <tbody>
       <% @inventories.each do |inventory| %>
         <tr>
-          <td><%= Itemlist.find_by_id(inventory.itemlist_id).present? ? Itemlist.find_by_id(inventory.itemlist_id).name : "Error" %></td>
+          <td>
+            <% if inventory.available == false %>
+              <%= "<span id='name_#{inventory.id}'>#{Itemlist.find_by_id(inventory.itemlist_id).name}</span> <br> <span style='color:red;', id='not_available_#{inventory.id}'>Unavailable</span>".html_safe %>
+            <% else %>
+              <%= "<span id='name_#{inventory.id}'>#{Itemlist.find_by_id(inventory.itemlist_id).name}</span>".html_safe %>
+            <% end %>
+          </td>
           <td>
             <% if inventory.description.blank? %>
               <%= form_for inventory, url: edit_inventory_path(inventory), method: :patch, :html => {:class => "form-inline", :autocomplete => "off"} do |f| %> 
@@ -48,29 +58,29 @@
                   <%= f.text_field :description, class: "form-control", id: "inventory_description_#{inventory.id}", placeholder: "Add a link or description" %>
                 </div>
                 <div class="form-group col-xs-2" style="padding:1px;">
-                  <%= f.submit "Add", class: "btn btn-default btn-default btn-block", id: "add description #{inventory.id}"%>
+                  <%= f.submit "Add", class: "btn btn-default btn-default btn-block", id: "add_description_#{inventory.id}"%>
                 </div>
               <% end %>
             <% else %>
-              <%= inventory.description %>
+              <%= "<span id='description_#{inventory.id}'>#{inventory.description}. #{link_to 'CHANGE', destroy_description_path(inventory), method: :patch, id: "update_description_#{inventory.id}"}</span>".html_safe %>
+
             <% end %>
           </td>
           <td>
          
               <ul>
                 <% if Borrow.find_by_inventory_id(inventory.id).present? %>
-                  <% Borrow.where(inventory_id: inventory.id).each do |borrow| %>
+                  <% Borrow.where(inventory_id: inventory.id, status1: [1,2,3]).each do |borrow| %>
                     <% if borrow.request.pickupdate.present? && borrow.request.returndate.present? %> 
-                      <% if Date.today > borrow.request.pickupdate %>
-                      <% else %>
                         <% case borrow.status1 %>
+                        <% when 3 %>
+                          <li id="in_progress" style="font-size:90%"><%= "You've accepted a request from #{borrow.request.signup.email} from #{borrow.request.pickupdate.strftime("%B %-d")} to #{borrow.request.returndate.strftime("%B %-d")}. We've emailed both of you with details" %></li>
                         <% when 2 %>
                           <li id="connected" style="font-size:90%"><%= "You've accepted a request from #{borrow.request.signup.email} from #{borrow.request.pickupdate.strftime("%B %-d")} to #{borrow.request.returndate.strftime("%B %-d")}. We've emailed both of you with details" %></li>
                         <% when 1 %>
                           <li id="manage" style="font-size:90%"><%= "#{link_to 'ACCEPT', lender_accept_path(borrow), method: :patch, id: "accept #{borrow.id}", style: "color:green;"} or #{link_to 'DECLINE', lender_decline_path(borrow), method: :patch, id: "decline #{borrow.id}", style: "color:gray"} &mdash; Requested by #{borrow.request.signup.email} in #{Geography.find_by_zipcode(borrow.request.signup.zipcode).city} from #{borrow.request.pickupdate.strftime("%B %-d")} to #{borrow.request.returndate.strftime("%B %-d")}. #{borrow.request.detail}".html_safe %></li>
                         <% else %>
                         <% end %>
-                      <% end %>
                     <% end %>
                   <% end %>
                 <% end %>
@@ -78,12 +88,19 @@
    
 
           </td>
-          <!-- <td>
-            <!-- Another theoretically good thing would be to mark as in use for a specific period of time, where user enters the period of time, and then this simulates sending a request that's automatically accepted for that period of time, or i can add more attributes to the inventory item itself, but that might be hard because it might be unavailable for multiple periods of time -->
-            <%#= button_to 'Update description', destroy_description_path(inventory), method: :patch, class: "btn btn-default btn-default btn-block" if inventory.description.present? %>
-            <%#= button_to 'Decline all', '#', class: "btn btn-default btn-default btn-block" if inventory.borrows.count > 0 %>
-            <%#= button_to 'Remove item', inventory, method: :delete, class: "btn btn-default btn-default btn-block", data: { confirm: 'Once removed, borrowers will no longer be able to see you have this item. To remove an item temporarily (i.e., for a personal trip), please notify us via email' } %> <!--also important is i'd have to say what happens to any open requests or accepted requests on an item that becomes removed -->
-          <!-- </td> -->
+          <td>
+            <ul>
+            <!-- next step, define time period of unavailability, but then what happens if a user has multiple time periods to define at once? best way to achieve latter woudl probably be to submit a self-use request -->
+                <% if Borrow.where(inventory_id: inventory.id).select { |b| (b.request.pickupdate.present?) && (b.request.returndate.present?) && ((b.request.pickupdate > Date.today) || (b.request.returndate > Date.today)) }.count == 0 %>
+                  <li>
+                    <%= link_to "#{inventory.available == true ? 'UNAVAILABLE' : 'AVAILABLE'}", toggle_available_path(inventory), method: :patch, id: "toggle_#{inventory.id}" %>
+                  </li>
+                  <li>
+                    <%= link_to 'REMOVE', inventory, method: :delete, id: "remove_#{inventory.id}", data: { confirm: "Are you sure this item is no longer up for sharing?" } %>
+                  </li>
+                <% end %>
+            </ul>
+          </td>
         </tr>
       <% end %>
     </tbody>

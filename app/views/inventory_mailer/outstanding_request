@@ -7,19 +7,21 @@
 
 <p>Hi there!</p>
 
+<%= @lender_email %>
+
 <p>Your neighbors have requested to borrow the following items from you:</p>
 	
 	<ul>
 	<% @items_outstanding.each do |i| %>
 		<li><%= i %></li>
+	<% end %>
 	</ul>
 
 <p>To accept or decline, take 1 minute to:</p>
 
 	<ol>
-		<li><%= "#{link_to 'Go to www.ProjectBorrow.com', 'www.projectborrow.com'} and enter this email on the home page".html_safe %></li>
-		<li>On the next page, click the <span style="color:#f0ad4e;">orange button</span> to lend</li>
-		<li>On the last page, for each outstanding request in the third column, simply click the <span style="color:green;">green 'ACCEPT'</span> or <span style="color:gray;">gray 'DECLINE'</span> words to do just that!</li>
+		<li><%= "#{link_to 'Click here', 'www.projectborrow.com/inventories/manage'}, you may have to enter your email first and click the <span style='color:#f0ad4e;'>orange button</span> to go to your personal lending page".html_safe %></li>
+		<li>On your personal lending page, all your outstanding requests are in the third column. Simply click the <span style="color:green;">green 'ACCEPT'</span> or <span style="color:gray;">gray 'DECLINE'</span> words to do just that!</li>
 	</ol>
 
 <p>Thank you for making someone's day!</p>

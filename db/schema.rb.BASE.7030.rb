@@ -11,14 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-ActiveRecord::Schema.define(version: 20140806215843) do
-
-  create_table "agreements", force: true do |t|
-    t.integer  "signup_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.date     "date"
+ActiveRecord::Schema.define(version: 20140726181911) do
 
   create_table "borrows", force: true do |t|
     t.integer  "request_id"
@@ -59,7 +52,6 @@ ActiveRecord::Schema.define(version: 20140806215843) do
     t.datetime "updated_at"
     t.text     "description", limit: 255
     t.integer  "itemlist_id"
-    t.boolean  "available"
   end
 
   add_index "inventories", ["signup_id"], name: "index_inventories_on_signup_id"
@@ -119,11 +111,5 @@ ActiveRecord::Schema.define(version: 20140806215843) do
   end
 
   add_index "statuses", ["name"], name: "index_statuses_on_name", unique: true
-
-  create_table "tos", force: true do |t|
-    t.date     "date"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
 end

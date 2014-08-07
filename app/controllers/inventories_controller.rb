@@ -1,6 +1,6 @@
 class InventoriesController < ApplicationController
 
-  before_filter :authenticate, except: [:new, :create, :destroy, :update, :manage, :accept, :decline, :create_borrow]
+  before_filter :authenticate, except: [:new, :create, :destroy, :toggle, :destroy_description, :update, :manage, :accept, :decline, :create_borrow]
 
   def new
     @pagetitle = "What would you like to lend?"
@@ -35,7 +35,18 @@ class InventoriesController < ApplicationController
     else
       @inventory_params.each do |itemlist_id, quantity|
         quantity.to_i.times do
-          @signup_parent.inventories.create(itemlist_id: itemlist_id)
+
+          @new_inventory = @signup_parent.inventories.create(itemlist_id: itemlist_id, available: true)
+          if Borrow.where(status1:1, itemlist_id: itemlist_id).select { |b| Geography.find_by_zipcode(b.request.signup.zipcode).county == Geography.find_by_zipcode(@new_inventory.signup.zipcode).county}.count > 0
+            existing_request = Array.new
+            Borrow.where(status1:1, itemlist_id:itemlist_id).select { |b| Geography.find_by_zipcode(b.request.signup.zipcode).county == Geography.find_by_zipcode(@new_inventory.signup.zipcode).county}.each { |b| existing_request << b.request_id }
+            existing_request.uniq!
+            existing_request.each do |r|
+              Borrow.where(request_id: r, itemlist_id: itemlist_id, status1: 1).pluck("multiple").uniq.each do |m|
+                Request.find_by_id(r).borrows.create(itemlist_id: itemlist_id, multiple: m, status1: 1, inventory_id: @new_inventory.id)
+              end
+            end
+          end
         end
       end
       flash[:success] = "Thank you so much! We'll be in touch when a borrower comes-a-knockin'!"
@@ -63,7 +74,7 @@ class InventoriesController < ApplicationController
   end
 
   def index
-    @q = Inventory.ransack(params[:q])
+    @q = Inventory.where("available is not null").all.ransack(params[:q])
     @inventories = @q.result.includes(:signup)
   end
 
@@ -77,16 +88,29 @@ class InventoriesController < ApplicationController
     end
   end
 
-  def destroy
-    @destroyed = Inventory.find(params[:id])
-    Inventory.find(params[:id]).destroy
-    # if request.referer.include? 'admin'
+  def toggle
+    toggled = Inventory.find(params[:id])
+    if toggled.available == true
+      toggled.update_attributes(available: false)
+      # Borrow.where(inventory_id: toggled.id).select { |b| b.status1 == 1 && b.request.pickupdate > Date.today }
+    elsif toggled.available == false
+      toggled.update_attributes(available: true)
+    end
+    if request.referer.include? 'admin'
       redirect_to :action => 'index'
-    # else
-    #   @signup_parent = Signup.find_by_email(session[:signup_email].downcase)
-    #   InventoryMailer.delete_email(@signup_parent, @destroyed).deliver
-    #   redirect_to :action => 'manage'
-    # end
+    else
+      redirect_to :action => 'manage'
+    end
+  end
+
+  def destroy
+    removed = Inventory.find(params[:id])
+    removed.update_attributes(available: nil)
+    if request.referer.include? 'admin'
+      redirect_to :action => 'index'
+    else
+      redirect_to :action => 'manage'
+    end
   end
 
   def manage
@@ -101,7 +125,7 @@ class InventoriesController < ApplicationController
         flash[:danger] = "Almost there! We just need a little more info"
         redirect_to edit_signup_path
       else
-        @q = @signup_parent.inventories.ransack(params[:q])
+        @q = @signup_parent.inventories.where("available is not null").ransack(params[:q])
         @inventories = @q.result.includes(:signup)
       end
     end
@@ -156,7 +180,11 @@ class InventoriesController < ApplicationController
     Borrow.where({ itemlist_id: itemlist_id, request_id: request_id, multiple: multiple}).where.not(inventory_id: inventory_id).destroy_all
 
     #some things no longer available
-    no_longer_available = Borrow.where({ itemlist_id: itemlist_id, inventory_id: inventory_id}).where.not(request_id: request_id).select { |b| b.request.do_dates_overlap(Request.find(request_id)) == "yes"}.each do |no_longer_available|
+    no_longer_available1 = Borrow.where({ itemlist_id: itemlist_id, inventory_id: inventory_id}).where.not(request_id: request_id).select { |b| b.request.do_dates_overlap(Request.find(request_id)) == "yes"}.each do |no_longer_available|
+      decline_process(no_longer_available, 20)
+    end
+
+    no_longer_available2 = Borrow.where({ itemlist_id: itemlist_id, inventory_id: inventory_id, request_id: request_id}).where.not(multiple: multiple).select { |b| b.request.do_dates_overlap(Request.find(request_id)) == "yes"}.each do |no_longer_available|
       decline_process(no_longer_available, 20)
     end
 

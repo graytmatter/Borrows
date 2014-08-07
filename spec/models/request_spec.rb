@@ -44,7 +44,7 @@ describe Request do
 
       describe "before today" do
         before do 
-          @request.pickupdate = DateTime.now - 1
+          @request.pickupdate = DateTime.now - 2
           @request.returndate = DateTime.now
         end
 

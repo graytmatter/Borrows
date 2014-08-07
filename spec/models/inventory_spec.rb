@@ -11,6 +11,7 @@ describe Inventory do
   	it { should respond_to(:signup_id) }
   	it { should respond_to(:itemlist_id) }
   	it { should respond_to(:description) }
+    it { should respond_to(:available) }
 
   	it { should be_valid }
 
