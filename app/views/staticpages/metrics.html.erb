@@ -1,0 +1,80 @@
+<b>Totals:</b>
+
+<ul>
+	<li><%= "#{@total_signups} signups" %></li>
+	<li><%= "#{@total_requests} requests" %></li>
+	<li><%= "#{@total_borrows} borrows" %></li>
+	<li><%= "#{@total_inventories} inventories" %></li>
+</ul>
+
+<b><%= "Of the #{@total_signups} signups..." %></b>
+
+<ul>
+	<li><%= "#{@signups_who_have_request}, #{(@signups_who_have_request.to_f / @total_signups.to_f * 100).to_i }% have requests"%></li>
+	<ul>
+		<li><%= "#{@signups_who_have_1_request}, #{(@signups_who_have_1_request.to_f / @signups_who_have_request.to_f * 100.0).to_i }% have exactly 1 request: " %></li>
+		<li><%= "#{@signups_who_have_mult_requests}, #{(@signups_who_have_mult_requests.to_f / @signups_who_have_request.to_f * 100.0).to_i}% have >1 requests: "%></li>
+	</ul>
+	<br>
+	<li><%= "#{@signups_who_have_inventories}, #{(@signups_who_have_inventories.to_f / @total_signups.to_f * 100 ).to_i}% have inventories: "%></li>
+	<ul>
+		<li><%= "#{@signups_who_have_accepted_requests}, #{(@signups_who_have_accepted_requests.to_f / @signups_who_have_inventories.to_f * 100.0 ).to_i}% have accepted requests with their inventories" %></li>
+	</ul>
+</ul>
+
+<b><%= "Of the #{@total_requests} requests..." %></b>
+
+<ul>
+	<li>In terms of when a request was made...</li>
+	<ul>
+		<li><%= "#{@same_day_requests}, #{(@same_day_requests.to_f / @total_requests.to_f * 100).to_i }% were same day: "%></li>
+		<li><%= "#{@three_day_advance_requests}, #{(@three_day_advance_requests.to_f / @total_requests.to_f * 100).to_i }% had 3 days notice: "%></li>
+		<li><%= "#{@one_week_advance_requests}, #{(@one_week_advance_requests.to_f / @total_requests.to_f * 100).to_i }% had 1 week notice: "%></li>
+		<li><%= "#{@beyond_1_week_advance_requests}, #{(@beyond_1_week_advance_requests.to_f / @total_requests.to_f * 100).to_i }% had > 1 week's notice"%></li>
+		<li><%= "Average: #{@avg_advance_notice} days"%></li>
+	</ul>
+	<br>
+	<li>In terms of how long a request is...</li>
+	<ul>
+		<li><%= "#{@day_long_requests}, #{(@day_long_requests.to_f / @total_requests.to_f * 100).to_i }% one day long"%></li>
+		<li><%= "#{@three_day_long_requests}, #{(@three_day_long_requests.to_f / @total_requests.to_f * 100).to_i }% 3 days long"%></li>
+		<li><%= "#{@one_week_long_requests}, #{(@one_week_long_requests.to_f / @total_requests.to_f * 100).to_i }% 1 week long"%></li>
+		<li><%= "#{@beyond_1_week_long_requests}, #{(@beyond_1_week_long_requests.to_f / @total_requests.to_f * 100).to_i }% longer than 1 week"%></li>
+		<li><%= "Average: #{@avg_borrow_length} days"%></li>
+	</ul>
+	<br>
+	<li>Average number of borrows: <%= @avg_borrow_per_request %></li>
+</ul>
+
+<b><%= "Of the #{@total_borrows} borrows..." %></b>
+<ul>
+	<li><%= "#{@borrows_did_use_PB}, #{(@borrows_did_use_PB.to_f / @total_borrows.to_f * 100).to_i}% did use PB" %></li>
+	<li><%= "#{@borrows_did_not_use_PB}, #{(@borrows_did_not_use_PB.to_f / @total_borrows.to_f * 100).to_i}% did not use PB" %></li>
+	<ul>
+		<li><%= "#{@borrows_true_cancel}, #{(@borrows_true_cancel.to_f / @borrows_did_not_use_PB.to_f * 100).to_i}% were true cancels: " %></li>
+		<li><%= "#{@borrows_false_cancel}, #{(@borrows_false_cancel.to_f / @borrows_did_not_use_PB.to_f * 100).to_i}% were false cancels: " %></li>
+		<br>
+		<% @borrows_statuses.sort_by { |k, v| v }.reverse.each do |k, v| %>
+			<li><%= "#{k}: #{v}, #{(v.to_f / @borrows_did_not_use_PB.to_f * 100).to_i}%" %></li>
+		<% end %>
+	</ul>
+	<br>
+	<li>Most popular items by borrows count:</li>
+	<ul>
+		<% @items_count_b.sort_by { |k, v| v }.reverse.each do |k, v| %>
+			<li><%= "#{v}, #{(v.to_f / @total_borrows.to_f * 100).to_i}%, for #{k}" %></li>
+		<% end %>
+	</ul>
+</ul>
+
+<b><%= "Of the #{@total_inventories} inventories..." %></b>
+
+<ul>
+	<li>Most popular items by inventories count:</li>
+	<ul>
+		<% @items_count_l.sort_by { |k, v| v }.reverse.each do |k, v| %>
+			<li><%= "#{v}, #{(v.to_f / @total_borrows.to_f * 100).to_i}%, for #{k}" %></li>
+		<% end %>
+	</ul>
+
+</ul>
