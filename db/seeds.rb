@@ -71,9 +71,9 @@ status_codes = {
 }
 
 status_codes.each do |c, s|
-  Statuscategory.create(name: c)
+  Statuscategory.find_or_create_by(name: c)
   s.each do |s|
-    Statuscategory.find_by_name(c).statuses.create(name: s)
+    Statuscategory.find_by_name(c).statuses.find_or_create_by(name: s)
   end
 end
 
@@ -201,18 +201,18 @@ end
 }
 
 itemlist.each do |c, i|
-	Categorylist.create(name: c)
+	Categorylist.find_or_create_by(name: c)
   if c.include? "gear" #because the last 3 categories that are inventory_list only just happen to have gear, can be more specific here
     i.each do |i|
-      Categorylist.find_by_name(c).itemlists.create(name: i, request_list: false, inventory_list: true)
+      Categorylist.find_by_name(c).itemlists.find_or_create_by(name: i, request_list: false, inventory_list: true)
     end
   else
     i.first(8).each do |i|
-      Categorylist.find_by_name(c).itemlists.create(name: i, request_list: true, inventory_list: true)
+      Categorylist.find_by_name(c).itemlists.find_or_create_by(name: i, request_list: true, inventory_list: true)
     end
     temp = i - i.first(8)
     temp.each do |i|
-      Categorylist.find_by_name(c).itemlists.create(name: i, request_list: false, inventory_list: true)
+      Categorylist.find_by_name(c).itemlists.find_or_create_by(name: i, request_list: false, inventory_list: true)
     end
   end
 end
@@ -898,6 +898,8 @@ end
 #   Borrow.find(k).update_attributes(itemlist_id: v)
 # end
 
+#Effective Date for terms of Service 
+Tos.find_or_create_by(date: Time.local(2014, 7, 16))
 
 
 

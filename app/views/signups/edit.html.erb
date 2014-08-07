@@ -3,15 +3,23 @@
 <meta name="description" content="Get started with Project Borrow in San Francisco">
 <meta name="robots" content="noodp">
 </head>
-
+  <% @tos = Tos.last %>
+  <% @agreement = @signup_parent.agreements.where(signup_id: @signup_parent.id).last %>
   <% if @signup_parent.tos != true || @signup_parent.streetone.blank? || @signup_parent.streettwo.blank? || @signup_parent.zipcode.blank? %>
 
     <div class="col-xs-12" style="padding-bottom:2%;">
       <h4><%="Step 1 of 2: Welcome #{session[:signup_email]}!"%></h4>
       <p style="font-style:italic;">As they say, help us help you! Tell us more about yourself below so we can match you up with the right borrower or lender. Don't worry, we are people-against-spam-and-photos-of-grandma-on-the-Net. Feel free to read out full <%= link_to "privacy policy here", policy_path, {style: 'color:#428bca', target: "_blank" }%>.</p>
     </div>
-
     <%= render "layouts/signupform" %>
+    
+    <% elsif @agreement.date < @tos.date %>
+      <div class="col-xs-12" style="padding-bottom:2%;">
+        <h4><%="Step 1 of 2: Welcome #{session[:signup_email]}!"%></h4>
+        <p style="font-style:italic;">We updated our terms of services on <strong><%= @tos.date %></strong>, go check it out! <%= link_to "terms of service", terms_path, {style: 'color:#428bca', target: "_blank" }%>.</p>
+      </div>
+      <% @signup_parent.agreements.create(signup_id: @signup_parent.id, date: @tos.date) %>
+      <%= render "layouts/signupform" %>
 
   <% else %>
 

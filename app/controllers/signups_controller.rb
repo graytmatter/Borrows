@@ -2,17 +2,21 @@ class SignupsController < ApplicationController
 
 	def new
 		@signup = Signup.new
+		@agreement = @signup.agreements.new
 	end
 
 	def create
 		@signup = Signup.new
 		email = signup_params["email"]
+		@agreement = @signup.agreements.new
 
 		if Signup.where(email: email.downcase).exists?
 			session[:signup_email] = email.downcase
 			redirect_to action: 'edit'
 		else
 			@signup = Signup.create(signup_params)
+			@tos = Tos.last
+			@agreement = @signup.agreements.create(signup_id: @signup.id, date: @tos.date)
 			if @signup.save
 				if Rails.env == "test"
 					SignupMailer.notification_email(@signup).deliver if Rails.env != "development"

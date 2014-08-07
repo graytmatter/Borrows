@@ -1,6 +1,7 @@
 class Signup < ActiveRecord::Base
     has_many :inventories, dependent: :destroy
     has_many :requests
+    has_many :agreements
     
     before_save :downcase_email
 

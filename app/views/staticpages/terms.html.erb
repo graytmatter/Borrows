@@ -7,7 +7,8 @@
   <p style="font-style:italic;">Hello there<%= ", #{session[:signup_email]}" if session[:signup_email].present? %>! These are our shiny terms of service (<%= link_to "click here", policy_path, {style: 'color:#428bca'} %> if you're looking for our privacy policy). We know there's a lot of lawyer-speak, but please keep in mind that we basically want to build an awesome community of sharers. We encourage everyone to follow the Golden Rule: when borrowing or lending, treat the items and the other person as you would want yourself or your items to be treated! If you have any questions, please <%= mail_to 'james@projectborrow.com', 'email us', {style: 'color:#428bca'} %>.</p>
   <hr>
   <h4>Terms of Service</h4>
-  <h5>Effective Date: July 16, 2014</h5>
+  <% @tos_date = Time.local(2014, 7, 16)%>
+  <h5>Effective Date: <%= @tos_date.strftime("%B %d, %Y") %> </h5>
   <p>
   	These Terms of Service constitute a legally binding agreement between you and Shuyu James Dong, doing business as Project Borrow, governing your use of www.projectborrow.com (“projectborrow.com,” “Project Borrow” or the “Site”).  By clicking the “I AGREE” button or (i) accessing or using any part of the Site, or (ii) initiating any borrow through the Site, you agree to be bound by these Terms of Service.  Internet technology, and the applicable laws, rules and regulations change frequently.  Project Borrow reserves the right to make changes to these Terms of Service at any time.  <b><i>Continued access and/or use of the Site in any manner constitutes assent to any new Terms of Service provisions</i></b> that may be posted on projectborrow.com. 
   </p>
