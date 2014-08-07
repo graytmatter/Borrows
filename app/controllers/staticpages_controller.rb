@@ -64,7 +64,7 @@ class StaticpagesController < ApplicationController
 
 				borrows_with_itemlist_id = Borrow.where("itemlist_id is not null")
 				itemlist_array_b = borrows_with_itemlist_id.pluck("itemlist_id")
-				itemlist_array_b.map! { |i| Itemlist.find_by_id(i).name }
+				itemlist_array_b.map! { |i| Itemlist.find_by_id(i).name if Itemlist.find_by_id(i).present? }
 				@items_count_b = Hash.new(0)
 			itemlist_array_b.each do |v|
 				@items_count_b[v] += 1
@@ -72,9 +72,9 @@ class StaticpagesController < ApplicationController
 
 
 		@total_inventories = Inventory.count
-		
+
 				itemlist_array_l = Inventory.pluck("itemlist_id")
-				itemlist_array_l.map! { |i| Itemlist.find_by_id(i).name }
+				itemlist_array_l.map! { |i| Itemlist.find_by_id(i).name if Itemlist.find_by_id(i).present? }
 				@items_count_l = Hash.new(0)
 			itemlist_array_l.each do |v|
 				@items_count_l[v] += 1
