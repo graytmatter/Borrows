@@ -6,7 +6,7 @@ class Borrow < ActiveRecord::Base
 	validates :request_id, presence: true
 	validates :status1, presence: true
 	validates :multiple, presence: true
-	validate :custom_validation
+	validate :custom_validation, on: :create
 
 	def custom_validation
 	    errors[:base] << "Please select at least one item" if self.itemlist_id.blank? 
