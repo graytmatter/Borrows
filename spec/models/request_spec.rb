@@ -26,8 +26,7 @@ describe Request do
 
       describe "pickup date after return date" do
         before do 
-          @request.pickupdate = DateTime.now + 5
-          @request.returndate = DateTime.now + 2
+          @request = Request.create(pickupdate: Date.today+5, returndate: Date.today+2)
         end
 
         it { should_not be_valid }
@@ -35,8 +34,7 @@ describe Request do
 
       describe "blank dates" do
         before do 
-          @request.pickupdate = nil
-          @request.returndate = nil 
+          @request = Request.create(pickupdate: nil, returndate: nil)
         end
 
         it { should_not be_valid }
@@ -44,8 +42,7 @@ describe Request do
 
       describe "before today" do
         before do 
-          @request.pickupdate = DateTime.now - 2
-          @request.returndate = DateTime.now
+          @request = Request.create(pickupdate: Date.today-2, returndate: Date.today)
         end
 
         it { should_not be_valid }
@@ -53,8 +50,7 @@ describe Request do
 
       describe "too many days" do
         before do 
-          @request.pickupdate = DateTime.now + 1
-          @request.returndate = DateTime.now + 16
+          @request = Request.create(pickupdate: Date.today+1, returndate: Date.today+16)
         end
 
         it { should_not be_valid }
