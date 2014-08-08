@@ -7,7 +7,7 @@ class Request < ActiveRecord::Base
   has_many :borrows, dependent: :destroy
 
   validates :signup_id, presence: true
-  validate :custom_validation
+  validate :custom_validation, on: :create
 
   def custom_validation
     errors[:base] << "Please enter both a pick up date and a return date" if self.pickupdate.blank? || self.returndate.blank?

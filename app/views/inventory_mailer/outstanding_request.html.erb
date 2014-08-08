@@ -4,25 +4,56 @@
 	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" /> 
 </head> 
 <body style:"color: black;"> 
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Manage borrower requests">
+<meta name="robots" content="noodp">
+</head>
 
-<p>Hi there!</p>
+<p>Hi there <%= @lender_email%>!</p>
 
-<%= @lender_email %>
+<p>Your neighbors would like to borrow your stuff! You can manage requests at www.ProjectBorrow.com or simply use the table below, just as you would on the website. Simply click the ACCEPT or DECLINE next to each item. If there are multiple borrowers for one item, choose whomever!</p>
 
-<p>Your neighbors have requested to borrow the following items from you:</p>
-	
-	<ul>
-	<% @items_outstanding.each do |i| %>
-		<li><%= i %></li>
-	<% end %>
-	</ul>
+<div class="table-responsive">
+  <table class="table table-condensed table-hover">
+    <thead>
+      <tr>
+        <th class="col-xs-2">Item</th>
+        <th class="col-xs-6">Requests</th>
+      </tr>
+    </thead>
 
-<p>To accept or decline, take 1 minute to:</p>
+    <tbody>
+      <% @inventories.each do |inventory| %>
+        <tr>
+          <td><%= Itemlist.find_by_id(inventory.itemlist_id).name %></td>
+          <td>
+         
+              <ul>
+                <% if Borrow.find_by_inventory_id(inventory.id).present? %>
+                  <% Borrow.where(inventory_id: inventory.id, status1: [1,2,3]).each do |borrow| %>
+                    <% if borrow.request.pickupdate.present? && borrow.request.returndate.present? %> 
+                        <% case borrow.status1 %>
+                        <% when 3 %>
+                          <li id="in_progress" style="font-size:90%"><%= "You've accepted a request from #{borrow.request.signup.email} from #{borrow.request.pickupdate.strftime("%B %-d")} to #{borrow.request.returndate.strftime("%B %-d")}. We've emailed both of you with details" %></li>
+                        <% when 2 %>
+                          <li id="connected" style="font-size:90%"><%= "You've accepted a request from #{borrow.request.signup.email} from #{borrow.request.pickupdate.strftime("%B %-d")} to #{borrow.request.returndate.strftime("%B %-d")}. We've emailed both of you with details" %></li>
+                        <% when 1 %>
+                          <li id="manage" style="font-size:90%"><%= "#{link_to 'ACCEPT', lender_accept_url(borrow, host: 'projectborrow.com'), id: "accept #{borrow.id}", style: "color:green;"} or #{link_to 'DECLINE', lender_decline_url(borrow, host: 'projectborrow.com'), id: "decline #{borrow.id}", style: "color:gray"} &mdash; Requested by #{borrow.request.signup.email} in #{Geography.find_by_zipcode(borrow.request.signup.zipcode).city} from #{borrow.request.pickupdate.strftime("%B %-d")} to #{borrow.request.returndate.strftime("%B %-d")}. #{borrow.request.detail}".html_safe %></li>
+                        <% else %>
+                        <% end %>
+                    <% end %>
+                  <% end %>
+                <% end %>
+              </ul>
+   
 
-	<ol>
-		<li><%= "#{link_to 'Click here', 'www.projectborrow.com/inventories/manage'}, you may have to enter your email first and click the <span style='color:#f0ad4e;'>orange button</span> to go to your personal lending page".html_safe %></li>
-		<li>On your personal lending page, all your outstanding requests are in the third column. Simply click the <span style="color:green;">green 'ACCEPT'</span> or <span style="color:gray;">gray 'DECLINE'</span> words to do just that!</li>
-	</ol>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
 <p>Thank you for making someone's day!</p>
 

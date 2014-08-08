@@ -4,20 +4,19 @@
   <%= search_form_for @q, url: url_for(controller: 'borrows', action: 'index')  do |f| %>
     <div class="form group">
       <%= f.label :status1_eq %>
-      <%= f.select :status1_eq, Status.where(id: Borrow.all.pluck("status1").uniq).pluck("name"), {default: @q.status1, include_blank: @q.status1.nil?} %>
+      <%= f.collection_select :status1_eq, Status.where(statuscategory_id: [1,2]).select { |s| Borrow.all.pluck("status1").include? s.id }, :id, :name, include_blank: true %>
     </div>
     <div class="form group">
       <%= f.label :status2_eq %>
-      <%= f.select :status2_eq, Status.where(id: Borrow.all.pluck("status2").uniq).pluck("name"), {default: @q.status2, include_blank: @q.status2.nil?} %>
+      <%= f.collection_select :status2_eq, Status.where(statuscategory_id: [3,4]).select { |s| Borrow.all.pluck("status2").include? s.id }, :id, :name, include_blank: true %>
     </div>
     <div class="form group">
-      <%= f.label :inventory_id_cont, "Lender email" %>
-      <!-- not working, i'm not passing a value to :inventory_id -->
-      <%= f.select :inventory_id, Signup.select { |s| s.inventories.ids.select{ |id| Borrow.all.pluck("inventory_id").uniq.include? id }.present? }.collect(&:email), {default: @q.inventory_id, include_blank: @q.inventory_id.nil?} %>
+      <%= f.label :inventory_id_eq_any, "Lender email" %>
+      <%= f.collection_select :inventory_id_eq_any, Hash[@inventory_id_collection.sort], :last, :first, include_blank: true, multiple: true %>
     </div>
     <div class="form group">
       <%= f.label "Item" %>
-      <%= f.select :itemlist_id_eq, Itemlist.where(id: Borrow.all.pluck(:itemlist_id).uniq).pluck("name"), :include_blank => true %>
+      <%= f.collection_select :itemlist_id_eq, Itemlist.select { |i| Borrow.all.pluck("itemlist_id").include? i.id }, :id, :name, include_blank: true %>
     </div>
     <div class="form group">
       <%= f.label :request_signup_email_cont, "Borrower email contains" %>
@@ -36,11 +35,11 @@
       <%= f.search_field :request_returndate_lteq %>
     </div>
     <div class="form group">
-      <%= f.label :request_signup_zipcode_eq, "County is" %>
-      <%= f.collection_select :request_signup_zipcode_eq, Geography.all, :zipcode, :county, :include_blank => true %>
+      <%= f.label :request_signup_zipcode_eq_any, "County is" %>
+      <%= f.collection_select :request_signup_zipcode_eq_any, Hash[@zipcode_collection.sort], :last, :first, include_blank: true, multiple: true %>
     </div>
     <div class="form group">
-      <%= f.submit %>
+      <%= f.submit "Search", class: "btn btn-success btn-large btn-block", id: "search" %>
     </div>
   <% end %>
 </div>
@@ -55,12 +54,11 @@
         <th><%= sort_link(@q, :itemlist_id, "Item") %></th>
         <th><%= sort_link(@q, :status1, "Status 1") %></th>
         <th><%= sort_link(@q, :status2, "Status 2") %></th>
-        <th><%= sort_link(@q, :inventory_id, "Lender Email") %></th>
+        <th>Lender email</th>
         <th><%= sort_link(@q, 'requests.signups.email', "Borrower Email") %></th>
         <th><%= sort_link(@q, 'requests.pickupdate', "Pickup date") %></th>
         <th><%= sort_link(@q, 'requests.returndate', "Return date") %></th>
-        <th>
-          <%= sort_link(@q, 'requests.signups.zipcode', 'County') %>
+        <th>County
         </th>
         <th>Action</th>
         <th colspan="5"></th>
@@ -69,7 +67,7 @@
 
     <tbody>
       <% @borrows.each do |borrow| %>
-        <tr>
+        <tr id="row">
           <td><%= borrow.id %></td>
           <td><%= borrow.multiple %></td>
           <td><%= borrow.created_at.present? ? borrow.created_at.to_date : "N/A" %></td>
@@ -85,7 +83,7 @@
             <% if borrow.status1 == 1 %>
               <!-- Updates not allowed until system has made a connection or until searching expires, this last part hasn't been built yet -->
             <% else %>
-              <%= link_to 'Update', edit_borrow_path(borrow) %> <!--update status and inventory_id, but everything can be udpated. DO NOT REMOVE, remove is handled by a specific status code -->
+              <%= link_to 'Update', edit_borrow_path(borrow), id: "update #{borrow.id}" %> <!--update status and inventory_id, but everything can be udpated. DO NOT REMOVE, remove is handled by a specific status code -->
             <% end %>
           </td>
         </tr>
