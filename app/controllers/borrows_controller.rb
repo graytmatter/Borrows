@@ -15,7 +15,7 @@ class BorrowsController < ApplicationController
     @inventory_id_collection.each do |k,v|
       @inventory_id_collection[k] = v*","
     end
-    @inventory_id_collection.keys.sort
+    @inventory_id_collection = @inventory_id_collection.keys.sort
 
     query = params[:q]
     query["inventory_id_eq_any"] = params[:q]["inventory_id_eq_any"].split(',') if query != nil
