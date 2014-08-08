@@ -32,8 +32,8 @@ class BorrowsController < ApplicationController
     end
 
     query = params[:q]
-    query["inventory_id_eq_any"] = params[:q]["inventory_id_eq_any"].split(',') if query["inventory_id_eq_any"] != nil
-    query["request_signup_zipcode_eq_any"] = params[:q]["request_signup_zipcode_eq_any"].split(',') if query["request_signup_zipcode_eq_any"] != nil
+    query["inventory_id_eq_any"] = params[:q]["inventory_id_eq_any"].split(',') if query != nil && query["inventory_id_eq_any"] != nil
+    query["request_signup_zipcode_eq_any"] = params[:q]["request_signup_zipcode_eq_any"].split(',') if query != nil && query["request_signup_zipcode_eq_any"] != nil && query != nil
     @q = Borrow.ransack(query)
     @borrows = @q.result.includes(:request => :signup)
   end

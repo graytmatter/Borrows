@@ -12,7 +12,7 @@
     </div>
     <div class="form group">
       <%= f.label :inventory_id_eq_any, "Lender email" %>
-      <%= f.collection_select :inventory_id_eq_any, Hash[@inventory_id_collection.sort], :last, :first, include_blank: true, multiple: true %>
+      <%= f.collection_select :inventory_id_eq_any, Hash[@inventory_id_collection.sort], :last, :first, include_blank: true %>
     </div>
     <div class="form group">
       <%= f.label "Item" %>
@@ -36,7 +36,11 @@
     </div>
     <div class="form group">
       <%= f.label :request_signup_zipcode_eq_any, "County is" %>
-      <%= f.collection_select :request_signup_zipcode_eq_any, Hash[@zipcode_collection.sort], :last, :first, include_blank: true, multiple: true %>
+      <%= f.collection_select :request_signup_zipcode_eq_any, Hash[@zipcode_collection.sort], :last, :first, include_blank: true %>
+    </div>
+    <div class="form group">
+      <%= f.label :created_at_gteq, "Created at on or after" %>
+      <%= f.search_field :created_at_gteq %>
     </div>
     <div class="form group">
       <%= f.submit "Search", class: "btn btn-success btn-large btn-block", id: "search" %>
