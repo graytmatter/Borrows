@@ -12,7 +12,7 @@
     </div>
     <div class="form group">
       <%= f.label :inventory_id_eq_any, "Lender email" %>
-      <%= f.select :inventory_id_eq_any, options_for_select(@inventory_id_collection), include_blank: true, multiple: true %>
+      <%= f.collection_select :inventory_id_eq_any, @inventory_id_collection, :last, :first, include_blank: true, multiple: true %>
     </div>
     <div class="form group">
       <%= f.label "Item" %>
