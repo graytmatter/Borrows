@@ -35,7 +35,7 @@
     <thead>
       <tr>
         <th class="col-xs-2">Item</th>
-        <th class="col-xs-2">Description</th>
+        <th class="col-xs-2" style="width:100px">Description</th>
         <th class="col-xs-7">Requests</th>
         <th class="col-xs-1">Actions</th>
       </tr>
@@ -51,7 +51,7 @@
               <%= "<span id='name_#{inventory.id}'>#{Itemlist.find_by_id(inventory.itemlist_id).name}</span>".html_safe %>
             <% end %>
           </td>
-          <td>
+          <td style="width:100px">
             <% if inventory.description.blank? %>
               <%= form_for inventory, url: edit_inventory_path(inventory), method: :patch, :html => {:class => "form-inline", :autocomplete => "off"} do |f| %> 
                 <div class="form-group col-xs-10" style="padding:1px;">
