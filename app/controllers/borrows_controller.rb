@@ -1,5 +1,5 @@
 class BorrowsController < ApplicationController
-  before_filter :authenticate
+  before_filter :authenticate unless Rails.env == "test"
   
   def index
     @inventory_id_collection = Hash.new
@@ -16,8 +16,24 @@ class BorrowsController < ApplicationController
       @inventory_id_collection[k] = v*","
     end
 
+    @zipcode_collection = Hash.new
+    Borrow.all.pluck("request_id").uniq.each do |r|
+      if @zipcode_collection.has_key?(Geography.find_by_zipcode(Request.find_by_id(r).signup.zipcode).county)
+        @zipcode_collection[Geography.find_by_zipcode(Request.find_by_id(r).signup.zipcode).county] << Request.find_by_id(r).signup.zipcode
+      else
+        @zipcode_collection[Geography.find_by_zipcode(Request.find_by_id(r).signup.zipcode).county] = Array.new
+        @zipcode_collection[Geography.find_by_zipcode(Request.find_by_id(r).signup.zipcode).county] << Request.find_by_id(r).signup.zipcode
+      end
+    end
+
+    @zipcode_collection.each do |k,v|
+      @zipcode_collection[k] = v.uniq!
+      @zipcode_collection[k] = v*","
+    end
+
     query = params[:q]
     query["inventory_id_eq_any"] = params[:q]["inventory_id_eq_any"].split(',') if query != nil
+    query["request_signup_zipcode_eq_any"] = params[:q]["request_signup_zipcode_eq_any"].split(',') if query != nil
     @q = Borrow.ransack(query)
     @borrows = @q.result.includes(:request => :signup)
   end

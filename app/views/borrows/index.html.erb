@@ -35,12 +35,11 @@
       <%= f.search_field :request_returndate_lteq %>
     </div>
     <div class="form group">
-      <%= f.label :request_signup_zipcode_eq, "County is" %>
-      <%= f.select :request_signup_zipcode_eq, options_for_select(
-      Signup.where(id: Request.where(id: Borrow.all.pluck("request_id")).pluck("signup_id")).where("zipcode is not null").select { |s| Geography.find_by_zipcode(s.zipcode).present? }.collect { |s| [Geography.find_by_zipcode(s.zipcode).county, s.zipcode] }), include_blank: true %>
+      <%= f.label :request_signup_zipcode_eq_any, "County is" %>
+      <%= f.collection_select :request_signup_zipcode_eq_any, Hash[@zipcode_collection.sort], :last, :first, include_blank: true, multiple: true %>
     </div>
     <div class="form group">
-      <%= f.submit %>
+      <%= f.submit "Search", class: "btn btn-success btn-large btn-block", id: "search" %>
     </div>
   <% end %>
 </div>
@@ -68,7 +67,7 @@
 
     <tbody>
       <% @borrows.each do |borrow| %>
-        <tr>
+        <tr id="row">
           <td><%= borrow.id %></td>
           <td><%= borrow.multiple %></td>
           <td><%= borrow.created_at.present? ? borrow.created_at.to_date : "N/A" %></td>
