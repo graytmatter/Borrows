@@ -17,7 +17,7 @@ class BorrowsController < ApplicationController
     end
 
     @zipcode_collection = Hash.new
-    Borrow.all.pluck("request_id").select{ |r| Geography.find_by_zipcode(r.signup.zipcode).present? }.uniq.each do |r|
+    Borrow.all.pluck("request_id").select{ |r| Geography.find_by_zipcode(Request.find_by_id(r).signup.zipcode).present? }.uniq.each do |r|
       if @zipcode_collection.has_key?(Geography.find_by_zipcode(Request.find_by_id(r).signup.zipcode).county)
         @zipcode_collection[Geography.find_by_zipcode(Request.find_by_id(r).signup.zipcode).county] << Request.find_by_id(r).signup.zipcode
       else
