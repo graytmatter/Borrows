@@ -3,12 +3,12 @@ class BorrowsController < ApplicationController
   
   def index
     @inventory_id_collection = Hash.new
-    Borrow.select { |b| b.inventory_id.present? }.each do |b|
-      if @inventory_id_collection.has_key?("#{Inventory.find_by_id(b.inventory_id).signup.email}")
-        @inventory_id_collection["#{Inventory.find_by_id(b.inventory_id).signup.email}"] << b.inventory_id
+    Borrow.where("inventory_id is not null").pluck("inventory_id").uniq.each do |i|
+      if @inventory_id_collection.has_key?("#{Inventory.find_by_id(i).signup.email}")
+        @inventory_id_collection["#{Inventory.find_by_id(i).signup.email}"] << i
       else
-        @inventory_id_collection["#{Inventory.find_by_id(b.inventory_id).signup.email}"] = Array.new
-        @inventory_id_collection["#{Inventory.find_by_id(b.inventory_id).signup.email}"] << b.inventory_id
+        @inventory_id_collection["#{Inventory.find_by_id(i).signup.email}"] = Array.new
+        @inventory_id_collection["#{Inventory.find_by_id(i).signup.email}"] << i
       end
     end
 
