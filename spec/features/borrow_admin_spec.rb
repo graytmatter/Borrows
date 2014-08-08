@@ -38,8 +38,8 @@ describe "borrows should be listed" do
 
 		@borrower1 = Signup.create(email:"jdong8@gmail.com", streetone: "Post", streettwo: "Taylor", zipcode: 94109, tos: true)
 		@request1 = @borrower1.requests.create(pickupdate: @todays_date, returndate: @futures_date)
-		@request1.borrows.create(multiple: 1, status1: 1, itemlist_id: 3, inventory_id: 3)
-		@request1.borrows.create(multiple: 2, status1: 1, itemlist_id: 3, inventory_id: 4)
+		@request1.borrows.create(multiple: 1, status1: 2, itemlist_id: 3, inventory_id: 3)
+		@request1.borrows.create(multiple: 2, status1: 2, itemlist_id: 3, inventory_id: 4)
 		@request1.borrows.create(multiple: 1, status1: 1, itemlist_id: 5, inventory_id: 5)
 		@request2 = @borrower1.requests.create(pickupdate: @todays_date+5, returndate: @futures_date+7)
 		@request2.borrows.create(multiple: 1, status1: 1, itemlist_id: 5, inventory_id: nil)
@@ -123,48 +123,48 @@ describe "borrows should be listed" do
 		describe "pickupdate on filter" do
 
 			before do
-				fill_in "q_request_pickupdate_eq", with: "2014-08-09"
+				fill_in "q_request_pickupdate_eq", with: @todays_date
 				click_button "search"
 			end
 
 			it "should have right count" do
-				page.assert_selector('#row', count: Borrow.select { |b| b.request.pickupdate.to_date.to_s == "2014-08-09" }.count)
+				page.assert_selector('#row', count: Borrow.select { |b| b.request.pickupdate.to_date == @todays_date }.count)
 			end
 		end
 
 		describe "returndate on filter" do
 
 			before do
-				fill_in "q_request_returndate_eq", with: "2014-08-12"
+				fill_in "q_request_returndate_eq", with: @futures_date
 				click_button "search"
 			end
 
 			it "should have right count" do
-				page.assert_selector('#row', count: Borrow.select { |b| b.request.returndate.to_date.to_s == "2014-08-12" }.count)
+				page.assert_selector('#row', count: Borrow.select { |b| b.request.returndate.to_date == @futures_date }.count)
 			end
 		end
 
 		describe "pickupdate on or after filter" do
 
 			before do
-				fill_in "q_request_pickupdate_gteq", with: "2014-08-10"
+				fill_in "q_request_pickupdate_gteq", with: @todays_date+1
 				click_button "search"
 			end
 
 			it "should have right count" do
-				page.assert_selector('#row', count: Borrow.select { |b| b.request.pickupdate.to_date.to_s > "2014-08-10" }.count)
+				page.assert_selector('#row', count: Borrow.select { |b| b.request.pickupdate.to_date > @todays_date+1 }.count)
 			end
 		end
 
 		describe "returndate on or before filter" do
 
 			before do
-				fill_in "q_request_returndate_lteq", with: "2014-08-18"
+				fill_in "q_request_returndate_lteq", with: @futures_date+5
 				click_button "search"
 			end
 
 			it "should have right count" do
-				page.assert_selector('#row', count: Borrow.select { |b| b.request.returndate.to_date.to_s < "2014-08-18" }.count)
+				page.assert_selector('#row', count: Borrow.select { |b| b.request.returndate.to_date < @futures_date+5 }.count)
 			end
 		end
 
@@ -181,7 +181,7 @@ describe "borrows should be listed" do
 
 		describe "all filters together" do
 			before do
-				fill_in "q_request_returndate_lteq", with: "2014-08-18"
+				fill_in "q_request_returndate_lteq", with: @futures_date+5
 				fill_in "q_request_signup_email_cont", with: "jdong"
 				select "anavarada@gmail.com", :from => "q_inventory_id_eq_any"
 				select "4-Person tent", :from => "q_itemlist_id_eq"
@@ -190,6 +190,21 @@ describe "borrows should be listed" do
 
 			it "should have right count" do
 				page.assert_selector('#row', count: 1)
+			end
+		end
+
+		describe "make updates" do
+
+			before do
+				click_link "update 1"
+				select "anavarada@gmail.com +", :from => "borrow_inventory_id"
+				select "Complete", :from => "borrow_status1"
+				click_button "update"
+			end
+
+			it "should update and change count" do
+				Inventory.find_by_id(Borrow.find_by_id(1).inventory_id).signup.email == "anavarada@gmail.com" 
+				Borrow.find_by_id(1).status1 == 4
 			end
 		end
 
