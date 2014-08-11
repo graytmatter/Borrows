@@ -1127,6 +1127,40 @@ describe "how requests should flow" do
 					manage_test("anavarada@gmail.com", 2, 0)
 					manage_test("jamesdong.photo@gmail.com", 0, 0)
 				end
+
+				describe "- actual test same person" do
+			
+					before do
+						login("ngomenclature@gmail.com", "lend")
+						fill_in 'inventory_1', :with => 1
+						click_button 'submit_lend'
+					end
+
+					it "should affect records" do
+						# 1- request_total, 
+						# 2- borrow_total, 
+						# 3- borrow_checking_total, 
+						# 4- borrow_connected_total, 
+						# 5- borrow_lender_declined_total, 
+						# 6- borrow_other_did_not_use_total
+						# 7- borrow_not_available_total
+						record_test(1, 6, 6, 0, 0, 0, 0)
+					end
+
+					it "should affect emails" do
+						#(count, subject: blank)
+						email_test(0)
+					end
+
+					it "should affect management options for lenders" do 
+						#(lender_email, manage_count, connected_count)
+						manage_test("jamesdd9302@yahoo.com", 2, 0)
+						manage_test("jdong8@gmail.com", 2, 0)
+						manage_test("anavarada@gmail.com", 2, 0)
+						manage_test("jamesdong.photo@gmail.com", 0, 0)
+						manage_test("ngomenclature@gmail.com", 0, 0)
+					end
+				end
 			end
 		end
 	end

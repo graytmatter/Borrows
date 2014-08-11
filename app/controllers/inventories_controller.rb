@@ -37,7 +37,7 @@ class InventoriesController < ApplicationController
         quantity.to_i.times do
 
           @new_inventory = @signup_parent.inventories.create(itemlist_id: itemlist_id, available: true)
-          if Borrow.where(status1:1, itemlist_id: itemlist_id).select { |b| Geography.find_by_zipcode(b.request.signup.zipcode).county == Geography.find_by_zipcode(@new_inventory.signup.zipcode).county}.count > 0
+          if Borrow.where(status1:1, itemlist_id: itemlist_id).select{ |b| b.request.signup.email != @new_inventory.signup.email}.select { |b| Geography.find_by_zipcode(b.request.signup.zipcode).county == Geography.find_by_zipcode(@new_inventory.signup.zipcode).county}.count > 0
             existing_request = Array.new
             Borrow.where(status1:1, itemlist_id:itemlist_id).select { |b| Geography.find_by_zipcode(b.request.signup.zipcode).county == Geography.find_by_zipcode(@new_inventory.signup.zipcode).county}.each { |b| existing_request << b.request_id }
             existing_request.uniq!
