@@ -150,7 +150,7 @@ describe "how inventory management except for accept/decline, i.e., descriptions
 			describe "H) Remove/ toggle options back if request declined" do
 
 				before do
-					click_link 'decline 1'
+					click_button 'decline 1'
 				end
 
 				it "should have toggle and remove option" do
@@ -163,7 +163,7 @@ describe "how inventory management except for accept/decline, i.e., descriptions
 			describe "I) Remove/ toggle options still not present if request accepted" do
 
 				before do
-					click_link 'accept 1'
+					click_button 'accept 1'
 				end
 
 				it "should not have toggle and remove option" do
