@@ -12,7 +12,7 @@ class SignupsController < ApplicationController
 			session[:signup_email] = email.downcase
 			redirect_to action: 'edit'
 		else
-			@signup = Signup.create(signup_params)
+			@signup = Signup.new(signup_params)
 			if @signup.save
 				if Rails.env == "test"
 					SignupMailer.notification_email(@signup).deliver if Rails.env != "development"
