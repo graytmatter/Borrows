@@ -36,7 +36,7 @@
       <tr>
         <th class="col-xs-1">Item</th>
         <th class="col-xs-3">Description</th>
-        <th class="col-xs-7">Requests</th>
+        <th class="col-xs-7">Dates of Request & Message</th>
         <th class="col-xs-1">Actions</th>
       </tr>
     </thead>
@@ -68,29 +68,31 @@
           </td>
           <td>
             <% if Borrow.find_by_inventory_id(inventory.id).present? %>
-              <table>
+              <table class="table table-condensed">
                 <thead>
                   <tr>
-                    <th class="col-xs-1">Dates</th>
-                    <th class="col-xs-9">Message</th>
-                    <th class="col-xs-2">Manage</th>
+                    <th class="col-xs-1"></th>
+                    <th class="col-xs-9"></th>
+                    <th class="col-xs-2"></th>
                   </tr>
                 </thead>
-                <% Borrow.where(inventory_id: inventory.id, status1: [1,2,3]).each do |borrow| %>
+                <% @total_borrows = Borrow.where(inventory_id: inventory.id, status1: [1,2,3]).includes(:request).order('requests.pickupdate')%>
+                <% @total_borrows.each do |borrow| %>
                   <% if borrow.request.pickupdate.present? && borrow.request.returndate.present? %> 
-
                     <tbody>
                       <tr>
-                        <td><%= "#{borrow.request.pickupdate.strftime("%B %-d")} to #{borrow.request.returndate.strftime("%B %-d")}" %> </td>
+                        <td><%= "#{borrow.request.pickupdate.strftime("%-m/%-d")} to #{borrow.request.returndate.strftime("%-m/%-d")}" %> </td>
 
                         <% case borrow.status1 %>
                         <% when 3 %>
-                          <td id="in_progress"><%= "Thank you for accepting the request from #{borrow.request.signup.email}, we've connected you via email" %></td>
+                          <td id="in_progress"><%= "Thanks, we've connected you with #{borrow.request.signup.email} via email." %></td>
                         <% when 2 %>
-                          <td id="connected"><%= "Thank you for accepting the request from #{borrow.request.signup.email}, we've connected you via email" %></td>
+                          <td id="connected"><%= "Thanks, we've connected you with #{borrow.request.signup.email} via email." %></td>
                         <% when 1 %>
                           <td id="manage_text"><%= "New request from #{borrow.request.signup.email} in #{Geography.find_by_zipcode(borrow.request.signup.zipcode).city}! #{borrow.request.detail}" %></td>
-                          <td id="manage"><%= "#{link_to 'ACCEPT', lender_accept_url(borrow), method: :post, id: "accept #{borrow.id}", style: "color:green;"} or #{link_to 'DECLINE', lender_decline_url(borrow), method: :post, id: "decline #{borrow.id}", style: "color:gray"}".html_safe %></td>
+                          <td id="manage"><%= 
+                          "#{button_to 'YES', lender_accept_url(borrow), method: :post, id: "accept #{borrow.id}", style: "background-color:green; color: white; width: 40px; display: inline"} 
+                          #{button_to 'NO', lender_decline_url(borrow), method: :post, id: "decline #{borrow.id}", style: "background-color:gray; width: 40px; display: inline"}".html_safe %></td>
                         <% else %>
                         <% end %>
                       </tr>
