@@ -37,9 +37,10 @@ class InventoriesController < ApplicationController
         quantity.to_i.times do
 
           @new_inventory = @signup_parent.inventories.create(itemlist_id: itemlist_id, available: true)
-          if Borrow.where(status1:1, itemlist_id: itemlist_id).select{ |b| b.request.signup.email != @new_inventory.signup.email}.select { |b| Geography.find_by_zipcode(b.request.signup.zipcode).county == Geography.find_by_zipcode(@new_inventory.signup.zipcode).county}.count > 0
+          similar_borrows = Borrow.where(status1: 1, itemlist_id: itemlist_id).includes(:request => :signup)
+          if similar_borrows.select{ |b| b.request.signup.email != @new_inventory.signup.email}.select { |b| Geography.find_by_zipcode(b.request.signup.zipcode).county == Geography.find_by_zipcode(@new_inventory.signup.zipcode).county}.count > 0
             existing_request = Array.new
-            Borrow.where(status1:1, itemlist_id:itemlist_id).select { |b| Geography.find_by_zipcode(b.request.signup.zipcode).county == Geography.find_by_zipcode(@new_inventory.signup.zipcode).county}.each { |b| existing_request << b.request_id }
+            similar_borrows.select { |b| Geography.find_by_zipcode(b.request.signup.zipcode).county == Geography.find_by_zipcode(@new_inventory.signup.zipcode).county}.each { |b| existing_request << b.request_id }
             existing_request.uniq!
             existing_request.each do |r|
               Borrow.where(request_id: r, itemlist_id: itemlist_id, status1: 1).pluck("multiple").uniq.each do |m|
@@ -137,11 +138,11 @@ class InventoriesController < ApplicationController
     request_id = borrow_in_question.request_id 
     multiple = borrow_in_question.multiple
 
-    if Borrow.where({ itemlist_id: itemlist_id, request_id: request_id, multiple: multiple}).where.not(id: borrow_in_question.id).where(status1: 1).present?
+    similar_borrows = Borrow.where({ itemlist_id: itemlist_id, request_id: request_id, multiple: multiple}).where.not(id: borrow_in_question.id)
+    if similar_borrows.select { |b| b.status1 == 1 }.present?
       borrow_in_question.destroy 
-      #select { |b| b.request.pickupdate != borrow_in_question.request.pickupdate && b.request.returndate != borrow_in_question.request.returndate }
     else
-      Borrow.where({ itemlist_id: itemlist_id, request_id: request_id, multiple: multiple}).where.not(id: borrow_in_question.id).destroy_all
+      similar_borrows.destroy_all
       borrow_in_question.update_attributes(status1: status1_input, inventory_id: nil)
       if Rails.env == "test"
         RequestMailer.not_found(borrow_in_question, itemlist_id).deliver
@@ -176,16 +177,14 @@ class InventoriesController < ApplicationController
     request_id = accepted.request_id
     multiple = accepted.multiple
 
+    similar_borrows = Borrow.where(itemlist_id: itemlist_id)
     #delete items that the borrower no longer needs
-    Borrow.where({ itemlist_id: itemlist_id, request_id: request_id, multiple: multiple}).where.not(inventory_id: inventory_id).destroy_all
+    similar_borrows.select{ |b| b.request_id == request_id && b.multiple == multiple && b.inventory_id != inventory_id }.each { |b| b.destroy }
 
     #some things no longer available
-    no_longer_available1 = Borrow.where({ itemlist_id: itemlist_id, inventory_id: inventory_id}).where.not(request_id: request_id).select { |b| b.request.do_dates_overlap(Request.find(request_id)) == "yes"}.each do |no_longer_available|
-      decline_process(no_longer_available, 20)
-    end
-
-    no_longer_available2 = Borrow.where({ itemlist_id: itemlist_id, inventory_id: inventory_id, request_id: request_id}).where.not(multiple: multiple).select { |b| b.request.do_dates_overlap(Request.find(request_id)) == "yes"}.each do |no_longer_available|
-      decline_process(no_longer_available, 20)
+    no_longer_available = similar_borrows.select{ |b| b.inventory_id == inventory_id && b.request_id != request_id && b.request.do_dates_overlap(Request.find(request_id)) == "yes"} + similar_borrows.select{ |b| b.inventory_id == inventory_id && b.request_id == request_id && b.multiple != multiple && b.request.do_dates_overlap(Request.find(request_id)) == "yes"}
+    no_longer_available.each do |n|
+      decline_process(n, 20)
     end
 
     redirect_to manage_inventory_path
@@ -194,11 +193,7 @@ class InventoriesController < ApplicationController
   private
 
     def inventory_params
-      #params.require(:inventory).permit(:itemlist_id, :quantity )
-      #params.permit(inventory: [{:itemlist_id => :quantity}] )
       @inventory_params = params["inventory"]
-      #@inventory_params = params.permit("inventory")
-      #@inventory_params = params.permit(:inventory)
       @inventory_params = @inventory_params.reject { |k, v| (v == "") || ( v == "0" ) }
     end
 
