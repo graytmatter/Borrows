@@ -75,6 +75,9 @@ class InventoriesController < ApplicationController
   end
 
   def index
+    @index = true 
+    @actions = true 
+    
     @q = Inventory.where("available is not null").all.ransack(params[:q])
     @inventories = @q.result.includes(:signup)
   end
@@ -116,7 +119,8 @@ class InventoriesController < ApplicationController
 
   def manage
     @pagetitle = "Approve outstanding requests from borrowers"
-
+    @actions = true
+    
     if session[:signup_email].nil?
       flash[:danger] = "Please enter your email to get started"
       redirect_to root_path

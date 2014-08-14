@@ -14,67 +14,7 @@
 
 <p>Your neighbors would like to borrow your stuff! You can manage requests at www.ProjectBorrow.com or simply use the table below, just as you would on the website. Simply click the YES or NO buttons next to each dated request. If there are multiple borrowers for one item, choose whomever!</p>
 
-
-<div class="table-responsive">
-  <table class="table table-condensed table-hover">
-    <thead>
-      <tr>
-        <th class="col-xs-1">Item</th>
-        <th class="col-xs-7">Dates of Request & Message</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <% @inventories.each do |inventory| %>
-        <tr>
-          <td>
-            <% if inventory.available == false %>
-              <%= "<span id='name_#{inventory.id}'>#{Itemlist.find_by_id(inventory.itemlist_id).name}</span> <br> <span style='color:red;', id='not_available_#{inventory.id}'>Unavailable</span>".html_safe %>
-            <% else %>
-              <%= "<span id='name_#{inventory.id}'>#{Itemlist.find_by_id(inventory.itemlist_id).name}</span>".html_safe %>
-            <% end %>
-          </td>
-          <td>
-            <% if Borrow.find_by_inventory_id(inventory.id).present? %>
-              <table class="table table-condensed">
-                <thead>
-                  <tr>
-                    <th class="col-xs-1"></th>
-                    <th class="col-xs-9"></th>
-                    <th class="col-xs-2"></th>
-                  </tr>
-                </thead>
-                <% @total_borrows = Borrow.where(inventory_id: inventory.id, status1: [1,2,3]).includes(:request).order('requests.pickupdate')%>
-                <% @total_borrows.each do |borrow| %>
-                  <% if borrow.request.pickupdate.present? && borrow.request.returndate.present? %> 
-                    <tbody>
-                      <tr>
-                        <td><%= "#{borrow.request.pickupdate.strftime("%-m/%-d")} to #{borrow.request.returndate.strftime("%-m/%-d")}" %> </td>
-
-                        <% case borrow.status1 %>
-                        <% when 3 %>
-                          <td id="in_progress"><%= "Thanks, we've connected you with #{borrow.request.signup.email} via email." %></td>
-                        <% when 2 %>
-                          <td id="connected"><%= "Thanks, we've connected you with #{borrow.request.signup.email} via email." %></td>
-                        <% when 1 %>
-                          <td id="manage_text"><%= "New request from #{borrow.request.signup.email} in #{Geography.find_by_zipcode(borrow.request.signup.zipcode).city}! #{borrow.request.detail}" %></td>
-                          <td id="manage"><%= 
-                          "#{button_to 'YES', lender_accept_url(borrow), method: :post, id: "accept #{borrow.id}", style: "background-color:green; color: white; width: 40px; display: inline"} 
-                          #{button_to 'NO', lender_decline_url(borrow), method: :post, id: "decline #{borrow.id}", style: "background-color:gray; width: 40px; display: inline"}".html_safe %></td>
-                        <% else %>
-                        <% end %>
-                      </tr>
-                    </tbody>
-                  <% end %>
-                <% end %>
-              </table>
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
+<%= render "layouts/lenderdashboard" %>
 
 <p>Thank you for making someone's day!</p>
 
