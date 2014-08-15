@@ -1,14 +1,4 @@
-
-<% if @signup_parent.errors.any? %>
-  <div class="alert alert-danger", id="error">
-    <p>Please correct the following error(s):</p>
-    <ul>
-    <% @signup_parent.errors.full_messages.each do |message| %>
-      <li><%= message %></li>
-    <% end %>
-    </ul>
-  </div>
-<% end %>
+<%= render "layouts/errors", locals: { obj: @signup_parent } %>
 
 <div class="col-xs-12 box", id="new_inventory">  
   <%= form_tag inventories_path method: :post do %>
