@@ -7,7 +7,7 @@
         <% end %>
         <th class="col-xs-1">Item</th>
         <th class="col-xs-3">Description</th>
-        <% if @index == false %>
+        <% unless @index == true %>
           <th class="col-xs-7">Dates of Request & Message</th>
         <% end %>
         <% if @actions %>
@@ -49,7 +49,7 @@
               <% end %>
             <% end %>
           </td>
-          <% if @index == false %>
+          <% unless @index == true %>
             <td>
               <% if Borrow.find_by_inventory_id(inventory.id).present? %>
                 <table class="table table-condensed">
