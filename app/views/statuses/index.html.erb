@@ -24,8 +24,8 @@
   </div>
 <% end %>
 
-<%= render "layouts/errors", locals: { obj: @status } %>
-<%= render "layouts/errors", locals: { obj: @statuscategory } %>
+<%= render partial: "layouts/errors", locals: { obj: @status } %>
+<%= render partial: "layouts/errors", locals: { obj: @statuscategory } %>
 
 <div class="col-xs-6 box">
   <h4>Create New Categories</h4>

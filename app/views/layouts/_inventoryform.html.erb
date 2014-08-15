@@ -1,4 +1,4 @@
-<%= render "layouts/errors", locals: { obj: @signup_parent } %>
+<%= render partial: "layouts/errors", locals: { obj: @signup_parent } %>
 
 <div class="col-xs-12 box", id="new_inventory">  
   <%= form_tag inventories_path method: :post do %>

@@ -87,6 +87,8 @@ describe "how requests should flow" do
 			# visit '/requests/new'
 
 			login("anavarada@gmail.com", "borrow", 1, "January", "1", "January", "5")
+			login("jamesdd9302@yahoo.com", "lend")
+			save_and_open_page
 		end
 
 		it "should affect records" do

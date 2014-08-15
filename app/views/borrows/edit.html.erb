@@ -1,14 +1,5 @@
   
-  <% if @borrow.errors.any? %>
-    <div class="alert alert-danger">
-      <p>Please correct the following error(s):</p>
-      <ul>
-        <% @borrow.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= render partial: "layouts/errors", locals: { obj: @borrow} %>
   <%= render "layouts/flash" %>
 
   <div class="col-xs-12 box">

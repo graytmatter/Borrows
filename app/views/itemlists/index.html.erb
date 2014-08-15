@@ -40,8 +40,8 @@
 <% end %>
 
 
-<%= render "layouts/errors", locals: { obj: @item } %>
-<%= render "layouts/errors", locals: { obj: @category } %>
+<%= render partial: "layouts/errors", locals: { obj: @item} %>
+<%= render partial: "layouts/errors", locals: { obj: @category} %>
 
 <div class="col-xs-6 box">
   <h4>Create New Categories</h4>
