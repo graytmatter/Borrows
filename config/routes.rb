@@ -11,7 +11,7 @@ GoogleTest::Application.routes.draw do
 
   get 'requests/new', to: 'requests#new', as: 'new_request'
   post 'requests', to: 'requests#create'
-  get 'requests/success', to: 'requests#success'
+  get 'requests/manage', to: 'requests#manage', as: 'manage_request'
   # get 'requests/edit/:edit_id', to: 'requests#edit', as: 'edit_request'
   # patch 'requests/:edit_id', to: 'requests#update', as: 'request'
 
@@ -24,6 +24,7 @@ GoogleTest::Application.routes.draw do
   patch 'inventories/:id/toggle_availability', to: 'inventories#toggle', as: 'toggle_available'
 
   resources :borrows, only: [:edit, :update]
+  post 'borrows/:id', to: 'borrows#cancel', as: 'borrower_cancel'
 
   get 'admin/statuses', to: 'statuses#index'
   post 'admin/statuses/new', to: 'statuses#create', as: 'new_status'

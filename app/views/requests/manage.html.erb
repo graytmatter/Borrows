@@ -1,0 +1,118 @@
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Manage requests">
+<meta name="robots" content="noodp">
+</head>
+
+<div class="col-xs-12" style="padding-bottom:1%;">
+  <h4>
+    <% if Rails.env != "test" %>
+        <%="Manage your requests, #{@signup_parent.email}!"%>
+    <% end %>
+  </h4>
+
+  <h5 style="font-size:90%; font-style:italic">
+    Click to 
+    <%= link_to "lend something", new_inventory_path, { style: 'color:#428bca; display: inline-block', class: "btn-inline"}%>
+    or to
+    <%= link_to 'borrow something else', new_request_path, { style: 'color:#428bca'}%>
+  </h5>
+
+  <p>We've reached out to lenders and will notify you as soon as we hear back. In the meantime, you can check the status of your request and make cancellations below
+    <ul>
+      <li><b>Column 1:</b> the dates of your request
+      <li><b>Column 2:</b> the item you've requested</li>
+      <li><b>Column 3:</b> status of the item
+      <li><b>Column 4:</b> you may CANCEL the request before you have already picked it up, please help us improve our service by marking off why you're cancelling and what alternatives you will seek. Note, if you need to change the request, <%= mail_to 'james@projectborrow.com', 'email us', {style: 'color:#428bca'} %>.</li>
+    </ul>
+  </p>
+  <br>
+  <p>Oh, and while you're waiting...
+    <ul>
+      <li style="font-size:90%"><b>Recommend Project Borrow to friends:</b> For each friend who borrows/lends from us with you as a referral, you'll get free pickup/delivery from one lender in San Francisco! (Please remind us as well so we can lookout for this)</li>
+        <!-- AddThis Button BEGIN -->
+        <div class="addthis_toolbox addthis_default_style addthis_16x16_style" style="padding-top:1%">
+          <a class="addthis_button_email"></a>
+          <a class="addthis_button_facebook"></a>
+          <a class="addthis_button_twitter"></a>
+          <a class="addthis_button_linkedin"></a>
+          <a class="addthis_button_google_plusone_share"></a>
+          <a class="addthis_button_pinterest_share"></a>
+      </div>
+      <script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
+        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-530ee7046fcbd127"></script>
+        <!-- AddThis Button END -->
+          <br>
+      <li style="font-size:90%"><b>Download our handy Google Chrome Extension:</b> It's hard to remember to borrow, so we made a tool to remind you when we have something you're browsing e-commerce sites or searching on Google! <%= link_to 'Click here to download', 'javascript:chrome.webstore.install()', {style: 'color:#428bca', id: 'chrome-extension'} %>.</li>
+    </ul>
+  </p>
+
+</div>
+<%= render "layouts/flash" %>
+
+<div class="table-responsive">
+  <table class="table table-condensed table-hover">
+    <thead>
+      <tr>
+        <th class="col-xs-2">Dates of Request</th>
+        <th class="col-xs-2">Item</th>
+        <th class="col-xs-2">Status</th>
+        <th class="col-xs-5">Cancel</th>
+        <th class="col-xs-1"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @requests.each do |request| %>
+        <% request.borrows.where(status1: [1..3,9..10,12..21,38]).each do |borrow| %>
+          <tr>
+            <td><%= "#{request.pickupdate.strftime("%-m/%-d")} to #{request.returndate.strftime("%-m/%-d")}" %> </td>
+            <td><%= "#{Itemlist.find_by_id(borrow.itemlist_id).name}" %> </td>
+            <% case borrow.status1 %>
+            <% when 1 %>
+              <td><%= "<span id='checking'>Checking with #{Inventory.find_by_id(borrow.inventory_id).signup.email}</span>".html_safe %></td>
+            <% when 2 %>
+              <td><%= "<span id='connected'>#{Inventory.find_by_id(borrow.inventory_id).signup.email} has accepted this request!</span>".html_safe %></td>
+            <% when 3 %>
+              <td><%= "<span id='in progress'>#{Inventory.find_by_id(borrow.inventory_id).signup.email} has accepted this request!</span>".html_safe %></td>
+            <% when 10,12,14,15,17,18,19 %>
+              <td><%= "<span id='borrower cancel'>You have cancelled this request</span>".html_safe %></td>
+            <% when 9,13,20,21,38 %>
+              <td><%= "<span id='not available'>Sorry this item was not available</span>".html_safe %></td>
+            <% end %>
+            
+              <% if borrow.status1 == 1 || borrow.status1 == 2 %>
+
+              <td>
+                <%= form_for borrow, url: borrower_cancel_path(borrow), method: :post, :html => {:class => "form-inline", :autocomplete => "off"} do |f| %> 
+                  <div class="form-group col-xs-12" style="padding:1px;">
+                    <%= f.label "Reason" %>
+                    <%= f.collection_select :status1, Status.where(id:[12,10,14,15,17,18,19]).all, :id, :name %>
+                  </div>
+                  <div class="form-group col-xs-12" style="padding:1px;">
+                    <%= f.label "Alternative" %>
+                    <%= f.collection_select :status2, Status.where(statuscategory_id:[4]).all, :id, :name, include_blank: true %>
+                  </div>
+                </td>
+                <td>
+                  <div class="form-group col-xs-12" style="padding:1px;">
+                    <%= f.submit "Cancel", class: "btn btn-default btn-default btn-block", id: "cancel #{borrow.id}"%>
+                  </div>
+                </td>
+                <% end %>
+              <% end %>
+
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<script>
+  $('chrome-extension').click(function(ev) { 
+       if (!document.getElementById('extension-is-installed')) {
+            chrome.webstore.install();
+        }
+    });
+</script>

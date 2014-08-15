@@ -1,5 +1,5 @@
 class BorrowsController < ApplicationController
-  before_filter :authenticate unless Rails.env == "test"
+  before_filter :authenticate, except: [:cancel] unless Rails.env == "test"
   
   def index
     @inventory_id_collection = Hash.new
@@ -53,10 +53,36 @@ class BorrowsController < ApplicationController
   	end
   end
 
+  def cancel
+    @borrow = Borrow.find(params[:id])
+
+    if @borrow.status1 == 2
+      if @borrow.update_attributes(cancel_params)
+        flash[:success] = "Request cancelled"
+        redirect_to '/requests/manage'
+        #cancellation email to both borrower and lender
+      else
+        render '/requests/manage'
+      end
+    else
+      if @borrow.update_attributes(cancel_params)
+        flash[:success] = "Request cancelled"
+        redirect_to '/requests/manage'
+      else
+        render '/requests/manage'
+      end
+    end
+
+  end
+
   private
 
   def borrow_params
   	params.require(:borrow).permit(:status1, :status2, :inventory_id, request_attributes: [:id, :pickupdate, :returndate]) 
+  end
+
+  def cancel_params
+    params.require(:borrow).permit(:status1, :status2)
   end
 
 end

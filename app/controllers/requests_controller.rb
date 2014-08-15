@@ -273,14 +273,29 @@ class RequestsController < ApplicationController
             #throws errors because it appears the object is not being passed. in the mailer view, all the attributes like name or email are throwing no method errors for nil class
           end
         end
-        render 'success'
+        render 'manage'
       else
         render 'new'
       end
     end
   end
 
-  def success
+  #can move this entire code to borrows... doesn't really matter where it sits
+  def manage
+    if session[:signup_email].nil?
+      flash[:danger] = "Please enter your email to get started"
+      redirect_to root_path
+    else
+      @signup_parent = Signup.find_by_email(session[:signup_email].downcase)
+      if @signup_parent.tos != true || @signup_parent.streetone.blank? || @signup_parent.streettwo.blank? || @signup_parent.zipcode.blank?
+        flash[:danger] = "Almost there! We just need a little more info"
+        redirect_to edit_signup_path
+      else
+        #@q = @signup_parent.requests.ransack(params[:q])
+        #@requests = @q.result.includes(:signup, :borrows)
+        @requests = @signup_parent.requests.includes(:signup, :borrows)
+      end
+    end
   end
 
   private
