@@ -9,6 +9,9 @@ describe "how requests should flow" do
 		click_button choice
 
 		if choice == "borrow"
+			if Signup.find_by_email(email).requests.select { |r| r.borrows.where(status1: [1,2,3]).present? }.count > 0
+				click_link 'borrow-new'
+			end
 			fill_in 'borrow__1', :with => quantity
 			select "#{Time.now.year+1}", :from => 'request_pickupdate_1i'
 			select pickup_month, :from => 'request_pickupdate_2i'
@@ -399,6 +402,11 @@ describe "how requests should flow" do
 												describe "L) diff dates same user" do
 
 													before do
+														# visit '/'
+														# fill_in 'signup_email1', :with => "anavarada@gmail.com"
+														# click_button 'signup1'
+														# click_button "borrow"
+														# save_and_open_page
 														login("anavarada@gmail.com", "borrow", 1, "January", "14", "January", "20")
 													end
 

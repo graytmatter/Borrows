@@ -273,7 +273,7 @@ class RequestsController < ApplicationController
             #throws errors because it appears the object is not being passed. in the mailer view, all the attributes like name or email are throwing no method errors for nil class
           end
         end
-        render 'manage'
+        redirect_to manage_request_path
       else
         render 'new'
       end

@@ -105,8 +105,8 @@ describe "how request submission should work" do
 
 			end
 
-			it "should redirect to success page" do
-				page.assert_selector("#relax")
+			it "should redirect to manage page" do
+				page.assert_selector("#borrow-new")
 			end
 
 		end

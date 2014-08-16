@@ -13,9 +13,9 @@
 
   <h5 style="font-size:90%; font-style:italic">
     Click to 
-    <%= link_to "lend something", new_inventory_path, { style: 'color:#428bca; display: inline-block', class: "btn-inline"}%>
+    <%= link_to "lend something", new_inventory_path, { style: 'color:#428bca'}%>
     or to
-    <%= link_to 'borrow something else', new_request_path, { style: 'color:#428bca'}%>
+    <%= link_to 'borrow something else', new_request_path, { style: 'color:#428bca', id: 'borrow-new'}%>
   </h5>
 
   <p>We've reached out to lenders and will notify you as soon as we hear back. In the meantime, you can check the status of your request and make cancellations below
