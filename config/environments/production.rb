@@ -91,7 +91,7 @@ GoogleTest::Application.configure do
     password: ENV["GMAIL_PASSWORD"]
   }
   # ActionMailer Config
-  config.action_mailer.default_url_options = { :host => 'example.com' }
+  config.action_mailer.default_url_options = { :host => 'projectborrow.com' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = false
