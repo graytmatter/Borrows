@@ -9,8 +9,8 @@ describe "how requests should flow" do
 		click_button choice
 
 		if choice == "borrow"
-			if Signup.find_by_email(email).requests.select { |r| r.borrows.where(status1: [1,2,3]).present? }.count > 0
-				click_link 'borrow-new'
+			if Signup.find_by_email(email).requests.select { |r| r.borrows.where(status1: [1..3,9..10,12..21,38]).present? && r.pickupdate.to_date >= Date.today }.count > 0
+				click_link 'new-borrow'
 			end
 			fill_in 'borrow__1', :with => quantity
 			select "#{Time.now.year+1}", :from => 'request_pickupdate_1i'

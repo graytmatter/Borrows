@@ -22,7 +22,7 @@
 
     <div class="col-xs-12 box">
       <div class="col-xs-6">
-        <% if @signup_parent.requests.select { |r| r.borrows.where(status1: [1,2,3]).present? }.count > 0 %>
+        <% if @signup_parent.requests.select { |r| r.borrows.where(status1: [1..3,9..10,12..21,38]).present? && r.pickupdate.to_date >= Date.today }.count > 0 %>
           <%= button_to "Woohoo! Ready to borrow!", manage_request_path,  method: "get", class: "btn btn-primary btn-large btn-block", id: "borrow" %>
         <% else %>
           <%= button_to "Woohoo! Ready to borrow!", new_request_path,  method: "get", class: "btn btn-warning btn-large btn-block", id: "borrow" %>

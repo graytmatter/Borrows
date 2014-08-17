@@ -15,7 +15,7 @@
     Click to 
     <%= link_to "lend something", new_inventory_path, { style: 'color:#428bca'}%>
     or to
-    <%= link_to 'borrow something else', new_request_path, { style: 'color:#428bca', id: 'borrow-new'}%>
+    <%= link_to 'borrow something else', new_request_path, { style: 'color:#428bca', id: 'new-borrow'}%>
   </h5>
 
   <p>We've reached out to lenders and will notify you as soon as we hear back. In the meantime, you can check the status of your request and make cancellations below
@@ -82,23 +82,19 @@
             <% end %>
             
               <% if borrow.status1 == 1 || borrow.status1 == 2 %>
-
-              <td>
                 <%= form_for borrow, url: borrower_cancel_path(borrow), method: :post, :html => {:class => "form-inline", :autocomplete => "off"} do |f| %> 
                   <div class="form-group col-xs-12" style="padding:1px;">
                     <%= f.label "Reason" %>
-                    <%= f.collection_select :status1, Status.where(id:[12,10,14,15,17,18,19]).all, :id, :name, {}, {id: "status1 selection"} %>
+                    <%= f.collection_select :status1, Status.where(id:[12,10,14,15,17,18,19]).all, :id, :name %>
                   </div>
                   <div class="form-group col-xs-12" style="padding:1px;">
                     <%= f.label "Alternative" %>
-                    <%= f.collection_select :status2, Status.where(statuscategory_id:[4]).all, :id, :name, include_blank: true, {id: "status2 selection"} %>
+                    <%= f.collection_select :status2, Status.where(statuscategory_id:[4]).all, :id, :name, include_blank: true %>
                   </div>
-                </td>
-                <td>
+         
                   <div class="form-group col-xs-12" style="padding:1px;">
-                    <%= f.submit "Cancel", class: "btn btn-default btn-default btn-block", id: "cancel #{borrow.id}"%>
+                    <%= f.submit "Cancel", class: "btn btn-default btn-default btn-block", id: "cancel_#{borrow.id}"%>
                   </div>
-                </td>
                 <% end %>
               <% end %>
 

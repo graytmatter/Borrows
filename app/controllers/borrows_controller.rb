@@ -60,7 +60,11 @@ class BorrowsController < ApplicationController
       if @borrow.update_attributes(cancel_params)
         flash[:success] = "Request cancelled"
         redirect_to '/requests/manage'
-        #cancellation email to both borrower and lender
+        if Rails.env == "test"
+          RequestMailer.borrower_cancel(@borrow.id).deliver
+        else
+          Borrowercancel.new.async.perform(@borrow.id)
+        end
       else
         render '/requests/manage'
       end

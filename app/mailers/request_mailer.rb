@@ -71,5 +71,15 @@ class RequestMailer < ActionMailer::Base
     @id = b.id
     mail(to: "jdong8@gmail.com", from: ENV['owner'], :subject => "[Project Borrow]: Set borrow #{@id} to be in progress")
   end 
+
+  def borrower_cancel(borrow_id)
+    borrow_in_question = Borrow.find_by_id(borrow_id)
+    @borrower_email = borrow_in_question.request.signup.email
+    @lender_email = Inventory.find_by_id(borrow_in_question.inventory_id).signup.email
+    @item = Itemlist.find_by_id(borrow_in_question.itemlist_id).name
+    @pickupdate = borrow_in_question.request.pickupdate.strftime("%B %-d")
+    @returndate = borrow_in_question.request.returndate.strftime("%B %-d")
+    mail(to: @lender_email, cc: @borrower_email, from: ENV['owner'], :subject => "[Project Borrow]: Cancel request for #{@item}")
+  end
 end
 
