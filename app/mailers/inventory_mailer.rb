@@ -1,6 +1,7 @@
 class InventoryMailer < ActionMailer::Base
 
   def outstanding_request(lender_id)
+    @mailer = true
     @lender_email = Signup.find_by_id(lender_id).email
     @inventories = Signup.find_by_id(lender_id).inventories.where(available: true)
     # @items_outstanding = Array.new
