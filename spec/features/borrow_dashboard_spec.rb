@@ -20,7 +20,7 @@ describe "borrower dashboard" do
 		@newstatuscategory2.statuses.create(id: 20, name: "Not available")
 
 		@newstatuscategory3 = Statuscategory.create(id: 4, name: "2 Did not use PB")
-		@newstatuscategory3.statuses.create(name: "Borrow from neighbor")
+		@newstatuscategory3.statuses.create(id: 31, name: "Borrow from neighbor")
 
 
 		@signup_dd = Signup.create(email:"jamesdd9302@yahoo.com", streetone: "Post", streettwo: "Taylor", zipcode: 94109, tos: true)
@@ -60,7 +60,7 @@ describe "borrower dashboard" do
 			end
 
 			it "should match status" do
-				page.assert_selector("#borrowed item", count: 1)
+				page.assert_selector("#borrowed_item", count: 1)
 				page.assert_selector("#checking")
 			end
 
@@ -74,12 +74,11 @@ describe "borrower dashboard" do
 
 			before do
 				@request1 = @borrower1.requests.create(pickupdate: @todays_date, returndate: @futures_date)
-				@request1.borrows.create(multiple: 1, status1: 1, itemlist_id: 1, inventory_id: 1)
+				@request1.borrows.create(multiple: 1, status1: 2, itemlist_id: 1, inventory_id: 1)
 				visit '/'
 				fill_in 'signup_email1', :with => "anavarada@gmail.com"
 				click_button 'signup1'
 				click_button 'borrow'
-				# save_and_open_page
 			end 
 
 			it "should lead to management page" do
@@ -87,7 +86,7 @@ describe "borrower dashboard" do
 			end
 
 			it "should match status" do
-				page.assert_selector("#borrowed item", count: 1)
+				page.assert_selector("#borrowed_item", count: 1)
 				page.assert_selector("#connected")
 			end
 
@@ -113,8 +112,8 @@ describe "borrower dashboard" do
 			end
 
 			it "should match status" do
-				page.assert_selector("#borrowed item", count: 1)
-				page.assert_selector("#in progress")
+				page.assert_selector("#borrowed_item", count: 1)
+				page.assert_selector("#in_progress")
 			end
 
 			it "should not have cancel option" do
@@ -139,8 +138,8 @@ describe "borrower dashboard" do
 			end
 
 			it "should match status" do
-				page.assert_selector("#borrowed item", count: 1)
-				page.assert_selector("#not available")
+				page.assert_selector("#borrowed_item", count: 1)
+				page.assert_selector("#not_available")
 			end
 
 			it "should not have cancel option" do
@@ -165,8 +164,8 @@ describe "borrower dashboard" do
 			end
 
 			it "should match status" do
-				page.assert_selector("borrowed item", count: 1)
-				page.assert_selector("#borrower cancel")
+				page.assert_selector("#borrowed_item", count: 1)
+				page.assert_selector("#borrower_cancel")
 			end
 
 			it "should not have cancel option" do
@@ -207,8 +206,8 @@ describe "borrower dashboard" do
 				end
 
 				it "should not show older not available" do
-					page.assert_no_selector("#not available")
-					page.assert_selector("#borrowed item", count: 1)
+					page.assert_no_selector("#not_available")
+					page.assert_selector("#borrowed_item", count: 1)
 				end
 
 				it "should have only one cancel option for latest" do
@@ -251,8 +250,8 @@ describe "borrower dashboard" do
 				end
 
 				it "should not show older borrower cancel" do
-					page.assert_no_selector("#borrower cancel")
-					page.assert_selector("#borrowed item", count: 1)
+					page.assert_no_selector("#borrower_cancel")
+					page.assert_selector("#borrowed_item", count: 1)
 				end
 
 				it "should have only one cancel option for latest" do
@@ -295,7 +294,7 @@ describe "borrower dashboard" do
 				end
 
 				it "should not show older borrower cancel" do
-					page.assert_selector("#borrowed item", count: 1)
+					page.assert_selector("#borrowed_item", count: 1)
 				end
 
 				it "should have only one cancel option for latest" do
@@ -321,7 +320,7 @@ describe "borrower dashboard" do
 
 		it "should cancel the borrow" do
 			@request1.borrows.first.status1.should == 10
-			page.assert_selector("#borrower cancel")
+			page.assert_selector("#borrower_cancel")
 		end
 
 		it "should not send an email" do
@@ -347,13 +346,12 @@ describe "borrower dashboard" do
 			select "Item not suitable", from: "borrow_status1"
 			select "Borrow from neighbor", from: "borrow_status2"
 			click_button "cancel_1"
-			save_and_open_page
 		end 
 
 		it "should cancel the borrow" do
-			page.assert_selector("#borrower cancel")
+			page.assert_selector("#borrower_cancel")
 			@request1.borrows.first.status1.should == 14
-			@request1.borrows.first.status2.should == 8
+			@request1.borrows.first.status2.should == 31
 		end
 
 		it "should send an email" do

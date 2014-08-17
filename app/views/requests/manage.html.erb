@@ -67,18 +67,18 @@
         <% request.borrows.where(status1: [1..3,9..10,12..21,38]).select{ |b| b.request.returndate.to_date >= Date.today }.each do |borrow| %>
           <tr>
             <td><%= "#{request.pickupdate.strftime("%-m/%-d")} to #{request.returndate.strftime("%-m/%-d")}" %> </td>
-            <td id="borrowed item"><%= "#{Itemlist.find_by_id(borrow.itemlist_id).name}" %> </td>
+            <td id="borrowed_item"><%= "#{Itemlist.find_by_id(borrow.itemlist_id).name}" %> </td>
             <% case borrow.status1 %>
             <% when 1 %>
               <td><%= "<span id='checking'>Checking with #{Inventory.find_by_id(borrow.inventory_id).signup.email}</span>".html_safe %></td>
             <% when 2 %>
               <td><%= "<span id='connected'>#{Inventory.find_by_id(borrow.inventory_id).signup.email} has accepted this request!</span>".html_safe %></td>
             <% when 3 %>
-              <td><%= "<span id='in progress'>#{Inventory.find_by_id(borrow.inventory_id).signup.email} has accepted this request!</span>".html_safe %></td>
+              <td><%= "<span id='in_progress'>#{Inventory.find_by_id(borrow.inventory_id).signup.email} has accepted this request!</span>".html_safe %></td>
             <% when 10,12,14,15,17,18,19 %>
-              <td><%= "<span id='borrower cancel'>You have cancelled this request</span>".html_safe %></td>
+              <td><%= "<span id='borrower_cancel'>You have cancelled this request</span>".html_safe %></td>
             <% when 9,13,20,21,38 %>
-              <td><%= "<span id='not available'>Sorry this item was not available</span>".html_safe %></td>
+              <td><%= "<span id='not_available'>Sorry this item was not available</span>".html_safe %></td>
             <% end %>
             
               <% if borrow.status1 == 1 || borrow.status1 == 2 %>
