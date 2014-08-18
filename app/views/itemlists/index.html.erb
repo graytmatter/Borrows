@@ -40,18 +40,8 @@
 <% end %>
 
 
-<% if @item.errors.any? || @category.errors.any? %>
-<div class="alert alert-danger">
-  <ul>
-  <% @item.errors.full_messages.each do |message| %>
-    <li><%= message %></li>
-  <% end %>
-  <% @category.errors.full_messages.each do |message| %>
-    <li><%= message %></li>
-  <% end %>
-  </ul>
-</div>
-<% end %>
+<%= render partial: "layouts/errors", locals: { obj: @item} %>
+<%= render partial: "layouts/errors", locals: { obj: @category} %>
 
 <div class="col-xs-6 box">
   <h4>Create New Categories</h4>

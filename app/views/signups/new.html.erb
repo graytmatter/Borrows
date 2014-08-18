@@ -4,15 +4,7 @@
 <meta name="robots" content="noodp">
 </head>
 
-  <% if @signup.errors.any? %>
-    <div class="alert alert-danger">
-      <ul>
-      <% @signup.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= render partial: "layouts/errors", locals: { obj: @signup} %>
   <%= render 'layouts/flash' %>
 
   <div class="col-xs-12" style="z-index:100;">

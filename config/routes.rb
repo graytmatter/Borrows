@@ -7,7 +7,7 @@ GoogleTest::Application.routes.draw do
 
   resources :signups, only: [:new, :create]
   get '/edit', to: 'signups#edit', as: 'edit_signup'
-  patch 'signups', to: 'signups#update'
+  patch 'signups/update', to: 'signups#update'
 
   get 'requests/new', to: 'requests#new', as: 'new_request'
   post 'requests', to: 'requests#create'
@@ -19,8 +19,8 @@ GoogleTest::Application.routes.draw do
   patch 'inventories/:id/edit', to: 'inventories#update', as: 'edit_inventory'
   patch 'inventories/:id/destroy_description', to: 'inventories#destroy_description', as: 'destroy_description'  
   get 'inventories/manage', to: 'inventories#manage', as: 'manage_inventory'
-  patch 'inventories/:id/accept', to: 'inventories#accept', as: 'lender_accept'
-  patch 'inventories/:id/decline', to: 'inventories#decline', as: 'lender_decline'
+  post 'inventories/:id/accept', to: 'inventories#accept', as: 'lender_accept'
+  post 'inventories/:id/decline', to: 'inventories#decline', as: 'lender_decline'
   patch 'inventories/:id/toggle_availability', to: 'inventories#toggle', as: 'toggle_available'
 
   resources :borrows, only: [:edit, :update]

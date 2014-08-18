@@ -1,9 +1,11 @@
 # Ensure the jobs run only in a web server.
-if defined?(Rails::Server)
+#if defined?(Rails::Server)
 
-FistOfFury.configure do |config|
-  config.utc = true # false by default; makes all time within Fist of Fury UTC
-end
+if Rails.env != "development"
+
+  FistOfFury.configure do |config|
+    config.utc = true # false by default; makes all time within Fist of Fury UTC
+  end
 
   FistOfFury.attack! do
     Inprogress.recurs { daily.hour_of_day(23) }
@@ -12,3 +14,4 @@ end
     Outstanding.recurs { daily.hour_of_day(18) }
   end
 end
+#end

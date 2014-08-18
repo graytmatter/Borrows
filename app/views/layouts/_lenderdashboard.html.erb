@@ -1,0 +1,109 @@
+<div class="table-responsive">
+  <table class="table table-condensed table-hover">
+    <thead>
+      <tr>
+        <% if @index %>
+          <th class="col-xs-2"><%= sort_link(@q, 'signups.email', "Email") %></th>
+        <% end %>
+        <th class="col-xs-1">Item</th>
+        <th class="col-xs-3">Description</th>
+        <% unless @index == true %>
+          <th class="col-xs-7">Dates of Request & Message</th>
+        <% end %>
+        <% if @actions %>
+          <th class="col-xs-1">Actions</th>
+        <% end %>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @inventories.each do |inventory| %>
+        <tr>
+          <% if @index %>
+            <td><%= inventory.signup.email %></td>
+          <% end %>
+          <td>
+            <% if inventory.available == false %>
+              <%= "<span id='name_#{inventory.id}'>#{Itemlist.find_by_id(inventory.itemlist_id).name}</span> <br> <span style='color:red;', id='not_available_#{inventory.id}'>Unavailable</span>".html_safe %>
+            <% else %>
+              <%= "<span id='name_#{inventory.id}'>#{Itemlist.find_by_id(inventory.itemlist_id).name}</span>".html_safe %>
+            <% end %>
+          </td>
+          <td>
+            <% if inventory.description.blank? %>
+              <% if @actions %>
+                <%= form_for inventory, url: edit_inventory_path(inventory), method: :patch, :html => {:class => "form-inline", :autocomplete => "off"} do |f| %> 
+                  <div class="form-group col-xs-10" style="padding:1px;">
+                    <%= f.text_field :description, class: "form-control", id: "inventory_description_#{inventory.id}", placeholder: "Add a link or description" %>
+                  </div>
+                  <div class="form-group col-xs-2" style="padding:1px;">
+                    <%= f.submit "Add", class: "btn btn-default btn-default btn-block", id: "add_description_#{inventory.id}"%>
+                  </div>
+                <% end %>
+              <% end %>
+            <% else %>
+              <% if @actions %>
+                <%= "<span id='description_#{inventory.id}'>#{inventory.description}. #{link_to 'CHANGE', destroy_description_path(inventory), method: :patch, id: "update_description_#{inventory.id}"}</span>".html_safe %>
+              <% else %>
+                <%= "<span id='description_#{inventory.id}'>#{inventory.description}.".html_safe %>
+              <% end %>
+            <% end %>
+          </td>
+          <% unless @index == true %>
+            <td>
+              <% if Borrow.find_by_inventory_id(inventory.id).present? %>
+                <table class="table table-condensed">
+                  <thead>
+                    <tr>
+                      <th class="col-xs-1"></th>
+                      <th class="col-xs-9"></th>
+                      <th class="col-xs-2"></th>
+                    </tr>
+                  </thead>
+                  <% @total_borrows = Borrow.where(inventory_id: inventory.id, status1: [1,2,3]).includes(:request).order('requests.pickupdate')%>
+                  <% @total_borrows.each do |borrow| %>
+                    <% if borrow.request.pickupdate.present? && borrow.request.returndate.present? %> 
+                      <tbody>
+                        <tr>
+                          <td><%= "#{borrow.request.pickupdate.strftime("%-m/%-d")} to #{borrow.request.returndate.strftime("%-m/%-d")}" %> </td>
+
+                          <% case borrow.status1 %>
+                          <% when 3 %>
+                            <td id="in_progress"><%= "Thanks, we've connected you with #{borrow.request.signup.email} via email." %></td>
+                          <% when 2 %>
+                            <td id="connected"><%= "Thanks, we've connected you with #{borrow.request.signup.email} via email." %></td>
+                          <% when 1 %>
+                            <td id="manage_text"><%= "New request from #{borrow.request.signup.email} in #{Geography.find_by_zipcode(borrow.request.signup.zipcode).city}! #{borrow.request.detail}" %></td>
+                            <td id="manage"><%= 
+                            "#{button_to 'YES', lender_accept_url(borrow), method: :post, id: "accept #{borrow.id}", style: "background-color:green; color: white; width: 40px; display: inline"} 
+                            #{button_to 'NO', lender_decline_url(borrow), method: :post, id: "decline #{borrow.id}", style: "background-color:gray; width: 40px; display: inline"}".html_safe %></td>
+                          <% else %>
+                          <% end %>
+                        </tr>
+                      </tbody>
+                    <% end %>
+                  <% end %>
+                </table>
+              <% end %>
+            </td>
+          <% end %>
+          <% if @actions %>
+            <td>
+              <ul>
+              <!-- next step, define time period of unavailability, but then what happens if a user has multiple time periods to define at once? best way to achieve latter woudl probably be to submit a self-use request -->
+                  <% if Borrow.where(inventory_id: inventory.id).select { |b| (b.request.pickupdate.present?) && (b.request.returndate.present?) && ((b.request.pickupdate > Date.today) || (b.request.returndate > Date.today)) }.count == 0 %>
+                    <li>
+                      <%= link_to "#{inventory.available == true ? 'UNAVAILABLE' : 'AVAILABLE'}", toggle_available_path(inventory), method: :patch, id: "toggle_#{inventory.id}" %>
+                    </li>
+                    <li>
+                      <%= link_to 'REMOVE', inventory, method: :delete, id: "remove_#{inventory.id}", data: { confirm: "Are you sure this item is no longer up for sharing?" } %>
+                    </li>
+                  <% end %>
+              </ul>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

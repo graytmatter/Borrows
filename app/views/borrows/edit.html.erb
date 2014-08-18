@@ -1,34 +1,30 @@
   
-  <% if @borrow.errors.any? %>
-    <div class="alert alert-danger">
-      <p>Please correct the following error(s):</p>
-      <ul>
-        <% @borrow.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= render partial: "layouts/errors", locals: { obj: @borrow} %>
   <%= render "layouts/flash" %>
 
   <div class="col-xs-12 box">
     <h4>Now editing</h4>
     <h5><%= "Item: #{Itemlist.find_by_id(@borrow.itemlist_id).name}" %></h5>
-    <h5><%= "Signup email: #{@borrow.request.signup.email}" %> </h5>
+    <h5><%= "Borrower email: #{@borrow.request.signup.email}" %> </h5>
+    <h5>
+      <% if @borrow.inventory_id.present? %>
+        <%= "Lender email + description: #{Inventory.find_by_id(@borrow.inventory_id).signup.email} + #{Inventory.find_by_id(@borrow.inventory_id).description}" %>
+      <% end %>
+    </h5>
     <h5><%= "Request message: #{@borrow.request.detail}" %></h5>  
     <%= form_for @borrow, url: {action: 'update'} do |f| %>
       <div class="form-group">
         <%= f.label "Status 1" %>
-        <%= f.collection_select :status1, Status.where(statuscategory_id:[1,3]).all, :id, :name, {default: Status.find_by_id(@borrow.status1).name } %>
+        <%= f.collection_select :status1, Status.where(statuscategory_id:[1,2]).all, :id, :name, {default: Status.find_by_id(@borrow.status1).name } %>
       </div>  
       <div class="form-group">
         <%= f.label "Status 2" %>
-        <%= f.collection_select :status2, Status.where(statuscategory_id:[2,4]).all, :id, :name, {default: Status.find_by_id(@borrow.status2).name, include_blank: true} %>
+        <%= f.collection_select :status2, Status.where(statuscategory_id:[3,4]).all, :id, :name, {default: @borrow.status2.present? ? Status.find_by_id(@borrow.status2).name : "", include_blank: true} %>
       </div> 
       <div class="form-group">
         <%= f.label "Lender Email" %>
-        <!-- also not working -->
-        <%#= f.collection_select :inventory_id, Status.where(statuscategory_id: Statuscategory.where("name LIKE ?", "%2%").ids), :id, :name, {default: Status.find_by_id(@borrow.status2).name, include_blank: true} %>
+        <%= f.select :inventory_id, options_for_select(Inventory.where(itemlist_id: @borrow.itemlist_id).collect { |i| ["#{i.signup.email} + #{i.description}", i.id] }), {include_blank: true} %>
+        <!-- couldn't get default to work for above --> 
       </div> 
       <%= f.fields_for :request do |r| %>
         <div class="form-group">
@@ -42,7 +38,7 @@
       <% end %>
 
       <div class="form-group">
-        <%= f.submit "Update!", class: "btn btn-primary btn-large btn-block" %>
+        <%= f.submit "Update!", class: "btn btn-primary btn-large btn-block", id: "update" %>
       </div>
     <% end %>
   </div>

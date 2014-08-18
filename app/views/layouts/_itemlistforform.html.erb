@@ -1,0 +1,11 @@
+
+<div class="col-xs-4">
+  <div class="form-group" style="font-size:75%">
+    <h5> <%= enum.name %> </h5>
+      <% enum.itemlists.each do |i| %>
+          <%= number_field_tag @inventory_form ? "inventory[#{i.id}" : "borrow[][#{i.id}", :quantity, min: 0, value: param_obj ? param_obj[i] : 0, class: "shrink_num_field" %>
+          <%= label_tag i.name, i.name %>
+        </br>
+      <% end %>
+  </div>
+</div>  

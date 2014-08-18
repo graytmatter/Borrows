@@ -23,86 +23,11 @@
   <ul>
     <li><b>Column 1:</b> cool thanks for sharing this!
     <li><b>Column 2:</b> add or change links or descriptions to help you keep track of who has what</li>
-    <li><b>Column 3:</b> click ACCEPT or DECLINE to manage requests; if you accept, we'll connect you via email with the borrower. If you have more than one outstanding request for one item, choose whomever!
+    <li><b>Column 3:</b> click YES or NO to manage requests; if you accept, we'll connect you via email with the borrower. If you have more than one outstanding request for one item, choose whomever!
     <li><b>Column 4:</b> click REMOVE to delete an item; click UNAVAILABLE to mark it temporarily unavailable (e.g., if you're going away). When you return, please click AVAILABLE so our borrowers can see it again! Note, you can only do this after clearing your outstanding requests</li>
   </ul>
 
 </div>
 <%= render "layouts/flash" %>
 
-<div class="table-responsive">
-  <table class="table table-condensed table-hover">
-    <thead>
-      <tr>
-        <th class="col-xs-2">Item</th>
-        <th class="col-xs-4">Description</th>
-        <th class="col-xs-6">Requests</th>
-        <th class="col-xs-1">Actions</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <% @inventories.each do |inventory| %>
-        <tr>
-          <td>
-            <% if inventory.available == false %>
-              <%= "<span id='name_#{inventory.id}'>#{Itemlist.find_by_id(inventory.itemlist_id).name}</span> <br> <span style='color:red;', id='not_available_#{inventory.id}'>Unavailable</span>".html_safe %>
-            <% else %>
-              <%= "<span id='name_#{inventory.id}'>#{Itemlist.find_by_id(inventory.itemlist_id).name}</span>".html_safe %>
-            <% end %>
-          </td>
-          <td>
-            <% if inventory.description.blank? %>
-              <%= form_for inventory, url: edit_inventory_path(inventory), method: :patch, :html => {:class => "form-inline", :autocomplete => "off"} do |f| %> 
-                <div class="form-group col-xs-10" style="padding:1px;">
-                  <%= f.text_field :description, class: "form-control", id: "inventory_description_#{inventory.id}", placeholder: "Add a link or description" %>
-                </div>
-                <div class="form-group col-xs-2" style="padding:1px;">
-                  <%= f.submit "Add", class: "btn btn-default btn-default btn-block", id: "add_description_#{inventory.id}"%>
-                </div>
-              <% end %>
-            <% else %>
-              <%= "<span id='description_#{inventory.id}'>#{inventory.description}. #{link_to 'CHANGE', destroy_description_path(inventory), method: :patch, id: "update_description_#{inventory.id}"}</span>".html_safe %>
-
-            <% end %>
-          </td>
-          <td>
-         
-              <ul>
-                <% if Borrow.find_by_inventory_id(inventory.id).present? %>
-                  <% Borrow.where(inventory_id: inventory.id, status1: [1,2,3]).each do |borrow| %>
-                    <% if borrow.request.pickupdate.present? && borrow.request.returndate.present? %> 
-                        <% case borrow.status1 %>
-                        <% when 3 %>
-                          <li id="in_progress" style="font-size:90%"><%= "You've accepted a request from #{borrow.request.signup.email} from #{borrow.request.pickupdate.strftime("%B %-d")} to #{borrow.request.returndate.strftime("%B %-d")}. We've emailed both of you with details" %></li>
-                        <% when 2 %>
-                          <li id="connected" style="font-size:90%"><%= "You've accepted a request from #{borrow.request.signup.email} from #{borrow.request.pickupdate.strftime("%B %-d")} to #{borrow.request.returndate.strftime("%B %-d")}. We've emailed both of you with details" %></li>
-                        <% when 1 %>
-                          <li id="manage" style="font-size:90%"><%= "#{link_to 'ACCEPT', lender_accept_path(borrow), method: :patch, id: "accept #{borrow.id}", style: "color:green;"} or #{link_to 'DECLINE', lender_decline_path(borrow), method: :patch, id: "decline #{borrow.id}", style: "color:gray"} &mdash; Requested by #{borrow.request.signup.email} in #{Geography.find_by_zipcode(borrow.request.signup.zipcode).city} from #{borrow.request.pickupdate.strftime("%B %-d")} to #{borrow.request.returndate.strftime("%B %-d")}. #{borrow.request.detail}".html_safe %></li>
-                        <% else %>
-                        <% end %>
-                    <% end %>
-                  <% end %>
-                <% end %>
-              </ul>
-   
-
-          </td>
-          <td>
-            <ul>
-            <!-- next step, define time period of unavailability, but then what happens if a user has multiple time periods to define at once? best way to achieve latter woudl probably be to submit a self-use request -->
-                <% if Borrow.where(inventory_id: inventory.id).select { |b| (b.request.pickupdate.present?) && (b.request.returndate.present?) && ((b.request.pickupdate > Date.today) || (b.request.returndate > Date.today)) }.count == 0 %>
-                  <li>
-                    <%= link_to "#{inventory.available == true ? 'UNAVAILABLE' : 'AVAILABLE'}", toggle_available_path(inventory), method: :patch, id: "toggle_#{inventory.id}" %>
-                  </li>
-                  <li>
-                    <%= link_to 'REMOVE', inventory, method: :delete, id: "remove_#{inventory.id}", data: { confirm: "Are you sure this item is no longer up for sharing?" } %>
-                  </li>
-                <% end %>
-            </ul>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
+<%= render "layouts/lenderdashboard" %>

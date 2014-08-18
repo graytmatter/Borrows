@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html> 
+<head> 
+	<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" /> 
+</head> 
+<body style:"color: black;"> 
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Manage borrower requests">
+<meta name="robots" content="noodp">
+</head>
+
+<p>Hi there <%= @lender_email%>!</p>
+
+<p>Your neighbors would like to borrow your stuff! You can manage requests at www.ProjectBorrow.com or simply use the table below, just as you would on the website. Simply click the YES or NO buttons next to each dated request. If there are multiple borrowers for one item, choose whomever!</p>
+
+<%= render "layouts/lenderdashboard" %>
+
+<p>Thank you for making someone's day!</p>
+
+<p>James</p>
+
+<p><a href="http://www.projectborrow.com/?utm_source=james%40projectborrow&utm_medium=email&utm_campaign=email%20signature">Click here</a> to borrow something. Please feel free to share with your friends!</p>
+
+</body> 
+</html>

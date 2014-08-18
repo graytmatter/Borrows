@@ -1,12 +1,4 @@
-<% if @statuscategory.errors.any? %>
-<div class="alert alert-danger">
-  <ul>
-  <% @statuscategory.errors.full_messages.each do |message| %>
-    <li><%= message %></li>
-  <% end %>
-  </ul>
-</div>
-<% end %>
+<%= render partial: "layouts/errors", locals: { obj: @statuscategory } %>
 
 <div class="col-xs-12 box">
   <h4>Edit Category</h4>
