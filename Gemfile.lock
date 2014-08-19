@@ -10,6 +10,15 @@ GIT
       i18n
       polyamorous (~> 1.1.0)
 
+GIT
+  remote: https://github.com/stripe/stripe-ruby
+  revision: afd42ecd416554d5c2493498aebe03cbfd9d7d68
+  specs:
+    stripe (1.15.0)
+      json (~> 1.8.1)
+      mime-types (>= 1.25, < 3.0)
+      rest-client (~> 1.4)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -115,6 +124,7 @@ GEM
     multi_json (1.10.1)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
+    netrc (0.7.7)
     newrelic_rpm (3.9.1.236)
     nokogiri (1.6.3.1)
       mini_portile (= 0.6.0)
@@ -159,6 +169,13 @@ GEM
     rake (10.3.2)
     rdoc (4.1.1)
       json (~> 1.4)
+    rest-client (1.7.2)
+      mime-types (>= 1.16, < 3.0)
+      netrc (~> 0.7)
+    rest-client (1.7.2-x86-mingw32)
+      ffi (~> 1.9)
+      mime-types (>= 1.16, < 3.0)
+      netrc (~> 0.7)
     rspec-core (2.14.8)
     rspec-expectations (2.14.5)
       diff-lcs (>= 1.1.3, < 2.0)
@@ -246,6 +263,7 @@ DEPENDENCIES
   sdoc
   selenium-webdriver (= 2.35.1)
   sqlite3 (= 1.3.8)
+  stripe!
   sucker_punch (~> 1.0)
   uglifier (>= 1.3.0)
   unicorn

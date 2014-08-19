@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140806215843) do
+ActiveRecord::Schema.define(version: 20140819014047) do
 
   create_table "agreements", force: true do |t|
     t.integer  "signup_id"
@@ -29,6 +29,12 @@ ActiveRecord::Schema.define(version: 20140806215843) do
     t.integer  "status2"
     t.integer  "inventory_id"
     t.integer  "multiple"
+    t.boolean  "paid?"
+    t.integer  "signup_id"
+    t.boolean  "refunded?"
+    t.integer  "amount"
+    t.date     "paid_date"
+    t.date     "refunded_date"
   end
 
   add_index "borrows", ["request_id"], name: "index_borrows_on_request_id"

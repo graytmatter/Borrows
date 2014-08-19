@@ -4,6 +4,7 @@ ruby '2.1.2'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.1'
 
+
 gem 'bootstrap-sass', '3.0.3.0'
 gem 'google_drive'
 gem 'figaro' #creates the config/application.yml file ignored by Git
@@ -12,7 +13,7 @@ gem 'newrelic_rpm' #tracking and pinging from newrelic
 gem 'ransack', github: 'activerecord-hackery/ransack', branch: 'rails-4.1' #sortable links on inventory (user and admin) and request pages (admin)
 gem 'sucker_punch', '~> 1.0' #for background jobs
 gem 'fist_of_fury', '~> 0.2.0' #to allow sucker punch to do recurring jobs
-
+gem 'stripe', :git => 'https://github.com/stripe/stripe-ruby' #deposit tools 
 # Use sqlite3 as the database for Active Record
 group :development do
 	gem 'sqlite3', '1.3.8'
