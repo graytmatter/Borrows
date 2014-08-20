@@ -75,15 +75,12 @@
                           <% when 1 %>
                             <td id="manage_text"><%= "New request from #{borrow.request.signup.email} in #{Geography.find_by_zipcode(borrow.request.signup.zipcode).city}! #{borrow.request.detail}" %></td>
                             <td id="manage"><%= 
-                            "#{button_to 'YES', lender_accept_url(borrow), id: "accept #{borrow.id}", style: "background-color:green; color: white; width: 40px; display: inline"} 
-                            #{button_to 'NO', lender_decline_url(borrow), id: "decline #{borrow.id}", style: "background-color:gray; width: 40px; display: inline"}".html_safe %></td>
+                            "#{link_to 'YES', lender_accept_url(borrow), class: "btn btn-primary btn-xs", id: "accept #{borrow.id}", style: "background-color:green; color: white; width: 40px; display: inline"} 
+                            #{link_to 'NO', lender_decline_url(borrow), class: "btn btn-primary btn-xs", id: "decline #{borrow.id}", style: "background-color:gray; width: 40px; display: inline"}".html_safe %></td>
                           <% else %>
                           <% end %>
                         </tr>
                       </tbody>
-                    <% end %>
-                    <% if @mailer %>
-                      <hr>
                     <% end %>
                   <% end %>
                 </table>
@@ -106,6 +103,9 @@
             </td>
           <% end %>
         </tr>
+      <% end %>
+      <% if @mailer %>
+        <hr>
       <% end %>
     </tbody>
   </table>
