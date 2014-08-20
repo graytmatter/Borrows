@@ -115,7 +115,7 @@ describe "how requests should flow" do
 
 			before do
 				login("jamesdd9302@yahoo.com", "lend")
-				click_button 'decline 1'
+				click_link 'decline 1'
 			end
 
 			it "should affect records" do
@@ -144,7 +144,7 @@ describe "how requests should flow" do
 
 				before do
 					login("jdong8@gmail.com", "lend")
-					click_button 'decline 2'
+					click_link 'decline 2'
 				end
 
 				it "should affect Requests and Borrows" do
@@ -258,7 +258,7 @@ describe "how requests should flow" do
 
 								before do
 									login("jamesdd9302@yahoo.com", "lend")
-									click_button 'accept 2'
+									click_link 'accept 2'
 								end
 
 								it "should affect Requests and Borrows" do
@@ -287,7 +287,7 @@ describe "how requests should flow" do
 
 									before do
 										login("jdong8@gmail.com", "lend")
-										click_button 'accept 4'
+										click_link 'accept 4'
 									end
 
 									it "should affect Requests and Borrows" do
@@ -456,7 +456,7 @@ describe "how requests should flow" do
 
 															before do
 																login("jamesdd9302@yahoo.com", "lend")
-																click_button "decline 10"
+																click_link "decline 10"
 															end
 
 															it "should affect Requests and Borrows" do
@@ -485,7 +485,7 @@ describe "how requests should flow" do
 
 																before do
 																	login("jamesdd9302@yahoo.com", "lend")
-																	click_button "decline 12"
+																	click_link "decline 12"
 																end
 
 																it "should affect Requests and Borrows" do
@@ -515,7 +515,7 @@ describe "how requests should flow" do
 																	before do
 																		login("jdong8@gmail.com", "lend")
 																		# save_and_open_page
-																		click_button "decline 13"
+																		click_link "decline 13"
 																	end
 
 																	it "should affect Requests and Borrows" do
@@ -572,7 +572,7 @@ describe "how requests should flow" do
 
 																			before do
 																				login("jamesdd9302@yahoo.com", "lend")
-																				click_button "decline 15"
+																				click_link "decline 15"
 																			end
 
 																			it "should affect Requests and Borrows" do
@@ -601,7 +601,7 @@ describe "how requests should flow" do
 
 																				before do
 																					login("jdong8@gmail.com", "lend")
-																					click_button "decline 16"
+																					click_link "decline 16"
 																				end
 
 																				it "should affect Requests and Borrows" do
@@ -630,7 +630,7 @@ describe "how requests should flow" do
 
 																					before do
 																						login("jamesdd9302@yahoo.com", "lend")
-																						click_button "decline 17"
+																						click_link "decline 17"
 																					end
 
 																					it "should affect Requests and Borrows" do
@@ -659,7 +659,7 @@ describe "how requests should flow" do
 
 																						before do
 																							login("jdong8@gmail.com", "lend")
-																							click_button "decline 18"
+																							click_link "decline 18"
 																						end
 
 																						it "should affect Requests and Borrows" do
@@ -787,7 +787,7 @@ describe "how requests should flow" do
 
 																										before do
 																											login("jdong8@gmail.com", "lend")
-																											click_button ("accept 11")
+																											click_link ("accept 11")
 																										end
 
 																										it "should affect Requests and Borrows" do
@@ -817,7 +817,7 @@ describe "how requests should flow" do
 
 																											before do
 																												login("jamesdd9302@yahoo.com", "lend")
-																												click_button ("accept 8")
+																												click_link ("accept 8")
 																											end
 
 																											it "should affect Requests and Borrows" do
@@ -848,7 +848,7 @@ describe "how requests should flow" do
 																												before do
 																													login("anavarada@gmail.com", "borrow", 2, "February", "12", "February", "17")
 																													login("jdong8@gmail.com", "lend")
-																													click_button "accept #{Borrow.last.id}"
+																													click_link "accept #{Borrow.last.id}"
 																												end
 
 																												it "should affect Requests and Borrows" do
