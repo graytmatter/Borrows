@@ -298,6 +298,10 @@ class RequestsController < ApplicationController
     end
   end
 
+  def test
+    @lenders = Signup.select { |s| s.inventories.count > 0 }
+  end
+
   private
 
   def request_params

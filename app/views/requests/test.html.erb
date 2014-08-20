@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+      html { height: 100% }
+      body { height: 100%; margin: 0; padding: 0 }
+      #map-canvas { height: 100% }
+    </style>
+    <%="<script type='text/javascript'
+      src='https://maps.googleapis.com/maps/api/js?key=AIzaSyCrDfaPF87I0WBWjaLDQrx_cHtEyzK6oX8&libraries=geometry'></script>".html_safe %>
+    <script type="text/javascript">
+      function initialize() {
+        var mapOptions = {
+          center: new google.maps.LatLng(37.7833, 122.4167)
+          zoom: 8
+        };
+        var map = new google.maps.Map(document.getElementById("map-canvas"),
+            mapOptions);
+      }
+      google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+  </head>
+  <body>
+  	<div class="col-xs-2">
+		<div>
+			<h4>CART</h4>
+			<ul>
+				<li>
+				</li>
+			</ul>
+		</div>
+	</div>
+    <div class="col-xs-6" id="map-canvas"/>
+  </body>
+</html>
+
+<!-- <table class="table table-condensed table-hover">
+    <thead>
+      <tr>
+        <th class="col-xs-2">Email</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+		<%# @lenders.each do |l| %>
+		  <td><%#= "#{l.email}" %></td>
+		<%# end %>
+	  </tr>
+	</tbody>
+</table>  
+
+<script>
+</script>
+ -->
