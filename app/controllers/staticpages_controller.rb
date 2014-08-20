@@ -11,6 +11,9 @@ class StaticpagesController < ApplicationController
 	def maintenance
 	end
 
+	def already
+	end
+
 	def metrics
 		signups = Signup.all
 		@total_signups = signups.count

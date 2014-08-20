@@ -49,6 +49,7 @@ GoogleTest::Application.routes.draw do
   get 'termsofservice', to: 'staticpages#terms', as: 'terms'
   get 'privacypolicy', to: 'staticpages#policy', as: 'policy'
   get 'admin/metrics', to: 'staticpages#metrics', as: 'metrics'
+  get 'already', to: 'staticpages#already', as: 'already'
 
     # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

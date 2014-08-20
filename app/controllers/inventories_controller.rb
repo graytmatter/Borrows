@@ -160,38 +160,44 @@ class InventoriesController < ApplicationController
   def decline
   #not as many deletes, because we're assuming that you're declining one borrow, not necessarily anything for that date range or from that user, though these could be more advanced options
   #along that same vein you could easily have accept all for a specific item, or for a specific user's request
-    declined = Borrow.find_by_id(params[:id])
-    
-    decline_process(declined, 21)
-    
-    redirect_to manage_inventory_path
+    if Borrow.find_by_id(params[:id]).present? && Borrow.find_by_id(params[:id]).status1 != 2
+      declined = Borrow.find_by_id(params[:id])
+      decline_process(declined, 21)
+      redirect_to manage_inventory_path
+    else 
+      render 'staticpages/already'
+    end
   end
 
   def accept 
-    accepted = Borrow.find_by_id(params[:id])
-    accepted.update_attributes(status1: 2)
-    if Rails.env == "test"
-      RequestMailer.connect_email(accepted).deliver
+    if Borrow.find_by_id(params[:id]).present? && Borrow.find_by_id(params[:id]).status1 != 2
+      accepted = Borrow.find_by_id(params[:id])
+      accepted.update_attributes(status1: 2)
+      if Rails.env == "test"
+        RequestMailer.connect_email(accepted).deliver
+      else
+        Connect.new.async.perform(accepted)
+      end 
+
+      inventory_id = accepted.inventory_id
+      itemlist_id = accepted.itemlist_id
+      request_id = accepted.request_id
+      multiple = accepted.multiple
+
+      similar_borrows = Borrow.where(itemlist_id: itemlist_id)
+      #delete items that the borrower no longer needs
+      similar_borrows.select{ |b| b.request_id == request_id && b.multiple == multiple && b.inventory_id != inventory_id }.each { |b| b.destroy }
+
+      #some things no longer available
+      no_longer_available = similar_borrows.select{ |b| b.inventory_id == inventory_id && b.request_id != request_id && b.request.do_dates_overlap(Request.find(request_id)) == "yes"} + similar_borrows.select{ |b| b.inventory_id == inventory_id && b.request_id == request_id && b.multiple != multiple && b.request.do_dates_overlap(Request.find(request_id)) == "yes"}
+      no_longer_available.each do |n|
+        decline_process(n, 20)
+      end
+
+      redirect_to manage_inventory_path
     else
-      Connect.new.async.perform(accepted)
-    end 
-
-    inventory_id = accepted.inventory_id
-    itemlist_id = accepted.itemlist_id
-    request_id = accepted.request_id
-    multiple = accepted.multiple
-
-    similar_borrows = Borrow.where(itemlist_id: itemlist_id)
-    #delete items that the borrower no longer needs
-    similar_borrows.select{ |b| b.request_id == request_id && b.multiple == multiple && b.inventory_id != inventory_id }.each { |b| b.destroy }
-
-    #some things no longer available
-    no_longer_available = similar_borrows.select{ |b| b.inventory_id == inventory_id && b.request_id != request_id && b.request.do_dates_overlap(Request.find(request_id)) == "yes"} + similar_borrows.select{ |b| b.inventory_id == inventory_id && b.request_id == request_id && b.multiple != multiple && b.request.do_dates_overlap(Request.find(request_id)) == "yes"}
-    no_longer_available.each do |n|
-      decline_process(n, 20)
+      render 'staticpages/already'
     end
-
-    redirect_to manage_inventory_path
   end
 
   private
