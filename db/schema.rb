@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140730205513) do
+ActiveRecord::Schema.define(version: 20140820054344) do
 
   create_table "borrows", force: true do |t|
     t.integer  "request_id"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20140730205513) do
     t.integer  "status2"
     t.integer  "inventory_id"
     t.integer  "multiple"
+    t.string   "secure_id"
   end
 
   add_index "borrows", ["request_id"], name: "index_borrows_on_request_id"
