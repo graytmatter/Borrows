@@ -12,17 +12,18 @@
 
 <p>Hi there <%= @lender_email%>!</p>
 
-<p>By request, it's now easier than ever to manage your requests, because you can do it in the email right below, just as you would on www.ProjectBorrow.com! Simply click the YES or NO next to each request. A new page will open that takes you to your dashboard (you may be asked to log in again, but this will <b>not</b> interrupt with the YES or NO that you clicked). If there are multiple borrowers for one item, choose whomever!</p>
-<!-- 
-<p>Your neighbors would like to borrow your stuff! You can manage requests at www.ProjectBorrow.com or simply use the table below, just as you would on the website. Simply click the YES or NO buttons next to each dated request, and a new page will open that takes you to your dashboard (note, you may be asked to log in again, but this will not interrupt with the YES or NO click). If there are multiple borrowers for one item, choose whomever!</p> -->
+<p>It's now easier than ever to manage your requests, because you can do it in this very email, just as you would on <%= link_to "www.ProjectBorrow.com", root_path %>!</p>
 
-<%= render "layouts/lenderdashboard" %>
+<ol>
+	<li><b>Click the YES or NO next to each request</b> (if there are multiple, choose whomever; and remember that any duplication just means that the borrower wants more than one, sometimes they'll include specific needs which will help you decide which to accept) 
+	<li>Upon click, a new page will open that takes you to your dashboard. If you are not logged in, you'll be asked to do so, but regardless the website will register your YES or NO click, and you will not have to click again</li>
+</ol>
 
 <p>Thank you for making someone's day!</p>
 
 <p>James</p>
 
-<p><a href="http://www.projectborrow.com/?utm_source=james%40projectborrow&utm_medium=email&utm_campaign=email%20signature">Click here</a> to borrow something. Please feel free to share with your friends!</p>
+<%= render "layouts/lenderdashboard" %>
 
 </body> 
 </html>
