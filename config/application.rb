@@ -26,5 +26,11 @@ module GoogleTest
       html_tag
     }
 
+    # Allows Google Maps access in local server 
+    config.action_dispatch.default_headers.merge!({
+      'Access-Control-Allow-Origin' => '*',
+      'Access-Control-Request-Method' => '*'
+    })
+
   end
 end

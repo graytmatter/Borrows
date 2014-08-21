@@ -11,7 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140730205513) do
+ActiveRecord::Schema.define(version: 20140821023252) do
+
+  create_table "agreements", force: true do |t|
+    t.integer  "signup_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.date     "date"
+  end
 
   create_table "borrows", force: true do |t|
     t.integer  "request_id"
@@ -22,6 +29,7 @@ ActiveRecord::Schema.define(version: 20140730205513) do
     t.integer  "status2"
     t.integer  "inventory_id"
     t.integer  "multiple"
+    t.string   "secure_id"
   end
 
   add_index "borrows", ["request_id"], name: "index_borrows_on_request_id"
@@ -92,6 +100,8 @@ ActiveRecord::Schema.define(version: 20140730205513) do
     t.string   "streettwo"
     t.integer  "zipcode",    limit: 255
     t.boolean  "tos"
+    t.float    "longitude"
+    t.float    "latitude"
   end
 
   add_index "signups", ["email"], name: "index_signups_on_email", unique: true
@@ -112,5 +122,11 @@ ActiveRecord::Schema.define(version: 20140730205513) do
   end
 
   add_index "statuses", ["name"], name: "index_statuses_on_name", unique: true
+
+  create_table "tos", force: true do |t|
+    t.date     "date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end

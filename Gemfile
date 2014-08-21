@@ -12,6 +12,9 @@ gem 'newrelic_rpm' #tracking and pinging from newrelic
 gem 'ransack', github: 'activerecord-hackery/ransack', branch: 'rails-4.1' #sortable links on inventory (user and admin) and request pages (admin)
 gem 'sucker_punch', '~> 1.0' #for background jobs
 gem 'fist_of_fury', '~> 0.2.0' #to allow sucker punch to do recurring jobs
+gem 'gon' #allows data in server to be used by JS
+gem 'geocoder'
+# gem 'hpricot'
 
 # Use sqlite3 as the database for Active Record
 group :development do

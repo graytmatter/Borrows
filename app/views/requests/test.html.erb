@@ -3,35 +3,112 @@
   <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
     <style type="text/css">
-      html { height: 100% }
-      body { height: 100%; margin: 0; padding: 0 }
-      #map-canvas { height: 100% }
+      #map-canvas {
+        height: 500px;
+        margin: 0px;
+        padding: 0px
+      }
     </style>
     <%="<script type='text/javascript'
-      src='https://maps.googleapis.com/maps/api/js?key=AIzaSyCrDfaPF87I0WBWjaLDQrx_cHtEyzK6oX8&libraries=geometry'></script>".html_safe %>
-    <script type="text/javascript">
+      src='https://maps.googleapis.com/maps/api/js?key=#{ENV['GoogleMap']}&libraries=geometry'></script>".html_safe %>
+    <script>
+      var map;
       function initialize() {
         var mapOptions = {
-          center: new google.maps.LatLng(37.7833, 122.4167)
-          zoom: 8
+          zoom: 8,
+          center: new google.maps.LatLng(37.7833, 122.4167) 
+          // replace with gon.borrower.geocode
         };
-        var map = new google.maps.Map(document.getElementById("map-canvas"),
+
+        map = new google.maps.Map(document.getElementById('map-canvas'),
             mapOptions);
-      }
+
+        var contentString = '<div id="content">'+
+            '<div id="siteNotice">'+
+            '</div>'+
+            '<h1 id="firstHeading" class="firstHeading">Uluru</h1>'+
+            '<div id="bodyContent">'+
+            '<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large ' +
+            'sandstone rock formation in the southern part of the '+
+            'Northern Territory, central Australia. It lies 335&#160;km (208&#160;mi) '+
+            'south west of the nearest large town, Alice Springs; 450&#160;km '+
+            '(280&#160;mi) by road. Kata Tjuta and Uluru are the two major '+
+            'features of the Uluru - Kata Tjuta National Park. Uluru is '+
+            'sacred to the Pitjantjatjara and Yankunytjatjara, the '+
+            'Aboriginal people of the area. It has many springs, waterholes, '+
+            'rock caves and ancient paintings. Uluru is listed as a World '+
+            'Heritage Site.</p>'+
+            '<p>Attribution: Uluru, <a href="http://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
+            'http://en.wikipedia.org/w/index.php?title=Uluru</a> '+
+            '(last visited June 22, 2009).</p>'+
+            '</div>'+
+            '</div>';
+
+        // var infowindow = new google.maps.InfoWindow({
+        //     content: contentString
+        // });
+
+        $.each( gon.watch.lenders, function (counter, lender) { 
+          var geocode = lender.latitude.toString() + lender.longitude.toString();
+          var 'marker'+counter = new google.maps.Marker({
+            position: new google.maps.LatLng(geocode),
+            map: map,
+            title: lender.email
+          });
+          var 'infowindow'+counter = new google.maps.InfoWindow({
+            content: contentString
+          });
+          'marker'+counter.setMap(map)
+          google.maps.event.addListener('marker'+counter, 'click', function() {
+            'infowindow'+counter.open(map,'marker'+counter);
+          });
+        });
+
+      //   // To add the marker to the map, use the 'map' property
+      //   var marker2 = new google.maps.Marker({
+      //       position: new google.maps.LatLng(-34.397, 150.644),
+      //       map: map,
+      //       title:"Hello World!"
+      //   });
+
+      //   // To add the marker to the map, call setMap();
+      //   marker2.setMap(map);
+
+      //   google.maps.event.addListener(marker2, 'click', function() {
+      //     infowindow.open(map,marker2);
+      //   });
+      // };
+
+
+      // function codeAddress() {
+
+      //   geocoder.geocode( { 'Sydney, Australia':address }, function(results, status) {
+      //     if (status == google.maps.GeocoderStatus.OK) {
+      //       var marker2 = new google.maps.Marker({
+      //           map: map,
+      //           position: results[0].geometry.location
+      //       });
+      //     } else {
+      //       alert('Geocode was not successful for the following reason: ' + status);
+      //     }
+      //   });
+      // };
+
+      )};
       google.maps.event.addDomListener(window, 'load', initialize);
+
     </script>
   </head>
   <body>
   	<div class="col-xs-2">
-		<div>
 			<h4>CART</h4>
 			<ul>
 				<li>
 				</li>
 			</ul>
-		</div>
-	</div>
-    <div class="col-xs-6" id="map-canvas"/>
+	  </div>
+    <div class="col-xs-6" id="map-canvas">
+    </div>
   </body>
 </html>
 
@@ -54,3 +131,5 @@
 <script>
 </script>
  -->
+
+

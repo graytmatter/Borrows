@@ -299,7 +299,10 @@ class RequestsController < ApplicationController
   end
 
   def test
-    @lenders = Signup.select { |s| s.inventories.count > 0 }
+    # gon.borrower = current_signup
+    gon.watch.lenders = Signup.select { |s| s.inventories.count > 0 } 
+    # (add same county)
+    # at next level of borrows, filter for borrows that are available in the select date ranges)
   end
 
   private

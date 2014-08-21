@@ -1,11 +1,19 @@
 class Signup < ActiveRecord::Base
+
     has_many :inventories, dependent: :destroy
     has_many :requests
     
-    before_save :downcase_email
+    before_save :downcase_email 
 
     validate :create_validation, on: :create
     validate :update_validation, on: :update
+ 
+    after_validation :geocode          # auto-fetch coordinates
+    geocoded_by :address
+
+    def address
+      [streetone, streettwo, zipcode].compact.join(', ')
+    end
 
     def create_validation
         errors[:base] << "Please enter a valid email address to continue" if self.email.blank? || (( /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i =~ self.email) == nil) 
