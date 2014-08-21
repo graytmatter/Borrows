@@ -49,10 +49,8 @@
         var infowindows = {};
         $.each( gon.lenders, function (counter, lender) { 
           console.log(lender.latitude, lender.longitude)
-          // console.log(37.3342127, -121.8922163)
           markers[counter] = new google.maps.Marker({
-            // position: new google.maps.LatLng(37.7833, -122.4167),
-            position: new google.maps.LatLng(56.1592421, -120.6870287),
+            position: new google.maps.LatLng(lender.latitude, lender.longitude),
             map: map,
             title: "test"
           });

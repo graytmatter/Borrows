@@ -8,11 +8,16 @@ class Signup < ActiveRecord::Base
     validate :create_validation, on: :create
     validate :update_validation, on: :update
  
-    after_validation :geocode          # auto-fetch coordinates
     geocoded_by :address
 
+    after_validation :geocode,
+      :if => lambda{ |obj| obj.streetone.present? && obj.streettwo.present? && obj.zipcode.present? && obj.streetone_changed? && obj.streettwo_changed? && obj.zipcode_changed? }          # auto-fetch coordinates
+    
+
     def address
-      [streetone, streettwo, zipcode, "USA"].compact.join(', ')
+        if streetone.present? && streettwo.present? && zipcode.present?
+          streetone + " and " + streettwo + ", " + zipcode.to_s + ", " + "USA"
+        end
     end
 
     def create_validation
