@@ -1,5 +1,7 @@
 class Borrow < ActiveRecord::Base
 
+	before_create :create_secure_id
+
 	belongs_to :request
 	accepts_nested_attributes_for :request
 
@@ -11,5 +13,11 @@ class Borrow < ActiveRecord::Base
 	def custom_validation
 	    errors[:base] << "Please select at least one item" if self.itemlist_id.blank? 
 	end
+
+	private
+
+    def create_secure_id
+      self.secure_id = SecureRandom.urlsafe_base64
+    end
 	
 end

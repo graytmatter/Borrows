@@ -14,6 +14,7 @@ describe Borrow do
     it { should respond_to(:status2)}
     it { should respond_to(:inventory_id)}
     it { should respond_to(:multiple)}
+    it { should respond_to(:secure_id)}
 
   	it { should be_valid }
 
