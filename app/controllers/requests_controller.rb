@@ -300,7 +300,8 @@ class RequestsController < ApplicationController
 
   def test
     # gon.borrower = current_signup
-    gon.watch.lenders = Signup.select { |s| s.inventories.count > 0 } 
+    @lenders = Signup.where("streetone is not null").select { |s| s.inventories.count > 0 } 
+    gon.watch.lenders = @lenders
     # (add same county)
     # at next level of borrows, filter for borrows that are available in the select date ranges)
   end

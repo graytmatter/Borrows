@@ -12,7 +12,7 @@ class Signup < ActiveRecord::Base
     geocoded_by :address
 
     def address
-      [streetone, streettwo, zipcode].compact.join(', ')
+      [streetone, streettwo, zipcode, "USA"].compact.join(', ')
     end
 
     def create_validation
