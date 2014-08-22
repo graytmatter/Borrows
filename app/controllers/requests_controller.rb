@@ -304,8 +304,10 @@ class RequestsController < ApplicationController
 
     # @lenders = Signup.where("streetone is not null").includes(:inventories).select { |s| s.inventories.count > 0 } 
     # gon.watch.lenders = @lenders.to_json(include: [ :inventories ])
-    @lenders = Signup.where("streetone is not null").includes(:inventories).select { |s| s.inventories.count > 0 && Geography.find_by_zipcode(s.zipcode).county == Geography.find_by_zipcode(@borrower.zipcode).county } 
-    gon.watch.lenders = @lenders
+    
+    @lenders = Signup.where("streetone is not null").select { |s| s.inventories.count > 0 && Geography.find_by_zipcode(s.zipcode).county == Geography.find_by_zipcode(@borrower.zipcode).county && s.id != @borrower.id}
+    # gon.watch.lenders = @lenders
+    gon.jbuilder
     # at next level of borrows, filter for borrows that are available in the select date ranges)
   end
 

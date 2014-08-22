@@ -43,15 +43,16 @@
             '</div>'+
             '</div>';
 
-        console.log(gon.lenders)
+        console.log(gon.jbuilder)
         var markers = {};
         var infowindows = {};
-        $.each( gon.lenders, function (counter, lender) { 
+        $.each( gon.jbuilder, function (counter, lender) { 
           markers[counter] = new google.maps.Marker({
             position: new google.maps.LatLng(lender.latitude, lender.longitude),
             map: map,
             title: lender.email
           });
+          console.log(lender.inventories)
           infowindows[counter] = new google.maps.InfoWindow({
             content: contentString
           });

@@ -12,9 +12,7 @@ gem 'newrelic_rpm' #tracking and pinging from newrelic
 gem 'ransack', github: 'activerecord-hackery/ransack', branch: 'rails-4.1' #sortable links on inventory (user and admin) and request pages (admin)
 gem 'sucker_punch', '~> 1.0' #for background jobs
 gem 'fist_of_fury', '~> 0.2.0' #to allow sucker punch to do recurring jobs
-gem 'gon' #allows data in server to be used by JS
-gem 'geocoder'
-# gem 'hpricot'
+gem 'geocoder' #enables geocoding of cross streets and zipcodes
 
 # Use sqlite3 as the database for Active Record
 group :development do
@@ -53,6 +51,8 @@ gem 'jquery-rails'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
+
+gem 'gon' #allows data in server to be used by JS
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
