@@ -16,8 +16,12 @@ class Borrow < ActiveRecord::Base
 
 	private
 
+	def Borrow.new_secure_id
+      SecureRandom.urlsafe_base64
+    end
+
     def create_secure_id
-      self.secure_id = SecureRandom.urlsafe_base64
+      self.secure_id = Borrow.new_secure_id
     end
 	
 end
