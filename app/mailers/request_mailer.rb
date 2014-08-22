@@ -65,11 +65,7 @@ class RequestMailer < ActionMailer::Base
     @lender_email = Inventory.find_by_id(borrow_in_question.inventory_id).signup.email
     # mail(to: @borrower_email, cc: @lender_email, from: ENV['owner'], :subject => "[Project Borrow]: Reminder to return #{@item}")
     mail(to: "jdong8@gmail.com", from: ENV['owner'], :subject => "[Project Borrow]: Reminder to return #{@item}")
+    borrow_in_question.update_attributes(status1:4)
   end
-
-  def inprogress_test(b)
-    @id = b.id
-    mail(to: "jdong8@gmail.com", from: ENV['owner'], :subject => "[Project Borrow]: Set borrow #{@id} to be in progress")
-  end 
 end
 

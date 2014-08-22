@@ -7,7 +7,7 @@
 
 <p>Hi there!</p>
 
-<p><%= "Oh how the time flies; #{borrower_email} hope you had a great time! Just wanted to connect you again with #{lender_email} for the return of:"%></p>
+<p><%= "Oh how the time flies; #{@borrower_email} hope you had a great time! Just wanted to connect you again with #{@lender_email} for the return of:"%></p>
 	<ul>
 	<li><%= "<b>Item:</b> #{@item}".html_safe %></li>
 	<%= "<li><b>Item description from lender:</b> #{@description}</li>".html_safe if @description.present? %>
