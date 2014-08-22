@@ -11,7 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140820054344) do
+ActiveRecord::Schema.define(version: 20140822052127) do
+
+  create_table "agreements", force: true do |t|
+    t.integer  "signup_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.date     "date"
+  end
 
   create_table "borrows", force: true do |t|
     t.integer  "request_id"
@@ -91,8 +98,11 @@ ActiveRecord::Schema.define(version: 20140820054344) do
     t.string   "heard"
     t.string   "streetone"
     t.string   "streettwo"
-    t.integer  "zipcode",    limit: 255
+    t.integer  "zipcode",         limit: 255
     t.boolean  "tos"
+    t.float    "longitude"
+    t.float    "latitude"
+    t.date     "last_emailed_on"
   end
 
   add_index "signups", ["email"], name: "index_signups_on_email", unique: true
@@ -113,5 +123,11 @@ ActiveRecord::Schema.define(version: 20140820054344) do
   end
 
   add_index "statuses", ["name"], name: "index_statuses_on_name", unique: true
+
+  create_table "tos", force: true do |t|
+    t.date     "date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end
