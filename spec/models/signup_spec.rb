@@ -12,6 +12,7 @@ describe Signup do
   	end
 
   	it { should respond_to(:email) }
+    it { should respond_to(:last_emailed_on)}
 
     it { should be_valid }
 
