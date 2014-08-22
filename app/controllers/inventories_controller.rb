@@ -160,7 +160,7 @@ class InventoriesController < ApplicationController
   def decline
   #not as many deletes, because we're assuming that you're declining one borrow, not necessarily anything for that date range or from that user, though these could be more advanced options
   #along that same vein you could easily have accept all for a specific item, or for a specific user's request
-    if Borrow.find_by_id(params[:id]).present? && Borrow.find_by_id(params[:id]).status1 != 2
+    if Borrow.find_by_id(params[:id]).present? && Borrow.find_by_id(params[:id]).status1 != 2 && Borrow.find_by_id(params[:id]).status1 != 21
       declined = Borrow.find_by_id(params[:id])
       decline_process(declined, 21)
       redirect_to manage_inventory_path
@@ -170,7 +170,7 @@ class InventoriesController < ApplicationController
   end
 
   def accept 
-    if Borrow.find_by_id(params[:id]).present? && Borrow.find_by_id(params[:id]).status1 != 2
+    if Borrow.find_by_id(params[:id]).present? && Borrow.find_by_id(params[:id]).status1 != 2 && Borrow.find_by_id(params[:id]).status1 != 21
       accepted = Borrow.find_by_id(params[:id])
       accepted.update_attributes(status1: 2)
       if Rails.env == "test"
