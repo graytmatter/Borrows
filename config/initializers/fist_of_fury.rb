@@ -9,7 +9,7 @@ if Rails.env == "production"
 	  FistOfFury.attack! do
 	    Inprogress.recurs { daily.hour_of_day(23) }
 	    Return.recurs { daily.hour_of_day(5) }
-	    # Noresponse.recurs { daily.hour_of_day(23) }
+	    Noresponse.recurs { daily.hour_of_day(23) }
 	    Outstanding.recurs { daily.hour_of_day(18) }
 	  end
 	end

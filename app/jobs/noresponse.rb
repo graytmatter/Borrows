@@ -3,16 +3,14 @@ class Noresponse
 	include FistOfFury::Recurrent
 	include Declining
 
-	# recurs { daily.hour_of_day(23)}
+	def perform
+		ActiveRecord::Base.connection_pool.with_connection do 
 
-	# def perform
-	# 	ActiveRecord::Base.connection_pool.with_connection do 
+			# Auto set status to N/A if borrows are still outstanding on their pickup date
+			Borrow.where(status1: 1).select { |b| b.request.pickupdate.to_date == Date.today}.each do |b|
+				decline_process_test(b, 9)
+			end
 
-	# 		# Auto set status to N/A if borrows are still outstanding on their pickup date
-	# 		Borrow.where(status1: 1).select { |b| b.request.pickupdate.to_date == Date.today}.each do |b|
-	# 			decline_process_test(b, 9)
-	# 		end
-
-	# 	end
-	# end
+		end
+	end
 end
