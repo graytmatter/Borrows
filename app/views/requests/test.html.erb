@@ -13,7 +13,7 @@
       src='https://maps.googleapis.com/maps/api/js?key=#{ENV['GoogleMap']}&libraries=geometry'></script>".html_safe %>
  
   </head>
-  <body>
+  <body data-env="<%= Rails.env %>">
   	<div class="col-xs-2" id="cart">
 			<h4>CART</h4>
 			<ul>
@@ -25,6 +25,12 @@
 </html>
 
 <script>
+  var railsENV = $('body').data('env')
+  if (railsENV=="development") {
+    var optimizeIt = false
+  } else {
+    var optimizeIt = true
+  }
   var map;
   function initialize() {
     var mapOptions = {
@@ -57,7 +63,8 @@
       markers[counter] = new google.maps.Marker({
         position: new google.maps.LatLng(lender.latitude, lender.longitude),
         map: map,
-        title: lender.email
+        title: 'lender_marker ' + lender.email,
+        optimized: optimizeIt 
       });
       infowindows[counter] = new google.maps.InfoWindow({
         content: contentString
