@@ -60,6 +60,8 @@ describe Signup do
       it { should respond_to(:zipcode) }
       it { should respond_to(:heard) }
       it { should respond_to(:tos) }
+      it { should respond_to(:latitude) }
+      it { should respond_to(:longitude) }
       
       it { should be_valid }
 
