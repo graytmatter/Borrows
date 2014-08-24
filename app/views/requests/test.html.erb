@@ -95,21 +95,33 @@
     }  
   });
 
-  $(document).on("click", "#remove_inventory", function() {
-
-    // Get current state of our items from session
-    var items = JSON.parse(sessionStorage.getItem("cart"));
-
-    // Find the clicked item and remove it from items
-    for (var i = 0; i < items.length; i++)
-      if (items[i].id && items[i].id === $(this).data('id')) { 
-          items.splice(i, 1);
-          break;
-      }
-
-    sessionStorage.setItem("cart", JSON.stringify(items)); // Save cart back to session
-    removeFromCart($(this).data('id')); // remove item from the cart
+  $(document).on('click', '#remove_inventory', function(){
+      var itemIndex = $(this).parent().index(); // Get item index from the DOM
+      $(this).remove(); // Remove it from the DOM
+      var items = JSON.parse(sessionStorage.getItem("cart"));
+      items.splice(itemIndex,1); // Remove item from the session by using the index
+      sessionStorage.setItem("cart", JSON.stringify(items)); // Update
   });
+
+  // $(document).on("click", "#remove_inventory", function() {
+
+  //   // Get current state of our items from session
+  //   var items = JSON.parse(sessionStorage.getItem("cart"));
+
+  //   // Find the clicked item and remove it from items
+  //   for (var i = 0; i < items.length; i++)
+  //     if (items[i].id && items[i].id === $(this).data('id')) { 
+  //         items.splice(i, 1);
+  //         break;
+  //     }
+
+  //   sessionStorage.setItem("cart", JSON.stringify(items)); // Save cart back to session
+  //   removeFromCart($(this).data('id')); // remove item from the cart
+  // });
+
+  // function removeFromCart(item_id){
+  //   $('#cart > ul').find('li[id=' + item_id + ']').remove();
+  // }
 
   function populateCart(){
     var items = JSON.parse(sessionStorage.getItem("cart"));
@@ -123,10 +135,6 @@
 
   function addToCart(item){
     $('#cart > ul').append('<li id="remove_inventory" data-id="' + item['id'] + '" data-description="' + item['description'] + '" data-lender_email="' + item['lender_email'] + '" data-name="' + item['name'] + '">' + item['name'] + item['description'] + '</li>');
-  }
-
-  function removeFromCart(item_id){
-    $('#cart > ul').find('li[id=' + item_id + ']').remove();
   }
 
 </script>
