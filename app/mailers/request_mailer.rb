@@ -41,8 +41,8 @@ class RequestMailer < ActionMailer::Base
     @lender_streetone = Inventory.find_by_id(accepted_borrow.inventory_id).signup.streetone.capitalize
     @lender_streettwo = Inventory.find_by_id(accepted_borrow.inventory_id).signup.streettwo.capitalize
     @lender_city = Geography.find_by_zipcode(Inventory.find_by_id(accepted_borrow.inventory_id).signup.zipcode).city
-    @item_description = Inventory.find_by_id(accepted_borrow.inventory_id).description
-    mail(to: @borrower_email, cc: @lender_email, from: ENV['owner'], :subject => "[Project Borrow]: #{@item} exchange!") 
+    @description = Inventory.find_by_id(accepted_borrow.inventory_id).description
+    mail(to: @borrower_email, cc: @lender_email, from: ENV['owner'], :subject => "[Project Borrow]: #{@item.upcase} exchange!") 
   end
 
   def same_as_today(requestrecord)
@@ -60,7 +60,7 @@ class RequestMailer < ActionMailer::Base
 
   def return_reminder(borrow_in_question)
     @item = Itemlist.find_by_id(borrow_in_question.itemlist_id).name
-    @item_description = Inventory.find_by_id(borrow_in_question.inventory_id).description
+    @description = Inventory.find_by_id(borrow_in_question.inventory_id).description
     @borrower_email = borrow_in_question.request.signup.email
     @lender_email = Inventory.find_by_id(borrow_in_question.inventory_id).signup.email
     mail(to: @borrower_email, cc: @lender_email, from: ENV['owner'], :subject => "[Project Borrow]: Reminder to return #{@item}")

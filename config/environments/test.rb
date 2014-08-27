@@ -33,4 +33,8 @@ GoogleTest::Application.configure do
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
+
+  # this is necessary for the outstanding request iNventory Mailer test in mailer_content.rb
+  Rails.application.routes.default_url_options[:host] = '???'
+
 end

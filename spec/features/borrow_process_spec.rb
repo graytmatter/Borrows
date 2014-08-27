@@ -32,7 +32,9 @@ describe "how requests should flow" do
 
 	def email_test(total_count, subject_line='')
 		ActionMailer::Base.deliveries.size == total_count
-		# expect(mail.subject).to eql(subject_line) unless subject_line == ''
+		if total_count != 0
+			ActionMailer::Base.deliveries.last.subject.should include(subject_line)
+		end
 	end
 
 	def manage_test(lender_email, manage_count, connected_count)
@@ -43,6 +45,13 @@ describe "how requests should flow" do
 	end
 
 	before do 
+
+		#RequestMailer subject snippets
+		@not_found = "not find"
+		@repeat_borrow = "already requested"
+		@connect = "exchange"
+		@same_day = "Same day"
+
 		@newcategory = Categorylist.create(name: "Camping")
 		@newcategory.itemlists.create(name: "2-Person tent", request_list: true, inventory_list: true)
 
@@ -60,7 +69,7 @@ describe "how requests should flow" do
 		@signup_dd.inventories.create(itemlist_id: 1, available: true)
 		@signup_jdong.inventories.create(itemlist_id: 1, available: true)
 
-		@todays_date = Date.today
+		@todays_date = Date.today+2 #can't actually be today because this will trigger a same day email which i am not always testing for
 		@futures_date = Date.today+5
 	end
 		
@@ -160,7 +169,7 @@ describe "how requests should flow" do
 
 				it "should affect emails" do
 					#(total_count, subject: blank)
-					email_test(1, "not find")
+					email_test(1, @not_found)
 				end
 
 				it "should affect management options for lenders" do 
@@ -189,7 +198,7 @@ describe "how requests should flow" do
 
 					it "should affect emails" do
 						#(total_count, subject: blank)
-						email_test(1)
+						email_test(1, @not_found)
 					end
 
 					it "should affect management options for lenders" do 
@@ -217,7 +226,7 @@ describe "how requests should flow" do
 
 						it "should affect emails" do
 							#(total_count, subject: blank)
-							email_test(2, "repeat borrow")
+							email_test(2, @repeat_borrow)
 						end
 
 						it "should affect management options for lenders" do 
@@ -245,7 +254,7 @@ describe "how requests should flow" do
 
 							it "should affect emails" do
 								#(total_count, subject: blank)
-								email_test(2)
+								email_test(2, @repeat_borrow)
 							end
 
 							it "should affect management options for lenders" do 
@@ -274,7 +283,7 @@ describe "how requests should flow" do
 
 								it "should affect emails" do
 									#(total_count, subject: blank)
-									email_test(3, "connect")
+									email_test(3, @connect)
 								end
 
 								it "should affect management options for lenders" do 
@@ -303,7 +312,7 @@ describe "how requests should flow" do
 
 									it "should affect emails" do
 										#(total_count, subject: blank)
-										email_test(4, "connect")
+										email_test(4, @connect)
 									end
 
 									it "should affect management options for lenders" do 
@@ -331,7 +340,7 @@ describe "how requests should flow" do
 
 										it "should affect emails" do
 											#(total_count, subject: blank)
-											email_test(5, "not found")
+											email_test(5, @not_found)
 										end
 
 										it "should affect management options for lenders" do 
@@ -359,7 +368,7 @@ describe "how requests should flow" do
 
 											it "should affect emails" do
 												#(total_count, subject: blank)
-												email_test(5)
+												email_test(5, @not_found)
 											end
 
 											it "should affect management options for lenders" do 
@@ -387,7 +396,7 @@ describe "how requests should flow" do
 
 												it "should affect emails" do
 													#(total_count, subject: blank)
-													email_test(5)
+													email_test(5, @not_found)
 												end
 
 												it "should affect management options for lenders" do 
@@ -415,7 +424,7 @@ describe "how requests should flow" do
 
 													it "should affect emails" do
 														#(total_count, subject: blank)
-														email_test(5)
+														email_test(5, @not_found)
 													end
 
 													it "should affect management options for lenders" do 
@@ -443,7 +452,7 @@ describe "how requests should flow" do
 
 														it "should affect emails" do
 															#(total_count, subject: blank)
-															email_test(5)
+															email_test(5, @not_found)
 														end
 
 														it "should affect management options for lenders" do 
@@ -472,7 +481,7 @@ describe "how requests should flow" do
 
 															it "should affect emails" do
 																#(total_count, subject: blank)
-																email_test(5)
+																email_test(5, @not_found)
 															end
 
 															it "should affect management options for lenders" do 
@@ -501,7 +510,7 @@ describe "how requests should flow" do
 
 																it "should affect emails" do
 																	#(total_count, subject: blank)
-																	email_test(5)
+																	email_test(5, @not_found)
 																end
 
 																it "should affect management options for lenders" do 
@@ -531,7 +540,7 @@ describe "how requests should flow" do
 
 																	it "should affect emails" do
 																		#(total_count, subject: blank)
-																		email_test(6, "not found")
+																		email_test(6, @not_found)
 																	end
 
 																	it "should affect management options for lenders" do 
@@ -559,7 +568,7 @@ describe "how requests should flow" do
 
 																		it "should affect emails" do
 																			#(total_count, subject: blank)
-																			email_test(7, "not found")
+																			email_test(7, @not_found)
 																		end
 
 																		it "should affect management options for lenders" do 
@@ -588,7 +597,7 @@ describe "how requests should flow" do
 
 																			it "should affect emails" do
 																				#(total_count, subject: blank)
-																				email_test(7)
+																				email_test(7, @not_found)
 																			end
 
 																			it "should affect management options for lenders" do 
@@ -617,7 +626,7 @@ describe "how requests should flow" do
 
 																				it "should affect emails" do
 																					#(total_count, subject: blank)
-																					email_test(7)
+																					email_test(7, @not_found)
 																				end
 
 																				it "should affect management options for lenders" do 
@@ -646,7 +655,7 @@ describe "how requests should flow" do
 
 																					it "should affect emails" do
 																						#(total_count, subject: blank)
-																						email_test(8, "not found")
+																						email_test(8, @not_found)
 																					end
 
 																					it "should affect management options for lenders" do 
@@ -675,7 +684,7 @@ describe "how requests should flow" do
 
 																						it "should affect emails" do
 																							#(total_count, subject: blank)
-																							email_test(9, "not found")
+																							email_test(9, @not_found)
 																						end
 
 																						it "should affect management options for lenders" do 
@@ -703,7 +712,7 @@ describe "how requests should flow" do
 
 																							it "should affect emails" do
 																								#(total_count, subject: blank)
-																								email_test(10, "not found")
+																								email_test(10, @not_found)
 																							end
 
 																							it "should affect management options for lenders" do 
@@ -711,34 +720,6 @@ describe "how requests should flow" do
 																								manage_test("jamesdd9302@yahoo.com", 2, 0)
 																								manage_test("jdong8@gmail.com", 4, 1)
 																							end
-
-																							describe "W) same day request" do
-
-																								before do
-																									login("dancingknives@yahoo.com", "borrow", 2, Date::MONTHNAMES[@todays_date.month], @todays_date.day, Date::MONTHNAMES[(@todays_date+2).month], (@todays_date+2).day)
-																								end
-
-																								it "should affect Requests and Borrows" do
-																									# 1- request_total, 
-																									# 2- borrow_total, 
-																									# 3- borrow_checking_total, 
-																									# 4- borrow_connected_total, 
-																									# 5- borrow_lender_declined_total, 
-																									# 6- borrow_other_did_not_use_total
-																									# 7- borrow_not_available_total
-																									record_test(10, 18, 10, 1, 3, 1, 3)
-																								end
-
-																								it "should affect emails" do
-																									#(total_count, subject: blank)
-																									email_test(11, "same day")
-																								end
-
-																								it "should affect management options for lenders" do 
-																									#(lender_email, manage_count, connected_count)
-																									manage_test("jamesdd9302@yahoo.com", 4, 0)
-																									manage_test("jdong8@gmail.com", 6, 1)
-																								end
 
 																								describe "X) past requests should not appear if the status was did not use PB or used but complete, but should appear if it is in progress" do
 
@@ -764,20 +745,20 @@ describe "how requests should flow" do
 																										# 5- borrow_lender_declined_total, 
 																										# 6- borrow_other_did_not_use_total
 																										# 7- borrow_not_available_total
-																										record_test(13, 21, 10, 1, 3, 2, 3)
+																										record_test(12, 17, 6, 1, 3, 2, 3)
 																										Borrow.where(status1: 3).count.should == 1
 																										Borrow.where(status1: 4).count.should == 1
 																									end
 
 																									it "should affect emails" do
 																										#(total_count, subject: blank)
-																										email_test(11)
+																										email_test(10, @not_found)
 																									end
 
 																									it "should affect management options for lenders" do 
 																										#(lender_email, manage_count, connected_count)
-																										manage_test("jamesdd9302@yahoo.com", 4, 0)
-																										manage_test("jdong8@gmail.com", 6, 1)
+																										manage_test("jamesdd9302@yahoo.com", 2, 0)
+																										manage_test("jdong8@gmail.com", 4, 1)
 
 																										login("jdong8@gmail.com", "lend")
 																										page.assert_selector("#in_progress", :count => 1)
@@ -798,19 +779,19 @@ describe "how requests should flow" do
 																											# 5- borrow_lender_declined_total, 
 																											# 6- borrow_other_did_not_use_total
 																											# 7- borrow_not_available_total
-																											record_test(13, 21, 9, 2, 3, 2, 3)
+																											record_test(12, 17, 5, 2, 3, 2, 3)
 																											#and checking total = 2 + sum of others, due to past complete not on here 
 																										end
 
 																										it "should affect emails" do
 																											#(total_count, subject: blank)
-																											email_test(12, "connected")
+																											email_test(11, @connect)
 																										end
 
 																										it "should affect management options for lenders" do 
 																											#(lender_email, manage_count, connected_count)
-																											manage_test("jamesdd9302@yahoo.com", 4, 0)
-																											manage_test("jdong8@gmail.com", 5, 2)
+																											manage_test("jamesdd9302@yahoo.com", 2, 0)
+																											manage_test("jdong8@gmail.com", 3, 2)
 																										end
 
 																										describe "Z) accept when dates do overlap: invenotry (requested by other lender, same has been tested to death) should become not available" do
@@ -828,19 +809,19 @@ describe "how requests should flow" do
 																												# 5- borrow_lender_declined_total, 
 																												# 6- borrow_other_did_not_use_total
 																												# 7- borrow_not_available_total
-																												record_test(13, 19, 6, 3, 3, 2, 3)
+																												record_test(12, 15, 2, 3, 3, 2, 3)
 																												#and checking total = 2 + sum of others, due to past complete not on here
 																											end
 
 																											it "should affect emails" do
 																												#(total_count, subject: blank)
-																												email_test(13, "connected")
+																												email_test(12, @connect)
 																											end
 
 																											it "should affect management options for lenders" do 
 																												#(lender_email, manage_count, connected_count)
-																												manage_test("jamesdd9302@yahoo.com", 2, 1)
-																												manage_test("jdong8@gmail.com", 4, 2)
+																												manage_test("jamesdd9302@yahoo.com", 0, 1)
+																												manage_test("jdong8@gmail.com", 2, 2)
 																											end
 
 																											describe "AA) test that when borrower requests multiple things an accept on one of them by a lender doesn't negate the fact that the other is checking for all lenders" do
@@ -859,20 +840,27 @@ describe "how requests should flow" do
 																													# 5- borrow_lender_declined_total, 
 																													# 6- borrow_other_did_not_use_total
 																													# 7- borrow_not_available_total
-																													record_test(14, 21, 6, 4, 3, 2, 4)
+																													record_test(13, 17, 2, 4, 3, 2, 4)
 																													#and checking total = 2 + sum of others, due to past complete not on here
 																												end
 
 																												it "should affect emails" do
-																													#(total_count, subject: blank)
-																													email_test(15, "connected")
-																													#not available ALSO sent
+																													#not the normal pattern because two emails are sent
+
+																													ActionMailer::Base.deliveries.size == 14
+
+																													#second to last email
+																													index = ActionMailer::Base.deliveries.length - 2
+																													ActionMailer::Base.deliveries[index].subject.should include(@connect)
+																													
+																													#last email
+																													ActionMailer::Base.deliveries.last.subject.should include(@not_found)
 																												end
 
 																												it "should affect management options for lenders" do 
 																													#(lender_email, manage_count, connected_count)
-																													manage_test("jamesdd9302@yahoo.com", 3, 1)
-																													manage_test("jdong8@gmail.com", 3, 3)
+																													manage_test("jamesdd9302@yahoo.com", 1, 1)
+																													manage_test("jdong8@gmail.com", 1, 3)
 																												end
 
 																												describe "AB) test that when borrower requests sth, as long as one item has not been accepted where borrowers are differnet, the sth is still created, but doens't show for jdong who can't provide availability" do
@@ -889,19 +877,19 @@ describe "how requests should flow" do
 																														# 5- borrow_lender_declined_total, 
 																														# 6- borrow_other_did_not_use_total
 																														# 7- borrow_not_available_total
-																														record_test(15, 23, 8, 4, 3, 2, 4)
+																														record_test(14, 19, 4, 4, 3, 2, 4)
 																														#and checking total = 2 + sum of others, due to past complete not on here
 																													end
 
 																													it "should affect emails" do
 																														#(total_count, subject: blank)
-																														email_test(15)
+																														email_test(14, @not_found)
 																													end
 
 																													it "should affect management options for lenders" do 
 																														#(lender_email, manage_count, connected_count)
-																														manage_test("jamesdd9302@yahoo.com", 5, 1)
-																													 manage_test("jdong8@gmail.com", 3, 3)
+																														manage_test("jamesdd9302@yahoo.com", 3, 1)
+																													 manage_test("jdong8@gmail.com", 1, 3)
 																													end
 
 																													describe "AC) flip of AB, now test that the inventory in question is not being used, so should just add borrows as usual" do
@@ -918,19 +906,19 @@ describe "how requests should flow" do
 																															# 5- borrow_lender_declined_total, 
 																															# 6- borrow_other_did_not_use_total
 																															# 7- borrow_not_available_total
-																															record_test(16, 27, 12, 4, 3, 2, 4)
+																															record_test(15, 23, 8, 4, 3, 2, 4)
 																															#and checking total = 2 + sum of others, due to past complete not on here
 																														end
 
 																														it "should affect emails" do
 																															#(total_count, subject: blank)
-																															email_test(15)
+																															email_test(14, @not_found)
 																														end
 
 																														it "should affect management options for lenders" do 
 																															#(lender_email, manage_count, connected_count)
-																															manage_test("jamesdd9302@yahoo.com", 7, 1)
-																													  manage_test("jdong8@gmail.com", 5, 3)
+																															manage_test("jamesdd9302@yahoo.com", 5, 1)
+																													  manage_test("jdong8@gmail.com", 3, 3)
 																														end
 																													end
 																												end
@@ -938,7 +926,6 @@ describe "how requests should flow" do
 																										end
 																									end
 																								end
-																							end
 																						end
 																					end
 																				end
@@ -981,13 +968,44 @@ describe "how requests should flow" do
 
 		it "should affect emails" do
 			#(count, subject: blank)
-			email_test(1, "not found")
+			email_test(1, @not_found)
 		end
 
 		it "should affect management options for lenders" do 
 			#(lender_email, manage_count, connected_count)
 			manage_test("jamesdd9302@yahoo.com", 0, 0)
 			manage_test("jdong8@gmail.com", 0, 0)
+		end
+
+	end
+
+	describe "same day request" do
+
+		#doesn't work but will soon be irrelevant once rentals start so don't worry about it
+		before do
+			login("dancingknives@yahoo.com", "borrow", 1, Date::MONTHNAMES[(Date.today).month], (Date.today).day, Date::MONTHNAMES[@futures_date.month], @futures_date.day)
+		end
+
+		it "should affect records" do
+			# 1- request_total, 
+			# 2- borrow_total, 
+			# 3- borrow_checking_total, 
+			# 4- borrow_connected_total, 
+			# 5- borrow_lender_declined_total, 
+			# 6- borrow_other_did_not_use_total
+			# 7- borrow_not_available_total
+			record_test(1, 2, 2, 0, 0, 0, 0)
+		end
+
+		it "should affect emails" do
+			#(count, subject: blank)
+			email_test(1, @same_day)
+		end
+
+		it "should affect management options for lenders" do 
+			#(lender_email, manage_count, connected_count)
+			manage_test("jamesdd9302@yahoo.com", 1, 0)
+			manage_test("jdong8@gmail.com", 1, 0)
 		end
 
 	end
@@ -1025,7 +1043,7 @@ describe "how requests should flow" do
 
 		it "should affect emails" do
 			#(count, subject: blank)
-			email_test(2, "not found")
+			email_test(2, @not_found)
 		end
 
 		it "should affect management options for lenders" do 
