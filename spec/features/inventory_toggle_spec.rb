@@ -174,9 +174,12 @@ describe "how inventory management except for accept/decline, i.e., descriptions
 				describe "J) But once the return date passes, the remove/ toggle options come back" do
 
 					before do
-						@future = @futures_date + 11
-						Date.stub(:today).and_return(@future)
-						#date stub doesn't work, tested putting Date.today in the view file, and indeed, it's never a future date 
+						Date.stub(:today).and_return(@futures_date + 1)
+						visit '/'
+						fill_in 'signup_email1', :with => "jamesdd9302@yahoo.com"
+						click_button 'signup1'
+						click_button 'lend'
+						save_and_open_page
 					end
 
 					it "should have toggle and remove option" do
