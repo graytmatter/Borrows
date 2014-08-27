@@ -7,9 +7,11 @@
 
 <p>Hi there!</p>
 
-<p><%= "Oh how the time flies; #{@borrower_email} hope you had a great time! Just wanted to connect you again with #{@lender_email} for the return of:"%></p>
+<p><%= "Oh how the time flies; just wanted to connect you both for the return of:"%></p>
 	<ul>
-	<li><%= "<b>Item:</b> #{@item}".html_safe %></li>
+	<li><%= "<b>Lender:</b> #{@lender_email}, located at #{@lender_streetone} and #{@lender_streettwo} in #{@lender_city}".html_safe %></li>
+	<li><%= "<b>Borrower:</b> #{@borrower_email}, located at #{@borrower_streetone} and #{@borrower_streettwo} in #{@borrower_city}".html_safe %></li>
+	<li><%= "<b>Item:</b> #{@item.capitalize}".html_safe %></li>
 	<%= "<li><b>Item description from lender:</b> #{@description}</li>".html_safe if @description.present? %>
 	</ul>
 

@@ -115,7 +115,13 @@ describe "Create db info" do
 			email.cc.should == [Inventory.find_by_id(@borrow1.inventory_id).signup.email]
 			email.from.should == @jamespbemail
 			email.subject.should == "[Project Borrow]: Reminder to return #{Itemlist.find_by_id(@borrow1.itemlist_id).name}"
-			email.body.should include("Oh how the time flies", "#{Inventory.find_by_id(@borrow1.inventory_id).description}")
+			email.body.should include("#{Inventory.find_by_id(@borrow1.inventory_id).signup.streetone.capitalize}")
+			email.body.should include("#{Inventory.find_by_id(@borrow1.inventory_id).signup.streettwo.capitalize}")
+			email.body.should include("#{Geography.find_by_zipcode(Inventory.find_by_id(@borrow1.inventory_id).signup.zipcode).city}")
+			email.body.should include("#{@borrow1.request.signup.streetone}")
+			email.body.should include("#{@borrow1.request.signup.streettwo}")
+			email.body.should include("#{Geography.find_by_zipcode(@borrow1.request.signup.zipcode).city}")
+			email.body.should include("#{Inventory.find_by_id(@borrow1.inventory_id).description}")
 			email.body.should have_selector("#borrower_survey", count: 1)
 			email.body.should have_selector("#lender_survey", count: 1)
 		end

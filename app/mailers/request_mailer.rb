@@ -59,10 +59,18 @@ class RequestMailer < ActionMailer::Base
   end
 
   def return_reminder(borrow_in_question)
+    @borrower_email = borrow_in_question.request.signup.email
+    @borrower_streetone = borrow_in_question.request.signup.streetone.capitalize
+    @borrower_streettwo = borrow_in_question.request.signup.streettwo.capitalize
+    @borrower_city = Geography.find_by_zipcode(borrow_in_question.request.signup.zipcode).city
+    
+    @lender_email = Inventory.find_by_id(borrow_in_question.inventory_id).signup.email
+    @lender_streetone = Inventory.find_by_id(borrow_in_question.inventory_id).signup.streetone.capitalize
+    @lender_streettwo = Inventory.find_by_id(borrow_in_question.inventory_id).signup.streettwo.capitalize
+    @lender_city = Geography.find_by_zipcode(Inventory.find_by_id(borrow_in_question.inventory_id).signup.zipcode).city
+    
     @item = Itemlist.find_by_id(borrow_in_question.itemlist_id).name
     @description = Inventory.find_by_id(borrow_in_question.inventory_id).description
-    @borrower_email = borrow_in_question.request.signup.email
-    @lender_email = Inventory.find_by_id(borrow_in_question.inventory_id).signup.email
     mail(to: @borrower_email, cc: @lender_email, from: ENV['owner'], :subject => "[Project Borrow]: Reminder to return #{@item}")
     borrow_in_question.update_attributes(status1:4)
   end
