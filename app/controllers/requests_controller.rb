@@ -259,11 +259,12 @@ class RequestsController < ApplicationController
     else
       @requestrecord = @signup_parent.requests.create(@requestparams)
       if @requestrecord.id.present?
-        if Rails.env == "test"
-          times_to_create(@requestrecord.id, @borrowparams)
-        else
+        # if Rails.env == "test"
+        #   times_to_create(@requestrecord.id, @borrowparams)
+        # else
+          # Times_to_create.new.async.later(3, @requestrecord.id, @borrowparams)
           Times_to_create.new.async.perform(@requestrecord.id, @borrowparams)
-        end
+        # end
         #right now the same day email sends even if all the borrows already are N/A, ideally this would only send if i need to ping the borrowers because items are indeed available
         if @requestrecord.pickupdate == Date.today
           if Rails.env == "test"

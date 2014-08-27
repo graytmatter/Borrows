@@ -46,7 +46,7 @@ RSpec.configure do |config|
   config.include RSpec::Rails::ViewRendering
   config.render_views
 
-  #this section is for Sucker Punch gem, but didn't work, Database Cleaner through uninitialized, so it looks like I'm not having the problem Brandon is thinking
+  # # this section is for Sucker Punch gem, but didn't work, Database Cleaner through uninitialized, so it looks like I'm not having the problem Brandon is thinking
 
   # config.before(:each) do
   #   DatabaseCleaner.strategy = :transaction

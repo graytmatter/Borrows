@@ -28,6 +28,7 @@ group :test do
 	gem 'capybara', '2.1.0' #enables natural language tests
 	gem 'faker' #generates fake data for tests
 	gem 'launchy', '~> 2.4.2' #enables save_and_open_page so I can see what's rendered
+	# gem 'database_cleaner'
 end
 
 # Use SCSS for stylesheets

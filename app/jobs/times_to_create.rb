@@ -2,6 +2,7 @@ class Times_to_create
 	include SuckerPunch::Job
 
 	def perform(requestrecord_id, borrowparams)
+		# sleep 3
 		ActiveRecord::Base.connection_pool.with_connection do 
 			@requestrecord = Request.find_by_id(requestrecord_id)
 			borrowparams.each do |itemlist_id, quantity|
