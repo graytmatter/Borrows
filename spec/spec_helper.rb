@@ -15,6 +15,9 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
+#sets a port for Capybara to enable me to figure out what header to give to Google to enable testing of maps
+Capybara.server_port = 1234
+
 RSpec.configure do |config|
   # ## Mock Framework
   #
