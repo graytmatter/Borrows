@@ -28,7 +28,7 @@ module GoogleTest
 
     # Allows Google Maps access in local server 
 
-    if Rails.env != "production" do
+    if Rails.env != "production" 
       config.action_dispatch.default_headers.merge!({
         'Access-Control-Allow-Origin' => '*',
         'Access-Control-Request-Method' => '*'
