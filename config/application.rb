@@ -25,15 +25,6 @@ module GoogleTest
     config.action_view.field_error_proc = Proc.new { |html_tag, instance| 
       html_tag
     }
-
-    # Allows Google Maps access in local server 
-
-    if Rails.env != "production" 
-      config.action_dispatch.default_headers.merge!({
-        'Access-Control-Allow-Origin' => '*',
-        'Access-Control-Request-Method' => '*'
-      })
-    end
     
   end
 end

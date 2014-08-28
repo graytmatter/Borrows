@@ -31,7 +31,7 @@ describe "how users search for requests" do
 			@signup_borrower = Signup.create(email: "anavarada@gmail.com", streetone: "Post", streettwo: "Leavenworth", zipcode: 94109, tos: true)
 			visit '/test'
 			# click ''
-			# save_and_open_page
+			save_and_open_page
 		end
 
 		it "should have a map" do
