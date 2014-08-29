@@ -15,11 +15,13 @@
 	<%= "<li><b>Item description from lender:</b> #{@description}</li>".html_safe if @description.present? %>
 	</ul>
 
-<p>Also, if for either of you this is your first experience with Project Borrow, I'd love to hear how your experience was and how we could further improve this service! The surveys below are 10 questions or less and should take no more than 1 minute.<p>
-	<ul>
-		<li><%= "<b>Borrower survey:</b> #{link_to 'Click here', 'https://docs.google.com/forms/d/116rkhbOiafYI82lBesl-3v9LB1iIYah2rv_D8Y_rz4Q/viewform?usp=send_form', id: 'borrower_survey' }".html_safe %></li>
-		<li><%= "<b>Lender survey:</b> #{link_to 'Click here', 'https://docs.google.com/forms/d/17znNQgaU7HaJEqxoHgzo16yEMy4DDH8gr4OEG1tlUEU/viewform?usp=send_form', id: 'lender_survey' }".html_safe %></li>
-	</ul>
+<p>As well, I just wanted to quickly follow up on:</p>
+
+<ul>
+	<li><b>...being a lender!</b> If you had a good experience with Project Borrow, I hope you will become a lender as well! Just enter your email on <%= link_to 'the site', 'http://www.projectborrow.com/?utm_source=james@projectborrow&utm_medium=email&utm_term=june&utm_campaign=post%20borrow%20lending' %>, and this time click the orange "I want to lend!" button, the process will take less than 1 minute!</li>
+	<li><b>...improving this service.</b> If this was your first experience with Project Borrow, I'd love your feedback on a survey that will take ~1 minute. Borrowers, <%= link_to 'click here', 'https://docs.google.com/forms/d/116rkhbOiafYI82lBesl-3v9LB1iIYah2rv_D8Y_rz4Q/viewform?usp=send_form', id: 'borrower_survey' %>; lenders, <%= link_to 'click here', 'https://docs.google.com/forms/d/17znNQgaU7HaJEqxoHgzo16yEMy4DDH8gr4OEG1tlUEU/viewform?usp=send_form', id: 'lender_survey' %>.
+	<li><b>...photos!</b> If you took any photos of you using the items you borrowed, and are open to having these photos used on our site, please email them to me!</li>
+</ul>
 
 <p>Thank you, hope you'll use Project Borrow again!</p>
 
