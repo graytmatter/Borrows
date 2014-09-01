@@ -9,10 +9,12 @@
         padding: 0px
       }
     </style>
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/smoothness/jquery-ui.css" />
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
     <%="<script type='text/javascript'
       src='https://maps.googleapis.com/maps/api/js?key=#{ENV['GoogleMap']}&libraries=geometry'></script>".html_safe %>
- 
   </head>
+
   <body data-env="<%= Rails.env %>">
   	<div class="col-xs-2" id="cart">
 			<h4>CART</h4>
@@ -21,10 +23,58 @@
 	  </div>
     <div class="col-xs-6" id="map-canvas">
     </div>
+    <div class="col-xs-2" id="filter">
+      <h4>SEARCH</h4>
+      <form name="searchObject" action="/test">
+        <%= label_tag "Pick up date:" %>
+        <input id="pickupdate" type="text" readonly="readonly" />
+        <%= label_tag "Return date:" %>
+        <input id="returndate" type="text" readonly="readonly" />
+        <%= label_tag "Type of item" %>
+        <%= collection_select :category, :categorylist_id, Categorylist.all, :id, :name, include_blank: true %>
+        <%= label_tag "Item" %>
+        <%= collection_select :item, :itemlist_id_eq, Itemlist.select { |i| Inventory.all.pluck("itemlist_id").include? i.id }, :id, :name, include_blank: true %>
+        <%= submit_tag "Find stuff for me!" %>        
+      </form>
+      <h4 id="logValue">Test</h4>
+    </div>
   </body>
 </html>
 
 <script>
+
+  var pickupdate;
+  var returndate;
+  $("#pickupdate").datepicker({
+      dateFormat: "dd-M-yy",
+      minDate: 0,
+      onSelect: function (date) {
+          var date2 = $('#pickupdate').datepicker('getDate');
+          date2.setDate(date2.getDate());
+          $('#returndate').datepicker('setDate', date2);
+          //sets minDate to dt1 date + 1
+          $('#returndate').datepicker('option', 'minDate', date2);
+      }
+  });
+  $('#returndate').datepicker({
+      dateFormat: "dd-M-yy",
+      onClose: function () {
+          pickupdate = $('#pickupdate').datepicker('getDate');
+          returndate = $('#returndate').datepicker('getDate');
+          if (returndate <= pickupdate) {
+              var minDate = $('#returndate').datepicker('option', 'minDate');
+              $('#returndate').datepicker('setDate', minDate);
+          }
+          alert(pickupdate)
+      }
+  });
+
+  $("#logValue").on("click", LogValue);
+
+  function LogValue() {
+      alert(pickupdate);
+  }
+
   var railsENV = $('body').data('env')
   if (railsENV=="development") {
     var optimizeIt = false
