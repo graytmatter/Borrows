@@ -13,7 +13,7 @@ class Signup < ActiveRecord::Base
 
     def update_validation
         errors[:base] << "Please enter two different cross streets so we can find items closer to you" if self.streetone.blank? || self.streettwo.blank? || ( self.streetone == self.streettwo )
-        errors[:base] << "Please enter a valid 5-digit zipcode so we can find items closer to you" if self.zipcode.blank? || (self.zipcode < 0) || (self.zipcode.to_s.strip.length != 5)
+        errors[:base] << "Please enter a valid 5-digit zipcode so we can find items closer to you" if self.zipcode.blank? || (self.zipcode.to_i < 0) || (self.zipcode.to_s.strip.length != 5)
         errors[:base] << "Please agree to the terms of service before continuing" unless self.tos == true
     end
 

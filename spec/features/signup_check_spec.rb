@@ -75,7 +75,7 @@ describe "how signup check should work" do
 
 				Signup.last.streetone.should == "Post"
 				Signup.last.streettwo.should == "Taylor"
-				Signup.last.zipcode.should == 94109
+				Signup.last.zipcode.should == "94109"
 				Signup.last.tos.should == true
 			end
 
@@ -138,7 +138,7 @@ describe "how signup check should work" do
 
 				Signup.last.streetone.should == "Post"
 				Signup.last.streettwo.should == "Taylor"
-				Signup.last.zipcode.should == 99999
+				Signup.last.zipcode.should == "99999"
 				Signup.last.tos.should == true
 			end
 
