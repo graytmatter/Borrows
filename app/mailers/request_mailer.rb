@@ -42,7 +42,7 @@ class RequestMailer < ActionMailer::Base
     @lender_streettwo = Inventory.find_by_id(accepted_borrow.inventory_id).signup.streettwo.capitalize
     @lender_city = Geography.find_by_zipcode(Inventory.find_by_id(accepted_borrow.inventory_id).signup.zipcode).city
     @description = Inventory.find_by_id(accepted_borrow.inventory_id).description
-    mail(to: @borrower_email, cc: @lender_email, from: ENV['owner'], :subject => "[Project Borrow]: #{@item.upcase} exchange!") 
+    mail(to: @borrower_email, cc: @lender_email, from: ENV['owner'], :subject => "[Project Borrow]: #{@item.capitalize} exchange!") 
   end
 
   def same_as_today(requestrecord)
