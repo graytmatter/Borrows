@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "how request submission should work" do
+describe "how request submission should work", job: true do
 
 	before do 
 		@newcategory = Categorylist.create(name: "Camping")
