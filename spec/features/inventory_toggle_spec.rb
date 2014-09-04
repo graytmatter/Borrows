@@ -179,7 +179,7 @@ describe "how inventory management except for accept/decline, i.e., descriptions
 						fill_in 'signup_email1', :with => "jamesdd9302@yahoo.com"
 						click_button 'signup1'
 						click_button 'lend'
-						save_and_open_page
+						# save_and_open_page
 					end
 
 					it "should have toggle and remove option" do
