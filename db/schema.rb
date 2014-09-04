@@ -91,7 +91,7 @@ ActiveRecord::Schema.define(version: 20140822052127) do
     t.string   "heard"
     t.string   "streetone"
     t.string   "streettwo"
-    t.integer  "zipcode",         limit: 255
+    t.string   "zipcode"
     t.boolean  "tos"
     t.date     "last_emailed_on"
   end

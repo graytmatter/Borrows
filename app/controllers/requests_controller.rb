@@ -39,22 +39,22 @@ class RequestsController < ApplicationController
             if overlapping_borrows.select { |b| b.request.signup.email.downcase == @requestrecord.signup.email.downcase }.present?
               if index == 0
                 repeat_borrow = overlapping_borrows.select { |b| b.request.signup.email.downcase == @requestrecord.signup.email.downcase }.first
-                if Rails.env == "test"
-                  RequestMailer.repeat_borrow(repeat_borrow, itemlist_id).deliver
-                else
+                # if Rails.env == "test"
+                  # RequestMailer.repeat_borrow(repeat_borrow, itemlist_id).deliver
+                # else
                   Repeatborrow.new.async.perform(repeat_borrow, itemlist_id)
-                end     
+                # end     
               end
             else
               if overlapping_borrows.select { |b| b.request.signup.email != @requestrecord.signup.email }.select { |b| ([2,3].include? b.status1) == false }.present? 
                 if overlapping_borrows.select { |b| ([2,3].include? b.status1) == true}.select { |b| b.inventory_id == inventory_id }.present?
                   if index == 0
                     not_available_borrow = @requestrecord.borrows.create(itemlist_id: itemlist_id, multiple: multiple_counter, inventory_id: nil, status1: 20)
-                    if Rails.env == "test"
-                      RequestMailer.not_found(not_available_borrow, itemlist_id).deliver
-                    else
+                    # if Rails.env == "test"
+                      # RequestMailer.not_found(not_available_borrow, itemlist_id).deliver
+                    # else
                       Notfound.new.async.perform(not_available_borrow, itemlist_id)
-                    end  
+                    # end  
                   end
                 else
                   new_borrow = @requestrecord.borrows.create(itemlist_id: itemlist_id, multiple: multiple_counter, inventory_id: inventory_id, status1: 1)
@@ -62,11 +62,11 @@ class RequestsController < ApplicationController
               else
                 if index == 0
                   not_available_borrow = @requestrecord.borrows.create(itemlist_id: itemlist_id, multiple: multiple_counter, inventory_id: nil, status1: 20)
-                  if Rails.env == "test"
-                    RequestMailer.not_found(not_available_borrow, itemlist_id).deliver
-                  else
+                  # if Rails.env == "test"
+                    # RequestMailer.not_found(not_available_borrow, itemlist_id).deliver
+                  # else
                     Notfound.new.async.perform(not_available_borrow, itemlist_id)
-                  end  
+                  # end  
                 end
               end
             end
@@ -100,11 +100,11 @@ class RequestsController < ApplicationController
         difference.times do 
           not_available_borrow = @requestrecord.borrows.create(itemlist_id: itemlist_id, multiple: multiple_counter, inventory_id: nil, status1: 20)
           multiple_counter += 1
-          if Rails.env == "test"
-            RequestMailer.not_found(not_available_borrow, itemlist_id).deliver
-          else
+          # if Rails.env == "test"
+            # RequestMailer.not_found(not_available_borrow, itemlist_id).deliver
+          # else
             Notfound.new.async.perform(not_available_borrow, itemlist_id)
-          end  
+          # end  
         end
         actual_creation(matched_inventory_ids.count, matched_inventory_ids, itemlist_id)
       else
@@ -267,12 +267,12 @@ class RequestsController < ApplicationController
         # end
         #right now the same day email sends even if all the borrows already are N/A, ideally this would only send if i need to ping the borrowers because items are indeed available
         if @requestrecord.pickupdate == Date.today
-          if Rails.env == "test"
-            RequestMailer.same_as_today(@requestrecord).deliver
-          else
+          # if Rails.env == "test"
+            # RequestMailer.same_as_today(@requestrecord).deliver
+          # else
             Sameday.new.async.perform(@requestrecord)
             #throws errors because it appears the object is not being passed. in the mailer view, all the attributes like name or email are throwing no method errors for nil class
-          end
+          # end
         end
         render 'success'
       else

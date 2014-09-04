@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "how requests should flow" do
+describe "how requests should flow", job: true do
 
 	def login(email, choice, quantity = '', pickup_month='', pickup_date='', return_month='', return_date='')
 		visit '/'

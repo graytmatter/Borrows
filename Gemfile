@@ -11,7 +11,7 @@ gem 'gibbon' #mailchimp API API
 gem 'newrelic_rpm' #tracking and pinging from newrelic
 gem 'ransack', github: 'activerecord-hackery/ransack', branch: 'rails-4.1' #sortable links on inventory (user and admin) and request pages (admin)
 gem 'sucker_punch', '~> 1.0' #for background jobs
-gem 'fist_of_fury', '~> 0.2.0' #to allow sucker punch to do recurring jobs
+gem 'fist_of_fury', '0.2.6' #to allow sucker punch to do recurring jobs, freezing at last working version of FoF (i.e., I manually tested it already to ensure it worked)
 
 # Use sqlite3 as the database for Active Record
 group :development do
@@ -28,7 +28,7 @@ group :test do
 	gem 'capybara', '2.1.0' #enables natural language tests
 	gem 'faker' #generates fake data for tests
 	gem 'launchy', '~> 2.4.2' #enables save_and_open_page so I can see what's rendered
-	# gem 'database_cleaner'
+	gem 'database_cleaner'
 end
 
 # Use SCSS for stylesheets
