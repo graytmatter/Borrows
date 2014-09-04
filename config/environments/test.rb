@@ -37,4 +37,7 @@ GoogleTest::Application.configure do
   # this is necessary for the outstanding request iNventory Mailer test in mailer_content.rb
   Rails.application.routes.default_url_options[:host] = '???'
 
+  # config.logger = Logger.new(STDOUT)
+  # config.log_level = :warn
+
 end

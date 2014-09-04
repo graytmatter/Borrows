@@ -30,7 +30,10 @@ RSpec.configure do |config|
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
-  config.use_transactional_fixtures = true
+
+  # commits records since we couldn't figure out how to get SP to use the same connection, also needs to be paried with DB cleaner so that the records that are committed are then removed
+  
+  config.use_transactional_fixtures = false
 
   # If true, the base class of anonymous controllers will be inferred
   # automatically. This will be the default behavior in future versions of
@@ -46,22 +49,38 @@ RSpec.configure do |config|
   config.include RSpec::Rails::ViewRendering
   config.render_views
 
-  #this section is for Sucker Punch gem, but didn't work, Database Cleaner through uninitialized, so it looks like I'm not having the problem Brandon is thinking
+  # # this section is for Sucker Punch gem, but didn't work, Database Cleaner through uninitialized, so it looks like I'm not having the problem Brandon is thinking
 
-  # config.before(:each) do
-  #   DatabaseCleaner.strategy = :transaction
-  # end
+  config.before(:each) do
+    DatabaseCleaner.strategy = :transaction
+  end
 
-  # # Clean up all jobs specs with truncation
-  # config.before(:each, job: true) do
-  #   DatabaseCleaner.strategy = :truncation
-  # end
+  # Clean up all jobs specs with truncation
+  config.before(:each, job: true) do
+    DatabaseCleaner.strategy = :truncation
+  end
 
-  # config.before(:each) do
-  #   DatabaseCleaner.start
-  # end
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
 
-  # config.after(:each) do
-  #   DatabaseCleaner.clean
-  # end
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
+
 end
+
+  # if i had different threads, this forces you to share the connection in test mode
+
+  # module ActiveRecord
+  #   class Base
+  #     mattr_accessor :shared_connection
+  #     @@shared_connection = nil
+
+  #     def self.shared_connection
+  #       @@shared_connection || retrieve_connection
+  #     end
+  #   end
+
+  #   Base.shared_connection = Base.connection
+  # end

@@ -1,9 +1,14 @@
 class Times_to_create
 	include SuckerPunch::Job
+	# include Celluloid::Logger
+
+	# Celluloid.logger = Rails.logger
 
 	def perform(requestrecord_id, borrowparams)
+		# sleep 3
+		# warn(Request.all)
 		ActiveRecord::Base.connection_pool.with_connection do 
-			@requestrecord = Request.find_by_id(requestrecord_id)
+			@requestrecord = Request.find(requestrecord_id)
 			borrowparams.each do |itemlist_id, quantity|
 				
 	          matched_inventory_ids = Array.new
