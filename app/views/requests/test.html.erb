@@ -40,12 +40,12 @@
     </div>
   </body>
 </html>
-
+<!-- <script src="moment.min.js"></script> -->
 <script>
   
   var pickupdate_search;
   var returndate_search;
-  var starting_db = gon.jbuilder;
+  var lenders = gon.jbuilder;
   $("#pickupdate").datepicker({
       dateFormat: "dd-M-yy",
       minDate: 0,
@@ -68,60 +68,34 @@
       }
   });
 
-  function DateDiff(date1, date2) {
-    var datediff = date1.getTime() - date2.getTime();
-    //store the getTime diff - or +
-    return (datediff / (24 * 60 * 60 * 1000));
-    //Convert values to -/+ days and return value
-  }
-
-  $("#logValue").on("click", LogValue);
-
-  function LogValue() { 
-    console.log(starting_db)
-    // console.log(pickupdate_search)
-    starting_db = jQuery.grep(starting_db, function(lender){
-      var is_valid = true;
-
-      inventories = lender.inventories;
-      console.log(inventories)
-      for(var i=0; i<inventories.length; i++){
-        requests = inventories[i].requests;
-        console.log(requests)
+  $("#logValue").on("click", FilterLenders);
+  function FilterLenders() { 
+    console.log(lenders[1].inventories)
+    for(var n=0; n<lenders.length; n++){
+      inventories = lenders[n].inventories
+      inventories = jQuery.grep(inventories, function (inventory) {
+        var is_valid;
+        requests = inventory.requests;
         for(var x=0; x<requests.length; x++){
-          //first need to convert the 2014-09-12 strings in the JSON to date objects, note that when they convert, they take on PST, so also need to ensure they become UTC again. As long as everything is in UTC and I don't need to send out calendar invites in PST, it's fine. Else, I'll need to convert back to PST before sending any emails to the user on specific times
-          var pickupdate_request = new Date(requests[x].pickupdate).getUTCDate();
-          var returndate_request = new Date(requests[x].returndate).toUTCString();
-          console.log(returndate_search.getTime())
-          console.log(pickupdate_request.getTime())
-          console.log(DateDiff(pickupdate_request,returndate_search))
-          var test = DateDiff(pickupdate_request,returndate_search) * DateDiff(pickupdate_search - returndate_request)
+          var pickupdate_request = moment(requests[x].pickupdate)
+          var returndate_request = moment(requests[x].returndate)
+          var test = (pickupdate_request - returndate_search) * (pickupdate_search - returndate_request)
           if(test > 0) {
-            //full overlap
+            //dates completely overlap the item that had this request needs to be excluded
             is_valid = false;
-            break;
           } else if(test === 0) {
-            //edge overlap
+            //dates are on the edge of each other, for now the item that had this request can be included
             is_valid = true;
-            break;
           } else if(test <0) {
-            //no overlap at all
+            //dates do not overlap at all, item should definitely be included
             is_valid = true
-            break;
           }
-          
         }
-      }
-      
-      return is_valid;
-    });
-    initializeMap();
+      })
+    }
+    console.log(lenders[1].inventories) //object 5 should not exist
   }
-
-  // google.maps.event.addListener(marker,'click',function() {
-  // map.setZoom(9);
-  // map.setCenter(marker.getPosition());
-  // });
+  initializeMap();
 
   var railsENV = $('body').data('env')
   if (railsENV=="development") {
@@ -140,7 +114,7 @@
 
     var markers = {};
     var infowindows = {};
-    $.each( starting_db, function (counter, lender) { 
+    $.each( lenders, function (counter, lender) { 
       var contentString = '<div id="content">'+
         '<div id="siteNotice">'+
         '</div>'+
