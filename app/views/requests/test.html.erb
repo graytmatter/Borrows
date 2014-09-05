@@ -42,38 +42,86 @@
 </html>
 
 <script>
-
-  var pickupdate;
-  var returndate;
+  
+  var pickupdate_search;
+  var returndate_search;
+  var starting_db = gon.jbuilder;
   $("#pickupdate").datepicker({
       dateFormat: "dd-M-yy",
       minDate: 0,
       onSelect: function (date) {
-          var date2 = $('#pickupdate').datepicker('getDate');
-          date2.setDate(date2.getDate());
-          $('#returndate').datepicker('setDate', date2);
-          //sets minDate to dt1 date + 1
-          $('#returndate').datepicker('option', 'minDate', date2);
+          date1 = $('#pickupdate').datepicker('getDate');
+          //sets minDate to pickupdate (i.e., date1)
+          $('#returndate').datepicker('option', 'minDate', date1);
       }
   });
+
   $('#returndate').datepicker({
       dateFormat: "dd-M-yy",
-      onClose: function () {
-          pickupdate = $('#pickupdate').datepicker('getDate');
-          returndate = $('#returndate').datepicker('getDate');
-          if (returndate <= pickupdate) {
-              var minDate = $('#returndate').datepicker('option', 'minDate');
-              $('#returndate').datepicker('setDate', minDate);
-          }
-          alert(pickupdate)
+      onSelect: function () {
+        pickupdate_search = $('#pickupdate').datepicker('getDate');
+        returndate_search = $('#returndate').datepicker('getDate');
+        if (returndate_search <= pickupdate_search) {
+            var minDate = $('#returndate').datepicker('option', 'minDate');
+            $('#returndate').datepicker('setDate', minDate);
+        }
       }
   });
+
+  function DateDiff(date1, date2) {
+    var datediff = date1.getTime() - date2.getTime();
+    //store the getTime diff - or +
+    return (datediff / (24 * 60 * 60 * 1000));
+    //Convert values to -/+ days and return value
+  }
 
   $("#logValue").on("click", LogValue);
 
-  function LogValue() {
-      alert(pickupdate);
+  function LogValue() { 
+    console.log(starting_db)
+    // console.log(pickupdate_search)
+    starting_db = jQuery.grep(starting_db, function(lender){
+      var is_valid = true;
+
+      inventories = lender.inventories;
+      console.log(inventories)
+      for(var i=0; i<inventories.length; i++){
+        requests = inventories[i].requests;
+        console.log(requests)
+        for(var x=0; x<requests.length; x++){
+          //first need to convert the 2014-09-12 strings in the JSON to date objects, note that when they convert, they take on PST, so also need to ensure they become UTC again. As long as everything is in UTC and I don't need to send out calendar invites in PST, it's fine. Else, I'll need to convert back to PST before sending any emails to the user on specific times
+          var pickupdate_request = new Date(requests[x].pickupdate).getUTCDate();
+          var returndate_request = new Date(requests[x].returndate).toUTCString();
+          console.log(returndate_search.getTime())
+          console.log(pickupdate_request.getTime())
+          console.log(DateDiff(pickupdate_request,returndate_search))
+          var test = DateDiff(pickupdate_request,returndate_search) * DateDiff(pickupdate_search - returndate_request)
+          if(test > 0) {
+            //full overlap
+            is_valid = false;
+            break;
+          } else if(test === 0) {
+            //edge overlap
+            is_valid = true;
+            break;
+          } else if(test <0) {
+            //no overlap at all
+            is_valid = true
+            break;
+          }
+          
+        }
+      }
+      
+      return is_valid;
+    });
+    initializeMap();
   }
+
+  // google.maps.event.addListener(marker,'click',function() {
+  // map.setZoom(9);
+  // map.setCenter(marker.getPosition());
+  // });
 
   var railsENV = $('body').data('env')
   if (railsENV=="development") {
@@ -82,7 +130,7 @@
     var optimizeIt = true
   }
   var map;
-  function initialize() {
+  function initializeMap() {
     var mapOptions = {
       zoom: 13,
       center: new google.maps.LatLng(gon.borrower.latitude, gon.borrower.longitude) 
@@ -92,7 +140,7 @@
 
     var markers = {};
     var infowindows = {};
-    $.each( gon.jbuilder, function (counter, lender) { 
+    $.each( starting_db, function (counter, lender) { 
       var contentString = '<div id="content">'+
         '<div id="siteNotice">'+
         '</div>'+
@@ -125,7 +173,7 @@
       });
     });
   };
-  google.maps.event.addDomListener(window, 'load', initialize);
+  google.maps.event.addDomListener(window, 'load', initializeMap);
 
   populateCart(); // Populates the cart when page loads
 
