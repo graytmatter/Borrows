@@ -69,33 +69,72 @@
   });
 
   $("#logValue").on("click", FilterLenders);
+  // function FilterLenders() { 
+  //   console.log(lenders[1].inventories)
+  //   for(var n=0; n<lenders.length; n++){
+  //     inventories = lenders[n].inventories
+  //     inventories = jQuery.grep(inventories, function (inventory) {
+  //       var is_valid;
+  //       requests = inventory.requests;
+  //       for(var x=0; x<requests.length; x++){
+  //         var pickupdate_request = moment(requests[x].pickupdate)
+  //         var returndate_request = moment(requests[x].returndate)
+  //         var test = (pickupdate_request - returndate_search) * (pickupdate_search - returndate_request)
+  //         if(test > 0) {
+  //           //dates completely overlap the item that had this request needs to be excluded
+  //           is_valid = false;
+  //           break;
+  //         } else if(test === 0) {
+  //           //dates are on the edge of each other, for now the item that had this request can be included
+  //           is_valid = true;
+  //         } else if(test <0) {
+  //           //dates do not overlap at all, item should definitely be included
+  //           is_valid = true
+  //         }
+  //       }
+  //       if(is_valid === true) {
+  //         return inventory
+  //       }
+  //     })
+  //   }
+  //   console.log(lenders[1].inventories) //object 5 should not exist
+  // }
+  // initializeMap();
+
+  function check(inventory) {
+    requests = inventory.requests;
+    for(var x=0; x<requests.length; x++){
+      var pickupdate_request = moment(requests[x].pickupdate)
+      var returndate_request = moment(requests[x].returndate)
+      var test = (pickupdate_request - returndate_search) * (pickupdate_search - returndate_request)
+      if(test > 0) {
+        //dates completely overlap the item that had this request needs to be excluded
+        return false;
+        break;
+      } else if(test === 0) {
+        //dates are on the edge of each other, for now the item that had this request can be included
+        return true;
+      } else if(test <0) {
+        //dates do not overlap at all, item should definitely be included
+        return true;
+      }
+    }
+  }
+
   function FilterLenders() { 
-    console.log(lenders[1].inventories)
-    for(var n=0; n<lenders.length; n++){
-      inventories = lenders[n].inventories
+    // console.log(lenders[1].inventories)
+    // for(var n=0; n<lenders.length; n++){
+      inventories = lenders[1].inventories
       inventories = jQuery.grep(inventories, function (inventory) {
-        var is_valid;
-        requests = inventory.requests;
-        for(var x=0; x<requests.length; x++){
-          var pickupdate_request = moment(requests[x].pickupdate)
-          var returndate_request = moment(requests[x].returndate)
-          var test = (pickupdate_request - returndate_search) * (pickupdate_search - returndate_request)
-          if(test > 0) {
-            //dates completely overlap the item that had this request needs to be excluded
-            is_valid = false;
-          } else if(test === 0) {
-            //dates are on the edge of each other, for now the item that had this request can be included
-            is_valid = true;
-          } else if(test <0) {
-            //dates do not overlap at all, item should definitely be included
-            is_valid = true
-          }
+        console.log(check(inventory))
+        if( check(inventory) ) {
+          return inventory
         }
       })
-    }
-    console.log(lenders[1].inventories) //object 5 should not exist
+    // }
+    // console.log(lenders[1].inventories) //object 5 should not exist
   }
-  initializeMap();
+
 
   var railsENV = $('body').data('env')
   if (railsENV=="development") {
