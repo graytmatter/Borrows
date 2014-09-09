@@ -159,7 +159,7 @@
     console.log('before', lenders);
 
     var newLenders = _.map(lenders, function(lender) {
-      _.extend(lender, { inventories: filterInventories(lender.inventories, requests) });
+      _.extend({}, lender, { inventories: filterInventories(lender.inventories, requests) });
       return lender;
     });
 
