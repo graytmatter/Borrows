@@ -153,6 +153,21 @@
     });
   };
 
+  InventoryFilter = function(lenders) {
+    lenders: lenders,
+
+    init: function() {
+      console.log('init', lenders);
+    },
+
+    // runs the filter
+    search: function() {
+      console.log('running search');
+    }
+  }
+
+  var filter = new InventoryFilter(lenders);
+
   function FilterLenders() {
     var requests = [];
 
@@ -166,12 +181,8 @@
 
     console.log('after', newLenders);
 
-      <%# inventories = jQuery.grep(inventories, function (inventory) { %>
-      <%#   console.log(check(inventory)) %>
-      <%#   if( check(inventory) ) { %>
-      <%#     return inventory %>
-      <%#   } %>
-      <%# }) %>
+    // alternative approach
+    filter.search()
   }
 
 
