@@ -144,6 +144,7 @@
         var lender = lenders[i];
 
         if (checkAvailability(inventory)) {
+          console.log('excluded inventory', inventory);
           return false;
         }
       }
@@ -155,18 +156,14 @@
   function FilterLenders() {
     var requests = [];
 
-    _.each(lenders, function(lender) {
-      _.each(lender.inventories, function(inventory) {
-        requests += inventory.requests;
-      });
-    });
+    console.log('before', lenders);
 
     var newLenders = _.map(lenders, function(lender) {
       _.extend(lender, { inventories: filterInventories(lender.inventories, requests) });
       return lender;
     });
 
-    console.log(newLenders);
+    console.log('after', newLenders);
 
       <%# inventories = jQuery.grep(inventories, function (inventory) { %>
       <%#   console.log(check(inventory)) %>
