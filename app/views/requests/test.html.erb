@@ -122,15 +122,47 @@
     }
   }
 
-  var filterInventories = function(inventories) {
-    return _.filter(inventories, function(inventory) {
+  var checkDates = function() {
+  };
+
+  var filterInventories = function(inventories, requests) {
+    return _.filter(inventories, function(inventory, lenders) {
+
+      for (var i in lenders) {
+        var lender = lenders[i];
+
+        var overlaps = _.any(requests, function(request) {
+          var pickupDate = moment(request.pickupdate);
+          var returnDate = moment(request.returndate);
+
+          var test = (pickupDate - returndate_search) * (pickupdate_search - returnDate);
+          if (test > 0) {
+            return true;
+          } else {
+            return false;
+          }
+        });
+
+        if (overlaps) {
+          return false;
+        }
+      }
+
       return true;
     });
   };
 
   function FilterLenders() {
-    newLenders = _.map(lenders, function(lender) {
-      _.extend(lender, { inventories: filterInventories(lender.inventories) });
+    var requests = [];
+
+    _.each(lenders, function(lender) {
+      _.each(lender.inventories, function(inventory) {
+        requests += inventory.requests;
+      });
+    });
+
+    var newLenders = _.map(lenders, function(lender) {
+      _.extend(lender, { inventories: filterInventories(lender.inventories, requests) });
       return lender;
     });
 
