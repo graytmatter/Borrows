@@ -13,6 +13,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
     <%="<script type='text/javascript'
       src='https://maps.googleapis.com/maps/api/js?key=#{ENV['GoogleMap']}&libraries=geometry'></script>".html_safe %>
+    <%= javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js" %>
   </head>
 
   <body data-env="<%= Rails.env %>">
@@ -121,18 +122,26 @@
     }
   }
 
-  function FilterLenders() { 
-    // console.log(lenders[1].inventories)
-    // for(var n=0; n<lenders.length; n++){
-      inventories = lenders[1].inventories
-      inventories = jQuery.grep(inventories, function (inventory) {
-        console.log(check(inventory))
-        if( check(inventory) ) {
-          return inventory
-        }
-      })
-    // }
-    // console.log(lenders[1].inventories) //object 5 should not exist
+  var filterInventories = function(inventories) {
+    return _.filter(inventories, function(inventory) {
+      return true;
+    });
+  };
+
+  function FilterLenders() {
+    newLenders = _.map(lenders, function(lender) {
+      _.extend(lender, { inventories: filterInventories(lender.inventories) });
+      return lender;
+    });
+
+    console.log(newLenders);
+
+      <%# inventories = jQuery.grep(inventories, function (inventory) { %>
+      <%#   console.log(check(inventory)) %>
+      <%#   if( check(inventory) ) { %>
+      <%#     return inventory %>
+      <%#   } %>
+      <%# }) %>
   }
 
 
