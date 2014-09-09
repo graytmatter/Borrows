@@ -154,16 +154,18 @@
   };
 
   InventoryFilter = function(lenders) {
-    lenders: lenders,
+    this.lenders = lenders;
 
-    init: function() {
+    this.init = function() {
       console.log('init', lenders);
-    },
+    };
 
     // runs the filter
-    search: function() {
+    this.search = function() {
       console.log('running search');
-    }
+    };
+
+    this.init();
   }
 
   var filter = new InventoryFilter(lenders);
