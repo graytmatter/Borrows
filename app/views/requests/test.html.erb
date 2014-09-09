@@ -122,28 +122,28 @@
     }
   }
 
-  var checkDates = function() {
+  var checkAvailability = function(inventory) {
+    // compare puckup / return dates with global dates from form
+    return _.any(inventory.requests, function(request) {
+      var pickupDate = moment(request.pickupdate);
+      var returnDate = moment(request.returndate);
+
+      var test = (pickupDate - returndate_search) * (pickupdate_search - returnDate);
+      if (test > 0) {
+        return true;
+      } else {
+        return false;
+      }
+    });
   };
 
-  var filterInventories = function(inventories, requests) {
-    return _.filter(inventories, function(inventory, lenders) {
+  var filterInventories = function(inventories) {
+    return _.filter(inventories, function(inventory) {
 
       for (var i in lenders) {
         var lender = lenders[i];
 
-        var overlaps = _.any(requests, function(request) {
-          var pickupDate = moment(request.pickupdate);
-          var returnDate = moment(request.returndate);
-
-          var test = (pickupDate - returndate_search) * (pickupdate_search - returnDate);
-          if (test > 0) {
-            return true;
-          } else {
-            return false;
-          }
-        });
-
-        if (overlaps) {
+        if (checkAvailability(inventory)) {
           return false;
         }
       }
