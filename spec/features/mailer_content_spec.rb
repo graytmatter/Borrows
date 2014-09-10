@@ -70,7 +70,7 @@ describe "Create db info" do
 			email.to.should == [@borrow1.request.signup.email]
 			email.cc.should == [Inventory.find_by_id(@borrow1.inventory_id).signup.email]
 			email.from.should == @jamespbemail
-			email.subject.should == "[Project Borrow]: #{Itemlist.find_by_id(@borrow1.itemlist_id).name.upcase} exchange!"
+			email.subject.should == "[Project Borrow]: #{Itemlist.find_by_id(@borrow1.itemlist_id).name.capitalize} exchange!"
 			email.body.should include("Connecting the two of you so you can make sharing magic happen!")
 			email.body.should include("#{Inventory.find_by_id(@borrow1.inventory_id).signup.streetone.capitalize}")
 			email.body.should include("#{Inventory.find_by_id(@borrow1.inventory_id).signup.streettwo.capitalize}")
@@ -161,8 +161,7 @@ describe "Create db info" do
 
 		it "should contain the right contents and view elements" do
 			email = ActionMailer::Base.deliveries.last
-			email.to.should == @jamespbemail
-			# [Inventory.find_by_id(@borrow1.inventory_id).signup.email]
+			email.to.should == [Inventory.find_by_id(@borrow1.inventory_id).signup.email]
 			email.from.should == @jamespbemail
 			email.subject.should == "[Project Borrow]: Accept/ decline requests right in your email!"
 			email.body.should include("It's now easier than ever to manage your requests, because you can do it in this very email, just as you would on")

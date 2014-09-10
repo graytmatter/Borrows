@@ -11,15 +11,6 @@ class RequestMailer < ActionMailer::Base
     mail(to: @borrower_email, from: ENV['owner'], :subject => "[Project Borrow]: Could not find #{@item}") 
   end
 
-  def not_found_test(not_found_borrow, itemlist_id)
-    @borrower_email = not_found_borrow.request.signup.email
-    @pickupdate = not_found_borrow.request.pickupdate.strftime("%B %-d")
-    @returndate = not_found_borrow.request.returndate.strftime("%B %-d")
-    @item = Itemlist.find_by_id(itemlist_id).name.downcase
-    @county = Geography.find_by_zipcode(not_found_borrow.request.signup.zipcode).county
-    mail(to: "jdong8@gmail.com", from: ENV['owner'], :subject => "[Project Borrow]: Could not find #{@item}") 
-  end
-
   def repeat_borrow(repeat_borrow, itemlist_id)
     @borrower_email = repeat_borrow.request.signup.email
     @pickupdate = repeat_borrow.request.pickupdate.strftime("%B %-d")
