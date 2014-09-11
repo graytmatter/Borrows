@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sharing with Friends in San Francisco</title>
+  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= csrf_meta_tags %>
+  <link rel="chrome-webstore-item"
+    href="https://chrome.google.com/webstore/detail/khfagnmmcigijajehdbeomfcimgfheak">
+  <meta name="google-site-verification" content="DZGI3GM2XM7Iw-rX7aETlJmhgrqAvRFhwDR7iqgr-Bk" /> <!--verification for Google Webmaster Tools -->
+  <%= favicon_link_tag 'icon.ico' %>
+
+  <meta charset="UTF-8">
+  <meta name="description" content="Share with friends for free. Camping gear (tents, sleeping pads, sleeping bags, backpacks), park and picnic gear (portable grills, chairs, shade structures), household tools (electric drills), housewares and kitchen appliances (blenders, food processors, vacuums), and more. A great way to save money, declutter your life, be eco-conscious and environmentally sensitive, and have a good time.">
+  <meta name="robots" content="noodp">
+</head>
+<body>
+
+  <div class="col-xs-8 col-xs-offset-2" style="z-index:100;">
+    <div class="horiz", style="padding-top:4%">
+      <%= link_to(image_tag("Logo.png", title: "Project Borrow", alt: "Project Borrow", width: "40%"), root_path) %>
+      <h1 style="font-size:130%; font-style: italic;">A fun and easy way to share stuff with the hundreds of Facebook friends you already have!</h1>
+      <hr>
+    </div>
+  </div>
+
+  <div class="col-xs-12">
+    <div class="col-xs-7" style="text-align: right; padding-left:5%">
+      <iframe width="100%" height="360" src="//www.youtube.com/embed/p_0G3ANH-iQ?rel=0" frameborder="0" allowfullscreen></iframe>
+    </div>
+
+    <div class="col-xs-5" style="text-align: left; padding-right:5%">
+      <ul style="font-size:130%;">
+        <li>No more wondering who has what; we map out your friends and their stuff</li>
+        <br>
+        <li>No more awkward messages; only borrow from friends who have offered to share</li>
+        <br>
+        <li>No more forgetting, losing, or damaging things; we coordinate the entire process</li>
+        <br>
+      </ul>
+
+      <div class="col-xs-12">
+        <%= form_for @signup, url: signups_path(@signup), method: :post, :html => {:autocomplete => "off"} do |f| %>
+          <div class="col-xs-9">
+            <div class="form-group">
+              <%= f.text_field :email, class: "form-control", id: "signup_email1", placeholder: "Enter your email to get started" %>
+            </div>
+          </div>
+
+          <div class="col-xs-3">
+            <%= f.submit "Go!", class: "btn btn-success btn-large btn-block", id: "signup1" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xs-12">
+    <hr>
+    <h3 style="font-size:120%">Play with these pictures to check out what our early users have already borrowed!</h3>
+  </div>
+
+  <div class="col-xs-12" style="padding-top:5%; padding-bottom:5%;" %>
+    <div class="photopile-wrapper">
+      <ul class="photopile">
+        <% Dir.glob("app/assets/images/Borrower photos/*").map do |path| %>
+          <li><%= link_to(image_tag("Borrower photos/#{ File.basename(path) }", class: "img-responsive", alt: "#{ File.basename(path, ".jpg") }", title: "#{ File.basename(path, ".jpg") }"), "#", class: "thumbnail", style: "margin:0") %></li>
+        <% end %>
+      </ul>
+    </div>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.js"></script>
+    <%= javascript_include_tag "photopile", "jquery.ui.touch-punch.min" %>
+    <%= stylesheet_link_tag "photopile" %>
+  </div>
+      
+
+  <div class="col-xs-12 horiz" style="padding-top: 1%; padding-bottom:1%;">
+      <%#= link_to 'Learn more' %>
+      <%= link_to 'Terms of service', terms_path, { style: "padding-right:2%; padding-left:2%; color:#428bca", target: "_blank" } %>
+      <%= link_to 'Privacy policy', policy_path, { style: "padding-right:2%; padding-left:2%; color:#428bca", target: "_blank" } %>
+      <%= mail_to 'james@projectborrow.com', 'Contact us', { style: "padding-right:2%; padding-left:2%; color:#428bca"}%>
+  </div>
+
+</body>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-47062117-1', 'projectborrow.com');
+  ga('require', 'displayfeatures'); 
+  ga('require', 'linkid', 'linkid.js');
+  ga('send', 'pageview');
+
+</script>
+
+<%#= debug(params) if Rails.env.development? %>
+</body>
+</html>

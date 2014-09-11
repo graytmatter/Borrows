@@ -1,6 +1,11 @@
 class StaticpagesController < ApplicationController
 
-	before_filter :authenticate, except: [:terms, :policy, :maintenace]
+	before_filter :authenticate, except: [:home, :terms, :policy, :maintenace]
+
+	def home
+		@signup = Signup.new
+		render :layout => false
+	end
 
 	def terms
 	end
