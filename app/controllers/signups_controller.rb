@@ -36,7 +36,7 @@ class SignupsController < ApplicationController
 		auth_hash = env["omniauth.auth"]
 		puts env["omniauth.auth"]
 		if Signup.find_by(facebook_id: auth_hash.uid.to_i).present?
-        flash[:done] = "You've already signed up with us, thanks!"
+        flash[:info] = "You've already signed up with us, thanks!"
     else
         Signup.create(facebook_id: auth_hash.uid.to_i, email: auth_hash.info.email.downcase, name: auth_hash.info.name, image_url: auth_hash.info.image) 
         flash[:success] = "Thanks for signing up!"
