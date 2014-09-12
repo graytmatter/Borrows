@@ -9,6 +9,11 @@ GoogleTest::Application.routes.draw do
   get '/edit', to: 'signups#edit', as: 'edit_signup'
   patch 'signups/update', to: 'signups#update'
 
+  match 'auth/:provider/callback', to: 'signups#create_facebook', via: [:get] 
+  # ^^ cannot be both :get and :post, if so, it does this twice and that's when i get the code has already been used error
+  match 'auth/failure', to: redirect('/'), via: [:get, :post]
+  # match 'signout', to: 'sessions#destroy', as: 'signout', via: [:get, :post]
+
   get 'requests/new', to: 'requests#new', as: 'new_request'
   post 'requests', to: 'requests#create'
   get 'requests/success', to: 'requests#success'

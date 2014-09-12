@@ -12,6 +12,7 @@ gem 'newrelic_rpm' #tracking and pinging from newrelic
 gem 'ransack', github: 'activerecord-hackery/ransack', branch: 'rails-4.1' #sortable links on inventory (user and admin) and request pages (admin)
 gem 'sucker_punch', '~> 1.0' #for background jobs
 gem 'fist_of_fury', '0.2.6' #to allow sucker punch to do recurring jobs, freezing at last working version of FoF (i.e., I manually tested it already to ensure it worked)
+gem 'omniauth-facebook'
 
 # Use sqlite3 as the database for Active Record
 group :development do

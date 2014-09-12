@@ -24,6 +24,8 @@
     </div>
   </div>
 
+  <%= render 'layouts/flash' %>
+
   <div class="col-xs-12">
     <div class="col-xs-7" style="text-align: right; padding-left:5%">
       <iframe width="100%" height="360" src="//www.youtube.com/embed/p_0G3ANH-iQ?rel=0" frameborder="0" allowfullscreen></iframe>
@@ -40,17 +42,7 @@
       </ul>
 
       <div class="col-xs-12">
-        <%= form_for @signup, url: signups_path(@signup), method: :post, :html => {:autocomplete => "off"} do |f| %>
-          <div class="col-xs-9">
-            <div class="form-group">
-              <%= f.text_field :email, class: "form-control", id: "signup_email1", placeholder: "Enter your email to get started" %>
-            </div>
-          </div>
-
-          <div class="col-xs-3">
-            <%= f.submit "Go!", class: "btn btn-success btn-large btn-block", id: "signup1" %>
-          </div>
-        <% end %>
+        <%= link_to "Sign in with Facebook", "/auth/facebook", id: "sign_in" %>
       </div>
     </div>
   </div>

@@ -30,6 +30,22 @@ class SignupsController < ApplicationController
 
 	end
 
+	def create_facebook
+		# test to see if scopes are truly different, no difference at least with my account, might need to go live first
+		# add testing somehow
+		auth_hash = env["omniauth.auth"]
+		puts env["omniauth.auth"]
+		if Signup.find_by(facebook_id: auth_hash.uid.to_i).present?
+        flash[:done] = "You've already signed up with us, thanks!"
+    else
+        Signup.create(facebook_id: auth_hash.uid.to_i, email: auth_hash.info.email.downcase, name: auth_hash.info.name, image_url: auth_hash.info.image) 
+        flash[:success] = "Thanks for signing up!"
+        # user = Signup.from_omniauth(env["omniauth.auth"])
+    end
+		redirect_to root_url
+	end
+
+
 	def edit
 		if Rails.env == "test"
 			@signup_parent = Signup.find_by_email(session[:signup_email])
