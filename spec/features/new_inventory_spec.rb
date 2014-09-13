@@ -17,9 +17,8 @@ describe "how inventory upload should work" do
 	describe "A) inventory creation" do
 
 		before do
-			visit '/'
+			visit '/original'
 			fill_in 'signup_email1', :with => "jamesdd9302@yahoo.com"
-			click_button 'signup1'
 			click_button 'lend'
 		end
 

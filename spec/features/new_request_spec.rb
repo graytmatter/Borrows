@@ -21,9 +21,8 @@ describe "how request submission should work", job: true do
 	describe "A) request creation" do
 
 		before do
-			visit '/'
+			visit '/original'
 			fill_in 'signup_email1', :with => "jamesdd9302@yahoo.com"
-			click_button 'signup1'
 			click_button 'borrow'
 		end
 

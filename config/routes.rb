@@ -4,6 +4,7 @@ GoogleTest::Application.routes.draw do
   root 'staticpages#home'
   # root 'staticpages#maintenance' #maintenance mode
   get '/new', to: 'signups#new' #maintenance mode
+  match '/original', to: 'signups#original', as: "original", via: [:get, :post]
 
   resources :signups, only: [:new, :create]
   get '/edit', to: 'signups#edit', as: 'edit_signup'

@@ -7,8 +7,8 @@ describe "how inventory management except for accept/decline, i.e., descriptions
 		@newcategory.itemlists.create(name: "2-Person tent", inventory_list: true)
 		Geography.create(zipcode:94109, city:"San Francisco", county:"San Francisco")
 
-		@signup = Signup.create(email:"jamesdd9302@yahoo.com", streetone: "Post", streettwo: "Taylor", zipcode: 94109, tos: true)
-		@signup2 = Signup.create(email:"anavarada@gmail.com", streetone: "Post", streettwo: "Taylor", zipcode: 94109, tos: true)
+		@signup = Signup.create(email:"jamesdd9302@yahoo.com", streetone: "Post", streettwo: "Taylor", zipcode: 94109, tos: true, created_at: "2014-07-29 21:49:24")
+		@signup2 = Signup.create(email:"anavarada@gmail.com", streetone: "Post", streettwo: "Taylor", zipcode: 94109, tos: true, created_at: "2014-07-29 21:49:24")
 	end
 		
 	it "should have 2 signups to start" do
@@ -18,10 +18,21 @@ describe "how inventory management except for accept/decline, i.e., descriptions
 	describe "A) page should show inventory" do
 
 		before do
-			visit '/'
+			visit '/original'
 			fill_in 'signup_email1', :with => "jamesdd9302@yahoo.com"
-			click_button 'signup1'
+			# find(:xpath, "//*[@id='tos']").set(true)
+			# check 'tos'
+
+			# find("#tos").set(true)
+			# check 'I have read and agree to the Terms of Service'
+			# check 'I have read and agree to the "<a href="/termsofservice" style="color:#428bca" target="_blank">Terms of Service</a>".'			
+
+			# <input id="tos" name="tos" type="checkbox" value="{:id=>&quot;tos&quot;}">
+			# find(:css, "#tos[value='{:id=>&quot;tos&quot;}']").set(true)
+			find(:css, "#tos[value='{:id=>'tos'}']").set(true)
+
 			click_button 'lend'
+			save_and_open_page
 			fill_in 'inventory_1', :with => 1
 			click_button 'submit_lend'
 		end
@@ -136,9 +147,8 @@ describe "how inventory management except for accept/decline, i.e., descriptions
 
 				@request = @signup2.requests.create(pickupdate: @todays_date, returndate: @futures_date)
 				@request.borrows.create(itemlist_id: 1, inventory_id: 1, multiple: 1, status1: 1)
-				visit '/'
+				visit '/original'
 				fill_in 'signup_email1', :with => "jamesdd9302@yahoo.com"
-				click_button 'signup1'
 				click_button 'lend'
 			end
 

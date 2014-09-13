@@ -3,9 +3,9 @@ require 'spec_helper'
 describe "how requests should flow", job: true do
 
 	def login(email, choice, quantity = '', pickup_month='', pickup_date='', return_month='', return_date='')
-		visit '/'
+		visit '/original'
 		fill_in 'signup_email1', :with => email
-		click_button 'signup1'
+		check 'tos'
 		click_button choice
 
 		if choice == "borrow"

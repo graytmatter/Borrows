@@ -1,0 +1,25 @@
+<head>
+<meta charset="UTF-8">
+<meta name="description" content="Get started with Project Borrow in San Francisco">
+<meta name="robots" content="noodp">
+</head>
+
+  <div class="col-xs-12" style="padding-bottom:3%;">
+    <h4><%="Access the original Project Borrow site"%></h4>
+    <p style="font-style:italic;">If you signed up with Project Borrow before <b>September 12</b>, you may continue to use the original version of the site to borrow and lend items by entering your email and clicking on the appropriate button below. If you are someone new, you can request an invitation from our <%= link_to 'home page', root_path, { style: "color:#428bca"} %> and we'll let you know as soon as we launch San Francisco wide!</p>
+  </div>
+
+  <%= render 'layouts/flash' %>
+  <div class="col-xs-12" style="margin-bottom:15%">
+    <%= form_tag(url: original_path, method: :post, :html => {:autocomplete => "off"}) %>
+    <%= email_field_tag :email, nil, class: "form-control", id: "signup_email1", placeholder: "Enter the email you used to sign up with Project Borrow" %>
+    <br>
+    <%= check_box_tag :tos, id: "tos" %>
+    <%= label_tag "tos", "I have read and agree to the #{link_to 'Terms of Service', terms_path, { style: "color:#428bca", target: "_blank" }}.".html_safe %>
+    <div class="col-xs-6" style="padding-left:0;margin-top:2%">
+      <%= submit_tag "Woohoo! Ready to borrow!!", class: "btn btn-primary btn-large btn-block", id: "borrow" %>
+    </div>
+    <div class="col-xs-6" style="padding-right:0;margin-top:2%">
+      <%= submit_tag "Yayhay! Ready to lend!!", class: "btn btn-warning btn-large btn-block", id: "lend" %>
+    </div>
+  </div>
