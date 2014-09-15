@@ -29,11 +29,11 @@ describe "how signup check should work" do
 		it "should update timestamp and tos" do
 			@found_signup = Signup.find_by_email("jdong8@gmail.com")
 			@found_signup.tos == true
-			@found_signup.update_at == Time.now
+			@found_signup.updated_at.to_date == Date.today
 		end
 
 		it "should render new request page successfully" do
-			page.assert_no_selector('#new_request')
+			page.assert_selector('#new_request')
 		end
 
 	end

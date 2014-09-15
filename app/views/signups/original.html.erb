@@ -14,8 +14,10 @@
     <%= form_tag(url: original_path, method: :post, :html => {:autocomplete => "off"}) %>
     <%= email_field_tag :email, nil, class: "form-control", id: "signup_email1", placeholder: "Enter the email you used to sign up with Project Borrow" %>
     <br>
-    <%= check_box_tag :tos, id: "tos" %>
-    <%= label_tag "tos", "I have read and agree to the #{link_to 'Terms of Service', terms_path, { style: "color:#428bca", target: "_blank" }}.".html_safe %>
+    <div class="col-xs-12">
+      <%= check_box_tag "tos" %>
+      <%= label_tag "tos", "I have read and agree to the #{link_to 'Terms of Service', terms_path, { style: "color:#428bca", target: "_blank" }}.".html_safe %>
+    </div>
     <div class="col-xs-6" style="padding-left:0;margin-top:2%">
       <%= submit_tag "Woohoo! Ready to borrow!!", class: "btn btn-primary btn-large btn-block", id: "borrow" %>
     </div>

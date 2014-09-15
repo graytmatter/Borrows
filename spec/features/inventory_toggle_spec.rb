@@ -19,20 +19,9 @@ describe "how inventory management except for accept/decline, i.e., descriptions
 
 		before do
 			visit '/original'
+			check 'tos'
 			fill_in 'signup_email1', :with => "jamesdd9302@yahoo.com"
-			# find(:xpath, "//*[@id='tos']").set(true)
-			# check 'tos'
-
-			# find("#tos").set(true)
-			# check 'I have read and agree to the Terms of Service'
-			# check 'I have read and agree to the "<a href="/termsofservice" style="color:#428bca" target="_blank">Terms of Service</a>".'			
-
-			# <input id="tos" name="tos" type="checkbox" value="{:id=>&quot;tos&quot;}">
-			# find(:css, "#tos[value='{:id=>&quot;tos&quot;}']").set(true)
-			find(:css, "#tos[value='{:id=>'tos'}']").set(true)
-
 			click_button 'lend'
-			save_and_open_page
 			fill_in 'inventory_1', :with => 1
 			click_button 'submit_lend'
 		end
@@ -149,6 +138,7 @@ describe "how inventory management except for accept/decline, i.e., descriptions
 				@request.borrows.create(itemlist_id: 1, inventory_id: 1, multiple: 1, status1: 1)
 				visit '/original'
 				fill_in 'signup_email1', :with => "jamesdd9302@yahoo.com"
+				check 'tos'
 				click_button 'lend'
 			end
 
@@ -185,11 +175,10 @@ describe "how inventory management except for accept/decline, i.e., descriptions
 
 					before do
 						Date.stub(:today).and_return(@futures_date + 1)
-						visit '/'
+						visit '/original'
 						fill_in 'signup_email1', :with => "jamesdd9302@yahoo.com"
-						click_button 'signup1'
+						check 'tos'
 						click_button 'lend'
-						# save_and_open_page
 					end
 
 					it "should have toggle and remove option" do

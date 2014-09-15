@@ -6,7 +6,7 @@ describe "how inventory upload should work" do
 		@newcategory = Categorylist.create(name: "Camping")
 		@newcategory.itemlists.create(name: "2-Person tent", inventory_list: true)
 
-		@signup = Signup.create(email:"jamesdd9302@yahoo.com", streetone: "Post", streettwo: "Taylor", zipcode: 94109, tos: true)
+		@signup = Signup.create(email:"jamesdd9302@yahoo.com", streetone: "Post", streettwo: "Taylor", zipcode: 94109, tos: true, created_at: "2014-07-29 21:49:24")
 	end
 		
 	it "should have 0 inventories and 1 signups to start" do
@@ -18,6 +18,7 @@ describe "how inventory upload should work" do
 
 		before do
 			visit '/original'
+			check 'tos'
 			fill_in 'signup_email1', :with => "jamesdd9302@yahoo.com"
 			click_button 'lend'
 		end

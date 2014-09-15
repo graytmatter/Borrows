@@ -7,7 +7,7 @@ describe "how request submission should work", job: true do
 		@newcategory.itemlists.create(name: "2-Person tent", request_list: true)
 		Geography.create(zipcode:94109, city:"San Francisco", county:"San Francisco")
 
-		@signup = Signup.create(email:"jamesdd9302@yahoo.com", streetone: "Post", streettwo: "Taylor", zipcode: 94109, tos: true)
+		@signup = Signup.create(email:"jamesdd9302@yahoo.com", streetone: "Post", streettwo: "Taylor", zipcode: 94109, tos: true, created_at: "2014-07-29 21:49:24")
 		@signup.inventories.create(itemlist_id: 1)
 		@todays_date = Date.today
 		@futures_date = Date.today+5
@@ -22,6 +22,7 @@ describe "how request submission should work", job: true do
 
 		before do
 			visit '/original'
+			check 'tos'
 			fill_in 'signup_email1', :with => "jamesdd9302@yahoo.com"
 			click_button 'borrow'
 		end

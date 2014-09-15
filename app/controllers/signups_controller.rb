@@ -62,25 +62,27 @@ class SignupsController < ApplicationController
 	def original
 		change_date = Date.new(2014, 9, 1)
 		@signup_parent = Signup.where("created_at < ?", change_date).find_by_email(original_params[:email])
-		if @signup_parent.present?
-			if original_params[:tos].to_i == 1
-				@signup_parent.update_attributes(tos: true)
-				if original_params[:commit] == "Woohoo! Ready to borrow!!"
-					session[:signup_email] = original_params[:email]
-					redirect_to new_request_path
-				else
-					session[:signup_email] = original_params[:email]
-					if @signup_parent.inventories.count > 1
-						redirect_to manage_inventory_path
+		if original_params[:email].present?
+			if @signup_parent.present?
+				if original_params[:tos].to_i == 1
+					@signup_parent.update_attributes(tos: true)
+					if original_params[:commit] == "Woohoo! Ready to borrow!!"
+						session[:signup_email] = original_params[:email]
+						redirect_to new_request_path
 					else
-						redirect_to new_inventory_path
+						session[:signup_email] = original_params[:email]
+						if @signup_parent.inventories.count > 0
+							redirect_to manage_inventory_path
+						else
+							redirect_to new_inventory_path
+						end
 					end
+				else
+					flash[:danger] = "We're sorry, please agree to the Terms of Service before continuing"
 				end
 			else
-				flash[:danger] = "We're sorry, please agree to the Terms of Service before continuing"
+				flash[:danger] = "We're sorry, but we couldn't find that email, please try another one, or if you are a new user, return to the home page to request an invitation for when we launch!"
 			end
-		else
-			flash[:danger] = "We're sorry, but we couldn't find that email, please try another one, or if you are a new user, return to the home page to request an invitation for when we launch!"
 		end
 	end
 
