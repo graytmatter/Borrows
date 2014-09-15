@@ -106,6 +106,10 @@ GEM
     json (1.8.1)
     jwt (1.0.0)
     kgio (2.9.2)
+    koala (1.10.1)
+      addressable
+      faraday
+      multi_json
     launchy (2.4.2)
       addressable (~> 2.3)
     mail (2.5.4)
@@ -248,6 +252,7 @@ DEPENDENCIES
   google_drive
   jbuilder (~> 1.2)
   jquery-rails
+  koala (~> 1.10.0rc)
   launchy (~> 2.4.2)
   newrelic_rpm
   omniauth-facebook
