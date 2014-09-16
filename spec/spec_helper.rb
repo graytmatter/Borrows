@@ -49,7 +49,11 @@ RSpec.configure do |config|
   config.include RSpec::Rails::ViewRendering
   config.render_views
 
-  # # this section is for Sucker Punch gem, but didn't work, Database Cleaner through uninitialized, so it looks like I'm not having the problem Brandon is thinking
+  # Capybara.register_driver :selenium do |app|
+  #   Capybara::Selenium::Driver.new(app, :browser => :chrome)
+  # end
+
+  # below section is for Sucker Punch gem, which only worked when real data was saved, so now i have to clean it out after each test
 
   config.before(:each) do
     DatabaseCleaner.strategy = :transaction

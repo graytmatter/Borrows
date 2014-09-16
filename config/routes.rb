@@ -1,21 +1,13 @@
 GoogleTest::Application.routes.draw do
 
-  # root 'signups#new' #normal code
   root 'staticpages#home'
   # root 'staticpages#maintenance' #maintenance mode
-  get '/new', to: 'signups#new' #maintenance mode
+  
   match '/original', to: 'signups#original', as: "original", via: [:get, :post]
-
-  resources :signups, only: [:new, :create]
-  get '/edit', to: 'signups#edit', as: 'edit_signup'
-  patch 'signups/update', to: 'signups#update'
-
-  match 'auth/:provider/callback', to: 'signups#create_facebook', via: [:get] 
-  # ^^ cannot be both :get and :post, if so, it does this twice and that's when i get the code has already been used error
-  match 'auth/failure', to: redirect('/'), via: [:get, :post]
-  # ^^ not sure what it's doing 
-  # match 'signout', to: 'sessions#destroy', as: 'signout', via: [:get, :post]
-
+  post '/social', to: 'staticpages#social', as: "social" 
+  
+  match '/facebook_auth', to: 'signups#create_facebook', via: [:get] 
+  
   get 'requests/new', to: 'requests#new', as: 'new_request'
   post 'requests', to: 'requests#create'
   get 'requests/success', to: 'requests#success'

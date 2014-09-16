@@ -31,39 +31,58 @@ class SignupsController < ApplicationController
 	end
 
 	def create_facebook
-		# add testing somehow
-		# server-side is still stuck because now I can't redirect the failures... perhaps need to find a way to use Koala entirely tomorrow, or use FB entirely and stop depending on a library
-		# add promotion via facebook, share dialog is the one to use, unless koala has somehing (it does, but it's only for graph API which requiers advanced privileges), separate page, two options: share broadly or share private invitation
-		# update TOS and PP to reflect friend focus 
-		# add admin page to check which city everyone is loggin in from and how they're connecte
+		# add testing somehow, manual test, need to go to another hack night to figure out automation
+		# add promotion via facebook - 5 hors??
+		# update TOS and PP to reflect friend focus 1 hour
+		# 1 hour - add admin page to check which city everyone is loggin in from and how they're connecte
+		# make sure GA links 1 hour initially, 2 to check later
+		# finalize explainer video 3 hours
+# $('#warning_modal').modal
+		if Rails.env == "production"
+			callback_url = "http://www.projectborrow.com/facebook_auth"
+		else
+			callback_url = "http://localhost:3000/facebook_auth"
+		end
+		oauth = Koala::Facebook::OAuth.new(ENV['Facebook_App_ID'], ENV['Facebook_Secret'], callback_url)
 
-		auth_hash = env["omniauth.auth"]
-
-		graph = Koala::Facebook::API.new(auth_hash.credentials.token)
-
-		permissions = graph.get_connections(auth_hash.uid, "permissions") 
-		user_friend_permission = permissions.select { |p| p["permission"] == "user_friends"}
-		if user_friend_permission[0]["status"] != "granted"
-			flash[:warning] = "Project Borrow is a sharing site between friends, so we require access to your Facebook friend information. If you have concerns about how this information will be used, please consult our Privacy Policy. You may click the invite button again to go through the Facebook sign up."
+		if params[:error].present?
+			flash[:warning] = true
+			flash[:success] = false
 			redirect_to root_url
 		else
-			if Signup.find_by(facebook_id: auth_hash.uid.to_i).present?
-        # This is saying if they already used FACEBOOK to sign up, then return this message
-        flash[:info] = "You've already signed up with us, thanks!"
-	    else
-    		fb_email = auth_hash.info.email ? auth_hash.info.email.downcase : "not provided"
-    	  # This is saying if they've been a previous user signed up via email, then update that old Signup record, otherwise make a new one
-  	  	Signup.find_or_initialize_by(email: fb_email) do |signup|
-  	  		signup.facebook_id = auth_hash.uid.to_i
-  	  		signup.name = auth_hash.info.name
-          signup.image_url = auth_hash.info.image
-          signup.fb_location = auth_hash.info.location ? auth_hash.info.location : "not provided"
-          signup.fb_access_token = auth_hash.credentials.token
+			access_token = oauth.get_access_token(params[:code])
+			graph = Koala::Facebook::API.new(access_token)
+			permissions = graph.get_connections("me", "permissions") 
+			user_friend_permission = permissions.select { |p| p["permission"] == "user_friends"}
+			if user_friend_permission[0]["status"] != "granted"
+				flash[:rerequest] = true
+				flash[:warning] = true
+				flash[:success] = false
+				redirect_to root_url
+			else
+				new_signup = graph.get_object("me")
+
+				if Signup.find_by(facebook_id: new_signup["id"]).present?
+	        # This is saying if they already used FACEBOOK to sign up, then return this message
+	        flash[:success] = true
+	        flash[:warning] = false
+	        flash[:info] = "You've already signed up with us, thanks!"
+		    else
+	    		fb_email = new_signup["email"].present? ? new_signup["email"].downcase : "not provided"
+	    	  # This is saying if they've been a previous user signed up via email, then update that old Signup record, otherwise make a new one
+	  	  	signup = Signup.find_or_initialize_by(email: fb_email)
+		  		signup.facebook_id = new_signup["id"]
+		  		signup.name = new_signup["name"]
+	        signup.image_url = "http://graph.facebook.com/#{new_signup["id"]}/picture"
+	        signup.fb_location = new_signup["location"]["name"].present? ? new_signup["location"]["name"] : "not provided"
+	        signup.fb_access_token = access_token
 					signup.save
-				end
-        flash[:success] = "Thanks for signing up!"
-	    end
-			redirect_to root_url
+					flash[:success] = true
+					flash[:warning] = false
+	        flash[:info] = "Thanks for signing up!"
+		    end
+				redirect_to root_url
+			end
 		end
 	end
 
