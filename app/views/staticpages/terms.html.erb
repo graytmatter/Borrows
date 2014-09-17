@@ -7,7 +7,7 @@
   <p style="font-style:italic;">Hello there<%= ", #{session[:signup_email]}" if session[:signup_email].present? %>! These are our shiny terms of service (<%= link_to "click here", policy_path, {style: 'color:#428bca'} %> if you're looking for our privacy policy). We know there's a lot of lawyer-speak, but please keep in mind that we basically want to build an awesome community of sharers. We encourage everyone to follow the Golden Rule: when borrowing or lending, treat the items and the other person as you would want yourself or your items to be treated! If you have any questions, please <%= mail_to 'james@projectborrow.com', 'email us', {style: 'color:#428bca'} %>.</p>
   <hr>
   <h4>Terms of Service</h4>
-  <h5>Effective Date: July 16, 2014</h5>
+  <h5>Effective Date: September 17, 2014</h5>
   <p>
   	These Terms of Service constitute a legally binding agreement between you and Shuyu James Dong, doing business as Project Borrow, governing your use of www.projectborrow.com (“projectborrow.com,” “Project Borrow” or the “Site”).  By clicking the “I AGREE” button or (i) accessing or using any part of the Site, or (ii) initiating any borrow through the Site, you agree to be bound by these Terms of Service.  Internet technology, and the applicable laws, rules and regulations change frequently.  Project Borrow reserves the right to make changes to these Terms of Service at any time.  <b><i>Continued access and/or use of the Site in any manner constitutes assent to any new Terms of Service provisions</i></b> that may be posted on projectborrow.com. 
   </p>
@@ -15,9 +15,15 @@
   <p>
   	Project Borrow provides an online platform for users to share items with each other in their local community. 
   </p>
-  <h5>2. Eligibility</h5>
+  <h5>2. Eligibility and Registration</h5>
   <p>
   	Use of Project Borrow is limited to individuals who are 18 years of age or older. In initiating a borrow with projectborrow.com, you represent and warrant that you are at least 18 years old and that all information you submit is accurate and truthful. 
+  </p>
+  <p>
+    You must use Facebook, a third party social networking platform, to register with and use Project Borrow. This action allows Project Borrow to access your Facebook account and information provided in accordance with our <%= link_to "Privacy Policy", policy_path, {style: 'color:#428bca'} %>. Project Borrow makes no effort to review information contained in your Facebook account for any purpose, including but not limited to for accuracy or legality. When you register, you represent that you are entitled to grant Project Borrow access to your Facebook account without breach by you of any of the terms and conditions that govern your use of your Facebook account, and without obligating Project Borrow to pay any fees to or making Project Borrow subject to usage limitations imposed by Facebook. If your Facebook account becomes unavailable or Project Borrow's access to your Facebook account becomes terminated in any way, then you will be unable to continue using projectborrow.com. Any requests you have made as a Borrower or requests you have accepted as a Lender will be cancelled. However, if you have any transactions in progress, these Terms of Service shall continue to apply to those transactions until the close of the Window (see Section 3), after which you will be unable to access projectborrow.com. Once your Facebook account is reinstated, please <%= mail_to 'james@projectborrow.com', 'email us', {style: 'color:#428bca'} %> so that we may reopen your account with Project Borrow. Note, if you create a new account with Facebook, you will be required to sign up again with Project Borrow as well. Under these circumstances, please <%= mail_to 'james@projectborrow.com', 'email us', {style: 'color:#428bca'} %> and we will try our best to transfer your previous account's activity or information with Project Borrow, although we cannot guarantee that you will have access to the old account's activity or information.
+  </p>
+  <p>
+    YOUR RELATIONSHIP WITH AND THE INFORMATION YOU PROVIDE TO FACEBOOK IS GOVERNED SOLELY BY YOUR AGREEMENT WITH FACEBOOK. PROJECT BORROW IS NOT RESPONSIBLE FOR ANY INFORMATION YOU PROVIDE TO FACEBOOK.
   </p>
   <h5>3. Definitions</h5>
   <p>
@@ -45,7 +51,7 @@
   <p>
   	<b>Window:</b>  The 5 day period after the original agreed upon Return Date and/or after the Borrower returns the item to the Lender (either the original item, repaired item, or replacement item, in accordance with Section 8) in which a Lender may request assistance settling disputes with the Borrower from Project Borrow (e.g., damages or unsuitable repairs or replacements).
   </p>
-  <h5>4. borrow Fees and Deposits</h5>
+  <h5>4. Fees and Deposits</h5>
   <p>
   	There are no borrow fees or deposits to initiate a request or set up an exchange to borrow an item at this time.
   </p>
@@ -129,7 +135,7 @@
   </p>
   <h5>14. Customer Support</h5>
   <p>
-  	Project Borrow is available by email at <%= mail_to 'james@projectborrow.com', 'james@projectborrow.com', {style: 'color:#428bca'} %> to address any issues you may have regarding your use of the Site.  Most concerns can be quickly resolved in this matter.
+  	Project Borrow is available by email at <%= mail_to 'james@projectborrow.com', 'james@projectborrow.com', {style: 'color:#428bca'} %> to address any issues you may have regarding your use of the Site.  Most concerns can be quickly resolved in this manner.
   </p>
   <h5>15. Individual Arbitration</h5>
   <p>
@@ -162,13 +168,13 @@
 
 	<p><b>Survival:</b>  The following Sections survive termination of these Terms of Service:  <!-- Deposits for --> Damages, Loss or Late Returns, Content License, Disclaimers, Exclusions and Limitations, Release, Indemnity, and Individual Arbitration.</p>
   </p>
-  <h5>19. Disclaimers, Exclusions and Limitations</h5>
+  <h5><%= "19. Disclaimers, Exclusions and Limitations".upcase %></h5>
   <p>
-  	<b>Disclaimer of Warranties:</b>  To the extent permitted by applicable law, Project Borrow provides its website and services on an “as is” and “as available” basis.  Project Borrow does not represent or warrant that Project Borrow, its services or use (i) will be uninterrupted, (ii) will be free of defects, inaccuracies or errors, (iii) will meet your requirements or (iv) will operate in the configuration or with other hardware or software you use.   Project Borrow makes no warranties other than those made expressly in these Terms of Service, and hereby disclaims any and all implied warranties including, without limitation, warranties of fitness for a particular purpose, merchantability and non-infringement. 
+  	<b><%= "Disclaimer of Warranties:".upcase %></b>  <%= "To the extent permitted by applicable law, Project Borrow provides its website and services on an “as is” and “as available” basis.  Project Borrow does not represent or warrant that Project Borrow, its services or use (i) will be uninterrupted, (ii) will be free of defects, inaccuracies or errors, (iii) will meet your requirements or (iv) will operate in the configuration or with other hardware or software you use.   Project Borrow makes no warranties other than those made expressly in these Terms of Service, and hereby disclaims any and all implied warranties including, without limitation, warranties of fitness for a particular purpose, merchantability and non-infringement.".upcase %></p> 
 
-	<p>Any third party links, services, goods, resources and information that Project Borrow provides on or makes available on its website are not controlled by Project Borrow.  Accordingly, to the extent permitted by applicable law, Project Borrow makes no warranties regarding third party services, goods, resources and information including, without limitation, warranties of fitness for a particular purpose, merchantability and non-infringement and will not be liable for your use of or reliance on such third party services, goods, resources or information.</p>
+	<p><%= "Any third party links, services, goods, resources and information that Project Borrow provides on or makes available on its website are not controlled by Project Borrow.  Accordingly, to the extent permitted by applicable law, Project Borrow makes no warranties regarding third party services, goods, resources and information including, without limitation, warranties of fitness for a particular purpose, merchantability and non-infringement and will not be liable for your use of or reliance on such third party services, goods, resources or information.".upcase %></p>
 
-	<p><b>Exclusion of Damages:</b>  To the extent permitted by applicable law, Project Borrow will not be liable to any User of the Site or of Project Borrow’s services for any consequential, incidental, indirect, punitive or special damages (including damages for lost profits, lost data or loss of goodwill) arising out of, relating to or connected with the use of projectborrow.com, its services, and/or the exchange of items between Users, based on any cause of action, even if advised of the possibility of such damages.</p> 
+	<p><b><%= "Exclusion of Damages:".upcase %></b>  <%= "To the extent permitted by applicable law, Project Borrow will not be liable to any User of the Site or of Project Borrow’s services for any consequential, incidental, indirect, punitive or special damages (including damages for lost profits, lost data or loss of goodwill) arising out of, relating to or connected with the use of projectborrow.com, its services, and/or the exchange of items between Users, based on any cause of action, even if advised of the possibility of such damages.".upcase %></p> 
   </p>
   <h5>20. Release</h5>
   <p>
