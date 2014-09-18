@@ -1,29 +1,49 @@
 class StaticpagesController < ApplicationController
-
-	before_filter :authenticate, except: [:home, :terms, :policy, :maintenace]
+	include Generating_oauth
+	before_filter :authenticate, except: [:home, :terms, :policy, :maintenance]
 
 	def home
 
-		if Rails.env == "production"
-			callback_url = "http://www.projectborrow.com/facebook_auth"
-		else
-			callback_url = "http://localhost:3000/facebook_auth"
-		end
+		get_oauth
 		secure_state = SecureRandom.base64(16)
-		oauth = Koala::Facebook::OAuth.new(ENV['Facebook_App_ID'], ENV['Facebook_Secret'], callback_url)
-		
+
 		if flash[:rerequest] == true 
-			@auth_url = oauth.url_for_oauth_code(permissions: "public_profile, email, user_location, user_friends", display: "popup", auth_type: "rerequest", state: secure_state )
+			@auth_url = @oauth.url_for_oauth_code(permissions: "public_profile, email, user_location, user_friends", display: "popup", auth_type: "rerequest", state: secure_state )
 		else
-			@auth_url = oauth.url_for_oauth_code(permissions: "public_profile, email, user_location, user_friends", display: "popup", state: secure_state )
+			@auth_url = @oauth.url_for_oauth_code(permissions: "public_profile, email, user_location, user_friends", display: "popup", state: secure_state )
 		end
 
 		render :layout => false
 	end
 
-	def social
-		puts "TEST"
-		puts params
+	def connectedness
+
+		get_oauth
+		graph = Koala::Facebook::API.new(@oauth.get_app_access_token)
+		puts "INSPECT"
+		puts @oauth.get_app_access_token
+
+		@users_with_2_friends = 0
+		@users_with_5_friends = 0
+		@users_with_10_friends = 0
+		@users_with_tons_friends = 0
+		@cities = Array.new
+		@total_users = Signup.where("facebook_id is not null")
+
+		@total_users.each do |user|
+			friends = graph.get_connections(user.facebook_id, "friends")
+			case friends.count 
+			when 0..2
+				@users_with_2_friends += 1
+			when 3..5
+				@users_with_5_friends += 1
+			when 6..10
+				@users_with_10_friends += 1
+			when friends.count > 11
+				@users_with_tons_friends += 1
+			end
+			@cities << user.fb_location
+		end
 
 	end
 

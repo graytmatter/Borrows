@@ -1,4 +1,5 @@
 class SignupsController < ApplicationController
+	include Generating_oauth 
 
 	def new
 		@signup = Signup.new
@@ -33,24 +34,19 @@ class SignupsController < ApplicationController
 	def create_facebook
 		# add testing somehow, manual test, need to go to another hack night to figure out automation
 		# add promotion via facebook - 5 hors??
-		# update TOS and PP to reflect friend focus 1 hour
-		# 1 hour - add admin page to check which city everyone is loggin in from and how they're connecte
+		# DONE update TOS and PP to reflect friend focus 1 hour
+		# DONE 1 hour - add admin page to check which city everyone is loggin in from and how they're connecte
 		# make sure GA links 1 hour initially, 2 to check later
 		# finalize explainer video 3 hours
 # $('#warning_modal').modal
-		if Rails.env == "production"
-			callback_url = "http://www.projectborrow.com/facebook_auth"
-		else
-			callback_url = "http://localhost:3000/facebook_auth"
-		end
-		oauth = Koala::Facebook::OAuth.new(ENV['Facebook_App_ID'], ENV['Facebook_Secret'], callback_url)
+		get_oauth
 
 		if params[:error].present?
 			flash[:warning] = true
 			flash[:success] = false
 			redirect_to root_url
 		else
-			access_token = oauth.get_access_token(params[:code])
+			access_token = @oauth.get_access_token(params[:code])
 			graph = Koala::Facebook::API.new(access_token)
 			permissions = graph.get_connections("me", "permissions") 
 			user_friend_permission = permissions.select { |p| p["permission"] == "user_friends"}

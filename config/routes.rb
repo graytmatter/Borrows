@@ -4,7 +4,7 @@ GoogleTest::Application.routes.draw do
   # root 'staticpages#maintenance' #maintenance mode
   
   match '/original', to: 'signups#original', as: "original", via: [:get, :post]
-  post '/social', to: 'staticpages#social', as: "social" 
+  get 'admin/connectedness', to: 'staticpages#connectedness'
   
   match '/facebook_auth', to: 'signups#create_facebook', via: [:get] 
   
