@@ -14,6 +14,21 @@
   <link href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-social/4.2.1/bootstrap-social.min.css" rel="stylesheet">
 
   <%= favicon_link_tag 'icon.ico' %>
+
+  <script type="text/javascript">
+  // enables event tracking in Google Analytics, https://developers.google.com/analytics/devguides/collection/gajs/asyncTracking?hl=es
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-47062117-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+  </script>
+  
 </head>
 <body>
 

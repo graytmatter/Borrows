@@ -42,7 +42,9 @@ describe "Landing page flows" do
   #     a) if your email was already in our database, the odl Signup is updated with the relevant info
   #     b) if your email is totally new, a new record is created with the relevant info
   #   5) At the end of either 4a or 4b, you see the success modal, and that hidden field tag has appropriate id
-      
+   
+   # 6) above shoudl work also when someone REMOVES permission and then tries to sign up OR DELETES app and tries to signup again   
+
 		# # before do
 		# 	Capybara.current_driver = :selenium
 		# 	visit "http://www.facebook.com" #seems like optiosn to visit external page are this selenium set up which is stuck at unable to connect to chromedriver OR to use Rack Test, which per beginning of this Test file I can't seem to define the app right in order to use the methods
