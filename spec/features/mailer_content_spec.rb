@@ -22,6 +22,7 @@ describe "Create db info" do
 		@request1 = @borrower1.requests.create(pickupdate: @pickup_date, returndate: @return_date, detail: "Going camping for the first time")
 		@borrow1 = @request1.borrows.create(multiple: 1, status1: 1, itemlist_id: 1, inventory_id: 1)
 	
+		@invitee = Invitee.create(email:"jamesdong.photo@gmail.com")
 	end
 
 	describe "Request Mailer - not found" do
@@ -127,28 +128,6 @@ describe "Create db info" do
 		end
 	end
 
-	describe "Request Mailer - return reminder" do
-
-		before do
-			RequestMailer.return_reminder(@borrow1).deliver
-		end
-
-		it "should have updated status" do
-			@borrow1.status1.should == 4
-		end
-
-		it "should contain the right contents and view elements" do
-			email = ActionMailer::Base.deliveries.last
-			email.to.should == [@borrow1.request.signup.email]
-			email.cc.should == [Inventory.find_by_id(@borrow1.inventory_id).signup.email]
-			email.from.should == @jamespbemail
-			email.subject.should == "[Project Borrow]: Reminder to return #{Itemlist.find_by_id(@borrow1.itemlist_id).name}"
-			email.body.should include("Oh how the time flies", "#{Inventory.find_by_id(@borrow1.inventory_id).description}")
-			email.body.should have_selector("#borrower_survey", count: 1)
-			email.body.should have_selector("#lender_survey", count: 1)
-		end
-	end
-
 	describe "Inventory Mailer - outstanding_request" do
 
 		before do
@@ -163,8 +142,8 @@ describe "Create db info" do
 			email = ActionMailer::Base.deliveries.last
 			email.to.should == [Inventory.find_by_id(@borrow1.inventory_id).signup.email]
 			email.from.should == @jamespbemail
-			email.subject.should == "[Project Borrow]: Accept/ decline requests right in your email!"
-			email.body.should include("It's now easier than ever to manage your requests, because you can do it in this very email, just as you would on")
+			email.subject.should == "[Project Borrow]: Can a neighbor borrow some stuff?"
+			email.body.should include("Neighbor(s) would like to borrow your stuff!")
 			email.body.should include("#{@borrow1.request.pickupdate.strftime("%-m/%-d")}")
 			email.body.should include("#{@borrow1.request.returndate.strftime("%-m/%-d")}")
 			email.body.should include("New request from #{@borrow1.request.signup.email}")
@@ -182,6 +161,22 @@ describe "Create db info" do
 		# It would be nice to test that clicking the links work, but I'm going to by pass this because 1) requires email_spec gem and more set up and 2) since the email and dashboard are built using the exact same partial, since the partial works, assume that the email will work as well
 	end
 
+	describe "Invitee Mailer - invitation_email" do
 
+		before do
+			InviteeMailer.invitation_email(@invitee.id).deliver
+		end
 
+		it "should register email was sent" do
+			@invitee.sent == true 
+		end
+
+		it "should contain the right contents and view elements" do
+			email = ActionMailer::Base.deliveries.last
+			email.to.should == [@invitee.email]
+			email.from.should == @jamespbemail
+			email.subject.should == "A friend thinks you'd be a great fit for Project Borrow!"
+			email.body.should include("You've been sent an invitation to join Project Borrow, a platform to help you borrow occasional-use items from your Facebook friends.")
+		end
+	end
 end

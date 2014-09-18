@@ -59,7 +59,7 @@ describe "Friend referral emails", job: true do
 
 		it "should have sent an email and updated invitee status" do
 			ActionMailer::Base.deliveries.size == 1
-			ActionMailer::Base.deliveries.last.subject.should include("Invitation")
+			ActionMailer::Base.deliveries.last.subject.should include("A friend thinks")
 			Invitee.find_by_email("jamesdong.photo@gmail.com").sent == true
 		end
 
@@ -121,15 +121,15 @@ describe "Friend referral emails", job: true do
 			ActionMailer::Base.deliveries.size == 3
 			
 			#last email
-			ActionMailer::Base.deliveries.last.subject.should include("Invitation")
+			ActionMailer::Base.deliveries.last.subject.should include("A friend thinks")
 			
 			#second to last email
 		  index = ActionMailer::Base.deliveries.length - 2
-			ActionMailer::Base.deliveries[index].subject.should include("Invitation")
+			ActionMailer::Base.deliveries[index].subject.should include("A friend thinks")
 				
 			#third to last email
 		  index = ActionMailer::Base.deliveries.length - 3
-			ActionMailer::Base.deliveries[index].subject.should include("Invitation")
+			ActionMailer::Base.deliveries[index].subject.should include("A friend thinks")
 
 			Invitee.find_by_email("anavarada@gmail.com").sent == true
 			Invitee.find_by_email("ngomenclature@gmail.com").sent == true

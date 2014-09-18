@@ -34,7 +34,7 @@ class SignupsController < ApplicationController
 	def create_facebook
 		# add testing somehow, manual test, need to go to another hack night to figure out automation
 		# DONE modal styling
-		# add promotion via facebook: make delayed job, finish testing
+		# DONE add promotion via facebook: make delayed job, finish testing
 		# quick streamline of mailers
 		# test everything
 		# DONE update TOS and PP to reflect friend focus 1 hour

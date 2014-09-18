@@ -28,12 +28,10 @@ class RequestMailer < ActionMailer::Base
     @pickupdate = accepted_borrow.request.pickupdate.strftime("%B %-d")
     @returndate = accepted_borrow.request.returndate.strftime("%B %-d")
     @item = Itemlist.find_by_id(accepted_borrow.itemlist_id).name.downcase
-    @lender_email = Inventory.find_by_id(accepted_borrow.inventory_id).signup.email
-    @lender_streetone = Inventory.find_by_id(accepted_borrow.inventory_id).signup.streetone.capitalize
-    @lender_streettwo = Inventory.find_by_id(accepted_borrow.inventory_id).signup.streettwo.capitalize
-    @lender_city = Geography.find_by_zipcode(Inventory.find_by_id(accepted_borrow.inventory_id).signup.zipcode).city
-    @description = Inventory.find_by_id(accepted_borrow.inventory_id).description
-    mail(to: @borrower_email, cc: @lender_email, from: ENV['owner'], :subject => "[Project Borrow]: #{@item.capitalize} exchange!") 
+    @inventory_item = Inventory.find_by_id(accepted_borrow.inventory_id)
+    @lender = @inventory_item.signup
+    @lender_city = Geography.find_by_zipcode(@lender.zipcode).city
+    mail(to: @borrower_email, cc: @lender.email, from: ENV['owner'], :subject => "[Project Borrow]: #{@item.capitalize} exchange!") 
   end
 
   def same_as_today(requestrecord)
@@ -55,14 +53,12 @@ class RequestMailer < ActionMailer::Base
     @borrower_streettwo = borrow_in_question.request.signup.streettwo.capitalize
     @borrower_city = Geography.find_by_zipcode(borrow_in_question.request.signup.zipcode).city
     
-    @lender_email = Inventory.find_by_id(borrow_in_question.inventory_id).signup.email
-    @lender_streetone = Inventory.find_by_id(borrow_in_question.inventory_id).signup.streetone.capitalize
-    @lender_streettwo = Inventory.find_by_id(borrow_in_question.inventory_id).signup.streettwo.capitalize
-    @lender_city = Geography.find_by_zipcode(Inventory.find_by_id(borrow_in_question.inventory_id).signup.zipcode).city
+    @inventory_item = Inventory.find_by_id(borrow_in_question.inventory_id)
+    @lender = @inventory_item.signup
+    @lender_city = Geography.find_by_zipcode(@lender.zipcode).city
     
     @item = Itemlist.find_by_id(borrow_in_question.itemlist_id).name
-    @description = Inventory.find_by_id(borrow_in_question.inventory_id).description
-    mail(to: @borrower_email, cc: @lender_email, from: ENV['owner'], :subject => "[Project Borrow]: Reminder to return #{@item}")
+    mail(to: @borrower_email, cc: @lender.email, from: ENV['owner'], :subject => "[Project Borrow]: Reminder to return #{@item}")
     borrow_in_question.update_attributes(status1:4)
   end
 end

@@ -9,10 +9,10 @@
 
 <p><%= "Connecting the two of you so you can make sharing magic happen!"%></p>
 	<ul>
-	<li><%= "<b>Lender:</b> #{@lender_email}, located at #{@lender_streetone} and #{@lender_streettwo} in #{@lender_city}".html_safe %></li>
+	<li><%= "<b>Lender:</b> #{@lender.email}, located at #{@lender.streetone.capitalize} and #{@lender.streettwo.capitalize} in #{@lender_city}".html_safe %></li>
 	<li><%= "<b>Borrower:</b> #{@borrower_email}, located at #{@borrower_streetone} and #{@borrower_streettwo} in #{@borrower_city}".html_safe %></li>
 	<li><%= "<b>Item:</b> #{@item.capitalize}".html_safe %></li>
-	<%= "<li><b>Item description from lender:</b> #{@description}</li>".html_safe if @description.present? %>
+	<%= "<li><b>Item description from lender:</b> #{@inventory_item.description}</li>".html_safe if @inventory_item.description.present? %>
 	<li><%= "<b>Pick Up Date:</b> #{@pickupdate}".html_safe %></li>
 	<li><%= "<b>Return Date:</b> #{@returndate}".html_safe %></li>
 	</ul>
