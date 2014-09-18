@@ -54,10 +54,10 @@
           <p><b>Do you have friends who have stuff you'd like to borrow? A big tent? An air mattress? Some other gadgets or equipment? This is your chance!</b> Enter your friends' emails below (separate with commas) and we'll send them an anonymous invitation to join so that if they do, you'll be able to borrow their stuff! %></p>
 
           <div class="col-xs-12">
-            <%= form_tag(new_invitee_path, :autocomplete => "off") %>
-            <%= hidden_field_tag :referer, flash[:new_signup_fb_id] %>
+            <%= form_tag(new_invitee_path, :autocomplete => "off", :id => "referral_form") %>
+            <%= hidden_field_tag :referer, Rails.env == "test" ? 123 : flash[:new_signup_fb_id] %>
             <%= text_area_tag :emails, nil, class: "form-control", id: "friend_emails", placeholder: "Enter your friend's emails separated by commas" %>
-            <%= submit_tag "Invite my friends!", class: "btn btn-primary btn-large btn-block", id: "social" %>
+            <%= submit_tag "Invite my friends!", class: "btn btn-primary btn-large btn-block", id: "refer" %>
             <p class="horiz" style="font-size:75%; font-style:italic">We send one invite per person, and no other emails. For more info, check out our <%= link_to 'privacy policy', policy_path, { style:"color:#428bca", target: "_blank" } %>.</p>
           <hr>
           </div>
@@ -91,6 +91,27 @@
       });
     }
 
+    $("#refer").click(function() {
+      var input_emails = $('#friend_emails').val();
+      if (input_emails === "") {
+        alert("Please enter at least one friend's email to send invites")
+        return false;
+      } else {
+        var success = true;
+        var parsed_emails = input_emails.split(',');
+        $.each(parsed_emails, function( index, email_value ) {
+          var trimmed_email = $.trim(email_value)
+          var atpos = trimmed_email.indexOf("@");
+          var dotpos = trimmed_email.lastIndexOf(".");
+          if (atpos< 1 || dotpos<atpos+2 || dotpos+2>=trimmed_email.length) {
+            alert(trimmed_email + " " + "is not a valid email format, please correct and resubmit");
+            success = false;
+          }
+        });
+        return success;
+      }  
+    });
+
   </script>
 
 
@@ -120,7 +141,7 @@
         <div class="col-xs-12 logo-color" style="font-weight: bold">
           <% flash.select { |k, v| k == "info"}.each do |key, value| %>
             <br>
-            <%= value %>
+            <p><%= value %></p>
           <% end %>
         </div>  
         <!-- link to pop up to spread word after facebook, us facebook directly? basically just like last min gear -->

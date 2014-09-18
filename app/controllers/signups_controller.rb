@@ -34,12 +34,14 @@ class SignupsController < ApplicationController
 	def create_facebook
 		# add testing somehow, manual test, need to go to another hack night to figure out automation
 		# DONE modal styling
-		# add promotion via facebook - 5 hors??
+		# add promotion via facebook: make delayed job, finish testing
+		# quick streamline of mailers
+		# test everything
 		# DONE update TOS and PP to reflect friend focus 1 hour
 		# DONE 1 hour - add admin page to check which city everyone is loggin in from and how they're connecte
 		# make sure GA links 1 hour initially, 2 to check later
 		# finalize explainer video 3 hours
-# $('#warning_modal').modal
+
 		get_oauth
 
 		if params[:error].present?
@@ -64,7 +66,6 @@ class SignupsController < ApplicationController
 	        flash[:success] = true
 	        flash[:warning] = false
 	        flash[:new_signup_fb_id] = new_signup["id"]
-	        flash[:info] = "You've already signed up with us, thanks!"
 		    else
 	    		fb_email = new_signup["email"].present? ? new_signup["email"].downcase : "not provided"
 	    	  # This is saying if they've been a previous user signed up via email, then update that old Signup record, otherwise make a new one
@@ -78,7 +79,6 @@ class SignupsController < ApplicationController
 					flash[:success] = true
 					flash[:warning] = false
 					flash[:new_signup_fb_id] = new_signup["id"]
-	        flash[:info] = "Thanks for signing up!"
 		    end
 				redirect_to root_url
 			end
