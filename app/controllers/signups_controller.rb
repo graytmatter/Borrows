@@ -33,6 +33,7 @@ class SignupsController < ApplicationController
 
 	def create_facebook
 		# add testing somehow, manual test, need to go to another hack night to figure out automation
+		# DONE modal styling
 		# add promotion via facebook - 5 hors??
 		# DONE update TOS and PP to reflect friend focus 1 hour
 		# DONE 1 hour - add admin page to check which city everyone is loggin in from and how they're connecte
@@ -62,6 +63,7 @@ class SignupsController < ApplicationController
 	        # This is saying if they already used FACEBOOK to sign up, then return this message
 	        flash[:success] = true
 	        flash[:warning] = false
+	        flash[:new_signup_fb_id] = new_signup["id"]
 	        flash[:info] = "You've already signed up with us, thanks!"
 		    else
 	    		fb_email = new_signup["email"].present? ? new_signup["email"].downcase : "not provided"
@@ -75,6 +77,7 @@ class SignupsController < ApplicationController
 					signup.save
 					flash[:success] = true
 					flash[:warning] = false
+					flash[:new_signup_fb_id] = new_signup["id"]
 	        flash[:info] = "Thanks for signing up!"
 		    end
 				redirect_to root_url
@@ -121,7 +124,6 @@ class SignupsController < ApplicationController
 			end
 		end
 	end
-
 
 	def update
 		@signup_parent = Signup.find_by_email(session[:signup_email])

@@ -32,7 +32,7 @@ GoogleTest::Application.configure do
 
   # # Precompile additional assets.
   # # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
-  # config.assets.precompile += ["photopile.css","photopile.js", "jquery.ui.touch-punch.min.js"]
+  # config.assets.precompile += ["photopile.css","photopile.js", "jquery.ui.touch-punch.min.js", "bootstrap.min.js"]
   
   #below per Kehoe
 

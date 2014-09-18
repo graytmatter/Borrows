@@ -11,7 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140915070757) do
+ActiveRecord::Schema.define(version: 20140918050725) do
+
+  create_table "agreements", force: true do |t|
+    t.integer  "signup_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.date     "date"
+  end
 
   create_table "borrows", force: true do |t|
     t.integer  "request_id"
@@ -58,6 +65,14 @@ ActiveRecord::Schema.define(version: 20140915070757) do
 
   add_index "inventories", ["signup_id"], name: "index_inventories_on_signup_id"
 
+  create_table "invitees", force: true do |t|
+    t.string   "email"
+    t.boolean  "sent"
+    t.integer  "referer"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "itemlists", force: true do |t|
     t.string   "name"
     t.boolean  "request_list"
@@ -91,8 +106,10 @@ ActiveRecord::Schema.define(version: 20140915070757) do
     t.string   "heard"
     t.string   "streetone"
     t.string   "streettwo"
-    t.string   "zipcode"
+    t.integer  "zipcode",         limit: 255
     t.boolean  "tos"
+    t.float    "longitude"
+    t.float    "latitude"
     t.date     "last_emailed_on"
     t.integer  "facebook_id"
     t.string   "image_url"
@@ -118,5 +135,11 @@ ActiveRecord::Schema.define(version: 20140915070757) do
   end
 
   add_index "statuses", ["name"], name: "index_statuses_on_name", unique: true
+
+  create_table "tos", force: true do |t|
+    t.date     "date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end

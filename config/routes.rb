@@ -2,6 +2,7 @@ GoogleTest::Application.routes.draw do
 
   root 'staticpages#home'
   # root 'staticpages#maintenance' #maintenance mode
+  post '/invitees', to: 'invitees#create', as: "new_invitee"
   
   match '/original', to: 'signups#original', as: "original", via: [:get, :post]
   get 'admin/connectedness', to: 'staticpages#connectedness'

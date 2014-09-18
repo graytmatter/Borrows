@@ -13,15 +13,12 @@ class StaticpagesController < ApplicationController
 			@auth_url = @oauth.url_for_oauth_code(permissions: "public_profile, email, user_location, user_friends", display: "popup", state: secure_state )
 		end
 
-		render :layout => false
 	end
 
 	def connectedness
 
 		get_oauth
 		graph = Koala::Facebook::API.new(@oauth.get_app_access_token)
-		puts "INSPECT"
-		puts @oauth.get_app_access_token
 
 		@users_with_2_friends = 0
 		@users_with_5_friends = 0
