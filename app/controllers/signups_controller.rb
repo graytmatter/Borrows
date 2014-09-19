@@ -62,10 +62,6 @@ class SignupsController < ApplicationController
 				redirect_to controller: "staticpages", action: "home"
 			else
 				new_signup = graph.get_object("me")
-				puts "OBJECT"
-				puts new_signup.inspect
-				puts new_signup["location"]
-				puts new_signup["location"]["name"]
 
 				if Signup.find_by(facebook_id: new_signup["id"]).present?
 	        # This is saying if they already used FACEBOOK to sign up, then return this message
@@ -73,13 +69,22 @@ class SignupsController < ApplicationController
 	        flash[:warning] = false
 	        flash[:new_signup_fb_id] = new_signup["id"]
 		    else
+
+		    	if new_signup["location"].present? && new_signup["location"]["name"].present?
+		    		location = new_signup["location"]["name"]
+		    	else
+		    		location = "not provided"
+		    	end
+		    	puts "INSPECT"
+		    	puts location
+
 	    		fb_email = new_signup["email"].present? ? new_signup["email"].downcase : "not provided"
 	    	  # This is saying if they've been a previous user signed up via email, then update that old Signup record, otherwise make a new one
 	  	  	signup = Signup.find_or_initialize_by(email: fb_email)
 		  		signup.facebook_id = new_signup["id"]
 		  		signup.name = new_signup["name"]
 	        signup.image_url = "http://graph.facebook.com/#{new_signup["id"]}/picture"
-	        signup.fb_location = new_signup["location"]["name"].present? ? new_signup["location"]["name"] : "not provided"
+	        signup.fb_location = location
 	        signup.fb_access_token = access_token
 					signup.save
 					flash[:success] = true
