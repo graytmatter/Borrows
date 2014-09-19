@@ -39,8 +39,8 @@ describe "Friend referral emails", job: true do
 		end
 
 		it "should have redirected to home page" do
-			page.assert_selector("#invite_me")
-			expect(page).to	have_content("Thanks for spreading the word!")
+			page.assert_selector("#inviteme1")
+			page.assert_selector("#refer_modal", visible: true)
 		end
 
 	end
@@ -64,8 +64,8 @@ describe "Friend referral emails", job: true do
 		end
 
 		it "should have redirected to home page" do
-			page.assert_selector("#invite_me")
-			expect(page).to	have_content("Thanks for spreading the word!")
+			page.assert_selector("#inviteme1")
+			page.assert_selector("#refer_modal", visible: true)
 		end
 
 	end
@@ -87,8 +87,8 @@ describe "Friend referral emails", job: true do
 		end
 
 		it "should have redirected to home page" do
-			page.assert_selector("#invite_me")
-			expect(page).to	have_content("Thanks for spreading the word!")
+			page.assert_selector("#inviteme1")
+			page.assert_selector("#refer_modal", visible: true)
 		end
 
 	end
@@ -137,8 +137,8 @@ describe "Friend referral emails", job: true do
 		end
 
 		it "should have redirected to home page" do
-			page.assert_selector("#invite_me")
-			expect(page).to	have_content("Thanks for spreading the word!")
+			page.assert_selector("#inviteme1")
+			page.assert_selector("#refer_modal", visible: true)
 		end
 
 	end
@@ -164,7 +164,7 @@ describe "Friend referral emails", job: true do
 		end
 
 		it "should not have success message" do
-			expect(page).to_not	have_content("Thanks for spreading the word!")
+			page.assert_selector("#refer_modal", visible: false)
 		end
 
 	end
@@ -190,7 +190,7 @@ describe "Friend referral emails", job: true do
 		end
 
 		it "should not have success message" do
-			expect(page).to_not	have_content("Thanks for spreading the word!")
+			page.assert_selector("#refer_modal", visible: false)
 		end
 
 	end

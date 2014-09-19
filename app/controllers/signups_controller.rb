@@ -40,7 +40,7 @@ class SignupsController < ApplicationController
 		# DONE update TOS and PP to reflect friend focus 1 hour
 		# DONE 1 hour - add admin page to check which city everyone is loggin in from and how they're connecte
 		# DONE make sure GA links 1 hour initially, 2 to check later (event for warning, even for submit modal, refer friend link is tracked differently)
-		# finalize explainer video 3 hours
+		# DONE finalize explainer video 3 hours
 		# push then check photopile and test facebook signups 
 		# email users the change
 

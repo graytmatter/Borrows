@@ -5,7 +5,7 @@ class InviteesController < ApplicationController
 		emails = params[:emails].split(',')
 		referer = params[:referer]
     Referral.new.async.perform(emails, referer)
-    flash[:info] = "Thanks for spreading the word!"
+    flash[:refer] = true
     redirect_to root_path
 	end
 

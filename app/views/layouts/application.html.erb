@@ -40,7 +40,7 @@
     </div>
   </div>
 
-  <% if current_page?(root_path) %>
+  <% if current_page?(controller: "staticpages", action: "home") %>
 
     <%= yield %> 
 
@@ -58,13 +58,13 @@
           <%= link_to 'Terms of service', terms_path, { style: "padding-right:2%; padding-left:2%; color:#428bca", target: "_blank" } %>
           <%= link_to 'Privacy policy', policy_path, { style: "padding-right:2%; padding-left:2%; color:#428bca", target: "_blank" } %>
           <%= mail_to 'james@projectborrow.com', 'Contact us', { style: "padding-right:2%; padding-left:2%; color:#428bca"}%>
-          <% if current_page?(root_path) %>
+          <% if current_page?(controller: "staticpages", action: "home") %>
             <%= link_to 'Login to use Project Borrow', original_path, { id: "original", style: "padding-right:2%; padding-left:2%; color:#428bca"} %>
           <% end %>
       </div>
     </div>
 
-  <% unless current_page?(root_path) %>
+  <% unless current_page?(controller: "staticpages", action: "home") %>
     </div>
   <% end %>
 

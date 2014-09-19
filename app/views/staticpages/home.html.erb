@@ -24,11 +24,10 @@
             </ol>
 
             <p>Project Borrow is a sharing site between friends, so we depend on access to your Facebook friends. If you have concerns about how this information will be used, please consult our <%= link_to 'privacy policy', policy_path, { style: "color:#428bca", target: "_blank" } %>. If you would like to go through Facebook authorization again click below. If you've correctly authorized and are still seeing this message, we apologize, please <%= mail_to 'james@projectborrow.com', 'send us an email', { style: "color:#428bca"}%>.</p> 
-            <%= link_to "test", @auth_url %>
         </div>
         <div class="modal-footer">
           <div class="col-xs-8">
-            <%= button_to @auth_url, method: :get, class: "btn btn-block btn-lg btn-social btn-facebook", style: "color:white" do %>
+            <%= button_to @auth_url, method: :get, class: "btn btn-block btn-lg btn-social btn-facebook", style: "color:white", id: "inviteme1" do %>
               <i class="fa fa-facebook horiz"></i> Invite me with Facebook
             <% end %>
           </div>
@@ -48,16 +47,17 @@
           <%= image_tag("Logo.png", alt: "Project Borrow", title: "Project Borrow", width: "40%") %>
         </div>
         <div class="modal-body">
-          <h4 class="modal-title logo-color" style="margin-bottom: 1%">Get ready to share!</h4>
-          <p>Incredible you, we'll get you an invitation as soon as we're ready! Until then, we'd love it if you could help spread the word in San Francisco so we can launch sooner.</p>
+          <h4 class="modal-title logo-color" style="margin-bottom: 1%">Get ready to borrow!</h4>
+          <p>We'll get you an invitation as soon as we're ready! Until then, we'd love it if you could help spread the word in San Francisco so we can launch sooner.</p>
 
-          <p><b>Do you have friends who have stuff you'd like to borrow? A big tent? An air mattress? Some other gadgets or equipment? This is your chance!</b> Enter your friends' emails below (separate with commas) and we'll send them an anonymous invitation to join so that if they do, you'll be able to borrow their stuff! %></p>
+          <p><b>Do you have friends who have stuff you'd like to borrow? A big tent? An air mattress? Some other gadgets or equipment? This is your chance!</b> Enter your friends' emails below (separate with commas) and we'll send them an anonymous invitation to join so that if they do, you'll be able to borrow their stuff!</p>
 
           <div class="col-xs-12">
-            <%= form_tag(new_invitee_path, :autocomplete => "off", :id => "referral_form") %>
-            <%= hidden_field_tag :referer, Rails.env == "test" ? 123 : flash[:new_signup_fb_id] %>
-            <%= text_area_tag :emails, nil, class: "form-control", id: "friend_emails", placeholder: "Enter your friend's emails separated by commas" %>
-            <%= submit_tag "Invite my friends!", class: "btn btn-primary btn-large btn-block", id: "refer" %>
+            <%= form_tag(new_invitee_path, :autocomplete => "off", :id => "referral_form") do -%>
+              <%= hidden_field_tag :referer, Rails.env == "test" ? 123 : flash[:new_signup_fb_id] %>
+              <%= text_area_tag :emails, nil, class: "form-control", id: "friend_emails", placeholder: "Enter your friend's emails separated by commas" %>
+              <%= submit_tag "Invite my friends!", class: "btn btn-primary btn-large btn-block", id: "refer" %>
+            <% end -%>
             <p class="horiz" style="font-size:75%; font-style:italic">We send one invite per person, and no other emails. For more info, check out our <%= link_to 'privacy policy', policy_path, { style:"color:#428bca", target: "_blank" } %>.</p>
           <hr>
           </div>
@@ -73,6 +73,22 @@
 
   <!-- Go to www.addthis.com/dashboard to customize your tools -->
   <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-530ee7046fcbd127"></script>
+
+  <div class="modal fade" id="refer_modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header horiz">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <%= image_tag("Logo.png", alt: "Project Borrow", title: "Project Borrow", width: "40%") %>
+        </div>
+        <div class="modal-body">
+          <h4 class="modal-title logo-color" style="margin-bottom: 1%">Thanks for spreading the word!</h4>
+        </div>
+        <div class="modal-footer" style="padding:0; margin:0">
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script>
 
@@ -107,8 +123,6 @@
           if (atpos< 1 || dotpos<atpos+2 || dotpos+2>=trimmed_email.length) {
             alert(trimmed_email + " " + "is not a valid email format, please correct and resubmit");
             success = false;
-          } else {
-            _gaq.push(['_trackEvent', 'Signup', 'SentInvites']);
           }
         });
         return success;
@@ -117,28 +131,41 @@
 
   </script>
 
+  <script>
+
+  // I can't for the life of me figure out why if I move this to the same script tags as above the #submit_modal stops popping up
+
+    if (<%= flash[:refer] %> ) {
+        _gaq.push(['_trackEvent', 'Signup', 'Refer']);
+        $('#refer_modal').modal({
+        show: true,
+        keyboard: true
+      });
+    }
+
+  </script>
+
 
   <!-- Actual body -->
 
   <div class="col-xs-12" style="margin-top: 3%">
     <div class="col-xs-7" style="text-align: right; padding-left:8%" id="player">
-      <iframe width="100%" height="360" src="//www.youtube.com/embed/p_0G3ANH-iQ?enablejsapi=1&rel=0" frameborder="0" allowfullscreen id="video"></iframe>
+      <iframe width="100%" height="360" src="//www.youtube.com/embed/9X-u1Di72rU?enablejsapi=1&rel=0" frameborder="0" allowfullscreen id="video"></iframe>
     </div>
 
     <div class="col-xs-5" style="text-align: left; padding-right:8%; padding-left:3%">
       <ul style="font-size:130%; font-weight: bold; list-style:none; padding-left: 0">
-        <li><span class="glyphicon glyphicon-asterisk logo"></span> <span class="logo-color">No more wondering who has what...</span> <span style="color:#606060">we map out your friends and their stuff</span></li>
+        <li><span class="glyphicon glyphicon-asterisk logo-color"></span> <span class="logo-color">No more wondering who has what...</span> <span style="color:#606060">we map out your friends and their stuff</span></li>
         <br>
-        <li><span class="glyphicon glyphicon-asterisk logo"></span> <span class="logo-color"> No more awkward messages...</span> <span style="color:#606060">only borrow from friends who have already offered to share</span></li>
+        <li><span class="glyphicon glyphicon-asterisk logo-color"></span> <span class="logo-color"> No more awkward messages...</span> <span style="color:#606060">only borrow from friends who have already offered to share</span></li>
         <br>
-        <li><span class="glyphicon glyphicon-asterisk logo"></span> <span class="logo-color"> No more forgetting, losing, or damaging things...</span> <span style="color:#606060">we coordinate the entire process</span></li>
+        <li><span class="glyphicon glyphicon-asterisk logo-color"></span> <span class="logo-color"> No more forgetting, losing, or damaging things...</span> <span style="color:#606060">we coordinate the entire process</span></li>
         <br>
       </ul>
 
       <div class="col-xs-12 horiz cta-box" style="padding:5%">
         <p style="margin-bottom:3%;">Click below to receive an invitation to Project Borrow the minute we launch in San Francisco!</p>
-        <%= link_to "test", @auth_url, id: "invite_me" %>
-        <%= button_to @auth_url, method: :get, class: "btn btn-block btn-lg btn-social btn-facebook", style: "color:white" do %>
+        <%= button_to '#', method: :get, class: "btn btn-block btn-lg btn-social btn-facebook", style: "color:white", id: "inviteme2" do %>
           <i class="fa fa-facebook horiz"></i> Invite me with Facebook
         <% end %>
         <div class="col-xs-12 logo-color" style="font-weight: bold">
@@ -171,3 +198,21 @@
     <%= stylesheet_link_tag "photopile" %>
 
   </div>
+
+  <script>
+
+    $("#inviteme1").click(function() {
+      var link_string = '<%= @auth_url %>';
+      var decoded = link_string.replace(/&amp;/g, '&');
+      location.href = decoded
+      return false;
+    });
+
+    $("#inviteme2").click(function() {
+      var link_string = '<%= @auth_url %>';
+      var decoded = link_string.replace(/&amp;/g, '&');
+      location.href = decoded
+      return false;
+    });
+
+  </script>
