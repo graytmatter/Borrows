@@ -18,23 +18,18 @@ class Signup < ActiveRecord::Base
     # end
 
     def downcase_email
-        self.email = self.email.downcase
+        if self.email.present? 
+            self.email = self.email.downcase
+        end
     end
 
-    def save_subscrip
-        connection = GoogleDrive.login(ENV['GMAIL_USERNAME'], ENV['GMAIL_PASSWORD'])
-        if Rails.env == "production"
-            ss = connection.spreadsheet_by_title('Visitor spreadsheet') 
-        else
-            ss = connection.spreadsheet_by_title('Visitor spreadsheet old')
-        end
-        ws = ss.worksheets[0]
-        row = 1 + ws.num_rows 
-        ws[row, 1] = Time.new 
-        ws[row, 2] = self.name
-        ws[row, 3] = self.email
-        ws[row, 4] = self.heard
-        ws.save
+    def save_signup(id, name, location, access_token)
+        self.facebook_id = id
+        self.name = name
+        self.image_url = "http://graph.facebook.com/#{id}/picture"
+        self.fb_location = location
+        self.fb_access_token = access_token
+        self.save
     end
 
 

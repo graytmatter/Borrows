@@ -4,13 +4,17 @@ class StaticpagesController < ApplicationController
 
 	def home
 
-		get_oauth
-		secure_state = SecureRandom.base64(16)
+		unless flash[:success] == true
+			get_oauth
+			secure_state = SecureRandom.base64(16)
 
-		if flash[:rerequest] == true 
-			@auth_url = @oauth.url_for_oauth_code(permissions: "public_profile, email, user_location, user_friends", display: "popup", auth_type: "rerequest", state: secure_state )
-		else
-			@auth_url = @oauth.url_for_oauth_code(permissions: "public_profile, email, user_location, user_friends", display: "popup", state: secure_state )
+			signup = Signup.create(state: secure_state)
+
+			if flash[:rerequest] == true 
+				@auth_url = @oauth.url_for_oauth_code(permissions: "public_profile, email, user_location, user_friends", display: "popup", auth_type: "rerequest", state: secure_state )
+			else
+				@auth_url = @oauth.url_for_oauth_code(permissions: "public_profile, email, user_location, user_friends", display: "popup", state: secure_state )
+			end
 		end
 
 	end

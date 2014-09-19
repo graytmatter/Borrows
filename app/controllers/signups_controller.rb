@@ -33,16 +33,6 @@ class SignupsController < ApplicationController
 
 	def create_facebook
 		# add testing somehow, manual test, need to go to another hack night to figure out automation
-		# DONE modal styling
-		# DONE add promotion via facebook: make delayed job, finish testing
-		# DONE quick streamline of mailers
-		# DONE test everything
-		# DONE update TOS and PP to reflect friend focus 1 hour
-		# DONE 1 hour - add admin page to check which city everyone is loggin in from and how they're connecte
-		# DONE make sure GA links 1 hour initially, 2 to check later (event for warning, even for submit modal, refer friend link is tracked differently)
-		# DONE finalize explainer video 3 hours
-		# push then check photopile and test facebook signups 
-		# email users the change
 
 		get_oauth
 
@@ -51,46 +41,58 @@ class SignupsController < ApplicationController
 			flash[:success] = false
 			redirect_to controller: "staticpages", action: "home"
 		else
-			access_token = @oauth.get_access_token(params[:code])
-			graph = Koala::Facebook::API.new(access_token)
-			permissions = graph.get_connections("me", "permissions") 
-			user_friend_permission = permissions.select { |p| p["permission"] == "user_friends"}
-			if user_friend_permission[0]["status"] != "granted"
-				flash[:rerequest] = true
-				flash[:warning] = true
-				flash[:success] = false
-				redirect_to controller: "staticpages", action: "home"
+			signup = Signup.find_by(state: params[:state])
+
+			if signup.present? 
+
+				access_token = @oauth.get_access_token(params[:code])
+				graph = Koala::Facebook::API.new(access_token)
+				permissions = graph.get_connections("me", "permissions") 
+				user_friend_permission = permissions.select { |p| p["permission"] == "user_friends"}
+				if user_friend_permission[0]["status"] != "granted"
+					flash[:rerequest] = true
+					flash[:warning] = true
+					flash[:success] = false
+					redirect_to controller: "staticpages", action: "home"
+				else
+					new_signup = graph.get_object("me")
+
+					if Signup.find_by(facebook_id: new_signup["id"]).present?
+		        # This is saying if they already used FACEBOOK to sign up, then return this message
+		        flash[:success] = true
+		        flash[:warning] = false
+		        flash[:new_signup_fb_id] = new_signup["id"]
+			    else
+
+			    	if new_signup["location"].present? && new_signup["location"]["name"].present?
+			    		location = new_signup["location"]["name"]
+			    	else
+			    		location = "not provided"
+			    	end
+
+		    		fb_email = new_signup["email"].present? ? new_signup["email"].downcase : "not provided"
+		    	  # This is saying if they've been a previous user signed up via email, then update that old Signup record, otherwise make a new one
+		  	  	existing_signup = Signup.find_by(email: fb_email)
+		  	  	if existing_signup.present?
+		  	  		existing_signup.save_signup(new_signup["id"], new_signup["name"], location, access_token)
+							flash[:success] = true
+			        flash[:warning] = false
+			        flash[:new_signup_fb_id] = new_signup["id"]
+			        
+			        signup.destroy
+						else
+							signup.save_signup(new_signup["id"], new_signup["name"], location, access_token)
+							flash[:success] = true
+			        flash[:warning] = false
+			        flash[:new_signup_fb_id] = new_signup["id"]
+						end
+			    end
+					redirect_to controller: "staticpages", action: "home"
+				end
 			else
-				new_signup = graph.get_object("me")
-
-				if Signup.find_by(facebook_id: new_signup["id"]).present?
-	        # This is saying if they already used FACEBOOK to sign up, then return this message
-	        flash[:success] = true
-	        flash[:warning] = false
-	        flash[:new_signup_fb_id] = new_signup["id"]
-		    else
-
-		    	if new_signup["location"].present? && new_signup["location"]["name"].present?
-		    		location = new_signup["location"]["name"]
-		    	else
-		    		location = "not provided"
-		    	end
-		    	puts "INSPECT"
-		    	puts location
-
-	    		fb_email = new_signup["email"].present? ? new_signup["email"].downcase : "not provided"
-	    	  # This is saying if they've been a previous user signed up via email, then update that old Signup record, otherwise make a new one
-	  	  	signup = Signup.find_or_initialize_by(email: fb_email)
-		  		signup.facebook_id = new_signup["id"]
-		  		signup.name = new_signup["name"]
-	        signup.image_url = "http://graph.facebook.com/#{new_signup["id"]}/picture"
-	        signup.fb_location = location
-	        signup.fb_access_token = access_token
-					signup.save
-					flash[:success] = true
-					flash[:warning] = false
-					flash[:new_signup_fb_id] = new_signup["id"]
-		    end
+				flash[:warning] = false
+				flash[:success] = false
+				flash[:no_state] = true
 				redirect_to controller: "staticpages", action: "home"
 			end
 		end

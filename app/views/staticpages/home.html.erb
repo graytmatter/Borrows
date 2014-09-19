@@ -39,6 +39,31 @@
     </div>
   </div>
 
+  <div class="modal fade" id="no_state_modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header horiz">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <%= image_tag("Logo.png", alt: "Project Borrow", title: "Project Borrow", width: "40%") %>
+        </div>
+        <div class="modal-body">
+          <h4 class="modal-title logo-color" style="margin-bottom: 1%">Unauthorized attempt detected</h4>
+            <p>We did not complete your Facebook connection because of a potential security threat. Please try again below, if you continue to see errors, please <%= mail_to 'james@projectborrow.com', 'send us an email', { style: "color:#428bca"}%>.</p> 
+        </div>
+        <div class="modal-footer">
+          <div class="col-xs-8">
+            <%= button_to @auth_url, method: :get, class: "btn btn-block btn-lg btn-social btn-facebook", style: "color:white", id: "inviteme3" do %>
+              <i class="fa fa-facebook horiz"></i> Invite me with Facebook
+            <% end %>
+          </div>
+          <div class="col-xs-4">
+            <button type="button" class="btn btn-block btn-lg btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="modal fade" id="submit_modal">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -133,11 +158,23 @@
 
   <script>
 
-  // I can't for the life of me figure out why if I move this to the same script tags as above the #submit_modal stops popping up
+  // I can't for the life of me figure out why if I move these to the same script tags as above the #submit_modal stops popping up, or these modals don't pop up in the case of :no_state. So for now, each gets its own script tag
 
     if (<%= flash[:refer] %> ) {
         _gaq.push(['_trackEvent', 'Signup', 'Refer']);
         $('#refer_modal').modal({
+        show: true,
+        keyboard: true
+      });
+    }
+
+  </script>
+
+  <script>
+
+    if (<%= flash[:no_state] %> ) {
+        _gaq.push(['_trackEvent', 'Signup', 'NoState']);
+        $('#no_state_modal').modal({
         show: true,
         keyboard: true
       });
@@ -165,9 +202,17 @@
 
       <div class="col-xs-12 horiz cta-box" style="padding:5%">
         <p style="margin-bottom:3%;">Click below to receive an invitation to Project Borrow the minute we launch in San Francisco!</p>
-        <%= button_to '#', method: :get, class: "btn btn-block btn-lg btn-social btn-facebook", style: "color:white", id: "inviteme2" do %>
-          <i class="fa fa-facebook horiz"></i> Invite me with Facebook
+
+        <% if flash[:success] == true %>
+          <%= button_to '#', method: :get, class: "btn btn-block btn-lg btn-social btn-facebook", style: "color:white", id: "inviteme2", disabled: true  do %>
+            <i class="fa fa-facebook horiz"></i> Invite me with Facebook
+          <% end %>
+        <% else %>
+          <%= button_to '#', method: :get, class: "btn btn-block btn-lg btn-social btn-facebook", style: "color:white", id: "inviteme2", disabled: false  do %>
+            <i class="fa fa-facebook horiz"></i> Invite me with Facebook
+          <% end %>
         <% end %>
+          
         <div class="col-xs-12 logo-color" style="font-weight: bold">
           <% flash.select { |k, v| k == "info"}.each do |key, value| %>
             <br>
@@ -209,6 +254,13 @@
     });
 
     $("#inviteme2").click(function() {
+      var link_string = '<%= @auth_url %>';
+      var decoded = link_string.replace(/&amp;/g, '&');
+      location.href = decoded
+      return false;
+    });
+
+    $("#inviteme3").click(function() {
       var link_string = '<%= @auth_url %>';
       var decoded = link_string.replace(/&amp;/g, '&');
       location.href = decoded
