@@ -6,7 +6,7 @@ class InviteesController < ApplicationController
 		referer = params[:referer]
     Referral.new.async.perform(emails, referer)
     flash[:refer] = true
-    redirect_to root_path
+    redirect_to controller: "staticpages", action: "home"
 	end
 
 private

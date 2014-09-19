@@ -49,7 +49,7 @@ class SignupsController < ApplicationController
 		if params[:error].present?
 			flash[:warning] = true
 			flash[:success] = false
-			redirect_to root_url
+			redirect_to controller: "staticpages", action: "home"
 		else
 			access_token = @oauth.get_access_token(params[:code])
 			graph = Koala::Facebook::API.new(access_token)
@@ -59,7 +59,7 @@ class SignupsController < ApplicationController
 				flash[:rerequest] = true
 				flash[:warning] = true
 				flash[:success] = false
-				redirect_to root_url
+				redirect_to controller: "staticpages", action: "home"
 			else
 				new_signup = graph.get_object("me")
 
@@ -82,7 +82,7 @@ class SignupsController < ApplicationController
 					flash[:warning] = false
 					flash[:new_signup_fb_id] = new_signup["id"]
 		    end
-				redirect_to root_url
+				redirect_to controller: "staticpages", action: "home"
 			end
 		end
 	end
