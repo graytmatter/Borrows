@@ -24,31 +24,37 @@ class StaticpagesController < ApplicationController
 		@users_with_5_friends = 0
 		@users_with_10_friends = 0
 		@users_with_tons_friends = 0
-		@users_with_no_friend_permissions = 0
+		@users_with_revoked_access = 0
 		@cities = Array.new
 		@total_users = Signup.where("facebook_id is not null")
 
 		@total_users.each do |user|
-			permissions = graph.get_connections(user.facebook_id, "permissions")
-			user_friend_permission = permissions.select { |p| p["permission"] == "user_friends"}
-			if user_friend_permission[0]["status"] != "granted"
-				friends = graph.get_connections(user.facebook_id, "friends")
-				case friends.count 
-				when 0..2
-					@users_with_2_friends += 1
-				when 3..5
-					@users_with_5_friends += 1
-				when 6..10
-					@users_with_10_friends += 1
-				when friends.count > 11
-					@users_with_tons_friends += 1
+			object = graph.get_object(user.facebook_id)
+			#deals with if user deleted app later on
+			if object["email"].present? 
+				#deals with if user revoked friendlist permision later on
+				permissions = graph.get_connections(user.facebook_id, "permissions")
+				user_friend_permission = permissions.select { |p| p["permission"] == "user_friends"}
+				if user_friend_permission[0]["status"] == "granted"
+					friends = graph.get_connections(user.facebook_id, "friends")
+					case friends.count 
+					when (0..2)
+						@users_with_2_friends += 1
+					when (3..5)
+						@users_with_5_friends += 1
+					when (6..10)
+						@users_with_10_friends += 1
+					when friends.count > 11
+						@users_with_tons_friends += 1
+					end
+				else
+					@users_with_revoked_access += 1
 				end
 			else
-				@users_with_no_friend_permissions += 1
+				@users_with_revoked_access += 1
 			end
 			@cities << user.fb_location
 		end
-
 	end
 
 	def terms

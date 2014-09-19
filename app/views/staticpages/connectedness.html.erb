@@ -1,11 +1,11 @@
 <p>Total users: <%= @total_users.count %></p>
 
 <ul>
-	<li>Users with 0-2 friends: <%= number_to_percentage(@users_with_2_friends/@total_users.count * 100, precision: 0) %></li>
-	<li>Users with 3-5 friends: <%= number_to_percentage(@users_with_5_friends/@total_users.count * 100, precision: 0) %></li>
-	<li>Users with 6-10 friends: <%= number_to_percentage(@users_with_10_friends/@total_users.count * 100, precision: 0) %></li>
-	<li>Users with >10 friends: <%= number_to_percentage(@users_with_tons_friends/@total_users.count * 100, precision: 0) %></li>
-	<li>Users without friend permissions somehow: <%= number_to_percentage(@users_with_no_friend_permissions/@total_users.count * 100, precision: 0) %></li>
+	<li><%= "#{@users_with_2_friends}, #{(@users_with_2_friends.to_f / @total_users.count.to_f * 100).to_i }% of users have 0-2 friends" %></li>
+	<li><%= "#{@users_with_5_friends}, #{(@users_with_5_friends.to_f / @total_users.count.to_f * 100).to_i }% of users have 3-5 friends" %></li>
+	<li><%= "#{@users_with_10_friends}, #{(@users_with_10_friends.to_f / @total_users.count.to_f * 100).to_i }% of users have 6-10 friends" %></li>
+	<li><%= "#{@users_with_tons_friends}, #{(@users_with_tons_friends.to_f / @total_users.count.to_f * 100).to_i }% of users have >10 friends" %></li>
+	<li><%= "#{@users_with_revoked_access}, #{(@users_with_revoked_access.to_f / @total_users.count.to_f * 100).to_i }% of users have revoked access" %></li>
 
 </ul>
 

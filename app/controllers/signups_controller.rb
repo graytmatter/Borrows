@@ -110,7 +110,7 @@ class SignupsController < ApplicationController
 	end
 
 	def original
-		change_date = Date.new(2014, 9, 1)
+		change_date = Date.new(2014, 9, 18)
 		@signup_parent = Signup.where("created_at < ?", change_date).find_by_email(original_params[:email])
 		if original_params[:email].present?
 			if @signup_parent.present?
