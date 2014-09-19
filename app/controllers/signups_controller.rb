@@ -62,6 +62,10 @@ class SignupsController < ApplicationController
 				redirect_to controller: "staticpages", action: "home"
 			else
 				new_signup = graph.get_object("me")
+				puts "OBJECT"
+				puts new_signup.inspect
+				puts new_signup["location"]
+				puts new_signup["location"]["name"]
 
 				if Signup.find_by(facebook_id: new_signup["id"]).present?
 	        # This is saying if they already used FACEBOOK to sign up, then return this message
