@@ -5,6 +5,8 @@
 	<li>Users with 3-5 friends: <%= number_to_percentage(@users_with_5_friends/@total_users.count * 100, precision: 0) %></li>
 	<li>Users with 6-10 friends: <%= number_to_percentage(@users_with_10_friends/@total_users.count * 100, precision: 0) %></li>
 	<li>Users with >10 friends: <%= number_to_percentage(@users_with_tons_friends/@total_users.count * 100, precision: 0) %></li>
+	<li>Users without friend permissions somehow: <%= number_to_percentage(@users_with_no_friend_permissions/@total_users.count * 100, precision: 0) %></li>
+
 </ul>
 
 <p>Cities: <%= @cities.uniq %></p>
