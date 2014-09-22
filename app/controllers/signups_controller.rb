@@ -96,7 +96,7 @@ class SignupsController < ApplicationController
 		else
 			if session[:signup_email].nil?
 		      flash[:danger] = "Please enter your email to get started"
-		      redirect_to root_path
+		      redirect_to original_path
 		    else
 		      @signup_parent = Signup.find_by_email(session[:signup_email])
 		    end
