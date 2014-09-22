@@ -17,7 +17,7 @@ describe "Landing page flows" do
 	end
 
 	it "should have invite link" do
-		page.assert_selector("#invite_me")
+		page.assert_selector("#inviteme2")
 	end
 
 	it "should have photopile" do

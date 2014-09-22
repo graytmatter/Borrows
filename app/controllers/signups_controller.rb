@@ -72,20 +72,12 @@ class SignupsController < ApplicationController
 
 		    		fb_email = new_signup["email"].present? ? new_signup["email"].downcase : "not provided"
 		    	  # This is saying if they've been a previous user signed up via email, then update that old Signup record, otherwise make a new one
-		  	  	existing_signup = Signup.find_by(email: fb_email)
-		  	  	if existing_signup.present?
-		  	  		existing_signup.save_signup(new_signup["id"], new_signup["name"], location, access_token)
-							flash[:success] = true
-			        flash[:warning] = false
-			        flash[:new_signup_fb_id] = new_signup["id"]
-			        
-			        signup.destroy
-						else
-							signup.save_signup(new_signup["id"], new_signup["name"], location, access_token)
-							flash[:success] = true
-			        flash[:warning] = false
-			        flash[:new_signup_fb_id] = new_signup["id"]
-						end
+		  	  	signup = Signup.find_or_initialize_by(email: fb_email)
+						signup.save_signup(new_signup["id"], new_signup["name"], location, access_token)
+						flash[:success] = true
+		        flash[:warning] = false
+		        flash[:new_signup_fb_id] = new_signup["id"]
+
 			    end
 					redirect_to controller: "staticpages", action: "home"
 				end

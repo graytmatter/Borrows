@@ -1,9 +1,9 @@
 GoogleTest::Application.routes.draw do
 
-  # root 'staticpages#home'
+  root 'staticpages#home'
   
-  root 'staticpages#maintenance' #maintenance mode
-  get '/home', to: 'staticpages#home'
+  # root 'staticpages#maintenance' #maintenance mode
+  # get '/home', to: 'staticpages#home'
 
   post '/invitees', to: 'invitees#create', as: "new_invitee"
   
