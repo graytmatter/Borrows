@@ -13,7 +13,7 @@ describe "Landing page flows" do
 	end
 
 	it "should have video" do
-		page.assert_selector("#video")
+		page.assert_selector("#player")
 	end
 
 	it "should have invite link" do

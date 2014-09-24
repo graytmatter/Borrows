@@ -187,8 +187,41 @@
 
   <div class="col-xs-12" style="margin-top: 3%">
     <div class="col-xs-7" style="text-align: right; padding-left:8%" id="player">
-      <iframe width="100%" height="360" src="//www.youtube.com/embed/9X-u1Di72rU?enablejsapi=1&rel=0" frameborder="0" allowfullscreen id="video"></iframe>
+      <!-- <iframe width="100%" height="360" src="http://www.youtube.com/embed/9X-u1Di72rU?enablejsapi=1&rel=0" frameborder="0" allowfullscreen id="video"></iframe> -->
     </div>
+
+    <script>
+
+      var tag = document.createElement('script');  
+      tag.src = "http://www.youtube.com/player_api";  
+      var firstScriptTag = document.getElementsByTagName('script')[0];  
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag); 
+
+      var player;  
+      function onYouTubePlayerAPIReady() {  
+        player = new YT.Player('player', {  
+          height: '360',  
+          width: '100%',
+          videoId: '9X-u1Di72rU',
+          playerVars: { 'enabeljsapi': 1, 'rel': 0 },  
+          events: {  
+            'onReady': onPlayerReady,  
+            'onStateChange': onPlayerStateChange  
+          }  
+        });  
+      } 
+
+      function onPlayerReady(event) {  /// event.target.playVideo();  } 
+      }
+
+      function onPlayerStateChange(event) {  
+        if (event.data ==YT.PlayerState.PLAYING)  {
+          _gaq.push(['_trackEvent', 'Videos', 'Play',  player.getVideoUrl() ]); }  
+        if (event.data ==YT.PlayerState.ENDED) { 
+          _gaq.push(['_trackEvent', 'Videos', 'End',  player.getVideoUrl() ]); } 
+      }  
+
+    </script> 
 
     <div class="col-xs-5" style="text-align: left; padding-right:8%; padding-left:3%">
       <ul style="font-size:130%; font-weight: bold; list-style:none; padding-left: 0">
