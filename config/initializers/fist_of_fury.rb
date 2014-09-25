@@ -11,7 +11,7 @@
 	    Return.recurs { daily.hour_of_day(5) }
 	    Noresponse.recurs { daily.hour_of_day(23) }
 	    Outstanding.recurs { daily.hour_of_day(18) }
-	    Cleansignup.recurs { daily }
+	    Cleansignup.recurs { hourly }
 	  end
 	end
 # end
