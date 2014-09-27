@@ -74,15 +74,15 @@
           <h4 class="modal-title logo-color" style="margin-bottom: 1%">Get ready to borrow!</h4>
           <p>We'll get you an invitation as soon as we're ready! Until then, we'd love it if you could help spread the word in San Francisco so we can launch sooner.</p>
 
-          <p><b>Do you have friends who have stuff you'd like to borrow? A big tent? An air mattress? Some other gadgets or equipment? This is your chance!</b> Enter your friends' emails below (separate with commas) and we'll send them an anonymous invitation to join so that if they do, you'll be able to borrow their stuff!</p>
+          <p><b>Do you have friends who have stuff you'd like to borrow? A big tent? An air mattress? Some other gadgets or equipment? This is your chance!</b> Enter your friends' emails below (separate with commas) and we'll send them an anonymous request to join so that if they do, you'll be able to borrow their stuff!</p>
 
           <div class="col-xs-12">
             <%= form_tag(new_invitee_path, :autocomplete => "off", :id => "referral_form") do -%>
               <%= hidden_field_tag :referer, Rails.env == "test" ? 123 : flash[:new_signup_fb_id] %>
               <%= text_area_tag :emails, nil, class: "form-control", id: "friend_emails", placeholder: "Enter your friend's emails separated by commas" %>
-              <%= submit_tag "Invite my friends!", class: "btn btn-primary btn-large btn-block", id: "refer" %>
+              <%= submit_tag "Send to my friends!", class: "btn btn-primary btn-large btn-block", id: "refer" %>
             <% end -%>
-            <p class="horiz" style="font-size:75%; font-style:italic">We send one invite per person, and no other emails. For more info, check out our <%= link_to 'privacy policy', policy_path, { style:"color:#428bca", target: "_blank" } %>.</p>
+            <p class="horiz" style="font-size:75%; font-style:italic">We send one email per person, and nothing else. For more info, check out our <%= link_to 'privacy policy', policy_path, { style:"color:#428bca", target: "_blank" } %>.</p>
           <hr>
           </div>
 
@@ -199,7 +199,7 @@
       var player;  
       function onYouTubePlayerAPIReady() {  
         player = new YT.Player('player', {  
-          height: '360',  
+          height: '380',  
           width: '100%',
           videoId: '9X-u1Di72rU',
           playerVars: { 'enabeljsapi': 1, 'rel': 0 },  
@@ -229,6 +229,8 @@
         <li><span class="glyphicon glyphicon-asterisk logo-color"></span> <span class="logo-color"> No more awkward messages...</span> <span style="color:#606060">only borrow from friends who have already offered to share</span></li>
         <br>
         <li><span class="glyphicon glyphicon-asterisk logo-color"></span> <span class="logo-color"> No more forgetting, losing, or damaging things...</span> <span style="color:#606060">we coordinate the entire process</span></li>
+        <br>
+        <li><span class="glyphicon glyphicon-asterisk logo-color"></span> <span class="logo-color"> Save money, save time, save space...</span> <span style="color:#606060">borrow instead of buy! </span></li>
         <br>
       </ul>
 
