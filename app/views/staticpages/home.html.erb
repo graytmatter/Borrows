@@ -235,7 +235,7 @@
       </ul>
 
       <div class="col-xs-12 horiz cta-box" style="padding:5%">
-        <p style="margin-bottom:3%;">Click below to receive an invitation to Project Borrow the minute we launch in San Francisco!</p>
+        <p style="margin-bottom:3%; font-weight:bold;">Coming soon to San Francisco! Click below to receive an invitation as soon as we launch</p>
 
         <% if flash[:success] == true %>
           <%= button_to '#', method: :get, class: "btn btn-block btn-lg btn-social btn-facebook", style: "color:white", id: "inviteme2", disabled: true  do %>
@@ -258,24 +258,39 @@
     </div>
   </div>
 
-  <div class="col-xs-12" style="margin-top:3%">
-    <hr>
-    <h3 style="font-size:120%">Play with the pictures below to check out what our early users have already borrowed!</h3>
-  </div>
+  <div class="col-xs-10 col-xs-offset-1" style="margin-top: 3%; padding-top: 3%; background-color: #F0F0F0;">
+    <div class="col-xs-6" style="padding-right: 4%; padding-left: 2%">
+      <h4>YOU GOT QUESTIONS, WE GOT ANSWERS</h4>
+      <br>
+      <h5 class="logo-color">What do you mean by "stuff"? What will I be able to borrow or lend?</h5>
+      <p>Currently, we have mostly camping/ backpacking gear, tools, housewares, and kitchen appliances <b><i>(play around with the pictures at right to check out stuff that our early users have borrowed!)</i></b>. When borrowers request something we don't have, that's when we start to ask lenders if they have this item. This way, we ensure that we have stuff that people want.</p>
 
-  <div class="col-xs-12" style="padding-top:5%; padding-bottom:5%;">
-    <div class="photopile-wrapper" id="photopile_div">
-      <ul class="photopile">
-        <% Dir.glob("app/assets/images/Borrower photos/*").map do |path| %>
-          <li><%= link_to(image_tag("Borrower photos/#{ File.basename(path) }", class: "img-responsive", alt: "#{ File.basename(path, ".jpg") }", title: "#{ File.basename(path, ".jpg") }"), "#", class: "thumbnail", style: "margin:0") %></li>
-        <% end %>
-      </ul>
+      <h5 class="logo-color">What happens if a lender's stuff is damaged or lost?</h5>
+      <p>Borrowers are getting stuff from friends or friends-of-friends, so damages or losses rarely happen. But we have clear <%= link_to 'Terms of Service', terms_path, { style: "color:#428bca", target: "_blank" } %> that outlines exactly how these situations will be resolved. We'll do whatever we can to ensure everyone has a great experience sharing.</p>
+
+      <h5 class="logo-color">Why do I need Project Borrow? Can't I just call friends?</h5>
+      <p>We've found it's hard to borrow stuff outside a circle of 2-3 close friends because you don't want to feel like you're always asking for favors. On the other hand, most lenders actually don't give this a second thought! Therefore, Project Borrow aims to take all awkwardness out, add in some security, and make sharing fun & easy for everyone!</p>
+
+      <h5 class="logo-color">Does Project Borrow deliver?</h5>
+      <p>We offer optional delivery for a fee. In many instances though, we find that it's pretty easy to pick up or return from someone you know.</p>
+
+      <p><i>Have another question? <%= mail_to 'james@projectborrow.com', 'Send us an email', { style: "color:#428bca"}%></i></p>
     </div>
 
-    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.js"></script>
-    <%= javascript_include_tag "photopile", "jquery.ui.touch-punch.min" %>
-    <%= stylesheet_link_tag "photopile" %>
+    <div class="col-xs-6" style="padding:2%">
+      <div class="photopile-wrapper" id="photopile_div">
+        <ul class="photopile">
+          <% Dir.glob("app/assets/images/Borrower photos/*").map do |path| %>
+            <li><%= link_to(image_tag("Borrower photos/#{ File.basename(path) }", class: "img-responsive", alt: "#{ File.basename(path, ".jpg") }", title: "#{ File.basename(path, ".jpg") }"), "#", class: "thumbnail", style: "margin:0") %></li>
+          <% end %>
+        </ul>
+      </div>
 
+      <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.js"></script>
+      <%= javascript_include_tag "photopile", "jquery.ui.touch-punch.min" %>
+      <%= stylesheet_link_tag "photopile" %>
+
+    </div>
   </div>
 
   <script>
