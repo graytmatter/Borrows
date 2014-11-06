@@ -7,6 +7,28 @@
 </head>
 
   <!-- Modal -->
+  <div class="modal fade" id="default_modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header horiz">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <%= image_tag("Logo.png", alt: "Project Borrow", title: "Project Borrow", width: "40%") %>
+        </div>
+        <div class="modal-body">
+          <h4 class="modal-title logo-color" style="margin-bottom: 1%">Status update</h4>
+          <p>Hi there, thanks so much for your interest in Project Borrow. We've recently moved in a new direction, based on feedback from our wonderful early users. The new project is called <%= link_to 'Last Minute Gear', 'https://www.lastmingear.com/?utm_source=projectborrow&utm_medium=modal', { style: "color:#428bca", target: "_blank" } %>, we do <b>sporting goods rental & delivery so anyone can have amazing outdoors experiences</b>, and we specialize in <b>last minute</b> requests!</p>
+          <br>
+          <p>For our wonderful original users, you'll always be able to access th original Project Borrow site <%= link_to 'here', original_path, { style: "color:#428bca", target: "_blank" } %>. Thank you so much for all your support!</p> 
+        </div>
+        <div class="modal-footer">
+          <div class="col-xs-4 col-xs-offset-4">
+            <button type="button" class="btn btn-block btn-lg btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="modal fade" id="warning_modal">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -116,6 +138,14 @@
 
   <script>
 
+    $('#default_modal').modal({
+          show: true,
+          keyboard: true
+        });
+
+  </script>
+    
+  <script>
     if (<%= flash[:warning] %> ) {
         _gaq.push(['_trackEvent', 'Signup', 'Failure']);
         $('#warning_modal').modal({
